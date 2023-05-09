@@ -3729,8 +3729,8 @@ C4106109	PT_FED9T9NH	RNA-Seq	Tumor	Diagnosis	Pineal Gland	1159	4447	NA	NA	Pineob
 C4106109	PT_FED9T9NH	WXS	Tumor	Diagnosis	Pineal Gland	1159	4447	NA	NA	Pineoblastoma	Pineoblastoma	Tumor of pineal region	1
 C4106232	PT_18JCZJ25	RNA-Seq	Tumor	Diagnosis	Spine NOS	1097	4141	NA	NA	Glial-neuronal tumor NOS	Diffuse leptomeningeal glioneuronal tumor	Neuronal and mixed neuronal-glial tumor	1
 C4106232	PT_18JCZJ25	WXS	Tumor	Diagnosis	Spine NOS	1097	4141	NA	NA	Glial-neuronal tumor NOS	Diffuse leptomeningeal glioneuronal tumor	Neuronal and mixed neuronal-glial tumor	1
-C4106355	PT_VY7PV323	RNA-Seq	Tumor	Not Reported	Spine NOS	1940	4826	NA	NA	Ependymoma	Ependymoma	Ependymal tumor	1
-C4106355	PT_VY7PV323	WXS	Tumor	Not Reported	Spine NOS	1940	4826	NA	NA	Ependymoma	Ependymoma	Ependymal tumor	1
+C4106355	PT_VY7PV323	RNA-Seq	Tumor	Recurrence	Spine NOS	1940	4826	NA	NA	Ependymoma	Ependymoma	Ependymal tumor	1
+C4106355	PT_VY7PV323	WXS	Tumor	Recurrence	Spine NOS	1940	4826	NA	NA	Ependymoma	Ependymoma	Ependymal tumor	1
 C4106478	PT_GKPGR452	RNA-Seq	Tumor	Diagnosis	Occipital Lobe	1300	3720	NA	NA	Meningioma	Meningioma	Meningioma	1
 C4106478	PT_GKPGR452	WXS	Tumor	Diagnosis	Occipital Lobe	1300	3720	NA	NA	Meningioma	Meningioma	Meningioma	2
 C4106601	PT_CCG84G7M	RNA-Seq	Tumor	Diagnosis	Other locations NOS	2745	2988	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
