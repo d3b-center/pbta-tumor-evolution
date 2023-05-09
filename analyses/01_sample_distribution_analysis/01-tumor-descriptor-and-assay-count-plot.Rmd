@@ -36,10 +36,14 @@ Rscript -e "rmarkdown::render('analyses/01_sample_distribution_analysis/01-tumor
 # Set up
 
 ```{r load-library}
-library(tidyverse)
-library(ggplot2)
-library(flextable)
-library(RColorBrewer)
+
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggplot2)
+  library(flextable)
+  library(RColorBrewer)
+})
+
 
 ```
 
@@ -49,16 +53,14 @@ library(RColorBrewer)
 # Detect the ".git" folder -- this will in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
-#root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-root_dir <-"/Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/01_sample_distribution_analysis_v2"
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+setwd(root_dir)
 
 
 # File path to input directory
 input_dir <-
   file.path(root_dir, "input")
-if (!dir.exists(input_dir)) {
-  dir.create(input_dir)
-}
+
 
 # Inputs
 input_metadata <- file.path(input_dir, "histologies.tsv")
@@ -121,15 +123,26 @@ Also, we will discard Derived Cell Line, PDX from "composition".
 data <- hist_cols  %>%
    filter(cohort == "PBTA",
           !is.na(pathology_diagnosis),
-          !composition %in% c("Derived Cell Line", "PDX"))
+          !composition %in% c("Derived Cell Line", "PDX")) %>% 
          # !is.na(cancer_group) # Discard NAs in cancer type
+  mutate(tumor_descriptor = ifelse(sample_id == "C4106355-Tumor" & tumor_descriptor == "Not Reported", "Recurrence", 
+                                   ifelse(sample_id == "C4113612-Tumor" & tumor_descriptor == "Initial CNS Tumor", "Recurrence", 
+                                          tumor_descriptor)))
+
+# Note
+# The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
+# Jo Lynne found the following status for 2/3 in the data warehouse:
+# C4106355-Tumor = Recurrence
+# C4113612-Tumor = Initial CNS Tumor
+# 7316UP-3705 = Not Reported
+# manually annotate them here and these will be updated in the v13 - then discard that part of the code
 
 
 data$tumor_descriptor <- ifelse(data$tumor_descriptor=="Progressive Disease Post-Mortem", "Deceased",
                                  ifelse(data$tumor_descriptor=="Initial CNS Tumor", "Diagnosis",
                                  ifelse(data$tumor_descriptor=="Primary Tumor", "Diagnosis", data$tumor_descriptor)))
 
-data %>% count(tumor_descriptor)
+print (data %>% count(tumor_descriptor))
 
 # For now, you can leave this - we can fix the plot colors later - it might be that we have a longitudinal sample which comes from a benign tumor - we can possibly remove these later, but it would be good to get a source of truth for what our entire cohort looks like first before removing data,
 
