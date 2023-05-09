@@ -1,0 +1,272 @@
+---
+title: "Longitudinal analysis for the pbta-tumor-evolution project and PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+
+#### Tumor evolution project 
+
+# Background
+This is an exploratory analysis of longitudinal data in the PBTA cohort.
+We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays.
+We are also looking at the number of patient samples available per histology with paired genomic and transcriptomic assays for (1) each time point (disease_stage) and (2) when Diagnosis is present and paired with another point in time.
+
+# data used 
+In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
+We use tumor_descriptor and focus on disease_stages: Diagnosis, Progressive, Recurrence, and Deceased.
+
+# note
+The colors in the plots do not match the ones of the PBTA cohort yet. ---TO DO---
+
+
+# Usage
+
+This notebook is intended to be run via the command line from the top directory
+of the repository as follows:
+
+```
+Rscript -e "rmarkdown::render('analyses/01_sample_distribution_analysis/01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
+```
+
+# Set up
+
+```{r load-library}
+library(tidyverse)
+library(ggplot2)
+library(flextable)
+library(RColorBrewer)
+
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+#root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+root_dir <-"/Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/01_sample_distribution_analysis_v2"
+
+
+# File path to input directory
+input_dir <-
+  file.path(root_dir, "input")
+if (!dir.exists(input_dir)) {
+  dir.create(input_dir)
+}
+
+# Inputs
+input_metadata <- file.path(input_dir, "histologies.tsv")
+input_cols <- file.path(input_dir, "PBTA-germline-histology-groups-plot-mapping.tsv")
+
+
+# File path to results directory
+results_dir <-
+  file.path(root_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# File path to plots directory
+plots_dir <-
+  file.path(root_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+
+# Outputs
+output_PBTA_filter <- file.path(results_dir, "data_by_cohort_PBTA_filter.tsv")
+output_PBTA_filter_count <- file.path(results_dir, "data_by_cohort_PBTA_filter_count.tsv")
+```
+
+
+## Load data
+```{r load-inputs-please-wait}
+# Inputs
+## Read in metadata
+histologies <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
+# dim(data)
+
+# Read table with colors per histology
+cols <- readr::read_tsv(input_cols, guess_max = 100000, show_col_types = FALSE) # Load plotting colors
+
+# Add colors palette to the histologies file
+hist_cols <- histologies %>% left_join(cols, by=c('cancer_group','broad_histology'))  #to merge tables
+# This is the tidyverse method. Try not to name variables the same as a function's name - that may cause coding errors downstream.
+
+
+# to discard when add the col palette for PBTA cohort
+mypalette <- brewer.pal(12,"Paired") # colorblindFriendly = TRUE
+col5 <- colorRampPalette(mypalette)(5)
+col9 <- colorRampPalette(mypalette)(9)
+
+```
+
+# Process Data
+
+All tumor samples have matched normal samples. 
+We need to filter normal samples out for further analysis. 
+We are using "pathology_diagnosis" instead of "sample_type". This way we discard normal samples (as shown in "sample_type") in addition to undiagnosed tumor samples.
+Also, we will discard Derived Cell Line, PDX from "composition".
+
+
+```{r cohort PBTA, echo=TRUE}
+data <- hist_cols  %>%
+   filter(cohort == "PBTA",
+          !is.na(pathology_diagnosis),
+          !composition %in% c("Derived Cell Line", "PDX"))
+         # !is.na(cancer_group) # Discard NAs in cancer type
+
+
+data$tumor_descriptor <- ifelse(data$tumor_descriptor=="Progressive Disease Post-Mortem", "Deceased",
+                                 ifelse(data$tumor_descriptor=="Initial CNS Tumor", "Diagnosis",
+                                 ifelse(data$tumor_descriptor=="Primary Tumor", "Diagnosis", data$tumor_descriptor)))
+
+data %>% count(tumor_descriptor)
+
+# For now, you can leave this - we can fix the plot colors later - it might be that we have a longitudinal sample which comes from a benign tumor - we can possibly remove these later, but it would be good to get a source of truth for what our entire cohort looks like first before removing data,
+
+# Save data after filter 
+write_tsv(data, path = output_PBTA_filter)
+
+# Coming back to this - there is also a possibility this is not reported or unknown - you will want to be sure these are captured.
+# If this is the case for any patient with longitudinal data, let's go over these and we can fill the info in from the clinical team.
+
+# Can you comment around what you are doing here? I think you might want to use fewer columns and not use sample id here - sample_id is tied to an event, so if a patient has multiple events, then you would lose that information here. But maybe you are not trying to count that yet?
+
+count1 <- data %>% 
+          group_by(cohort_participant_id, Kids_First_Participant_ID,
+                 experimental_strategy, sample_type, tumor_descriptor, primary_site,
+                 age_at_diagnosis_days, age_last_update_days, age_at_chemo_start, age_at_radiation_start,
+                 pathology_diagnosis, cancer_group, broad_histology) %>% 
+          dplyr::count(cancer_group) 
+
+write_tsv(count1, output_PBTA_filter_count)
+
+```
+
+# Plots
+## All assays
+
+```{r plot1}
+count1$experimental_strategy <- factor(x = count1$experimental_strategy, levels = c("WGS", "WXS", "RNA-Seq", "Targeted Sequencing", "Methylation"))
+
+p <- ggplot(count1, aes(x=cancer_group, fill=experimental_strategy))+
+        geom_bar()+
+        scale_fill_manual(values=col5) +
+        theme_classic()+
+        ylab("Count cancer_group") +
+        ggtitle("cancer_group vs experimental_strategy") +
+        guides(color=guide_legend(override.aes=list(size=3))) +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+        print(p)
+ggsave("Barplot_cancer_group_experimental_strategy_PBTA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
+
+```
+
+## Paired genomic, transcriptomic assays
+
+```{r plot2}
+count <- count1 %>% filter(experimental_strategy %in% c("WGS", "WXS", "RNA-Seq", "Targeted Sequencing")) # Not included:Methylation
+count$experimental_strategy <- factor(x = count$experimental_strategy, levels = c("WGS", "WXS", "RNA-Seq", "Targeted Sequencing"))
+
+p <- ggplot(count, aes(x=cancer_group, fill=experimental_strategy))+
+        geom_bar()+
+        scale_fill_manual(values=col5) + #scale_fill_manual(values=c(data$plot_group_hex)) 
+        theme_classic()+
+        ylab("Count cancer_group") +
+        ggtitle("cancer_group vs experimental_strategy") +
+        guides(color=guide_legend(override.aes=list(size=3))) +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+        print(p)
+ggsave("Barplot_cancer_group_experimental_strategy_PBTA_matched_DNA-RNA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
+
+```
+
+## By cancer_group - all disease stages
+
+
+```{r plot3}
+count$tumor_descriptor <- factor(x = count$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Metastatic", "Not Reported", "Residual", "Unavailable"))
+
+
+p <- ggplot(count, aes(x=cancer_group, fill=tumor_descriptor))+
+        geom_bar()+
+        scale_fill_manual(values=col9) +
+        theme_classic()+
+        ylab("Count cancer_group") +
+        ggtitle("cancer_group vs tumor_descriptor") +
+        guides(color=guide_legend(override.aes=list(size=3))) +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+        print(p)
+ggsave("Barplot_cancer_group_tumor_descriptor_PBTA_matched_DNA-RNA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
+
+```
+
+# Summary
+
+In the following section, we will provide summary table across different disease stages, histologies, and patients samples.
+
+### Number of tumor samples per each assay
+
+First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
+
+```{r}
+count1 %>%
+  group_by(experimental_strategy) %>%
+  tally() %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+```
+
+
+
+### Paired genomic, transcriptomic assays
+
+#### Multiple time points: Diagnosis, Progressive, Recurrence, Deceased
+We're going to use the `tumor_descriptor` column here with matched genomic and transcriptomic assays from before.
+
+
+#### By Kids_First_Participant_ID
+### Disease stage - descriptors pairs
+
+How many tumor samples per disease_stage?
+
+```{r}
+disease_stage <- count %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarize(disease_stage = paste(sort(unique(tumor_descriptor)),
+                                  collapse = ", "),
+                                collapse = ", ") %>%
+  group_by(disease_stage) %>%
+  tally() %>%
+  arrange(desc(n))
+
+disease_stage  %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+```
+
+
+What about when Diagnosis is present and paired with another point in time?
+
+```{r}
+Diagnosis_paired <- disease_stage  %>%
+  filter(disease_stage != "Diagnosis")  %>% 
+  filter(grepl("Diagnosis", disease_stage)) %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+Diagnosis_paired
+```
+
+
