@@ -3824,8 +3824,8 @@ C4113366	PT_FKTKKTMM	RNA-Seq	Tumor	Diagnosis	Cerebellum/Posterior Fossa	2011	435
 C4113366	PT_FKTKKTMM	WXS	Tumor	Diagnosis	Cerebellum/Posterior Fossa	2011	4357	NA	NA	Medulloblastoma	Medulloblastoma	Embryonal tumor	1
 C4113489	PT_NHJWA8XZ	RNA-Seq	Tumor	Diagnosis	Parietal Lobe	5377	7573	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
 C4113489	PT_NHJWA8XZ	WXS	Tumor	Diagnosis	Parietal Lobe	5377	7573	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
-C4113612	PT_V92V7WHQ	RNA-Seq	Tumor	Not Reported	Brain Stem-Medulla	6436	6752	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	Diffuse midline glioma	Diffuse astrocytic and oligodendroglial tumor	1
-C4113612	PT_V92V7WHQ	WXS	Tumor	Not Reported	Brain Stem-Medulla	6436	6752	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	Diffuse midline glioma	Diffuse astrocytic and oligodendroglial tumor	1
+C4113612	PT_V92V7WHQ	RNA-Seq	Tumor	Diagnosis	Brain Stem-Medulla	6436	6752	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	Diffuse midline glioma	Diffuse astrocytic and oligodendroglial tumor	1
+C4113612	PT_V92V7WHQ	WXS	Tumor	Diagnosis	Brain Stem-Medulla	6436	6752	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	Diffuse midline glioma	Diffuse astrocytic and oligodendroglial tumor	1
 C4113735	PT_CKQZT20G	RNA-Seq	Tumor	Diagnosis	Parietal Lobe	6004	7978	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
 C4113735	PT_CKQZT20G	WXS	Tumor	Diagnosis	Parietal Lobe	6004	7978	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
 C4113858	PT_1608FN5A	RNA-Seq	Tumor	Diagnosis	Parietal Lobe;Temporal Lobe	6202	6456	NA	NA	High-grade glioma/astrocytoma (WHO grade III/IV)	High-grade glioma	Diffuse astrocytic and oligodendroglial tumor	1
