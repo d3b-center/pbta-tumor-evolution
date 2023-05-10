@@ -129,6 +129,7 @@ data <- hist_cols  %>%
           !is.na(pathology_diagnosis),
           !composition %in% c("Derived Cell Line", "PDX")) %>% 
          # !is.na(cancer_group) # Discard NAs in cancer type
+<<<<<<< HEAD
    mutate(tumor_descriptor = ifelse(sample_id == "C4106355-Tumor", "Recurrence", # to be updated in v13 as "Recurrence"
                             ifelse(sample_id == "C4113612-Tumor", "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
                             ifelse(tumor_descriptor == "Primary Tumor", "Diagnosis",
@@ -138,6 +139,10 @@ data <- hist_cols  %>%
                  
 print (data %>% count(tumor_descriptor))
 
+=======
+  mutate(tumor_descriptor = ifelse(sample_id == "C4106355-Tumor", "Recurrence", tumor_descriptor,
+                                   ifelse(sample_id == "C4113612-Tumor", "Initial CNS Tumor", tumor_descriptor)))
+>>>>>>> add-sample-distribution
 
 # Note
 # The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
