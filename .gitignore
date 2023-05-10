@@ -47,3 +47,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Desktop Services Store - invisible file that gets automatically created anytime you open a folder with Finder on the macOS
+.DS_Store
