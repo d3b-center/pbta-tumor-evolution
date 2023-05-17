@@ -24,16 +24,6 @@ docker run --platform=linux/amd64 --name test -d -e PASSWORD=ANYTHING -p 8787:87
 docker exec -ti <CONTAINER_NAME> bash
 ```
 
-5. Run the `download-data.sh` shell script to obtain latest data files: 
-```
-bash download_data.sh
-```
-
-6. Navigate to an analysis module and run the shell script:
-```
-cd /home/rstudio/pbta-tumor-evolution/analyses/module_of_interest
-```
-
 
 ### Below is the main directory structure listing the analyses and data files used in this repository
 
@@ -41,13 +31,16 @@ cd /home/rstudio/pbta-tumor-evolution/analyses/module_of_interest
 .
 ├── Dockerfile
 ├── README.md
-├── analyses
-│   ├──add-sample-distribution
-├── data
-├── download_data.sh
-├── figures
-│   └── theme.R
 └── scripts
     ├── install_bioc.r
     └── install_github.r
 ```
+
+
+## Code Authors
+
+Jo Lynne Rokita ([@jharenza](https://github.com/jharenza)) and Antonia Chroni ([@AntoniaChroni](https://github.com/AntoniaChroni))
+
+## Contact
+
+For questions, please submit an issue or send an email to Jo Lynne Rokita: rokita@chop.edu
