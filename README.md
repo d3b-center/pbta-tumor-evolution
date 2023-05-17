@@ -1,1 +1,53 @@
-# pbta-tumor-evolution
+# Tumor evolution across multiple time points in OpenPBTA patients
+
+
+## To reproduce the code in this repository:
+This repository contains a docker image and code used to conduct analyses for the manuscript noted above.
+
+1. Clone the repository
+```
+git clone https://github.com/d3b-center/pbta-tumor-evolution.git
+```
+
+2. Pull the docker container:
+```
+docker pull pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
+```
+
+3. Start the docker container, from the `pbta-tumor-evolution` folder, run:
+```
+docker run --platform=linux/amd64 --name test -d -e PASSWORD=ANYTHING -p 8787:8787 -v $PWD:/home/rstudio/pbta-tumor-evolution pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
+```
+
+4. To execute shell within the docker image, from the `pbta-tumor-evolution` folder, run:
+```
+docker exec -ti <CONTAINER_NAME> bash
+```
+
+5. Run the `download-data.sh` shell script to obtain latest data files: 
+```
+bash download_data.sh
+```
+
+6. Navigate to an analysis module and run the shell script:
+```
+cd /home/rstudio/pbta-tumor-evolution/analyses/module_of_interest
+```
+
+
+### Below is the main directory structure listing the analyses and data files used in this repository
+
+```
+.
+├── Dockerfile
+├── README.md
+├── analyses
+│   ├──add-sample-distribution
+├── data
+├── download_data.sh
+├── figures
+│   └── theme.R
+└── scripts
+    ├── install_bioc.r
+    └── install_github.r
+```
