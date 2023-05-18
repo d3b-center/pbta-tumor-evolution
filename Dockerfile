@@ -1,5 +1,5 @@
 FROM rocker/tidyverse:4.2
-MAINTAINER rokita@chop.edu
+MAINTAINER chronia@chop.edu
 WORKDIR /rocker-build/
 
 RUN RSPM="https://packagemanager.rstudio.com/cran/2022-10-07" \
@@ -46,6 +46,7 @@ RUN install2.r \
 	BiocManager \
   ComplexHeatmap \
   data.table \
+  flextable \
   ggpubr \
   ggthemes \
   msigdbr \
@@ -55,7 +56,8 @@ RUN install2.r \
 	survival \
   survMisc \
   survminer \
-  tidytext
+  tidytext \
+  vroom
 
 	
 # install R packages from GitHub
@@ -63,23 +65,6 @@ RUN install2.r \
 # Maftools
 RUN ./install_github.r \
 	PoisonAlien/maftools
-
-# Patchwork for plot compositions
-RUN ./install_github.r  'thomasp85/patchwork' --ref 'c67c6603ba59dd46899f17197f9858bc5672e9f4'
-
-
-
-# Install pip3 and python reqs for oncokb
-RUN apt-get -y --no-install-recommends install \
-    python3-pip python3-dev
-RUN pip3 install \
-  "matplotlib==3.1.2" \
-  "kiwisolver==1.2.0" \
-  "requests==2.27.1" \
-  "urllib3==1.26.8"
-
-# Install oncokb
-RUN git clone https://github.com/oncokb/oncokb-annotator.git /home/oncokb-annotator
 
 
 WORKDIR /rocker-build/

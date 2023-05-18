@@ -16,7 +16,7 @@ docker pull pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
 
 3. Start the docker container, from the `pbta-tumor-evolution` folder, run:
 ```
-docker run --platform=linux/amd64 --name test -d -e PASSWORD=ANYTHING -p 8787:8787 -v $PWD:/home/rstudio/pbta-tumor-evolution pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
+docker run --platform=linux/amd64 --name <CONTAINER_NAME> -d -e PASSWORD=ANYTHING -p 8787:8787 -v $PWD:/home/rstudio/pbta-tumor-evolution pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
 ```
 
 4. To execute shell within the docker image, from the `pbta-tumor-evolution` folder, run:
