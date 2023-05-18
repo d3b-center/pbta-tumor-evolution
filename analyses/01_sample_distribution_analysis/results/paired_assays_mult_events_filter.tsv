@@ -1,0 +1,1376 @@
+Kids_First_Participant_ID	match_id	experimental_strategy	experimental_strategy_sum	has_mult_events	cancer_group	descriptors
+PT_017WC8PS	CNS Embryonal tumor_C4114227-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_01HNFSBZ	High-grade glioma_C4115334-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_01MZ62KG	Pineoblastoma_7316-447_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Pineoblastoma	Progressive
+PT_01SH4F1X	Ganglioglioma_7316-6365_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_02MVZZSW	Meningioma_7316-1702_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_0324HWD5	High-grade glioma_7316-7091_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_03K77G7N	Oligodendroglioma_16510-19_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_047YGDRW	Low-grade glioma_7316-6811_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_04YTK82N	Medulloblastoma_7316-746_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_062ZW10V	Glial-neuronal tumor_7316-5423_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Deceased
+PT_06ERX8Z7	Subependymal Giant Cell Astrocytoma_7316-2578_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_06H29FCG	Ependymoma_7316-1944_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_08M919BH	Low-grade glioma_7316-5334_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_0BVR16FK	High-grade glioma_C4105986-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_0CE0HFYB	Low-grade glioma_7316-2581_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_0CRPE7YP	Craniopharyngioma_7316-2158_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_0DXHDZJR	High-grade glioma_7316-2857_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_0EBP2PBD	Diffuse midline glioma_7316-8041_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_0EWY6S6S	Low-grade glioma_7316-3491_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_0F3RHT8J	Meningioma_7316-2673_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_0FGS6YME	High-grade glioma_7316-8811_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_0H65S44B	Perineuroma_7316-3567_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Perineuroma	Diagnosis
+PT_0H8VY9HP	Low-grade glioma_7316-4427_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_0HCQEFYE	Medulloblastoma_C4115580-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_0K0DPVF6	Low-grade glioma_7316-121_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_0KTVJ74J	Medulloblastoma_7316-7135_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Medulloblastoma	Deceased
+PT_0NHK26KP	Diffuse midline glioma_C4116441-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_0NMQYN1W	Medulloblastoma_C4122468-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_0NY38X3W	Ependymoma_7316-1706_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_0PT33SCF	CNS Embryonal tumor_7316-1100_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Recurrence
+PT_0Q0CX0GS	Medulloblastoma_7316-6530_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_0QMF19PR	Low-grade glioma_7316-4528_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_0RN3VSXZ	Meningioma_7316-3073_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_0SPKM4S8	High-grade glioma_7316-2640_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_0T2EWNYR	CNS Embryonal tumor_7316-1981_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_0V88WASE	Low-grade glioma_7316-7734_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_0W8VDFGD	High-grade glioma_C4111398-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_0WKX8Q5X	Ependymoma_7316-88_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_0WMP712K	Medulloblastoma_7316-922_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_0WTX4CBR	Neurofibroma/Plexiform_7316-4667_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Progressive
+PT_124TTG01	NA_7316-1960_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_12JTZFC2	Low-grade glioma_7316-3504_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1395F243	Low-grade glioma_7316-3077_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_13EKJZTH	Low-grade glioma_C4122714-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_13MKXR8G	Choroid plexus papilloma_7316-2251_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_1608FN5A	High-grade glioma_C4113858-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_16EJ7BZ9	Meningioma_7316-1938_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_17NG0KW3	Medulloblastoma_7316-1945_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_17PX8NQ8	Teratoma_7316-5486_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Teratoma	Progressive
+PT_17W3GJPT	Ganglioglioma_7316-2306_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_18JCZJ25	Diffuse leptomeningeal glioneuronal tumor_C4106232-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse leptomeningeal glioneuronal tumor	Diagnosis
+PT_1B265M3A	Ependymoma_7316-528_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_1BV6ND1D	Low-grade glioma_7316-3203_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1DRAVX4S	Rhabdomyosarcoma_7316-1968_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Rhabdomyosarcoma	Diagnosis
+PT_1DSX4VJM	Diffuse midline glioma_7316-1708_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_1DY2TP9N	Ependymoma_7316-1786_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_1EB5KHZX	NA_7316-1076_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_1FP5WHJZ	Dysembryoplastic neuroepithelial tumor_7316-6804_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_1HSDA31B	Low-grade glioma_7316-4537_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1J2DT6MM	Low-grade glioma_7316-2184_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1KEER2Q1	Low-grade glioma_7316-460_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1KY3PW1Z	Ependymoma_7316-4514_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_1MW98VR1	Ependymoma_7316-2558_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_1N6ATKJS	Low-grade glioma_7316-2725_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_1NN9AW39	Melanocytic tumor_7316-3148_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Melanocytic tumor	Diagnosis
+PT_1P436YMM	Ganglioglioma_7316-3917_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ganglioglioma	Progressive
+PT_1PZC01QF	Ependymoma_7316-6990_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_1RYJXGCY	Low-grade glioma_7316-7520_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1T7WF5S1	Medulloblastoma_7316-2934_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_1TB2V1PH	Germinoma_7316-2608_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_1TGKS073	Low-grade glioma_7316-1659_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_1TQA3ZS2	Medulloblastoma_7316-8117_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_1VCHZ5P4	Adamantinomatous Craniopharyngioma_7316-8858_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_1VQWQ0TC	Low-grade glioma_7316-3627_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_1WZ93NAB	Adamantinomatous Craniopharyngioma_7316-6799_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_1YCS5K9Q	Diffuse midline glioma_C4115703-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_1Z015H6V	Ependymoma_7316-3516_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_1ZNX0TGK	Low-grade glioma_7316-517_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_203ZY782	Choroid plexus tumor_7316-2668_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus tumor	Diagnosis
+PT_20JVK3TZ	Oligodendroglioma_16510-4_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_20M9P0SD	Low-grade glioma_7316-4845_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_20ZM6THA	Glial-neuronal tumor_7316-3629_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Recurrence
+PT_21SSYTYN	Medulloblastoma_7316-4856_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_229DRV7B	Neurofibroma/Plexiform_7316-1757_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Recurrence
+PT_22F1768J	Ependymoma_7316-9061_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Ependymoma	Deceased
+PT_23JJKZPS	Diffuse midline glioma_7316-8016_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_23K3YS1P	Ependymoma_7316-189_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_258H4KAP	Low-grade glioma_7316-3662_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_26WNQFB3	Low-grade glioma_7316-237_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_279D9QZ8	Ganglioglioma_7316-325_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ganglioglioma	Recurrence
+PT_27FDWCVZ	Low-grade glioma_7316-184_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_288PVQGZ	Medulloblastoma_7316-4284_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_28TM5WBD	Infant-type hemispheric glioma_7316-6885_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Deceased
+PT_2A5QN7QS	Diffuse hemispheric glioma_7316-10004_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_2BJF83GQ	Low-grade glioma_7316-1745_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_2BTC5TEN	Adamantinomatous Craniopharyngioma_7316-2183_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_2C63FJAM	Low-grade glioma_7316-3040_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2CJ31SBX	Ependymoma_7316-3624_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_2D1KGV99	NA_7316-3151_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_2FK75B27	Medulloblastoma_7316-1700_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_2GPH62JS	Adamantinomatous Craniopharyngioma_7316-1775_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_2GTHCPXB	Low-grade glioma_7316-4736_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2H448D64	High-grade glioma_C4107954-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_2HWA1TA9	Low-grade glioma_7316-8126_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2JDDX6TJ	Diffuse midline glioma_7316-409_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_2JGWN6EA	Low-grade glioma_7316-8051_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Low-grade glioma	Deceased
+PT_2KBBSP56	Choroid plexus papilloma_7316-4527_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_2KN2TFJP	High-grade glioma_7316-7680_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	High-grade glioma	Deceased
+PT_2N647SBA	Medulloblastoma_7316-6685_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_2NH8AXVB	Adamantinomatous Craniopharyngioma_7316-9828_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_2NQPX1R2	Adamantinomatous Craniopharyngioma_7316-1116_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_2PRV78FX	Low-grade glioma_7316-176_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2RHSYJ07	Low-grade glioma_7316-3088_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2S69A6JY	Atypical choroid plexus papilloma_7316-5239_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical choroid plexus papilloma	Diagnosis
+PT_2S6A3RV8	Medulloblastoma_7316-2711_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_2SCVQ2N6	Ependymoma_7316-3631_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_2SFE7WGQ	High-grade glioma_7316-9497_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_2V5GJG0F	Low-grade glioma_7316-6077_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_2VSDT9CK	Low-grade glioma_7316-3575_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_2VYJXHHQ	Low-grade glioma_7316-6966_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2WA5PM32	Adamantinomatous Craniopharyngioma_7316-949_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_2X2Z1MYD	Glial-neuronal tumor_7316-6281_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Recurrence
+PT_2YCHME6S	Low-grade glioma_7316-2622_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2Z7GVDTM	Low-grade glioma_7316-3515_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_2ZTSD2GF	Diffuse midline glioma_C4107462-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_2ZXR2PDN	Ganglioglioma_7316-1636_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_32CD03EE	Medulloblastoma_7316-4345_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_32H0CD1P	Ependymoma_7316-5326_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_32J909WM	Atypical Teratoid Rhabdoid Tumor_7316-2688_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_335D5F73	Atypical Teratoid Rhabdoid Tumor_C4105371-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_33DV5RT4	High-grade glioma_C4113981-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_33EK2MN8	Oligodendroglioma_7316UP-474_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_34AV968C	Ganglioglioma_7316-5134_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_34MDR40C	Medulloblastoma_7316-4535_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_35HYES2B	Subependymal Giant Cell Astrocytoma_7316-6818_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_35X8ASEE	Medulloblastoma_7316-5749_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_360E6Z0S	Ependymoma_7316-5888_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_37WTWPZY	Langerhans Cell histiocytosis_7316-73_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Langerhans Cell histiocytosis	Diagnosis
+PT_387VK1T9	Infant-type hemispheric glioma_7316-3625_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Diagnosis
+PT_38B4CHBF	Diffuse hemispheric glioma_7316-9849_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_38FS37DP	Ewing sarcoma_7316-2686_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_38KDXV6P	Oligodendroglioma_16510-21_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_39HBKSGG	Medulloblastoma_7316-908_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_39X3ZWVJ	Low-grade glioma_7316-8966_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3A0B29QT	Dysembryoplastic neuroepithelial tumor_7316-80_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_3A4ZR5FY	Ganglioglioma_7316-9447_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_3A87PCQK	Dysembryoplastic neuroepithelial tumor_7316-480_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_3AWKWXEV	High-grade glioma_7316-85_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_3CVMBGD7	Low-grade glioma_7316-1963_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3E11RE96	Atypical Teratoid Rhabdoid Tumor_C4107708-Tumor_Solid Tissue_Progressive	WXS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Progressive
+PT_3FH27J1X	Oligodendroglioma_7316UP-2620_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_3G8J8D4M	Oligodendroglioma_7316UP-2900_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_3J0ASVHN	Low-grade glioma_7316-3622_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3JNXBSHR	Medulloblastoma_7316-3931_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_3KK1F95W	Low-grade glioma_7316-1744_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3KWSRWZN	Ependymoma_7316-2648_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_3MNY9BRY	Low-grade glioma_7316-2583_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_3NM45TQ8	Ganglioglioma_7316-1077_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_3NQ55S57	Oligodendroglioma_7316UP-2413_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_3P3D97AB	Neurofibroma/Plexiform_7316-13_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Diagnosis
+PT_3PK66TJY	Ependymoma_7316-2609_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_3PSG2DQT	NA_7316-1111_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_3QFBAXAN	Diffuse midline glioma_7316-8101_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_3QP5FWMC	Ganglioglioma_7316-4846_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_3RN24N9X	Low-grade glioma_7316-20_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3SF3NQ43	Low-grade glioma_7316-5288_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_3SW2VHD5	Low-grade glioma_7316-2984_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3TQ8EBZE	Adamantinomatous Craniopharyngioma_7316-8910_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_3TYNHF3F	Atypical Teratoid Rhabdoid Tumor_7316-7687_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_3V5GTCJR	Low-grade glioma_7316-1646_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3VQEVNDD	Medulloblastoma_7316-1680_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_3WA1XB8G	Low-grade glioma_7316-70_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_3X3MF8ZD	High-grade glioma_7316-114_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	High-grade glioma	Second Malignancy
+PT_3ZYRD5J3	NA_7316-3084_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_409Y4N1N	Low-grade glioma_7316-84_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_40HTPY49	Diffuse midline glioma_7316-466_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_4159VCJY	Ganglioglioma_7316-389_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_41QYPSGV	Low-grade glioma_7316-884_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_41RR5FQD	Teratoma_7316-1115_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Teratoma	Diagnosis
+PT_41WETNRC	Low-grade glioma_7316-3065_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_42KS3NMS	Adamantinomatous Craniopharyngioma_7316-7089_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_4347ZBEX	High-grade glioma_7316-913_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	High-grade glioma	Second Malignancy
+PT_44HPG5YT	Ganglioglioma_7316-3067_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_45P9F9MD	Medulloblastoma_7316-314_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_45T6E38N	High-grade glioma_7316-5227_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_45YH276T	Low-grade glioma_7316-499_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_46004Y53	Low-grade glioma_7316-1979_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_46F28BFH	Ependymoma_7316-1799_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_47YEHV75	Choroid plexus papilloma_7316-4294_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_48N4Y6YP	Low-grade glioma_7316-1866_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_49KEX2FK	Low-grade glioma_7316-8066_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_4ADZ9F53	Ganglioglioma_7316-3060_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_4B34NTJB	High-grade glioma_7316-8042_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_4DE1981X	Oligodendroglioma_16510-24_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_4E6BXP04	Meningioma_7316-4968_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_4EDBZRM2	Ganglioglioma_7316-1952_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_4JG5KWE8	Low-grade glioma_7316-50_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_4M81AYHH	CNS Embryonal tumor_C4120746-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_4MQT24P4	Pineoblastoma_7316-6981_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_4N0FTRQS	Adamantinomatous Craniopharyngioma_7316-5314_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_4RJ2EATN	Craniopharyngioma_7316-1653_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_4TASAQKA	Low-grade glioma_7316-3566_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_4W8H3VB0	Diffuse midline glioma_C4116687-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_4WX3MW90	High-grade glioma_C4125420-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_4XB3YTJM	Diffuse midline glioma_7316-388_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_4XVA57J7	Low-grade glioma_7316-1760_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_4XWYZYJS	NA_7316-474_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_4Z34K4XB	Low-grade glioma_7316-733_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_4ZWS0R9N	Oligodendroglioma_16510-8_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_504RJTMZ	NA_7316-4519_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_5087VK5P	Low-grade glioma_7316-6253_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_50ZFWMZE	Low-grade glioma_7316-1942_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_548918FZ	Low-grade glioma_7316-8728_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_54MH6Q46	Low-grade glioma_7316-2591_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_55CW8W22	Subependymal Giant Cell Astrocytoma_7316-5889_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_56SWR1FM	Low-grade glioma_7316-4742_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_57YP9ABV	Dysembryoplastic neuroepithelial tumor_7316-1070_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Progressive
+PT_596H0BQF	NA_7316-498_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	NA	Progressive
+PT_59FJRPVX	High-grade glioma_7316-3769_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_5A01C4Z2	Medulloblastoma_C4106970-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_5ABCFCSK	Low-grade glioma_7316-1851_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5BFEWBGY	Diffuse midline glioma_7316-6079_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_5BWZA0NT	Diffuse midline glioma_7316-1102_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_5C71QJWS	Oligodendroglioma_C4107831-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_5CKDR2SF	Atypical Teratoid Rhabdoid Tumor_7316-525_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_5CNZ47XV	Low-grade glioma_7316-1926_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5D3AVPCW	NA_7316-187_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_5D439P2D	High-grade glioma_7316-9945_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_5F4N0CAP	Medulloblastoma_7316-219_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_5FR2YA6E	Medulloblastoma_7316-109_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_5GQ76YZJ	Low-grade glioma_7316-168_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5JCY0JFD	Oligodendroglioma_7316UP-756_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_5JMNQAY8	Ewing sarcoma_7316-4217_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_5K5CZXYB	Diffuse hemispheric glioma_7316-8035_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_5KP2E0DS	Dysembryoplastic neuroepithelial tumor_7316-3936_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_5KRVE8E4	Adamantinomatous Craniopharyngioma_7316-1671_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_5KVV6ZZJ	Low-grade glioma_7316-4269_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5M8A47WW	Low-grade glioma_7316-436_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5P3XJ97K	Low-grade glioma_7316-390_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5QEKPBGS	Dysembryoplastic neuroepithelial tumor_7316-6970_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_5R8EWT55	High-grade glioma_7316-8030_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_5SNX4PMK	NA_7316-171_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_5SPSW3YF	Oligodendroglioma_7316UP-2722_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_5SWFTE95	Diffuse midline glioma_7316-7621_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_5SX0GRW1	Neuroblastoma_7316-1927_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Neuroblastoma	Deceased
+PT_5V6PRZX4	Medulloblastoma_7316-8979_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_5VAKED5F	Low-grade glioma_7316-2689_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5X061J42	Germinoma_7316-2149_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_5XV23PWB	Low-grade glioma_7316-4738_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_5Y0CE4WK	Diffuse midline glioma_7316-9838_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_625X34JX	Ependymoma_7316-2170_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_63F63QY0	Diffuse midline glioma_7316-3521_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Progressive
+PT_63HDZHCN	High-grade glioma_7316-2980_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_64C7QNBP	Medulloblastoma_7316-3949_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_65B5CGQG	Medulloblastoma_7316-7110_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_66XN3MT1	Subependymal Giant Cell Astrocytoma_7316-936_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_67YK2KYD	Low-grade glioma_7316-9823_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_69C7CBFW	Rhabdomyosarcoma_7316-1959_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Rhabdomyosarcoma	Diagnosis
+PT_6B7ZN2M9	Ependymoma_C4117425-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_6BWQNKWR	NA_7316-6292_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	NA	Progressive
+PT_6BX46NVR	Ependymoma_7316-3893_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_6DB7B9WV	NA_7316-3317_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_6DW5NFKX	Low-grade glioma_7316-3150_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6E8JYRXM	Low-grade glioma_7316-2729_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6FARAVJJ	Oligodendroglioma_16510-20_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_6GDPNFA6	High-grade glioma_7316-2610_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_6H8X6RZ1	Diffuse hemispheric glioma_7316-9014_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_6KX1MXER	Low-grade glioma_7316-6187_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6KZSV3D7	High-grade glioma_C4107585-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_6MB6RED3	Adamantinomatous Craniopharyngioma_7316-226_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_6N1QWCXE	Low-grade glioma_7316-3169_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6N4TJ9G3	Ependymoma_7316-6143_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_6PFFSB6D	NA_7316-2569_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_6PNAYE00	Medulloblastoma_C4124928-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_6PPHRJZB	Medulloblastoma_7316-6792_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_6QCSWBBQ	Oligodendroglioma_7316UP-2243_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_6QPECWRY	Glial-neuronal tumor_7316-4460_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_6QPZ4NP2	Diffuse midline glioma_C4117671-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_6R7AE0P3	Langerhans Cell histiocytosis_7316-2653_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Langerhans Cell histiocytosis	Diagnosis
+PT_6R95FQT2	Low-grade glioma_7316-459_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6RRWZ8CK	Atypical Teratoid Rhabdoid Tumor_7316-8929_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Recurrence
+PT_6SH7PV1N	High-grade glioma_7316-535_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_6SYP6A7X	Oligodendroglioma_7316UP-2838_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_6TDVP80J	Atypical Teratoid Rhabdoid Tumor_7316-7810_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_6TKJRSPW	Low-grade glioma_7316-162_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6TY1F93J	Ganglioglioma_7316-6385_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_6TZR2DH1	Adamantinomatous Craniopharyngioma_7316-100_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_6VD8J6FB	Diffuse hemispheric glioma_7316-8032_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_6VJ5PNKS	Low-grade glioma_7316-2174_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6VKN63HK	Low-grade glioma_7316-9505_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_6VVYG70H	Ganglioglioma_7316-6809_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_6XT5HH0S	Medulloblastoma_7316-9450_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_70613JKE	Ganglioglioma_7316-5894_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_71SDXD2V	Diffuse midline glioma_C4114596-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_71SJ26YX	Rosette-forming glioneuronal tumor_7316-3503_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Rosette-forming glioneuronal tumor	Diagnosis
+PT_765TC2XG	Ependymoma_7316-1964_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_76Q72M5T	Low-grade glioma_7316-397_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_78BDCX2C	NA_7316-7069_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_78NQ0QQS	Medulloblastoma_7316-1651_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7B4DSMFC	Ganglioglioma_7316-5765_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_7BJBEBZT	Medulloblastoma_7316-1670_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7BVC1F8N	Atypical Teratoid Rhabdoid Tumor_7316-4117_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_7DVYFX8F	Ganglioglioma_7316-6759_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_7E3V3JFX	Ependymoma_7316-506_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_7ECBYH4W	Diffuse hemispheric glioma_7316-8970_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Deceased
+PT_7F3ZPZB7	Germinoma_7316-2662_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_7F485CXV	Ganglioglioma_7316-1114_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_7FAJ9STP	Oligodendroglioma_16510-16_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_7FQ6VECA	Medulloblastoma_7316-3846_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7FZ8SE69	Diffuse midline glioma_7316-2152_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_7G7G1B27	Oligodendroglioma_7316UP-3249_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_7H3HK9WJ	Choroid plexus carcinoma_C4109799-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Choroid plexus carcinoma	Recurrence
+PT_7KBMN6C2	Medulloblastoma_7316-553_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7KS8C9Y6	Diffuse midline glioma_7316-4952_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_7KTAH3RD	Adamantinomatous Craniopharyngioma_7316-2671_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_7MZRW1DH	Atypical Teratoid Rhabdoid Tumor_7316-2582_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_7PWX8MC2	Low-grade glioma_7316-3564_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7QKGGMKV	Medulloblastoma_7316-347_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7RH6AVP6	Chordoma_7316-4860_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Chordoma	Diagnosis
+PT_7RMS6K08	Adamantinomatous Craniopharyngioma_7316-1748_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_7T13FDWK	Craniopharyngioma_7316-1082_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_7TD59X9Q	Low-grade glioma_7316-6764_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7TEHW6VQ	Low-grade glioma_7316-2755_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7TF40D8R	Diffuse hemispheric glioma_7316-3079_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_7TNEA6C7	Medulloblastoma_C4105248-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_7TRGHZBK	Choroid plexus carcinoma_7316-431_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_7TVR7AJ2	Low-grade glioma_7316-8968_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7V6SF11S	Low-grade glioma_7316-2736_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7VNN8JMM	Low-grade glioma_7316-4521_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7VPSS2SN	Dysembryoplastic neuroepithelial tumor_7316-3621_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_7VSY72EK	CNS Burkitt's lymphoma_7316-1855_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	CNS Burkitt's lymphoma	Diagnosis
+PT_7WT6P5M8	High-grade glioma_7316-2308_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_7Y81E8DQ	Oligodendroglioma_7316UP-2013_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_7YGZ526E	Low-grade glioma_7316-1978_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_7YM9EBCK	Oligodendroglioma_16510-3_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_7YSCM82T	Low-grade glioma_7316-1658_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8127P12D	Low-grade glioma_7316-7967_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_827M0E97	High-grade glioma_C4118409-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_82A9SDRN	Ependymoma_7316-2313_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_83ECX0KT	High-grade glioma_7316-8816_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_858H7ABM	Diffuse midline glioma_7316-903_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Recurrence
+PT_868QRW9G	Dysembryoplastic neuroepithelial tumor_7316-3132_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_86YTXPJ9	Low-grade glioma_C4106847-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_870BRQ8M	Glial-neuronal tumor_C4106724-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_8AA50C9Y	High-grade glioma_C4115211-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_8ATS9ATC	Diffuse hemispheric glioma_7316-8754_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_8CZ6ANE0	Dysembryoplastic neuroepithelial tumor_7316-1970_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_8D8V9PBH	Ependymoma_7316-6816_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_8DY03F6V	Meningioma_C4111521-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_8ECE2D92	Ganglioglioma_7316-914_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_8EX2R1RB	Low-grade glioma_7316-5277_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8FBR94AD	Diffuse midline glioma_7316-6884_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_8FP2770K	Low-grade glioma_7316-7068_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8FWP7BR3	Low-grade glioma_7316-449_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_8GBF5MTD	Adamantinomatous Craniopharyngioma_7316-166_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_8GW4J4TD	Glial-neuronal tumor_7316-3630_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_8GXNED2T	Meningioma_7316-6508_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_8HBWG092	Glial-neuronal tumor_7316-7927_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_8HZN8J7C	High-grade glioma_7316-8034_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_8J4EYY40	High-grade glioma_7316-9435_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_8K2XRSY4	Adamantinomatous Craniopharyngioma_7316-3530_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_8KSGR8MY	Oligodendroglioma_16510-6_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_8NPNACF3	Ewing sarcoma_7316-7109_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_8P368R5B	High-grade glioma_7316-4998_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_8P98N5FS	Oligodendroglioma_16510-9_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_8R00BMHH	Low-grade glioma_7316-1845_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8RB3EKNP	Medulloblastoma_7316-4028_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_8S943DXT	Choroid plexus carcinoma_7316-6208_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_8SDJXNFR	Ependymoma_7316-3755_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_8SF8D0M9	Diffuse midline glioma_7316-8100_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_8SRYHAAW	Low-grade glioma_7316-5453_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8T7FTYV6	Adamantinomatous Craniopharyngioma_C4115457-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_8THZRP0B	Ganglioglioma_7316-4275_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_8V3360DR	Schwannoma_7316-641_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_8WNA6M94	Schwannoma_7316-1983_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_8XZY6MM1	Low-grade glioma_7316-957_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_8YS7JD5V	Oligodendroglioma_7316UP-2398_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_90W4HCNR	Choroid plexus papilloma_7316-2672_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_91WW504A	Low-grade glioma_7316-6197_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_92YX7KK9	Germinoma_7316-1785_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_94BFYTVZ	Ependymoma_7316-6768_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_94EHCMXA	Low-grade glioma_7316-217_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_95S99RWE	Adamantinomatous Craniopharyngioma_7316-323_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_9678SJVG	Low-grade glioma_7316-2643_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_9685DQ65	Diffuse midline glioma_C4123452-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_976P4557	Meningioma_7316-214_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_97DBD8YS	Diffuse midline glioma_C4118040-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_97EQQMT9	Medulloblastoma_7316-3114_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_98T18T3B	Pineoblastoma_7316-6686_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Pineoblastoma	Recurrence
+PT_98W7YNZ7	Medulloblastoma_7316-9824_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9A6RPJ97	Medulloblastoma_7316-906_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9AHA6KW3	Ganglioglioma_7316-395_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_9B3YD5DR	Medulloblastoma_7316-411_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9B6KWJT2	Low-grade glioma_7316-1226_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_9BJWHYZP	Oligodendroglioma_7316UP-528_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_9BZETM0M	Diffuse hemispheric glioma_7316-158_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_9C2G356W	Low-grade glioma_7316-3555_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_9CGBDPVV	Low-grade glioma_7316-4676_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_9CQA1W10	Diffuse midline glioma_7316-6349_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_9CSACR9N	Oligodendroglioma_7316UP-1136_Solid Tissue_Residual	WGS;RNA-Seq	Both	no	Oligodendroglioma	Residual
+PT_9DER14KH	Medulloblastoma_7316-2230_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9DN8FH3M	NA_7316-3087_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_9F58PWB3	Neuroblastoma_7316-3960_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neuroblastoma	Progressive
+PT_9FHMK1ZR	Medulloblastoma_C4105863-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9GPYYYB2	Hemangioblastoma_7316-8742_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Hemangioblastoma	Diagnosis
+PT_9HMVHQEH	Medulloblastoma_7316-22_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9JXFZWCF	Sarcoma_7316-8873_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Sarcoma	Progressive
+PT_9KDBBNQC	Low-grade glioma_7316-4457_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_9KK0BAGK	Diffuse midline glioma_7316-3161_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_9M4CQX3M	Low-grade glioma_7316-1972_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_9PAXAEBT	NA_7316-3645_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_9R8JW346	Dysembryoplastic neuroepithelial tumor_7316-5332_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_9RTMDPES	High-grade glioma_7316-4220_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_9SWHWA5Q	Medulloblastoma_7316-4458_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9WSN93D0	Diffuse midline glioma_C4119393-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_9XXGZHJV	Low-grade glioma_7316-7743_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_9Y9S32VY	Medulloblastoma_7316-4493_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9YMRNZHH	Medulloblastoma_7316-2178_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_9YNQJZ5G	Dysembryoplastic neuroepithelial tumor_7316-1941_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Progressive
+PT_9ZY739FB	Neurofibroma/Plexiform_7316-170_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Recurrence
+PT_A0F23R7E	Ganglioglioma_7316-452_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ganglioglioma	Progressive
+PT_A0STSHYB	High-grade glioma_C4116933-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_A0V7V4N0	Medulloblastoma_7316-7495_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_A124AB49	Dysembryoplastic neuroepithelial tumor_7316-3661_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_A325EYR2	Diffuse midline glioma_7316-2557_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_A3DQ8BM8	Adamantinomatous Craniopharyngioma_7316-3089_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_A4KA01ZH	Teratoma_7316-894_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Teratoma	Diagnosis
+PT_A4Q2TSC5	Medulloblastoma_C4105125-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_A594A46X	Ganglioglioma_7316-91_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_A63KF14B	Glial-neuronal tumor_C4117548-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_A64KYWHR	High-grade glioma_7316-4543_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_A8YXZ42Q	Oligodendroglioma_7316UP-716_Solid Tissue_Residual	WGS;RNA-Seq	Both	no	Oligodendroglioma	Residual
+PT_A9E0SJZB	NA_7316-9449_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	NA	Progressive
+PT_A9F8Y6MA	Low-grade glioma_7316-476_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_A9YAZJNN	Meningioma_7316-263_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Meningioma	Recurrence
+PT_AA0J9GBF	Neurofibroma/Plexiform_7316-3941_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Diagnosis
+PT_AAA7EET4	Medulloblastoma_7316-4778_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_AC5SD9AC	Low-grade glioma_7316-2291_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ADTP7EHN	Low-grade glioma_7316-1664_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_AF1BQHA5	Oligodendroglioma_16510-13_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_AH6K40Q7	Ependymoma_7316-7808_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_AJJFDXQS	Ependymoma_7316-5109_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_AJXE05XM	Extraventricular neurocytoma_7316-6779_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Extraventricular neurocytoma	Diagnosis
+PT_AKQZZPH8	Meningioma_7316-2782_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_AP9P5D7N	Dysembryoplastic neuroepithelial tumor_7316-1117_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Recurrence
+PT_AR01XWM3	Low-grade glioma_7316-8070_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ARBPVCGH	Adamantinomatous Craniopharyngioma_7316-7952_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_ATE3YRH5	Low-grade glioma_7316-3308_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ATS9XDJ5	Schwannoma_7316-2159_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Schwannoma	Recurrence
+PT_AV05Z9NB	Adamantinomatous Craniopharyngioma_7316-3650_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_AWBPNFM5	Ganglioglioma_7316-1854_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_AWY62V1T	Non-germinomatous germ cell tumor_C4117917-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Non-germinomatous germ cell tumor	Diagnosis
+PT_AX5NM47X	Low-grade glioma_7316-4683_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_AXMVG8QE	Meningioma_7316-2732_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_AXVH36AM	Sarcoma_7316-2180_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Sarcoma	Diagnosis
+PT_AY2BVCYP	Ependymoma_7316-5890_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_AYV78KT9	Low-grade glioma_7316-8836_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_AYZA2WCW	Choroid plexus papilloma_7316-197_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_AZAJRK9Z	Low-grade glioma_7316-7958_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_B0JFCN5W	Craniopharyngioma_7316-1773_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_B1J3PZXF	Ependymoma_C4117179-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_B2RBACZ0	Atypical Teratoid Rhabdoid Tumor_7316-4032_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_B2YR3TEH	NA_C4125174-Tumor_Solid Tissue_NA	WXS;RNA-Seq	Both	no	NA	NA
+PT_B38P3Y5T	Diffuse midline glioma_7316-3208_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_B4RTR0T5	Medulloblastoma_7316-8916_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_B54PH840	Pineoblastoma_7316-2707_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_B5KXHZ6Q	Low-grade glioma_7316-5258_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_B7QRTN72	Medulloblastoma_7316-1802_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BA38VR93	Medulloblastoma_7316-6522_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BABHMV9E	Medulloblastoma_C4123821-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Medulloblastoma	Recurrence
+PT_BBHAD51D	Dysembryoplastic neuroepithelial tumor_7316-1089_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_BC0B16HC	Diffuse midline glioma_7316-7075_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_BCN28SW9	Dysembryoplastic neuroepithelial tumor_7316-3574_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_BCZAK6Y7	High-grade glioma_C4119024-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_BDM0M83S	Pineoblastoma_7316-3072_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_BDNE55YT	Low-grade glioma_7316-1710_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BDPH0Z9G	Low-grade glioma_7316-4915_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BF3PGTF7	Meningioma_7316-1808_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_BFEZA87M	Low-grade glioma_7316-2742_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BG7GAFK6	Medulloblastoma_7316-3626_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BGX962PA	Sarcoma_7316-6971_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Sarcoma	Progressive
+PT_BHJT2M99	Low-grade glioma_7316-6647_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_BHPBJNCP	Low-grade glioma_7316-4675_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BK06Z2Q1	Medulloblastoma_7316-5187_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BK92NM09	Low-grade glioma_7316-2669_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BNME8PG4	High-grade glioma_C4119762-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_BPKVVWVB	Medulloblastoma_7316-2250_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BQ8BQ01J	Low-grade glioma_7316-183_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BQFM8NH0	NA_7316-6672_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_BQJK7KPK	Diffuse midline glioma_7316-6574_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_BRTVGGRK	Medulloblastoma_7316-2893_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BT43XECV	Low-grade glioma_C4110660-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BTTM2HS5	Medulloblastoma_7316-2287_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_BVA0H9T9	Low-grade glioma_7316-7079_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BWFTKJXT	Schwannoma_7316-1094_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_BWGZBVD1	Low-grade glioma_7316-1678_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BWN251DF	Ependymoma_7316-659_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_BXXZE0CQ	Low-grade glioma_7316-381_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_BYJ428GA	Subependymal Giant Cell Astrocytoma_7316-290_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_BZKJR4GK	Craniopharyngioma_7316-561_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_C0ME1J0G	Schwannoma_7316-4857_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_C1M4YF1R	Low-grade glioma_7316-127_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_C1XZKXCN	Meningioma_7316-6040_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Meningioma	Recurrence
+PT_C2MM7ARE	Oligodendroglioma_16510-15_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_C2VY5NM6	Low-grade glioma_7316-875_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_C37ATQ8H	High-grade glioma_C4109922-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_C3CKECKT	Medulloblastoma_C4114350-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_C41JYFF4	Pineoblastoma_7316-5300_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_C4F1HPH5	Langerhans Cell histiocytosis_7316-493_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Langerhans Cell histiocytosis	Diagnosis
+PT_C4P0F36E	Ependymoma_7316-3653_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_C4XZABVV	NA_7316-1967_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_C5EZXTB6	Diffuse midline glioma_7316-6476_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_C6NDFST5	Low-grade glioma_7316-5273_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_C71G98K3	Diffuse midline glioma_7316-8658_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_C86SGM7B	Diffuse hemispheric glioma_7316-8336_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_C94VR1Y2	Ependymoma_7316-2278_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_C9647EKZ	Oligodendroglioma_7316UP-3675_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_C9AY9KQF	High-grade glioma_7316-5329_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_C9F2B4QF	Medulloblastoma_7316-4270_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CAYBADQC	Histiocytic tumor_7316-2641_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Histiocytic tumor	Diagnosis
+PT_CB1XPA3W	Low-grade glioma_7316-1767_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CB9PD1YP	Low-grade glioma_7316-97_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CBAYDRF9	NA_7316-1675_Solid Tissue_Unavailable	WGS;RNA-Seq	Both	no	NA	Unavailable
+PT_CCG84G7M	High-grade glioma_C4106601-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_CDC4A70C	Adamantinomatous Craniopharyngioma_7316-8853_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_CE6XZ979	Adamantinomatous Craniopharyngioma_7316-6369_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_CEWNZVKF	Adamantinomatous Craniopharyngioma_7316-124_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_CGAQ7KKY	Medulloblastoma_7316-4956_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CGPJY881	Low-grade glioma_7316-891_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CGWPWSXM	Ganglioglioma_7316-2005_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_CHHBDNNJ	Medulloblastoma_7316-4918_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CJ3ECVWX	High-grade glioma_C4112136-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_CK41DW03	Low-grade glioma_7316-329_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CKQZT20G	High-grade glioma_C4113735-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_CM32ZCX6	Low-grade glioma_7316-2215_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CMB6TASJ	Ependymoma_7316-505_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_CMPNS3BQ	Medulloblastoma_7316-4174_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CPYZVCN8	Ependymoma_7316-7922_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_CQ7EGCMB	Medulloblastoma_7316-3809_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CQS4V67V	Diffuse hemispheric glioma_7316-9212_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_CR2ADBZE	Diffuse midline glioma_C4124190-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_CR2YBSPT	Ganglioglioma_7316-359_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_CR3TWR1C	Low-grade glioma_7316-3496_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CR6VHWQX	Low-grade glioma_7316-8914_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_CRTJW8WQ	Diffuse midline glioma_C3985569-Tumor_Solid Tissue_Deceased	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_CRWTNE04	Low-grade glioma_7316-6963_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CTC9ZDNY	Low-grade glioma_7316-7928_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CTSQ5FHH	Medulloblastoma_7316-438_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CV8DVTFT	Low-grade glioma_7316-4520_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_CW0BJE0Y	Atypical Teratoid Rhabdoid Tumor_7316-41_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_CWA1405H	Medulloblastoma_7316-2252_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_CWD717Q0	Ganglioglioma_7316-101_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_CX58G6P6	Meningioma_7316-2191_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_CYVVA9AB	Ependymoma_7316-3299_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_D13X3N8F	NA_7316-2743_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	NA	Progressive
+PT_D1WJ3BJX	Medulloblastoma_7316-358_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_D215EQAP	Medulloblastoma_7316-747_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_D3AN5M5W	Ependymoma_7316-47_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_D4JJMH7V	Atypical Teratoid Rhabdoid Tumor_7316-5153_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_D5KHK0SS	Low-grade glioma_7316-882_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_D75EGJWB	Oligodendroglioma_7316UP-857_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_D7FS86D8	NA_7316-1862_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_D7KMPYTZ	Medulloblastoma_7316-2133_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_D835NGZW	Oligodendroglioma_16510-5_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_D9A6G154	Diffuse midline glioma_7316-9211_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_D9HXS4CK	Low-grade glioma_7316-6085_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_D9NTSYSC	Glial-neuronal tumor_7316-3064_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_DA4WFQ96	NA_7316-172_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_DACV00WF	Medulloblastoma_7316-489_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_DBKC0M6Z	Diffuse midline glioma_C4123698-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_DBPKVB5P	Dysembryoplastic neuroepithelial tumor_7316-6644_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_DDFAZ345	Ganglioglioma_7316-321_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_DDMD7JFV	Ganglioglioma_7316-6770_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_DDQCAZJG	Low-grade glioma_7316-8112_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_DEDRCQWH	Neurofibroma/Plexiform_7316-398_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Diagnosis
+PT_DEKWG1QG	NA_7316-2139_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_DEYCW197	Low-grade glioma_7316-175_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_DF8P04Y1	High-grade glioma_7316-9253_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_DF9T1B5G	Oligodendroglioma_7316UP-2477_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_DFCZAG9T	Neuroblastoma_7316-224_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Neuroblastoma	Diagnosis
+PT_DFR8928F	Medulloblastoma_7316-3032_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_DFXQFYPV	Medulloblastoma_7316-2155_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_DJ106XYS	Diffuse midline glioma_7316-3935_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_DJE2JDYR	Subependymal Giant Cell Astrocytoma_7316-4541_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_DJG9RV4E	High-grade glioma_C4110537-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_DKMVGV69	Diffuse midline glioma_7316-9845_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_DKRVS07M	Atypical Teratoid Rhabdoid Tumor_7316-8926_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_DMHFS0HX	Low-grade glioma_7316-3055_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_DMMKT7X1	Low-grade glioma_7316-1635_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_DPVW4M1W	Sarcoma_7316-2271_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Sarcoma	Recurrence
+PT_DQ3ZCHB6	Ganglioglioma_7316-2195_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_DQE0STN1	Glial-neuronal tumor_7316-3509_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_DQT78GS5	Embryonal tumor with multilayer rosettes_7316-3326_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Embryonal tumor with multilayer rosettes	Diagnosis
+PT_DRRTC594	High-grade glioma_7316-8856_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_DRVY2FQQ	Oligodendroglioma_7316UP-584_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_DRZHXMRB	Pineoblastoma_7316-4043_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_DTP4MMRA	Schwannoma_7316-1463_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_DV8XECKA	Teratoma_7316-2779_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Teratoma	Diagnosis
+PT_DVBVMBRP	Medulloblastoma_C4122099-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_DW6V5V8E	Low-grade glioma_7316-924_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_DXET8FM2	Oligodendroglioma_16510-2_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_DXF7ZZQZ	Ganglioglioma_7316-2809_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_DY2D16CZ	Medulloblastoma_7316-3635_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Medulloblastoma	Recurrence
+PT_DY2GNA83	Medulloblastoma_7316-8419_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Medulloblastoma	Deceased
+PT_DZ0EF6T4	Atypical Teratoid Rhabdoid Tumor_C4110045-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_DZ0X4KM1	Diffuse midline glioma_7316-3047_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_DZ86YXN6	Low-grade glioma_7316-4677_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_E0QNEXZ8	Ependymoma_7316-2160_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_E1TRJP8V	Low-grade glioma_7316-134_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_E3ADF4ZB	Low-grade glioma_7316-2664_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_E3S6H59E	Oligodendroglioma_7316-133_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_E4ECAFEN	Medulloblastoma_7316-38_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_E4TXAYR6	Infant-type hemispheric glioma_7316-9077_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Diagnosis
+PT_E50ZPGSJ	Diffuse midline glioma_7316-6387_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Progressive
+PT_E546ZRXA	NA_7316-952_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_E6BGSP51	Metastatic secondary tumors_7316-7093_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Metastatic secondary tumors	Diagnosis
+PT_E6FTW238	Atypical Teratoid Rhabdoid Tumor_7316-3890_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_E78NHRWQ	Low-grade glioma_7316-1081_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_E79807KT	Subependymal Giant Cell Astrocytoma_7316-1087_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_E99F32RF	High-grade glioma_7316-8420_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	High-grade glioma	Deceased
+PT_E9J8FNW5	High-grade glioma_C4116318-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_E9PS2A96	Diffuse hemispheric glioma_7316-9011_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_EA50EF17	Diffuse midline glioma_C4119516-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_EAG38QHB	Low-grade glioma_7316-5306_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EB0D3BXG	Neuroblastoma_7316-3311_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neuroblastoma	Progressive
+PT_EB89G70N	Ependymoma_7316-2858_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_EC8R84NM	Adamantinomatous Craniopharyngioma_7316-341_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_ECBD1D5J	Meningioma_7316-2177_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_ECMZCNTF	Ependymoma_7316-736_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_EDWA0XTP	Medulloblastoma_7316-670_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_EEKE0V9T	Low-grade glioma_7316-32_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EF398HVC	Low-grade glioma_7316-1975_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EG7PH32E	Ependymoma_7316-2144_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_EGGE4SGY	Low-grade glioma_7316-7522_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EGGY1XC0	Medulloblastoma_7316-2865_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_EJ8TKG2Z	Craniopharyngioma_7316-3571_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Craniopharyngioma	Progressive
+PT_EK3N3FMR	Atypical Teratoid Rhabdoid Tumor_7316-637_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_EK4VZ6AY	Dysembryoplastic neuroepithelial tumor_7316-7964_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_EPFX7V9H	Ganglioglioma_7316-2571_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_EQ0BRG88	Low-grade glioma_7316-6663_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ER1C7KPB	Ganglioglioma_7316-2691_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ganglioglioma	Progressive
+PT_ER9J5A9E	Ganglioglioma_7316-8833_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_ERTJRQ37	Diffuse midline glioma_7316-9854_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_ESWK06KQ	Diffuse midline glioma_7316-6755_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_EV71W1JW	Metastatic secondary tumors_7316-349_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Metastatic secondary tumors	Diagnosis
+PT_EVF1DWCZ	Ganglioglioma_7316-5130_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_EW604JB3	Low-grade glioma_7316-1134_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EWNAWYKB	High-grade glioma_7316-6389_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_EX8W833S	Ganglioglioma_7316-9493_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_EXJAEW1M	Craniopharyngioma_7316-188_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_EYHJQQ8E	Low-grade glioma_7316-77_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EYQS4J99	Medulloblastoma_7316-8850_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_EYZ25B99	Low-grade glioma_7316-470_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EZEMVRVT	Low-grade glioma_7316-3154_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_EZS4SRH6	Medulloblastoma_7316-676_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_EZX4WCAD	Diffuse midline glioma_C4124067-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_F0CH8F8M	High-grade glioma_7316-8048_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	High-grade glioma	Deceased
+PT_F0N89D15	Medulloblastoma_7316-3756_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_F1086Z0A	Chordoma_7316-1101_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Chordoma	Diagnosis
+PT_F168VFAE	Dysembryoplastic neuroepithelial tumor_7316-5839_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Progressive
+PT_F27SA15G	Low-grade glioma_7316-1661_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_F3B9V4QY	Meningioma_7316-8978_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_F3S9PB94	Medulloblastoma_7316-2240_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_F4DBSRRC	Ganglioglioma_7316-7059_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_F4Q7HW4H	Low-grade glioma_7316-4556_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_F5EG8TK5	Adamantinomatous Craniopharyngioma_7316-4515_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_F6DWBRT6	Low-grade glioma_7316-2676_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_F822DBA0	Ewing sarcoma_7316-458_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_F8MJBBJJ	Meningioma_7316-9021_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_F8N9Y4JR	Dysembryoplastic neuroepithelial tumor_7316-5891_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_F9ANPADH	Oligodendroglioma_16510-18_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_F9F3E8YR	NA_7316-3519_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_FAD8FQ6S	Ganglioglioma_7316-120_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_FAPEH6R1	Low-grade glioma_7316-1660_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FAQWD7GX	Craniopharyngioma_7316-2311_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_FAZEJ3VR	Oligodendroglioma_7316UP-2238_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_FC0EF5ZT	Ganglioglioma_7316-3572_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_FCM7XPVR	Ependymoma_7316-2285_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_FCYM09DV	Oligodendroglioma_16510-1_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_FDQHEKJB	Adamantinomatous Craniopharyngioma_7316-5310_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_FED9T9NH	Pineoblastoma_C4106109-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_FF0MSK4D	CNS Embryonal tumor_7316-2987_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_FFCD5XD7	Medulloblastoma_7316-9032_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Medulloblastoma	Recurrence
+PT_FFRHWB74	Low-grade glioma_7316-932_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FFSCZ7CA	Oligodendroglioma_7316UP-2877_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_FH0TD11J	Adamantinomatous Craniopharyngioma_7316-6978_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_FH7XEKS2	Low-grade glioma_7316-6797_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FH9B37E1	Meningioma_7316-3507_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_FHDZNN40	Ependymoma_7316-405_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_FHT70F9C	Low-grade glioma_7316-3526_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FK7ZXG3E	Chordoma_Mug-CC1-T_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Chordoma	Diagnosis
+PT_FKCPVY7V	Diffuse midline glioma_7316-8031_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_FKTKKTMM	Medulloblastoma_C4113366-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_FKWCVXNC	Low-grade glioma_7316-332_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FMK5VFYW	CNS Embryonal tumor_7316-950_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Progressive
+PT_FNBPQD2C	Schwannoma_7316-9503_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_FNMF9D6R	Atypical Teratoid Rhabdoid Tumor_7316-6843_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_FQDKMXHH	Low-grade glioma_7316-2979_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FRQDS43E	Low-grade glioma_7316-1097_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_FSPXH4P9	Medulloblastoma_C4105494-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_FSR10RSN	Ependymoma_7316-7061_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_FVBANNK9	Low-grade glioma_7316-6395_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FVSWA46N	Choroid plexus carcinoma_C4124559-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_FWD7NZQ0	Ganglioglioma_7316-1108_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_FX2D5BTD	Medulloblastoma_7316-5879_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_FXCSG8EY	Medulloblastoma_7316-2701_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_FXPJM0MW	Low-grade glioma_7316-207_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FYA3HV03	Low-grade glioma_7316-3364_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_FYECBRPP	Atypical Teratoid Rhabdoid Tumor_7316-1778_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_FYPWZBH0	Diffuse midline glioma_7316-1085_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_G16J1RA8	Choroid plexus papilloma_7316-7926_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_G16WS1MW	Meningioma_7316-279_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Meningioma	Progressive
+PT_G1QNGVCZ	Medulloblastoma_7316-1118_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_G2CH3Z17	Craniopharyngioma_7316-3085_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_G395P98S	Diffuse hemispheric glioma_7316-8826_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_G3AVDN4E	Medulloblastoma_7316-2227_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_G4HD4QTK	Ependymoma_7316-7943_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_G6H7DC0C	Diffuse midline glioma_C4119147-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_G8DRDA33	NA_7316-879_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_G9A050X1	High-grade glioma_7316-8028_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_G9XKWA3N	Medulloblastoma_7316-5463_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GAEP6C9D	CNS Embryonal tumor_C4123083-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	CNS Embryonal tumor	Recurrence
+PT_GAM3E6M3	Ependymoma_7316-872_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_GB8MNK85	Low-grade glioma_7316-1086_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GBDRTNTY	Dysembryoplastic neuroepithelial tumor_7316-8911_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_GBDYKSPY	Neurofibroma/Plexiform_7316-209_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Progressive
+PT_GBN55D2P	Ependymoma_7316-5304_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_GCKT4FJX	Low-grade glioma_7316-3919_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GCXG7800	NA_7316-2720_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_GD2XQW0A	NA_7316-8730_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_GDDWPDMC	Ganglioglioma_7316-2575_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_GERCQ0JG	Dysembryoplastic neuroepithelial tumor_7316-3520_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_GFERC3PT	Langerhans Cell histiocytosis_7316-9975_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Langerhans Cell histiocytosis	Diagnosis
+PT_GGCQAGPS	Medulloblastoma_7316-304_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GGZVT7NJ	Medulloblastoma_C4122345-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GH27VJBD	Ependymoma_7316-2266_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_GH693TT8	Atypical Teratoid Rhabdoid Tumor_7316-2181_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_GH6HM5QF	Medulloblastoma_7316-3202_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GH6SJ3PS	Choroid plexus carcinoma_C4114104-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_GHHY5AAE	Low-grade glioma_7316-741_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GK4GVW7A	Medulloblastoma_7316-9037_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GKPGR452	Meningioma_C4106478-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_GKSABESN	Choroid plexus papilloma_7316-3485_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_GKSTR4C1	Oligodendroglioma_7316UP-1975_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_GKWWWJ0X	Ganglioglioma_7316-1071_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ganglioglioma	Recurrence
+PT_GMFX689Z	Ependymoma_7316-5108_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_GNKRMTQY	Pineoblastoma_7316-3856_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_GNW76F1X	Low-grade glioma_7316-8913_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GPQJYAW4	Dysembryoplastic neuroepithelial tumor_7316-1750_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_GQH2KRKF	High-grade glioma_C4125051-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_GQHNA6RE	Non-germinomatous germ cell tumor_7316-8050_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Non-germinomatous germ cell tumor	Deceased
+PT_GQZ84ACS	Low-grade glioma_7316-487_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GR02DP0Q	High-grade glioma_7316-5159_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_GR8P8NY5	Medulloblastoma_7316-178_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GRRM8JXS	Medulloblastoma_7316-2700_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GSQJ4YFX	Low-grade glioma_7316-4955_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GV80KRK3	Schwannoma_7316-6536_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_GVDMG7KC	Low-grade glioma_7316-152_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_GWBKEDF7	Oligodendroglioma_7316UP-2960_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_GX2EXVPV	Diffuse midline glioma_C4110783-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_GXBA7S2C	Ependymoma_7316-4557_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_GY0MCXR8	Medulloblastoma_7316-683_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_GY0QSY4H	Adamantinomatous Craniopharyngioma_7316-1075_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_GY99ZJHV	Atypical choroid plexus papilloma_7316-1654_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical choroid plexus papilloma	Diagnosis
+PT_GYJ97915	Dysembryoplastic neuroepithelial tumor_7316-1093_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_H024RK87	NA_7316-104_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	NA	Recurrence
+PT_H0HWHRPB	Low-grade glioma_7316-1679_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_H0PXZWJ6	Medulloblastoma_7316-7930_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_H0Y8DJA8	Medulloblastoma_7316-7742_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_H3KTPFRH	High-grade glioma_7316-717_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_H57TEQDT	Low-grade glioma_7316-2324_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_H5R0M2P6	Diffuse midline glioma_7316-3677_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_H62STE27	Diffuse midline glioma_7316-5323_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_H6E09982	Medulloblastoma_7316-5_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_H7WRRTGQ	Meningioma_7316-6355_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_H7X4M9CC	Low-grade glioma_C4118901-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_H7XAC1YF	Mixed germ cell tumor_7316-6983_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Mixed germ cell tumor	Recurrence
+PT_H876VB6R	Ependymoma_7316-1806_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_H8MG4MRQ	Choroid plexus papilloma_7316-6835_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_H8Z52K09	Atypical Teratoid Rhabdoid Tumor_7316-2224_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_H9QTD79G	Diffuse midline glioma_7316-7533_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HB3CXEX6	Medulloblastoma_7316-6794_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_HBNYKPM1	Low-grade glioma_7316-9247_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_HBT0C66Y	NA_7316-3149_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_HCD9DP9H	Diffuse midline glioma_C4123944-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HEGTYPQJ	Medulloblastoma_7316-2562_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_HERXR7FX	High-grade glioma_7316-6039_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_HGHV85PZ	Ganglioglioma_7316-2300_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_HJA1ZYS1	NA_7316-2939_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_HM2GMT2H	Medulloblastoma_7316-6_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_HMF8J4EG	Diffuse midline glioma_7316-644_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HMY997GX	Low-grade glioma_7316-3554_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_HN0AXSZ0	Choroid plexus papilloma_7316-1103_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_HNZNZ635	High-grade glioma_7316-2151_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_HQ89KPKT	Ganglioneuroma_7316-202_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioneuroma	Diagnosis
+PT_HQSVFBPH	Dysembryoplastic neuroepithelial tumor_7316-7496_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_HT73W2JA	Low-grade glioma_C4111275-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_HV10JGD2	Diffuse midline glioma_C4107339-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HV1DFFQ1	Diffuse midline glioma_7316-9139_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HV6C0T34	Low-grade glioma_7316-3062_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_HV6XEG0K	Ependymoma_7316-3137_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_HVXYKN8E	Dysembryoplastic neuroepithelial tumor_7316-4670_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_HVZTF42R	Atypical Teratoid Rhabdoid Tumor_7316-2187_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_HXDCHQ9Y	Subependymal Giant Cell Astrocytoma_7316-2171_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_HXF3X28C	Diffuse midline glioma_C4115088-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_HYXSSCJ5	Low-grade glioma_7316-1088_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_HYZQBT8T	Subependymal Giant Cell Astrocytoma_7316-3666_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_HZ13HD7K	Low-grade glioma_7316-4874_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_J0SZ1SX5	Low-grade glioma_7316-2589_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_J302B8Y5	Atypical Teratoid Rhabdoid Tumor_7316-386_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_J3B812DT	NA_7316-123_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_J4AD2XSC	Low-grade glioma_7316-6032_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_J4GESC9A	High-grade glioma_C4114842-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_J4MWGQFQ	Meningioma_7316-2071_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_J4PXBZA1	Adamantinomatous Craniopharyngioma_7316-4534_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_J5NSRW1Y	High-grade glioma_7316-3817_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_J8C3VPNF	Ependymoma_7316-4684_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_J9B6VRH8	Adamantinomatous Craniopharyngioma_7316-6988_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_JBYZJRNM	Diffuse midline glioma_7316-9062_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_JC3FDHBS	High-grade glioma_7316-6484_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	High-grade glioma	Deceased
+PT_JCECCFPB	Atypical Teratoid Rhabdoid Tumor_7316-479_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_JDS5171S	Diffuse midline glioma_C4111152-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_JE9RX5DR	Oligodendroglioma_7316UP-2508_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_JEA0AEMZ	Medulloblastoma_7316-2169_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_JGCYHNGJ	Non-germinomatous germ cell tumor_C4122837-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Non-germinomatous germ cell tumor	Diagnosis
+PT_JGHYFZ35	Low-grade glioma_7316-6649_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_JGTXEKNV	Medulloblastoma_7316-9742_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_JJZ1MD8Z	Sarcoma_7316-6973_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Sarcoma	Diagnosis
+PT_JJZ5PN64	High-grade glioma_7316-8964_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_JK7BAVGR	Diffuse midline glioma_C4116564-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_JMW6Q6NH	Low-grade glioma_7316-1648_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_JN3EN2HR	Ependymoma_7316-2267_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_JN3S17B3	Choroid plexus papilloma_7316-1693_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_JPWVCTAJ	Low-grade glioma_7316-1953_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_JQ45JK94	Low-grade glioma_7316-222_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_JQX1NM90	Ganglioglioma_7316-4559_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_JRA29R0N	Ganglioglioma_C4119270-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_JSB21KPJ	Choroid plexus papilloma_7316-6810_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_JVZ4T317	Oligodendroglioma_7316UP-3083_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_JW6FBEFK	Subependymal Giant Cell Astrocytoma_7316-3019_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Progressive
+PT_JWW33RTB	Ganglioglioma_7316-1793_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_JXSDFPNM	Meningioma_7316-2142_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Meningioma	Second Malignancy
+PT_JXSTA5HB	Ependymoma_7316-5293_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_JYZA0PNV	Low-grade glioma_7316-437_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K0C8VSD9	NA_7316-3298_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_K2FGJ1X7	Medulloblastoma_7316-3726_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_K2PD4VT2	Glial-neuronal tumor_7316-9035_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_K2YDNZDA	Ependymoma_7316-429_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_K30AWQ8A	Low-grade glioma_7316-393_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K32CWBQF	Craniopharyngioma_7316-5893_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_K39HM2JF	Low-grade glioma_7316-1084_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K3BZCT56	Ganglioglioma_7316-2612_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ganglioglioma	Progressive
+PT_K63972GG	Low-grade glioma_7316-666_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K6G6BE6G	Low-grade glioma_7316-1113_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K6S2YJ8Y	Medulloblastoma_7316-5883_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_K71TQSF4	Medulloblastoma_7316-8046_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Medulloblastoma	Deceased
+PT_K7NAC0JG	Low-grade glioma_7316-4349_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_K84J9401	Ependymoma_7316-6972_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_K8QGCN2F	NA_7316-6814_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_K94ZVZMX	Medulloblastoma_7316-521_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KCDPF85V	Oligodendroglioma_7316UP-2066_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_KDW5HHWQ	Oligodendroglioma_7316-2237_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_KE0A6FHD	Medulloblastoma_7316-7806_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KE1YJ2EC	Histiocytic tumor_7316-5880_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Histiocytic tumor	Diagnosis
+PT_KEQ53KRH	High-grade glioma_7316-440_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_KFYJBQB8	Infant-type hemispheric glioma_7316-3075_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Diagnosis
+PT_KHABYTB0	Meningioma_7316-8930_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_KHQGBBDN	Ganglioglioma_7316-4223_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_KHX1WQ4H	Low-grade glioma_7316-186_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KJ4PGWSS	Low-grade glioma_7316-7940_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Low-grade glioma	Second Malignancy
+PT_KJ8DYES9	Dysembryoplastic neuroepithelial tumor_7316-4908_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_KM0MSXCZ	Low-grade glioma_7316-4538_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KM0RP0DF	Medulloblastoma_C4108077-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KMXP184J	Medulloblastoma_C4107216-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KN25EYMG	Medulloblastoma_7316-2309_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KN62VZM6	Low-grade glioma_7316-6790_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KNJDVV4K	Medulloblastoma_7316-4681_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_KPRN3JFV	Low-grade glioma_7316-6141_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KQK98ZVP	Low-grade glioma_7316-1803_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KSP2DSPE	Adamantinomatous Craniopharyngioma_7316-5468_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_KVFS3Z2Q	Ependymoma_7316-1955_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_KVMF5TFW	Diffuse midline glioma_7316-3030_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_KW94B4BJ	NA_7316-3657_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_KX1QQQRC	High-grade glioma_7316-8939_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_KXB1PJV0	Low-grade glioma_7316-206_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_KZ04SDDS	High-grade glioma_7316-1774_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_M04EC74B	Atypical Teratoid Rhabdoid Tumor_7316-918_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_M0A3C69H	Diffuse midline glioma_C4111890-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_M0AP3Z15	Medulloblastoma_7316-14_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_M0FVZ88D	Meningioma_7316-1986_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_M1BBF6RA	Diffuse hemispheric glioma_7316-9799_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_M1PAR2KC	Low-grade glioma_7316-5460_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_M1RYN7B0	Atypical Teratoid Rhabdoid Tumor_7316-1781_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_M2408655	High-grade glioma_C4124682-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_M2GRHAXZ	Germinoma_7316-3668_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Germinoma	Progressive
+PT_M2J30CF7	Sarcoma_7316-1747_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Sarcoma	Diagnosis
+PT_M39RC0Y1	Medulloblastoma_7316-4523_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_M5HDHQNQ	Low-grade glioma_7316-475_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_M5ZPSRM5	NA_7316-4669_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_M6AHSC7C	Teratoma_7316-4531_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Teratoma	Diagnosis
+PT_M72FHJXN	Diffuse midline glioma_7316-6756_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_M8MDJNZB	High-grade glioma_7316-8965_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_M91MGM4K	Medulloblastoma_7316-8938_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_M97ZCS35	Low-grade glioma_7316-653_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_M9KXGNY9	Schwannoma_7316-8928_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_M9WKP8RF	Adamantinomatous Craniopharyngioma_7316-7919_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_MA0J8DSN	Dysembryoplastic neuroepithelial tumor_7316-39_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_MBAXTJET	Low-grade glioma_7316-275_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MBM8765W	Hemangioblastoma_7316-9829_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Hemangioblastoma	Diagnosis
+PT_MCC2RZ5H	Medulloblastoma_7316-6823_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_MCKXXVA4	Meningioma_7316-5886_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_MDJXRAB5	Low-grade glioma_7316-2679_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MFNW2QEB	Low-grade glioma_7316-9448_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MKKTQHP5	Low-grade glioma_7316-1984_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MKZ7ESSF	Medulloblastoma_7316-7753_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_MMMAKJJH	High-grade glioma_C4119885-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_MNR94DEV	Low-grade glioma_7316-370_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MP85FHCR	High-grade glioma_7316-9850_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_MPRBGGEJ	Low-grade glioma_7316-2172_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_MQHST8YC	Craniopharyngioma_7316-3316_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_MQWJ7FHV	Medulloblastoma_7316-4296_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_MR5ZNP8K	Medulloblastoma_7316-5526_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_MSBPMJ56	Medulloblastoma_7316-306_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_MSQ6GSVP	Infant-type hemispheric glioma_7316-2274_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Diagnosis
+PT_MSWWCWZP	Medulloblastoma_C4120869-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Medulloblastoma	Recurrence
+PT_MT27S7S4	Ependymoma_7316-1969_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_MTE126WM	Atypical Teratoid Rhabdoid Tumor_7316-376_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Progressive
+PT_MV5WXTQV	High-grade glioma_7316-8036_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_MXASQ2GW	Neurofibroma/Plexiform_7316-3558_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Progressive
+PT_MXVNR2GC	Ganglioglioma_7316-7095_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_MYNKT1TK	Medulloblastoma_7316-9075_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Medulloblastoma	Deceased
+PT_N0KJ1CR2	Oligodendroglioma_7316UP-3296_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_N13MXT13	High-grade glioma_7316-7758_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_N1HWK3YS	Medulloblastoma_7316-2603_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_N3205P0D	Diffuse hemispheric glioma_7316-1099_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_N32BYY8A	High-grade glioma_7316-89_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_N3HVMV06	Low-grade glioma_7316-2075_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_N4PR21ME	Ependymoma_7316-330_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_N56EYD4Z	Medulloblastoma_7316-3857_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_N5J8REP8	NA_7316-9808_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	NA	Progressive
+PT_N673SYWW	Craniopharyngioma_7316-1751_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Craniopharyngioma	Progressive
+PT_N8VZWF99	Low-grade glioma_7316-8865_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_N9CGVG02	Low-grade glioma_7316-2197_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_N9KYV4WB	Ependymoma_7316-749_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_N9SG16EC	Low-grade glioma_7316-1958_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_NA02P280	High-grade glioma_C4121607-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_NA8NZ0BN	Low-grade glioma_7316-2135_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_NAYJ2G2E	Ependymoma_7316-8741_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_NBSRQAMS	Ewing sarcoma_7316-1079_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_NCDHZ8H8	Medulloblastoma_7316-2780_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_ND34A6PR	Atypical Teratoid Rhabdoid Tumor_7316-122_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_NDVJE438	Medulloblastoma_7316-2811_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NEB4WEAT	Adamantinomatous Craniopharyngioma_7316-3020_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_NF6R6YHR	Medulloblastoma_7316-7064_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NFDHYPGT	NA_7316-3152_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_NGDW8WVP	Hemangioblastoma_7316-1704_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Hemangioblastoma	Diagnosis
+PT_NH8CJ84W	Craniopharyngioma_7316-164_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Craniopharyngioma	Progressive
+PT_NHJWA8XZ	High-grade glioma_C4113489-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_NHX9RARA	Low-grade glioma_7316-9739_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_NMZBRFYS	Schwannoma_7316-1987_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_NNZQ09SH	Rosette-forming glioneuronal tumor_7316-1109_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Rosette-forming glioneuronal tumor	Recurrence
+PT_NPHZQW6A	Ganglioglioma_7316-1985_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_NPPBNRVV	Low-grade glioma_7316-1943_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_NQXV606T	Meningioma_7316-7763_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_NS1F6DT8	Dysembryoplastic neuroepithelial tumor_7316-3048_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_NTEKMKTX	Medulloblastoma_7316-1650_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NTG1EJGA	Medulloblastoma_7316-3008_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NTK39NNV	Low-grade glioma_7316-3076_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_NV584F7Q	Medulloblastoma_7316-3192_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NWFDJQVK	High-grade glioma_C4124436-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_NWQHHDD0	Medulloblastoma_C4124805-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_NXX0M835	Schwannoma_7316-948_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_NYBH025T	Ependymoma_7316-3069_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_NYXTSK8K	Low-grade glioma_7316-5426_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Low-grade glioma	Deceased
+PT_NZFFMZ0B	Low-grade glioma_7316-923_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_NZNS6DFG	Ganglioglioma_7316-6305_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_P2B3RNR0	Diffuse midline glioma_7316-6450_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_P2NGYMG5	Diffuse midline glioma_7316-1956_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_P40S0HQK	Oligodendroglioma_7316UP-1641_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_P4ZEFY19	Medulloblastoma_7316-937_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_P5HHJJPH	High-grade glioma_7316-870_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_P69FZ5A6	Germinoma_7316-7100_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_P6PKT77Y	Neuroblastoma_7316-7741_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Neuroblastoma	Second Malignancy
+PT_P9RT6693	Low-grade glioma_7316-2566_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_PABK01H0	Medulloblastoma_7316-1669_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_PAW18EK3	Dysembryoplastic neuroepithelial tumor_7316-1948_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_PB4Q0ZX1	Ependymoma_7316-3902_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_PD7G77HN	Low-grade glioma_7316-4511_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PDFP2XFB	Glial-neuronal tumor_7316-6842_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_PE0SAKT4	Diffuse midline glioma_C4116195-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_PF9EC93Q	High-grade glioma_7316-3765_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_PFP1ZVHD	Low-grade glioma_7316-2310_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PGVQ4XRZ	Low-grade glioma_7316-946_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PHKSYE6Q	Choroid plexus papilloma_7316-220_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_PHY9WJR1	Medulloblastoma_7316-4283_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_PJ9E1AYH	Low-grade glioma_7316-3128_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PJFTMJ6H	Ewing sarcoma_7316-2150_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_PKHG2YFW	Langerhans Cell histiocytosis_7316-3306_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Langerhans Cell histiocytosis	Diagnosis
+PT_PKP1250P	Ependymoma_7316-2556_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_PMEXVDFJ	Infant-type hemispheric glioma_7316-4800_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Infant-type hemispheric glioma	Deceased
+PT_PMYS7KRE	Oligodendroglioma_16510-12_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_PNED3GG3	Adamantinomatous Craniopharyngioma_7316-387_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_PNSS3V4S	Pineoblastoma_C4121730-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_PPPQFTDV	Diffuse midline glioma_C4110906-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_PPY9WF29	Low-grade glioma_7316-5217_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PQNX91R7	Diffuse midline glioma_C4116072-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_PSJV28KG	Diffuse hemispheric glioma_C4109430-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_PTTBTPS6	Medulloblastoma_7316-9028_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Medulloblastoma	Recurrence
+PT_PWPB3BKK	Low-grade glioma_7316-4548_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_PX4E85V1	Medulloblastoma_7316-1083_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_PX713NB8	Diffuse midline glioma_C4116810-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_PXPBKXYC	Craniopharyngioma_7316-4210_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_PXQN10A8	Subependymal Giant Cell Astrocytoma_7316-7521_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Second Malignancy
+PT_PY4QFHHV	Dysembryoplastic neuroepithelial tumor_7316-3768_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_PZ8C9PWJ	High-grade glioma_7316-5530_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_PZCA1VVR	Craniopharyngioma_7316-6787_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_Q0N3AG4D	Medulloblastoma_7316-9804_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_Q25V9Y6M	Low-grade glioma_7316-1668_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Q36SCWF3	Low-grade glioma_C4117056-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Q37KKTVP	Diffuse midline glioma_7316-6985_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_Q38AT6JY	Adamantinomatous Craniopharyngioma_7316-3773_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_Q3EP24V1	Low-grade glioma_7316-154_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_Q4GD8TFQ	Medulloblastoma_7316-4221_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_Q8QBKBTX	Low-grade glioma_7316-7541_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_Q90R6M3E	Medulloblastoma_7316-897_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_Q9VRRAR8	Oligodendroglioma_7316UP-2515_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_QA00MAJ9	Low-grade glioma_7316-6137_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_QAJRK2W9	High-grade glioma_7316-6254_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_QAX38GM7	Low-grade glioma_7316-3570_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_QBAA2E23	Ependymoma_C4107093-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_QBEA1CGX	High-grade glioma_7316-10711_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_QD6KKKJH	Pineoblastoma_7316-1765_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_QDGVJKE0	High-grade glioma_7316-2140_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_QEMT1845	NA_7316-3153_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_QF2ZH1V5	Medulloblastoma_7316-680_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_QH1MHYD6	Choroid plexus papilloma_7316-4953_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_QH6X1C3A	Metastatic secondary tumors_7316-6388_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Metastatic secondary tumors	Diagnosis
+PT_QHBEC0M5	Ependymoma_7316-4990_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_QJ3144WH	Choroid plexus papilloma_7316-3204_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_QK4XB83F	Subependymal Giant Cell Astrocytoma_7316-663_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_QKXDPDTZ	Choroid plexus carcinoma_C4110168-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Choroid plexus carcinoma	Recurrence
+PT_QNMBRAKM	Ganglioglioma_7316-4450_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_QPY0H50V	Inflammatory Myofibroblastic Tumor_7316-2614_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Inflammatory Myofibroblastic Tumor	Progressive
+PT_QQ9JGEY9	Malignant peripheral nerve sheath tumor_7316-356_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Malignant peripheral nerve sheath tumor	Diagnosis
+PT_QQZXYR4M	High-grade glioma_7316-1946_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_QS59ATXW	Oligodendroglioma_16510-14_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_QT3MK7BZ	Subependymal Giant Cell Astrocytoma_7316-1977_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Subependymal Giant Cell Astrocytoma	Diagnosis
+PT_QT9T89S5	Low-grade glioma_7316-297_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_QTDY0Y9A	Diffuse midline glioma_7316-3771_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_QVQC3KY1	Ependymoma_7316-5887_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_QVWCRKZM	Ependymoma_7316-5331_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_QW5VW2PY	Medulloblastoma_7316-313_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_QZ3KCBSC	Low-grade glioma_7316-4939_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_QZN7FZER	Ependymoma_7316-2757_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_R0H8JTQR	Medulloblastoma_7316-4265_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_R0M1QBY4	Ganglioglioma_7316-905_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_R0R6VWX9	Diffuse midline glioma_7316-9343_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_R10BSB9F	Ganglioglioma_7316-1965_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_R1N5M7NH	NA_7316-3557_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	NA	Recurrence
+PT_R2N8T6CW	NA_7316-3529_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_R5T773FS	Diffuse midline glioma_7316-8029_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_R604JG6B	Medulloblastoma_7316-8817_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Medulloblastoma	Deceased
+PT_R63RHJWX	Medulloblastoma_7316-739_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_R6WWH1QX	Ependymoma_7316-423_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_R9V5R1SY	Ganglioglioma_7316-1940_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_RA6AGBA7	Diffuse midline glioma_7316-461_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Progressive
+PT_RDGW5MJE	Diffuse midline glioma_7316-8967_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_RDJ40M73	Diffuse hemispheric glioma_7316-2561_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Recurrence
+PT_RDWE18AC	High-grade glioma_C4114473-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_RFB07MZS	Medulloblastoma_7316-2107_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RFF7MKTC	Low-grade glioma_7316-954_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RFGZ2JGP	Medulloblastoma_7316-135_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RFJNB0TH	Low-grade glioma_C4118655-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RFN96J7C	Low-grade glioma_7316-7738_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RH59ET3M	Medulloblastoma_7316-1655_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RJ98S3KZ	Medulloblastoma_7316-556_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RKECV80K	Low-grade glioma_7316-9_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RM5S859Q	Ependymoma_7316-111_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_RM8V31DA	Medulloblastoma_7316-5539_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RM9AZ7A8	Schwannoma_7316-2084_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_RMK36R2E	Low-grade glioma_7316-2275_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RN8WYW7K	Neurofibroma/Plexiform_7316-9138_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Diagnosis
+PT_RNVACT1Q	Ependymoma_7316-5105_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_RQ21EBK9	Medulloblastoma_7316-367_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_RRG1V7EP	Atypical Teratoid Rhabdoid Tumor_7316-820_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_RRHC6FZW	CNS neuroblastoma_C4105740-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	CNS neuroblastoma	Diagnosis
+PT_RRT2E7HK	Low-grade glioma_7316-136_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_RSDTCFDA	High-grade glioma_7316-204_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_RWF4AB4X	Atypical Teratoid Rhabdoid Tumor_7316-4836_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_RX1EWBP9	Atypical Teratoid Rhabdoid Tumor_7316-2276_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Progressive
+PT_RXJZ3C5G	Low-grade glioma_7316-2632_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_RY0GF9JR	Ependymoma_7316-6974_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_S0GT3XD3	Atypical Teratoid Rhabdoid Tumor_C4122591-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_S0PBN4M7	Low-grade glioma_7316-1805_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_S21ZTKPS	Low-grade glioma_7316-362_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_S2ASFBP7	Adamantinomatous Craniopharyngioma_7316-2157_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_S2BEPYQ0	High-grade glioma_7316-3000_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	High-grade glioma	Deceased
+PT_S2CXXZCF	Low-grade glioma_7316-643_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_S2M5KJTJ	High-grade glioma_7316-3655_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_S3FJSBJT	Low-grade glioma_7316-1794_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_S4A0R1PM	Medulloblastoma_7316-2699_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_S4H6KA09	Ependymoma_7316-2134_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_S4J0JZAA	Low-grade glioma_7316-6769_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_S7D7H9VA	Meningioma_7316-7751_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Meningioma	Second Malignancy
+PT_S7JCQ3TH	Diffuse midline glioma_7316-8828_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_S7WJ99PC	Low-grade glioma_7316-677_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_S8E3281G	Ependymoma_7316-2138_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_S8NYAGCA	Atypical Teratoid Rhabdoid Tumor_7316-4490_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_S9M3JJVB	Metastatic secondary tumors_7316-7955_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Metastatic secondary tumors	Diagnosis
+PT_S9ZZSZHR	Low-grade glioma_7316-9027_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SABHZ7XX	Schwannoma_7316-3029_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_SABX4PZ2	Diffuse midline glioma_C4118286-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Recurrence
+PT_SBE1B4CV	High-grade glioma_7316-6807_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_SBHN5F68	Low-grade glioma_7316-516_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SBSXK3XB	Medulloblastoma_7316-8430_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_SCTH1RQ0	Low-grade glioma_7316-7760_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SCZYPN5C	Ganglioglioma_7316-5280_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_SDK91A16	Low-grade glioma_7316-247_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SGJK5KSB	High-grade glioma_7316-9140_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_SJ0VD2C8	Oligodendroglioma_16510-26_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_SJ9PJ1D0	Low-grade glioma_7316-6037_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SJEG0MKD	Low-grade glioma_7316-146_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SMDEQVHJ	Low-grade glioma_7316-119_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SNJ1YR1R	Diffuse midline glioma_C3985815-Tumor_Solid Tissue_Deceased	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_SNTWW5V0	Oligodendroglioma_7316UP-2448_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_SPFM48EJ	NA_7316-9033_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_SRWZDG3N	Low-grade glioma_7316-361_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SRYX7094	Germinoma_C4109553-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Germinoma	Diagnosis
+PT_SSE4AH59	Dysembryoplastic neuroepithelial tumor_7316-1776_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_SW4Q1HZP	High-grade glioma_7316-8716_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_SXK1TJ0P	Oligodendroglioma_16510-23_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_SY2VBA5C	Low-grade glioma_7316-4459_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_SYSCTVT8	Adamantinomatous Craniopharyngioma_7316-7113_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_SZHQTDKK	Medulloblastoma_C4114965-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_T06GNH71	Low-grade glioma_7316-6036_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_T1FV709B	Desmoplastic infantile astrocytoma and ganglioglioma_7316-681_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Desmoplastic infantile astrocytoma and ganglioglioma	Diagnosis
+PT_T1Q4HQYE	Diffuse midline glioma_C4114719-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_T3REPTTC	Medulloblastoma_7316-3488_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_T4VKB29K	Ependymoma_7316-2125_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_T5CR5HQZ	Low-grade glioma_7316-33_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_T6GV8TBX	Low-grade glioma_7316-3637_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_T6H5RWH5	Oligodendroglioma_16510-17_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_T6VPPYVY	High-grade glioma_C4122960-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_T8V9ES93	Pleomorphic xanthoastrocytoma_7316-1106_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Pleomorphic xanthoastrocytoma	Diagnosis
+PT_T95TBJEW	Pineoblastoma_C4111767-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Pineoblastoma	Diagnosis
+PT_T9F17G9F	High-grade glioma_7316-8814_Solid Tissue_Initial CNS Tumor	WGS;WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_TATAHET9	Diffuse midline glioma_C4124313-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_TB8HPJBN	Low-grade glioma_7316-2663_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TC4ZC42Z	Oligodendroglioma_7316UP-1333_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_TD6ST5MG	Low-grade glioma_7316-235_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TE4DP9BW	Ependymoma_C4123206-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_TEBD1SES	Low-grade glioma_7316-3054_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TETJ9DDR	Low-grade glioma_7316-4873_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_TF84B5J9	Oligodendroglioma_16510-11_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_TFCNV42Z	Diffuse midline glioma_7316-4335_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_TGTJECMR	Teratoma_7316-2647_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Teratoma	Progressive
+PT_TH18S0JQ	Low-grade glioma_7316-3068_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TJ74G94K	Oligodendroglioma_7316UP-580_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_TNJPSPW3	Diffuse hemispheric glioma_7316-10002_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_TP58N40V	Adamantinomatous Craniopharyngioma_7316-6396_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_TPEWXVJ1	Choroid plexus carcinoma_7316-722_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_TPSMT960	Low-grade glioma_7316-400_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TRXF649Z	Dysembryoplastic neuroepithelial tumor_7316-915_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_TS0FW57Z	Low-grade glioma_7316-2167_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TT8M3GB6	Dysembryoplastic neuroepithelial tumor_7316-3078_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Diagnosis
+PT_TTQ3KXDH	Low-grade glioma_7316-5336_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TV5DYHNC	Atypical Teratoid Rhabdoid Tumor_7316-1073_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_TVJ5EGMR	High-grade glioma_7316-8033_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_TVK2KY36	Medulloblastoma_7316-2626_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_TWAHK62W	High-grade glioma_7316-9055_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_TXFYRDP4	Low-grade glioma_7316-193_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_TY3W122M	Ependymoma_7316-5901_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_TY4G3HAC	High-grade glioma_C4110414-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_TYWS8PXY	Oligodendroglioma_7316UP-2064_Solid Tissue_Primary Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_V07ZH5JS	Low-grade glioma_7316-472_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_V0X73HEQ	Ependymoma_7316-2182_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_V2F0865M	Low-grade glioma_7316-642_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_V3Q78E6F	Ependymoma_7316-455_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_V41TGECC	Low-grade glioma_7316-6646_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_V482NWB8	Diffuse midline glioma_7316-8037_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_V5ASTHRH	Mixed germ cell tumor_7316-3892_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Mixed germ cell tumor	Progressive
+PT_V84GD4GT	Non-germinomatous germ cell tumor_7316-8739_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Non-germinomatous germ cell tumor	Diagnosis
+PT_V8714N9H	Medulloblastoma_7316-2322_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_V92V7WHQ	Diffuse midline glioma_C4113612-Tumor_Solid Tissue_Not Reported	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Not Reported
+PT_V9ACEWSK	Oligodendroglioma_16510-25_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_VABP80N2	Low-grade glioma_7316-1949_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VAJN5QP8	High-grade glioma_7316-2176_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_VAW7C1MR	Choroid plexus papilloma_7316-5154_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_VBJ02EY1	Low-grade glioma_7316-4208_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_VBNP6JFB	Low-grade glioma_7316-1095_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VBVZ2NAR	Ependymoma_7316-2156_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_VC7WZMC4	Adamantinomatous Craniopharyngioma_7316-3652_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_VD2DHTMY	Ependymoma_7316-2580_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_VE0Q731Y	Ependymoma_7316-1641_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_VG6S9YQ9	Ependymoma_7316-6975_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ependymoma	Recurrence
+PT_VGXHFMND	Low-grade glioma_7316-1643_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VH6S71AC	Medulloblastoma_7316-735_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_VHS5RM2K	Ewing sarcoma_7316-364_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_VJ0M4E8Y	Low-grade glioma_7316-2099_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VJBVXB08	CNS Embryonal tumor_7316-155_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_VN04Y016	Ependymoma_7316-3004_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_VN6MTPPM	Low-grade glioma_7316-3532_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VN9SKYQQ	Ganglioglioma_7316-4456_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_VQDNSYXM	Glial-neuronal tumor_7316-1637_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_VREE80NP	Neurofibroma/Plexiform_7316-3776_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Deceased
+PT_VT6PJVQN	Adamantinomatous Craniopharyngioma_7316-205_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_VT6QDTP4	Low-grade glioma_7316-3962_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VTF65Y63	Craniopharyngioma_7316-3513_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Craniopharyngioma	Diagnosis
+PT_VTM2STE3	High-grade glioma_7316-2189_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	High-grade glioma	Progressive
+PT_VTWDS4G7	Oligodendroglioma_16510-7_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_VVCN8DXT	High-grade glioma_7316-71_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_VVW1FYSK	CNS Embryonal tumor_C4125297-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_VWE92AXY	NA_7316-6817_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_VXZJDVCQ	Low-grade glioma_7316-4919_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VY45XTT7	Medulloblastoma_7316-1801_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_VY5A2ECP	Low-grade glioma_7316-6776_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_VY7PV323	Ependymoma_C4106355-Tumor_Solid Tissue_Not Reported	WXS;RNA-Seq	Both	no	Ependymoma	Not Reported
+PT_VZ32W7M8	Adamantinomatous Craniopharyngioma_7316-5263_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_VZTTTP3Q	Low-grade glioma_7316-167_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_W4M7YD0J	Medulloblastoma_7316-7598_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_W4SMVJM8	Glial-neuronal tumor_7316-6979_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Diagnosis
+PT_W5Z2VB5Z	Low-grade glioma_7316-7932_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_W6CW60K9	Adamantinomatous Craniopharyngioma_7316-380_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_W7FK539G	Neuroblastoma_7316-76_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Neuroblastoma	Progressive
+PT_W95TYXPM	Adamantinomatous Craniopharyngioma_7316-5296_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_WBEK1N0T	Low-grade glioma_7316-6380_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WDC7N2SE	Low-grade glioma_7316-6597_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WE1CHTWK	CNS Embryonal tumor_7316-87_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	CNS Embryonal tumor	Diagnosis
+PT_WESDNVM3	Low-grade glioma_7316-2786_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WEY5N1C5	Low-grade glioma_7316-5461_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_WF4Q4SF2	Medulloblastoma_7316-8860_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_WFQNVJ4Z	Low-grade glioma_7316-3925_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WG2Z95B5	Atypical Teratoid Rhabdoid Tumor_7316-2141_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_WG5PHHSQ	Meningioma_7316-1962_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_WGWMA5AZ	Low-grade glioma_7316-148_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_WH5PD8ZK	Medulloblastoma_7316-6808_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_WHK1MYQG	Sarcoma_7316-7759_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Sarcoma	Recurrence
+PT_WK1JR173	NA_7316-6805_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_WKGQZNFV	Adamantinomatous Craniopharyngioma_C4117302-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_WKNKNYHH	Ependymoma_7316-1107_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_WMWFCG6J	High-grade glioma_7316-8038_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_WNS0AZQT	Medulloblastoma_7316-8451_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_WPM8Y4QX	Low-grade glioma_C4110291-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WPQF0B3M	High-grade glioma_7316-5328_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_WPYCXMDA	Adamantinomatous Craniopharyngioma_7316-3891_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Progressive
+PT_WQ2EJVF5	Ependymoma_7316-8119_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_WS0QT503	Oligodendroglioma_16510-10_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Oligodendroglioma	Diagnosis
+PT_WS6JY9KY	Low-grade glioma_7316-4964_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WTMSD2WB	Chordoma_7316-3632_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Chordoma	Diagnosis
+PT_WVAJN6WR	Schwannoma_7316-456_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_WVC247PK	Low-grade glioma_7316-1090_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WW0M48CT	Low-grade glioma_7316-3671_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WWME595X	Choroid plexus papilloma_7316-245_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_WWR7NB5Q	Low-grade glioma_7316-5146_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WWZ2Q14R	Medulloblastoma_7316-3138_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_WXTDDRD9	Ganglioglioma_7316-5876_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_WY8REZ3P	Ganglioglioma_7316-1783_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_WYF217NZ	Low-grade glioma_7316-345_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_WYR1DVHX	Adamantinomatous Craniopharyngioma_7316-1950_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_WYVMWYVA	Choroid plexus papilloma_7316-257_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_X0514H3P	NA_7316-4911_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_X0FPPTMT	Central neurocytoma_7316-280_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Central neurocytoma	Diagnosis
+PT_X0GD01P1	Meningioma_7316-930_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_X0HF87KC	Central neurocytoma_C4117794-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Central neurocytoma	Diagnosis
+PT_X1PRY0FC	Low-grade glioma_7316-1779_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_X1XVE1XX	Medulloblastoma_7316-3511_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_X4PV4FBS	Low-grade glioma_7316-9445_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_X4SH18X3	Sarcoma_7316-3656_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Sarcoma	Diagnosis
+PT_X4TT75N8	Medulloblastoma_7316-3659_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_X5TQR8V2	Diffuse midline glioma_7316-343_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_X71D7G5S	Diffuse hemispheric glioma_7316-1105_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Recurrence
+PT_X7GTQR9N	Ependymoma_7316-7959_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_X84SD608	Neurofibroma/Plexiform_7316-497_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	Neurofibroma/Plexiform	Second Malignancy
+PT_X8S0H6TG	Ewing sarcoma_7316-876_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ewing sarcoma	Diagnosis
+PT_X9NNW2E7	Low-grade glioma_7316-3682_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XA04WQ66	Adamantinomatous Craniopharyngioma_7316-4686_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_XBSCF601	Low-grade glioma_7316-7961_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XC15JMBJ	Low-grade glioma_7316-8723_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_XCCV6CW2	Teratoma_7316-2268_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Teratoma	Diagnosis
+PT_XDV8W16W	Low-grade glioma_7316-3751_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_XG4CJ0GM	Schwannoma_7316-8473_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_XKW9EYPG	Ganglioglioma_7316-3321_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_XM0CXQVW	Schwannoma_7316-4549_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_XMYN334C	Oligodendroglioma_7316UP-3705_Solid Tissue_Not Reported	WGS;RNA-Seq	Both	no	Oligodendroglioma	Not Reported
+PT_XNTFM9XY	Cavernoma_7316-92_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Cavernoma	Diagnosis
+PT_XP8AM1CH	NA_7316-1096_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_XPDTCGRR	Low-grade glioma_7316-6447_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XPGJ239Y	Low-grade glioma_C4120500-Tumor_Solid Tissue_Recurrence	WXS;RNA-Seq	Both	no	Low-grade glioma	Recurrence
+PT_XPS6EJCM	Low-grade glioma_7316-4727_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XRQHMBHB	Atypical Teratoid Rhabdoid Tumor_7316-3937_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_XSS1ANXD	Low-grade glioma_7316-495_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XTVZ7P79	Low-grade glioma_7316-6516_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XVB5Z3FC	Low-grade glioma_C4118532-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XWFW59VV	Medulloblastoma_7316-9249_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_XWVQW6JX	Low-grade glioma_7316-3556_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_XX2VW3D9	Medulloblastoma_7316-96_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_XXGDDTZ4	Diffuse midline glioma_C4118163-Tumor_Solid Tissue_Deceased	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Deceased
+PT_XXZHRPNM	Low-grade glioma_7316-2572_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XY404K0D	Extraventricular neurocytoma_7316-1782_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Extraventricular neurocytoma	Diagnosis
+PT_XYS9EB2T	Low-grade glioma_7316-6532_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_XZS5W1AV	NA_C4105002-Tumor_Solid Tissue_NA	WXS;RNA-Seq	Both	no	NA	NA
+PT_Y0XPQ1SZ	Meningioma_7316-8870_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_Y5EZC616	Dysembryoplastic neuroepithelial tumor_7316-8933_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Dysembryoplastic neuroepithelial tumor	Recurrence
+PT_Y5KY6KN9	Diffuse midline glioma_7316-195_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_Y660CKCB	Diffuse midline glioma_7316-3122_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_Y6ZREKYF	Adamantinomatous Craniopharyngioma_7316-4839_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Recurrence
+PT_Y76A7PBA	High-grade glioma_7316-2288_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_Y7F2JZMQ	Ganglioglioma_7316-2680_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Ganglioglioma	Recurrence
+PT_Y879MGBY	Low-grade glioma_7316-4866_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Y8HSH496	Low-grade glioma_7316-196_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Y8RNS9JE	High-grade glioma_7316-1656_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	High-grade glioma	Recurrence
+PT_Y97DX151	Schwannoma_7316-291_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_Y9JQ3VPX	Atypical Teratoid Rhabdoid Tumor_7316-4207_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Atypical Teratoid Rhabdoid Tumor	Diagnosis
+PT_YANM4078	Meningioma_7316-4344_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Meningioma	Diagnosis
+PT_YBJYA2CD	Choroid plexus papilloma_7316-2244_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_YDGG20RS	Ependymoma_7316-6038_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_YDQMJZJB	Ependymoma_7316-8559_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_YDWBWTVN	Schwannoma_7316-147_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_YEXTH21W	Oligodendroglioma_16510-22_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Oligodendroglioma	Recurrence
+PT_YFS3AWC0	Medulloblastoma_7316-153_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_YH8C6J90	Low-grade glioma_7316-3508_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YHYP7ZKK	Ependymoma_7316-4530_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_YJBPEF4V	Low-grade glioma_7316-938_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YJGTKDV0	Low-grade glioma_7316-1683_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YJSMJHWR	NA_7316-5259_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_YJY2QXDM	Chordoma_CF359-T_Solid Tissue_Metastatic	WGS;RNA-Seq	Both	no	Chordoma	Metastatic
+PT_YKFSBN25	High-grade glioma_7316-8461_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_YKVK5HTK	Low-grade glioma_7316-441_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YM51XZH0	Ependymoma_7316-5929_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Ependymoma	Deceased
+PT_YMN5GV47	Low-grade glioma_7316-658_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Low-grade glioma	Progressive
+PT_YQWG98Z5	NA_7316-2856_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_YRMG61G8	Low-grade glioma_7316-2305_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YRNATR8Q	High-grade glioma_7316-8039_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_YTZJ8K0X	High-grade glioma_7316-6381_Solid Tissue_Second Malignancy	WGS;RNA-Seq	Both	no	High-grade glioma	Second Malignancy
+PT_YV130SEM	NA_7316-5316_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_YV2S3ES7	Medulloblastoma_7316-182_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_YVG4H0F1	Adamantinomatous Craniopharyngioma_7316-3070_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Adamantinomatous Craniopharyngioma	Diagnosis
+PT_YVY56QHA	Low-grade glioma_7316-8837_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YXJQGT69	Low-grade glioma_7316-934_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_YXZPWFVB	Ependymoma_7316-966_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_YY7CRV21	NA_7316-215_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_YZ8A8A36	Choroid plexus carcinoma_7316-723_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus carcinoma	Diagnosis
+PT_YZD8NRDP	Diffuse midline glioma_C4115826-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_YZME6QCY	Low-grade glioma_7316-2245_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Z2KHR3GQ	Diffuse midline glioma_7316-8377_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_Z4A9DMAS	Low-grade glioma_7316-8932_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Z4PJA6KT	Diffuse midline glioma_7316-1763_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_Z7YJ7MSM	Glial-neuronal tumor_7316-2864_Solid Tissue_Recurrence	WGS;RNA-Seq	Both	no	Glial-neuronal tumor	Recurrence
+PT_Z9BN2V4W	Low-grade glioma_7316-6778_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_Z9QE51C3	Ganglioglioma_7316-373_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_ZA95JQEB	Ependymoma_7316-384_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_ZBHAAB3G	High-grade glioma_7316-7498_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_ZCXS29JJ	Sarcoma_7316-2153_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Sarcoma	Diagnosis
+PT_ZD45GXZ0	Ependymoma_7316-2109_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Ependymoma	Progressive
+PT_ZD9AYB6F	Low-grade glioma_7316-3323_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZGJTEMMT	Diffuse midline glioma_C4121853-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_ZJVVRMHQ	Medulloblastoma_7316-4940_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_ZJZ4VF13	Low-grade glioma_7316-6526_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZKGZPH3J	Schwannoma_7316-6302_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Schwannoma	Diagnosis
+PT_ZKQTJ7F7	High-grade glioma_7316-9560_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_ZM9F20SY	Medulloblastoma_7316-6124_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Medulloblastoma	Diagnosis
+PT_ZN1F7RMP	NA_7316-1080_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	NA	Diagnosis
+PT_ZR8MQRVG	Low-grade glioma_7316-346_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZRQQC2S9	Low-grade glioma_7316-3139_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZRZRHGQJ	Diffuse hemispheric glioma_7316-4036_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse hemispheric glioma	Diagnosis
+PT_ZS2YDFBE	Choroid plexus papilloma_7316-2860_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Choroid plexus papilloma	Diagnosis
+PT_ZSHEMD0K	Diffuse midline glioma_7316-6773_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Diffuse midline glioma	Diagnosis
+PT_ZTWCA9HX	High-grade glioma_7316-8040_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_ZVV78QP5	Low-grade glioma_7316-117_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZWY04DCR	Ependymoma_7316-2666_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ependymoma	Diagnosis
+PT_ZX2SJMFJ	Ganglioglioma_7316-7515_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Ganglioglioma	Diagnosis
+PT_ZX5RFT4S	High-grade glioma_C4118778-Tumor_Solid Tissue_Initial CNS Tumor	WXS;RNA-Seq	Both	no	High-grade glioma	Diagnosis
+PT_ZZ8SBJJ5	Atypical choroid plexus papilloma_7316-725_Solid Tissue_Progressive	WGS;RNA-Seq	Both	no	Atypical choroid plexus papilloma	Progressive
+PT_ZZTQQVCT	Low-grade glioma_7316-2723_Solid Tissue_Initial CNS Tumor	WGS;RNA-Seq	Both	no	Low-grade glioma	Diagnosis
+PT_ZZWYKZZ8	Ependymoma_7316-2758_Solid Tissue_Deceased	WGS;RNA-Seq	Both	no	Ependymoma	Deceased
