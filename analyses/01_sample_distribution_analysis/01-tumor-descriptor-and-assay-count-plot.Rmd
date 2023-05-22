@@ -1,5 +1,5 @@
 ---
-title: "Longitudinal analysis for the pbta-tumor-evolution project and PBTA Cohort"
+title: "Longitudinal analysis for the PBTA Cohort (pbta-tumor-evolution project)"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -18,7 +18,7 @@ We are also looking at the number of patient samples available per histology wit
 
 ### Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
-We use tumor_descriptor and focus on disease_stages: Diagnosis, Progressive, Recurrence, and Deceased.
+We use tumor_descriptor and focus on time points recorded.
 
 ### Note
 The colors in the plots do not match the ones of the PBTA cohort yet. ---TO DO---
@@ -84,13 +84,14 @@ if (!dir.exists(results_dir)) {
 
 
 # Outputs
-output_PBTA_filter <- file.path(results_dir, "data_by_cohort_PBTA_filter.tsv")
-output_PBTA_filter_count <- file.path(results_dir, "data_by_cohort_PBTA_filter_count.tsv")
-output_Diagnosis_paired <- file.path(results_dir, "Diagnosis_paired.tsv")
-output_Diagnosis_paired_dup <- file.path(results_dir, "Diagnosis_paired_dup.tsv")
+output_cohort_pbta <- file.path(results_dir, "cohort_pbta.tsv")
 
-output_Diagnosis_paired_cancer_group <- file.path(results_dir, "Diagnosis_paired_cancer_group.tsv")
-output_Diagnosis_paired_cancer_group_duplicates <- file.path(results_dir, "Diagnosis_paired_cancer_group-duplicates.tsv")
+output_paired_assays <- file.path(results_dir, "paired_assays.tsv")
+output_paired_assays_mult_events <- file.path(results_dir, "paired_assays_mult_events.tsv")
+
+output_paired_assays_mult_events_filter <- file.path(results_dir, "paired_assays_mult_events_filter.tsv")
+
+output_paired_Diagnosis <- file.path(results_dir, "paired_Diagnosis.tsv")
 
 
 # to add this later
@@ -103,21 +104,21 @@ output_Diagnosis_paired_cancer_group_duplicates <- file.path(results_dir, "Diagn
 ```{r load-inputs-please-wait}
 # Inputs
 ## Read in metadata
-histologies <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
+v12 <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
 # dim(data)
 
 # Read table with colors per histology
-cols <- readr::read_tsv(input_cols, guess_max = 100000, show_col_types = FALSE) # Load plotting colors
+# cols <- readr::read_tsv(input_cols, guess_max = 100000, show_col_types = FALSE) # Load plotting colors
 
 # Add colors palette to the histologies file
-hist_cols <- histologies %>% left_join(cols, by=c('cancer_group','broad_histology'))  #to merge tables
+# hist_cols <- histologies %>% left_join(cols, by=c('cancer_group','broad_histology'))  #to merge tables
 # This is the tidyverse method. Try not to name variables the same as a function's name - that may cause coding errors downstream.
 
 
 # to discard when add the col palette for PBTA cohort
-mypalette <- brewer.pal(12,"Paired") # colorblindFriendly = TRUE
-col5 <- colorRampPalette(mypalette)(5)
-col9 <- colorRampPalette(mypalette)(9)
+# mypalette <- brewer.pal(12,"Paired") # colorblindFriendly = TRUE
+# col5 <- colorRampPalette(mypalette)(5)
+# col9 <- colorRampPalette(mypalette)(9)
 
 ```
 
@@ -130,20 +131,6 @@ Also, we will discard Derived Cell Line, PDX from "composition".
 
 
 ```{r cohort PBTA, echo=TRUE}
-tumor_df <- hist_cols  %>%
-   filter(cohort == "PBTA",
-          !is.na(pathology_diagnosis),
-          !composition %in% c("Derived Cell Line", "PDX")) %>% 
-         # !is.na(cancer_group) # Discard NAs in cancer type
-   mutate(tumor_descriptor = ifelse(sample_id == "C4106355-Tumor", "Recurrence", # to be updated in v13 as "Recurrence"
-                            ifelse(sample_id == "C4113612-Tumor", "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
-                            ifelse(tumor_descriptor == "Primary Tumor", "Diagnosis",
-                            ifelse(tumor_descriptor == "Initial CNS Tumor", "Diagnosis",
-                            ifelse(tumor_descriptor == 'Progressive Disease Post-Mortem', 'Deceased',      
-                                          tumor_descriptor))))))
-                 
-print (tumor_df %>% count(tumor_descriptor))
-
 # Note
 # The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
 # Jo Lynne found the following status for 2/3 in the data warehouse:
@@ -153,75 +140,93 @@ print (tumor_df %>% count(tumor_descriptor))
 # manually annotate them here and these will be updated in the v13 - then discard that part of the code
 # For now, you can leave this - we can fix the plot colors later - it might be that we have a longitudinal sample which comes from a benign tumor - we can possibly remove these later, but it would be good to get a source of truth for what our entire cohort looks like first before removing data,
 
-# Save tumor_df after filter 
-write_tsv(tumor_df, path = output_PBTA_filter)
+# I also added the cancer_group into the match_id to use this later in the script
+pbta <- v12 %>%
+  filter(cohort == "PBTA",
+         !is.na(pathology_diagnosis),
+         !composition %in% c("Derived Cell Line", "PDX"),
+         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
+           # !is.na(cancer_group) # Discard NAs in cancer type
+  mutate(match_id = paste(cancer_group, sample_id, composition, tumor_descriptor, sep = "_")) %>% 
+  mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
+                                            grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
+                                            grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
+                                            TRUE ~ tumor_descriptor))
 
-count1 <- tumor_df %>% 
-          group_by(cohort_participant_id, Kids_First_Participant_ID,
-                 experimental_strategy, sample_type, tumor_descriptor, primary_site,
-                 age_at_diagnosis_days, age_last_update_days, age_at_chemo_start, age_at_radiation_start,
-                 pathology_diagnosis, cancer_group, broad_histology) %>% 
-          dplyr::count(cancer_group) 
+print(pbta %>% count(tumor_descriptor_final))
 
-write_tsv(count1, output_PBTA_filter_count)
-
+# Save pbta after filter 
+write_tsv(pbta, path = output_cohort_pbta)
 ```
 
-# Plots
-## All assays
 
-```{r plot1}
-count1$experimental_strategy <- factor(x = count1$experimental_strategy, levels = c("WGS", "WXS", "RNA-Seq", "Targeted Sequencing", "Methylation"))
+## Filter based on both genomic and transcriptomic assays
+Let's select all patient samples containing both genomic and transcriptomic assays.
 
-p <- ggplot(count1, aes(x=cancer_group, fill=experimental_strategy))+
-        geom_bar()+
-        scale_fill_manual(values=col5) +
-        theme_classic()+
-        ylab("Count cancer_group") +
-        ggtitle("cancer_group vs experimental_strategy") +
-        guides(color=guide_legend(override.aes=list(size=3))) +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-        print(p)
-#ggsave("Barplot_cancer_group_experimental_strategy_PBTA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
+```{r assays, echo=TRUE}
 
+print(length(unique(pbta$Kids_First_Participant_ID)))
+print(length(unique(pbta$match_id)))
+
+assays <- pbta %>%
+  select(Kids_First_Participant_ID, tumor_descriptor_final, match_id, experimental_strategy, cancer_group) %>%
+  unique() %>%
+  arrange(Kids_First_Participant_ID)
+
+
+# we perform join here using the Kids_First_Participant_ID and match_id
+paired_assays <- assays %>%
+  group_by(Kids_First_Participant_ID, match_id) %>%
+  summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>%
+  mutate(experimental_strategy = case_when(grepl("RNA-Seq;WGS", experimental_strategy) ~ "WGS;RNA-Seq", 
+                                           grepl("RNA-Seq;WXS", experimental_strategy) ~ "WXS;RNA-Seq",
+                                           grepl("WGS;RNA-Seq;WXS", experimental_strategy) ~ "WGS;WXS;RNA-Seq",
+                                           grepl("WXS;WGS;RNA-Seq", experimental_strategy) ~ "WGS;WXS;RNA-Seq",
+                                           grepl("RNA-Seq;WGS;WXS", experimental_strategy) ~ "WGS;WXS;RNA-Seq",
+                                           grepl("RNA-Seq;WXS;WGS", experimental_strategy) ~ "WGS;WXS;RNA-Seq",
+                                           TRUE ~ experimental_strategy))  
+
+# let's summarize the assays
+paired_assays <- paired_assays %>%
+   mutate(experimental_strategy_sum = case_when(grepl("WGS;RNA-Seq", experimental_strategy) ~ "Both", 
+                                                grepl("WXS;RNA-Seq", experimental_strategy) ~ "Both",
+                                                grepl("WGS;WXS;RNA-Seq", experimental_strategy) ~ "Both",
+                                                grepl("WGS", experimental_strategy) ~ "DNA",
+                                                grepl("WXS", experimental_strategy) ~ "DNA", 
+                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA",
+                                                TRUE ~ experimental_strategy)) 
+  
+# Save paired_assays 
+write_tsv(paired_assays, path = output_paired_assays)
 ```
 
-## Paired genomic, transcriptomic assays
+## Filter out duplicate events
+We will identify duplicate events and discard them from further analysis.
 
-```{r plot2}
-count <- count1 %>% filter(experimental_strategy %in% c("WGS", "WXS", "RNA-Seq")) # Excluded: "Targeted Sequencing", Methylation
-count$experimental_strategy <- factor(x = count$experimental_strategy, levels = c("WGS", "WXS", "RNA-Seq"))
+```{r paired_assays_mult_events, echo=TRUE}
 
-p <- ggplot(count, aes(x=cancer_group, fill=experimental_strategy))+
-        geom_bar()+
-        scale_fill_manual(values=col5) + #scale_fill_manual(values=c(tumor_df$plot_group_hex)) 
-        theme_classic()+
-        ylab("Count cancer_group") +
-        ggtitle("cancer_group vs experimental_strategy") +
-        guides(color=guide_legend(override.aes=list(size=3))) +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-        print(p)
-#ggsave("Barplot_cancer_group_experimental_strategy_PBTA_matched_DNA-RNA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
+# identify multiple events per patient sample
+paired_assays_mult_events <- paired_assays %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(match_id = str_c(match_id, collapse = "~"),
+            experimental_strategy = str_c(experimental_strategy, collapse = "~"),
+            experimental_strategy_sum = str_c(experimental_strategy_sum, collapse = "~")) %>%
+  mutate(has_mult_events = case_when(grepl("~", match_id) ~ "yes", 
+                               TRUE ~ "no"))
 
-```
+table(paired_assays_mult_events$has_mult_events)
 
-## By cancer_group - all disease stages
+# Save paired_assays_mult_events
+write_tsv(paired_assays_mult_events, path = output_paired_assays_mult_events)
 
+# filter out any multiple events based on has_mult_events column
+paired_assays_mult_events <- paired_assays_mult_events %>%
+  filter(has_mult_events == "no")
 
-```{r plot3}
-count$tumor_descriptor <- factor(x = count$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Metastatic", "Not Reported", "Residual", "Unavailable"))
+table(paired_assays_mult_events$has_mult_events)
 
-
-p <- ggplot(count, aes(x=cancer_group, fill=tumor_descriptor))+
-        geom_bar()+
-        scale_fill_manual(values=col9) +
-        theme_classic()+
-        ylab("Count cancer_group") +
-        ggtitle("cancer_group vs tumor_descriptor") +
-        guides(color=guide_legend(override.aes=list(size=3))) +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-        print(p)
-#ggsave("Barplot_cancer_group_tumor_descriptor_PBTA_matched_DNA-RNA.pdf", plot=p, path=plots_dir, device="pdf", height=7, width=10)
 
 ```
 
@@ -234,216 +239,188 @@ In the following section, we will provide summary table across different disease
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
 
 ```{r}
-tumor_df %>%
-  group_by(experimental_strategy) %>%
+paired_assays_mult_events %>%
+  group_by(experimental_strategy_sum) %>%
   tally() %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
+  arrange(desc(n)) 
 
-```
-
-
-
-# Diagnosis vs. any other point in time (recurrence, progressive etc)
-
-We’ll look at the breakdown of the tumor_descriptor column, separating the genomic assays from transcriptomic assays.
-
-```{r}
-tumor_descriptor_df <- tumor_df %>%
-  select(Kids_First_Participant_ID,
-         experimental_strategy,
-         tumor_descriptor,
-         cancer_group) %>%
-  arrange(Kids_First_Participant_ID)
-```
-
-
-## Genomic assays
-Setting aside the Panel sample for the moment and only looking at WXS and WGS assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
-
-
-```{r}
-genomic_df <- tumor_descriptor_df %>%
-  filter(experimental_strategy %in% c("WGS", "WXS")) %>%
-  group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(unique(tumor_descriptor)),  
-                                collapse = ", "),
-            experimental_strategy = paste(sort(unique(experimental_strategy)),
-                                          collapse = ", "),
-            cancer_group = paste(sort(unique(cancer_group)),
-                                          collapse = ", "))
-
-genomic_df %>%
-  group_by(descriptors) %>%
-  tally() %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-
-```
-
-
-## Transcriptomic assays
-Looking only at RNA-seq samples and performing the same collapsing of the tumor_descriptor column.
-
-```{r}
-transcriptomic_df <- tumor_descriptor_df %>%
-  filter(experimental_strategy == "RNA-Seq") %>%
-  group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(unique(tumor_descriptor)),  
-                                collapse = ", "),
-            experimental_strategy = unique(experimental_strategy),
-            cancer_group = paste(sort(unique(cancer_group)),
-                                          collapse = ", "))
-
-transcriptomic_df %>%
-  group_by(descriptors) %>%
-  tally() %>%
-  arrange(desc(n)) %>% 
+paired_assays_mult_events %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
-
-## Paired genomic, transcriptomic assays
-How many participants have paired genomic and transcriptomic samples for the same tumor_descriptor values?
-
-```{r}
-# if we perform a full join here using the Kids_First_Participant_ID and descriptors, we 
-# will get NAs in columns where pairs don't exist and can use this information 
-# to count
-paired_df <-
-  full_join(genomic_df, transcriptomic_df,
-                   by = c("cancer_group", "Kids_First_Participant_ID", "descriptors"))
-
-```
+## All assays
 
 ### All time points
 Count the examples where all time points have both kinds of assays.
 
 ```{r}
+# add column with descriptors by splitting match_id.
+# The following script join with pbta df generates almost double samples (2892 obs of 61 variables)
+
+# add columns with clinical information into the dataframe
+# inner join 
+# test2 <-
+#  full_join(pbta, paired_assays_mult_events_filter,
+#                   by = c("match_id", "Kids_First_Participant_ID")) %>%
+#  filter(!is.na(has_mult_events)) 
+
+#print(paired_df %>% count(tumor_descriptor_final))
+
+
+# So, instead I did the following workaround to get the cancer_group and descriptors info in the new df
+
 # no NAs = both kinds of assays are present
-paired_df %>%
-  filter(complete.cases(.)) %>%
+paired_assays_mult_events_all <- paired_assays_mult_events %>%
+    select(Kids_First_Participant_ID, match_id, experimental_strategy, experimental_strategy_sum) %>%
+    mutate(cancer_group = match_id) %>%
+    mutate(cancer_group =gsub("_..*", "", cancer_group)) %>% 
+    mutate(descriptors = match_id) %>% 
+    mutate(descriptors=gsub("..*_", "", descriptors)) %>% 
+    mutate(descriptors = case_when(grepl("Primary Tumor", descriptors) ~ "Diagnosis",
+                                 grepl("Initial CNS Tumor", descriptors) ~ "Diagnosis",
+                                 grepl('Progressive Disease Post-Mortem', descriptors) ~ 'Deceased', 
+                                 TRUE ~ descriptors))  
+
+paired_assays_mult_events_all_table <-  paired_assays_mult_events_all %>% filter(complete.cases(.)) %>%
   group_by(descriptors) %>%
   tally() %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part="all")
+
+#paired_df['Sum']=paired_df[descriptors].sum(axis=1) 
 ```
 
 
 ### Diagnosis paired with another point in time
 
 ```{r}
-Diagnosis_paired <- paired_df  %>%
-  filter(descriptors != "Diagnosis")  %>% 
-  filter(grepl("Diagnosis", descriptors))
+
+paired_Diagnosis <- paired_assays_mult_events_all  %>%
+  mutate(descriptors_new=case_when(
+    descriptors=="Diagnosis" & descriptors=="Progressive" ~ "Diagnosis-Progressive",
+    descriptors=="Diagnosis" & descriptors=="Recurrence" ~ "Diagnosis-Recurrence",
+    descriptors=="Diagnosis" & descriptors=="Deceased" ~ "Diagnosis-Deceased",
+    descriptors=="Diagnosis" & descriptors=="Second Malignancy" ~ "Diagnosis-Second Malignancy",
+    descriptors=="Diagnosis" & descriptors=="Not Reported" ~ "Diagnosis-Not Reported",
+    descriptors=="Diagnosis" & descriptors=="NA" ~ "Diagnosis-NA",
+    descriptors=="Diagnosis" & descriptors=="Residual" ~ "Diagnosis-Residual",
+    descriptors=="Diagnosis" & descriptors=="Metastatic" ~ "Diagnosis-Metastatic",
+    descriptors=="Diagnosis" & descriptors=="Unvailable" ~ "Diagnosis-Unvailable",
+    TRUE ~ "Unmatched"
+  ))
+
+
+# paired_Diagnosis1 <- paired_assays_mult_events  %>%
+#  filter(descriptors != "Diagnosis")  %>% 
+#  filter(grepl("Diagnosis", descriptors))
   
-# Save Diagnosis_paired 
-write_tsv(Diagnosis_paired, path = output_Diagnosis_paired)
-
-Diagnosis_paired <- Diagnosis_paired[with(Diagnosis_paired, order(descriptors, cancer_group)), ]
+# Save paired_Diagnosis 
+write_tsv(paired_Diagnosis, path = output_paired_Diagnosis)
 
 
-Diagnosis_paired %>%
+paired_Diagnosis %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
 
-### No RNA-seq
-If the experimental_strategy.y column has an NA, RNA-seq is missing for that participant-descriptors pair.
+## Paired Genomic and transcriptomic assays
+We will look only into pairs now.
+We will discard any samples with no DNA/RNA counterpart (for now - we can later ask the pathology lab to sequence these).
 
 ```{r}
-paired_df %>%
-  filter(is.na(experimental_strategy.y)) %>%
+# keep only paired assays
+# Same workaround as before to obtain cancer_group and descriptors information
+paired_assays_mult_events_filter <- paired_assays_mult_events %>%
+  filter(experimental_strategy_sum == "Both") %>% 
+  mutate(cancer_group = match_id) %>%
+    mutate(cancer_group =gsub("_..*", "", cancer_group)) %>% 
+    mutate(descriptors = match_id) %>% 
+    mutate(descriptors=gsub("..*_", "", descriptors)) %>% 
+    mutate(descriptors = case_when(grepl("Primary Tumor", descriptors) ~ "Diagnosis",
+                                 grepl("Initial CNS Tumor", descriptors) ~ "Diagnosis",
+                                 grepl('Progressive Disease Post-Mortem', descriptors) ~ 'Deceased', 
+                                 TRUE ~ descriptors))  
+
+# Save paired_df
+write_tsv(paired_assays_mult_events_filter, path = output_paired_assays_mult_events_filter)
+
+
+```
+
+
+### All time points
+Count the examples where all time points have both kinds of assays.
+
+```{r}
+# no NAs = both kinds of assays are present
+paired_assays_mult_events_filter %>%
+  filter(complete.cases(.)) %>%
   group_by(descriptors) %>%
-  tally() %>% 
+  tally() %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part="all")
+
+#paired_df['Sum']=paired_df[descriptors].sum(axis=1) 
+```
+
+
+### Diagnosis paired with another point in time
+
+```{r}
+
+paired_Diagnosis <- paired_assays_mult_events_filter  %>%
+  mutate(descriptors_new=case_when(
+    descriptors=="Diagnosis" & descriptors=="Progressive" ~ "Diagnosis-Progressive",
+    descriptors=="Diagnosis" & descriptors=="Recurrence" ~ "Diagnosis-Recurrence",
+    descriptors=="Diagnosis" & descriptors=="Deceased" ~ "Diagnosis-Deceased",
+    descriptors=="Diagnosis" & descriptors=="Second Malignancy" ~ "Diagnosis-Second Malignancy",
+    descriptors=="Diagnosis" & descriptors=="Not Reported" ~ "Diagnosis-Not Reported",
+    descriptors=="Diagnosis" & descriptors=="NA" ~ "Diagnosis-NA",
+    descriptors=="Diagnosis" & descriptors=="Residual" ~ "Diagnosis-Residual",
+    descriptors=="Diagnosis" & descriptors=="Metastatic" ~ "Diagnosis-Metastatic",
+    descriptors=="Diagnosis" & descriptors=="Unvailable" ~ "Diagnosis-Unvailable",
+    TRUE ~ "Unmatched"
+  ))
+
+
+#paired_Diagnosis <- paired_assays_mult_events_filter  %>%
+#  filter(descriptors != "Diagnosis")  %>% 
+#  filter(grepl("Diagnosis", descriptors))
+  
+# Save paired_Diagnosis 
+write_tsv(paired_Diagnosis, path = output_paired_Diagnosis)
+
+
+paired_Diagnosis %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
 
-### No WXS or WGS
-If the experimental_strategy.x column has an NA, there is no WGS or WXS for that participant-descriptors pair.
+
+### Paired assays and cancer_group
+Let's investigate the number of tumor samples with paired assays per cancer_group.
 
 ```{r}
-paired_df %>%
-  filter(is.na(experimental_strategy.x)) %>%
-  group_by(descriptors) %>%
-  tally() %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-```
-
-### Duplicate participant IDs
-There are cases where one timepoint (e.g., tumor_descriptor value) is missing from one kind of assay but not the other. This will show up as duplicated values in the Kids_First_Participant_ID column.
-
-```{r}
-ids_with_dups <- paired_df %>%
-  filter(duplicated(Kids_First_Participant_ID)) %>%
-  pull(Kids_First_Participant_ID)
-
-Diagnosis_paired_dup <- paired_df %>%
-  filter(Kids_First_Participant_ID %in% ids_with_dups) %>%
-  arrange(Kids_First_Participant_ID)  
-
-# Save Diagnosis_paired 
-write_tsv(Diagnosis_paired_dup, path = output_Diagnosis_paired_dup)
-
-Diagnosis_paired_dup %>%
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-```
-
-
-
-### Cohorts with low survival 
-Let's estimate how many patient samples we have with Diagnosis paired with another point in time.
-We will do this for cohorts with low survival first: Atypical Teratoid Rhabdoid Tumor (ATRT) and High-grade glioma (HGG).
-
-We will first print list with cancer_groups to confirm the name of cancer groups we are interested as potential cohorts
-and if there are any combinations of cancer_groups.
-
-```{r}
-list <-Diagnosis_paired %>% 
-      count(cancer_group)
+list <- paired_Diagnosis %>% 
+      count(cancer_group) %>% 
+      arrange(desc(n)) 
 print (list, n)
 
-list <-Diagnosis_paired_dup %>% 
-      count(cancer_group)
-print (list, n)
 
 ```
+We see that we have > 100 patient samples for Low-grade glioma, Medulloblastoma, High-grade glioma, and Ependymoma.
 
-We notice for the High-grade glioma cases there are multiple diagnoses.
-We will modify the cancer_group column to capture all possible combinations.
-
-```{r}
-Diagnosis_paired_modified <- Diagnosis_paired %>% 
-  mutate(cancer_group_modified = ifelse(cancer_group == "High-grade glioma, Low-grade glioma", "High-grade glioma",
-                                            cancer_group))
-                              
-                          
-Diagnosis_paired_dup_modified <- Diagnosis_paired_dup %>% 
-  mutate(cancer_group_modified = ifelse(cancer_group == "High-grade glioma, Infant-type hemispheric glioma", "High-grade glioma",
-                        ifelse(cancer_group == "High-grade glioma, Low-grade glioma", "High-grade glioma",
-                        ifelse(cancer_group == "High-grade glioma, Pilocytic astrocytoma", "High-grade glioma",
-                                            cancer_group))))
-  
-```  
-
-#### Atypical Teratoid Rhabdoid Tumor (ATRT)
+#### Low-grade glioma
 Per patient sample
 
 ```{r}
-cohort <- Diagnosis_paired_modified %>% 
-  filter(cancer_group_modified == "Atypical Teratoid Rhabdoid Tumor")
-
-cohort %>% 
-  count(cancer_group_modified)
+cohort <- paired_Diagnosis %>% 
+  filter(cancer_group == "Low-grade glioma")
 
 
 cohort %>% 
@@ -452,27 +429,12 @@ cohort %>%
 
 ```
 
-Per patient sample and duplicates
-
-```{r}
-
-Diagnosis_paired_dup_modified %>% 
-  filter(cancer_group_modified == "Atypical Teratoid Rhabdoid Tumor") %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-
-```
-
-
-#### High-grade glioma (HGG)
+#### Medulloblastoma
 Per patient sample
 
 ```{r}
-cohort <- Diagnosis_paired_modified %>% 
-  filter(cancer_group_modified == "High-grade glioma")
-
-cohort %>% 
-  count(cancer_group_modified)
+cohort <- paired_Diagnosis %>% 
+  filter(cancer_group == "Medulloblastoma")
 
 
 cohort %>% 
@@ -481,22 +443,34 @@ cohort %>%
 
 ```
 
-Per patient sample and duplicates
+
+#### High-grade glioma
+Per patient sample
 
 ```{r}
+cohort <- paired_Diagnosis %>% 
+  filter(cancer_group == "High-grade glioma")
 
-cohort_dup <-Diagnosis_paired_dup_modified %>% 
-  filter(cancer_group_modified == "High-grade glioma") 
 
-cohort_dup %>% 
-  count(cancer_group_modified)
-
-cohort_dup %>% 
+cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
 ```
 
+#### Ependymoma
+Per patient sample
+
+```{r}
+cohort <- paired_Diagnosis %>% 
+  filter(cancer_group == "Ependymoma")
+
+
+cohort %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+```
 
 ```{r}
 sessionInfo()
