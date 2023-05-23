@@ -77,9 +77,9 @@ if (!dir.exists(results_dir)) {
 # Outputs
 output_cohort_pbta <- file.path(results_dir, "cohort_pbta.tsv")
 output_paired_assays <- file.path(results_dir, "paired_assays.tsv")
-output_paired_assays_mult_events <- file.path(results_dir, "paired_assays_mult_events.tsv")
-output_paired_assays_mult_events_filter <- file.path(results_dir, "paired_assays_mult_events_filter.tsv")
 output_paired_Diagnosis <- file.path(results_dir, "paired_Diagnosis.tsv")
+
+output_genomic_df <- file.path(results_dir, "genomic_df.tsv")
 
 output_LGG <- file.path(results_dir, "LGG.tsv")
 output_Medulloblastoma <- file.path(results_dir, "Medulloblastoma.tsv")
@@ -279,6 +279,8 @@ genomic_df <- tumor_descriptor_df %>%
             cancer_group = paste(sort(cancer_group),
                                           collapse = ", "))
 
+# Save tumor_descriptor_df_Diagnosis
+write_tsv(genomic_df, path = output_genomic_df)
 ```
 
 
@@ -304,9 +306,11 @@ genomic_df %>%
 genomic_df %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
-  arrange(desc(n)) %>% 
+  arrange(desc(n)) %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
+
+
 ```
 
 
@@ -346,9 +350,10 @@ transcriptomic_df  %>%
 ```
 
 
-## Identify duplicate events
+## Identify duplicate events - paired assays
 We will identify duplicate events.
 We may want to discard them from further analysis.
+This identifies paired assays as well.
 
 ```{r paired_assays_mult_events, echo=TRUE}
 
@@ -414,25 +419,28 @@ paired_df %>%
 
 
 
-### Paired assays and cancer_group
-Let's investigate the number of tumor samples with paired assays per cancer_group.
+### Genomic assays and cancer_group
+Let's investigate the number of tumor samples with genomic assays per cancer_group.
 
 ```{r}
-list <- paired_df %>% 
+list <- genomic_df %>% 
       count(cancer_group) %>% 
       arrange(desc(n)) 
 print (list, n)
 
-
 ```
-We will look into the first five cancer grouos with the highest number of tumor samples.
+We will look into the first five cancer groups with the highest number of tumor samples.
 These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Diffuse midline glioma, and Ependymoma.
+BUT there are cases that the second time point has a different cancer_group. 
+This creates combinations of the same subtype, but they won't show up in the following.
+I need to update the code to reflect this. 
+For more details, see "genomic_df.tsv".
 
 #### Low-grade glioma
 Per patient sample
 
 ```{r}
-cohort <- tumor_descriptor_df_Diagnosis %>% 
+cohort <- genomic_df %>% 
   filter(cancer_group == "Low-grade glioma")
 
 
