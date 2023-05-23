@@ -419,7 +419,7 @@ We see that we have > 100 patient samples for Low-grade glioma, Medulloblastoma,
 Per patient sample
 
 ```{r}
-cohort <- paired_Diagnosis %>% 
+cohort <- tumor_descriptor_df_Diagnosis %>% 
   filter(cancer_group == "Low-grade glioma")
 
 
@@ -433,7 +433,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- paired_Diagnosis %>% 
+cohort <- tumor_descriptor_df_Diagnosis %>% 
   filter(cancer_group == "Medulloblastoma")
 
 
@@ -448,7 +448,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- paired_Diagnosis %>% 
+cohort <- tumor_descriptor_df_Diagnosis %>% 
   filter(cancer_group == "High-grade glioma")
 
 
@@ -456,13 +456,39 @@ cohort %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
+<<<<<<< Updated upstream:analyses/01_sample_distribution_analysis/01-tumor-descriptor-and-assay-count-plot.Rmd
+=======
+# Save table
+HGG <- cohort
+write_tsv(HGG, path = output_HGG)
+
+
+```
+
+#### Diffuse midline glioma
+Per patient sample
+
+```{r}
+cohort <- tumor_descriptor_df_Diagnosis %>% 
+  filter(cancer_group == "Diffuse midline glioma")
+
+
+cohort %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+# Save table
+DML <- cohort
+write_tsv(DML, path = output_DML)
+
+>>>>>>> Stashed changes:analyses/sample-distribution-analysis/01-tumor-descriptor-and-assay-count-plot.Rmd
 ```
 
 #### Ependymoma
 Per patient sample
 
 ```{r}
-cohort <- paired_Diagnosis %>% 
+cohort <- tumor_descriptor_df_Diagnosis %>% 
   filter(cancer_group == "Ependymoma")
 
 
