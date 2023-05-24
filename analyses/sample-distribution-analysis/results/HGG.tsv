@@ -1,376 +1,147 @@
-Kids_First_Participant_ID	match_id	experimental_strategy	experimental_strategy_sum	cancer_group	tumor_descriptor	tumor_descriptor_sum
-PT_01HNFSBZ	High-grade glioma_C4115334-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_01HNFSBZ	High-grade glioma_C4115334-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0324HWD5	High-grade glioma_7316-7091_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0324HWD5	High-grade glioma_7316-7091_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0BVR16FK	High-grade glioma_C4105986-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0BVR16FK	High-grade glioma_C4105986-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0DM10YSE	High-grade glioma_7316-5523_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0DXHDZJR	High-grade glioma_7316-2857_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0DXHDZJR	High-grade glioma_7316-2857_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0FGS6YME	High-grade glioma_7316-8811_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0FGS6YME	High-grade glioma_7316-8811_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0FNG5FK3	High-grade glioma_7316-7756_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0MXPTTM3	High-grade glioma_7316-3220_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0MXPTTM3	High-grade glioma_A09410_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0MXPTTM3	High-grade glioma_A09410_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0SPKM4S8	High-grade glioma_7316-2640_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0SPKM4S8	High-grade glioma_7316-2640_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_0W8VDFGD	High-grade glioma_C4111398-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_0W8VDFGD	High-grade glioma_C4111398-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_1608FN5A	High-grade glioma_C4113858-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_1608FN5A	High-grade glioma_C4113858-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_1B1Z7BRQ	High-grade glioma_7316-287_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_1FQFJ0V1	High-grade glioma_7316-5087_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_1H2REHT2	High-grade glioma_7316-3022_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_1H2REHT2	High-grade glioma_7316-3022_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_1H2REHT2	High-grade glioma_7316-3303_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_1H2REHT2	High-grade glioma_7316-3303_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_2H448D64	High-grade glioma_C4107954-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_2H448D64	High-grade glioma_C4107954-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_2KB81GB1	High-grade glioma_7316-4310_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_2KN2TFJP	High-grade glioma_7316-7680_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_2KN2TFJP	High-grade glioma_7316-7680_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_2RKP2PQH	High-grade glioma_7316-7213_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_2SFE7WGQ	High-grade glioma_7316-9497_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_2SFE7WGQ	High-grade glioma_7316-9497_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_30H1KV15	High-grade glioma_7316-1059_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_33DV5RT4	High-grade glioma_C4113981-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_33DV5RT4	High-grade glioma_C4113981-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_37B5JRP1	High-grade glioma_7316-2217_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_37B5JRP1	High-grade glioma_7316-2217_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_37B5JRP1	High-grade glioma_7316-2554_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_37B5JRP1	High-grade glioma_7316-2554_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_394ZA6P7	High-grade glioma_7316-5741_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_394ZA6P7	High-grade glioma_7316-5741_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_394ZA6P7	High-grade glioma_7316-6910_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_394ZA6P7	High-grade glioma_7316-6910_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_3AWKWXEV	High-grade glioma_7316-85_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_3AWKWXEV	High-grade glioma_7316-85_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_3CHB9PK5	High-grade glioma_7316-2085_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_3CHB9PK5	High-grade glioma_7316-2085_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_3CHB9PK5	High-grade glioma_7316-515_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_3CHB9PK5	High-grade glioma_7316-515_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_3X3MF8ZD	High-grade glioma_7316-114_Solid Tissue_RNA-Seq_Second Malignancy	RNA-Seq	RNA	High-grade glioma	Second Malignancy	Unmatched
-PT_3X3MF8ZD	High-grade glioma_7316-114_Solid Tissue_WGS_Second Malignancy	WGS	DNA	High-grade glioma	Second Malignancy	Unmatched
-PT_4347ZBEX	High-grade glioma_7316-913_Solid Tissue_RNA-Seq_Second Malignancy	RNA-Seq	RNA	High-grade glioma	Second Malignancy	Unmatched
-PT_4347ZBEX	High-grade glioma_7316-913_Solid Tissue_WGS_Second Malignancy	WGS	DNA	High-grade glioma	Second Malignancy	Unmatched
-PT_45T6E38N	High-grade glioma_7316-5227_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_45T6E38N	High-grade glioma_7316-5227_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_4B34NTJB	High-grade glioma_7316-8042_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_4B34NTJB	High-grade glioma_7316-8042_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_4WX3MW90	High-grade glioma_C4125420-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_4WX3MW90	High-grade glioma_C4125420-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_59FJRPVX	High-grade glioma_7316-3769_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_59FJRPVX	High-grade glioma_7316-3769_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5D439P2D	High-grade glioma_7316-9945_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_5D439P2D	High-grade glioma_7316-9945_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5D439P2D	High-grade glioma_7316-9945_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5Q52M9W8	High-grade glioma_7316-37_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_5R8EWT55	High-grade glioma_7316-8030_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_5R8EWT55	High-grade glioma_7316-8030_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5SKQHRC5	High-grade glioma_7316-10219_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5SKQHRC5	High-grade glioma_7316-9013_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_5SKQHRC5	High-grade glioma_7316-9013_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_5SKQHRC5	High-grade glioma_7316-9013_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_63HDZHCN	High-grade glioma_7316-2980_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_63HDZHCN	High-grade glioma_7316-2980_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_6GDPNFA6	High-grade glioma_7316-2610_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_6GDPNFA6	High-grade glioma_7316-2610_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_6KZSV3D7	High-grade glioma_C4107585-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_6KZSV3D7	High-grade glioma_C4107585-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_6SH7PV1N	High-grade glioma_7316-535_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_6SH7PV1N	High-grade glioma_7316-535_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_7570EHD9	High-grade glioma_7316-1064_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_7HSD72ZQ	High-grade glioma_7316-8808_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_7WT6P5M8	High-grade glioma_7316-2308_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_7WT6P5M8	High-grade glioma_7316-2308_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_827M0E97	High-grade glioma_C4118409-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_827M0E97	High-grade glioma_C4118409-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_83ECX0KT	High-grade glioma_7316-8816_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_83ECX0KT	High-grade glioma_7316-8816_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_84Q11Z5X	High-grade glioma_7316-288_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_87HZ0PF2	High-grade glioma_7316-6267_Solid Tissue_WGS_Second Malignancy	WGS	DNA	High-grade glioma	Second Malignancy	Unmatched
-PT_89HXDTTW	High-grade glioma_7316-4844_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_89XRZBSG	High-grade glioma_7316-1789_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_89XRZBSG	High-grade glioma_7316-1789_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_89XRZBSG	High-grade glioma_7316-445_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_89XRZBSG	High-grade glioma_7316-445_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_8AA50C9Y	High-grade glioma_C4115211-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_8AA50C9Y	High-grade glioma_C4115211-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2069_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2069_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2091_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2091_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2737_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_8GN3TQRM	High-grade glioma_7316-2737_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_8HZN8J7C	High-grade glioma_7316-8034_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_8HZN8J7C	High-grade glioma_7316-8034_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_8J4EYY40	High-grade glioma_7316-9435_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_8J4EYY40	High-grade glioma_7316-9435_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_8P368R5B	High-grade glioma_7316-4998_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_8P368R5B	High-grade glioma_7316-4998_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_9N0SR1D7	High-grade glioma_7316-249_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_9RTMDPES	High-grade glioma_7316-4220_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_9RTMDPES	High-grade glioma_7316-4220_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_9W4WTVFZ	High-grade glioma_7316-1312_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_9Z1FS69W	High-grade glioma_7316-3155_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_A0STSHYB	High-grade glioma_C4116933-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_A0STSHYB	High-grade glioma_C4116933-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_A64KYWHR	High-grade glioma_7316-4543_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_A64KYWHR	High-grade glioma_7316-4543_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_ARCM3PXM	High-grade glioma_7316-1187_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_BCZAK6Y7	High-grade glioma_C4119024-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_BCZAK6Y7	High-grade glioma_C4119024-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_BFJRXMYZ	High-grade glioma_7316-8372_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_BMK69WFB	High-grade glioma_7316-4993_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_BN8RWJEV	High-grade glioma_7316-3633_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_BNME8PG4	High-grade glioma_C4119762-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_BNME8PG4	High-grade glioma_C4119762-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_C2D4JXS1	High-grade glioma_7316-1746_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_C37ATQ8H	High-grade glioma_C4109922-Tumor_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_C37ATQ8H	High-grade glioma_C4109922-Tumor_Solid Tissue_WXS_Recurrence	WXS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_C5FKRB1P	High-grade glioma_7316-4994_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_C5FKRB1P	High-grade glioma_A14565_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_C5FKRB1P	High-grade glioma_A14565_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_C9AY9KQF	High-grade glioma_7316-5329_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_C9AY9KQF	High-grade glioma_7316-5329_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_CB1DN0V8	High-grade glioma_7316-2241_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_CCG84G7M	High-grade glioma_C4106601-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_CCG84G7M	High-grade glioma_C4106601-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_CJ3ECVWX	High-grade glioma_C4112136-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_CJ3ECVWX	High-grade glioma_C4112136-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_CKQZT20G	High-grade glioma_C4113735-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_CKQZT20G	High-grade glioma_C4113735-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_CSZ9QA1N	High-grade glioma_7316-1464_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_CSZ9QA1N	High-grade glioma_7316-371_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_D4VFV3CW	High-grade glioma_7316-3407_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_D5KKHPAE	High-grade glioma_7316-4337_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_D5KKHPAE	High-grade glioma_7316-4740_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_DF8P04Y1	High-grade glioma_7316-9253_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_DF8P04Y1	High-grade glioma_7316-9253_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_DJG9RV4E	High-grade glioma_C4110537-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_DJG9RV4E	High-grade glioma_C4110537-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_DRRTC594	High-grade glioma_7316-8856_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_DRRTC594	High-grade glioma_7316-8856_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_DS0HZCSD	High-grade glioma_7316-9843_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_DW2XRPC9	High-grade glioma_7316-1723_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_DW2XRPC9	High-grade glioma_7316-430_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_E99F32RF	High-grade glioma_7316-8420_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_E99F32RF	High-grade glioma_7316-8420_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_E9J8FNW5	High-grade glioma_C4116318-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_E9J8FNW5	High-grade glioma_C4116318-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_EN4G7A9Z	High-grade glioma_7316-9713_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_EN4G7A9Z	High-grade glioma_7316-9713_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_ETMSVEFE	High-grade glioma_7316-7681_Solid Tissue_WGS_Second Malignancy	WGS	DNA	High-grade glioma	Second Malignancy	Unmatched
-PT_EWNAWYKB	High-grade glioma_7316-6389_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_EWNAWYKB	High-grade glioma_7316-6389_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_EYNK9NJT	High-grade glioma_7316-7666_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_F0CH8F8M	High-grade glioma_7316-8048_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_F0CH8F8M	High-grade glioma_7316-8048_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_FF0NV7ZM	High-grade glioma_7316-716_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_FMS4AXKD	High-grade glioma_7316-9049_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_FS1GKF9Y	High-grade glioma_C4115949-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_FSPYCARW	High-grade glioma_7316-9072_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_FWWRWTV2	High-grade glioma_7316-6304_Solid Tissue_RNA-Seq_Second Malignancy	RNA-Seq	RNA	High-grade glioma	Second Malignancy	Unmatched
-PT_FWWRWTV2	High-grade glioma_7316-6886_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_FWWRWTV2	High-grade glioma_7316-6886_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_G3MPFYCD	High-grade glioma_7316-6535_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_G4N67N0D	High-grade glioma_7316-1057_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_G9A050X1	High-grade glioma_7316-8028_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_G9A050X1	High-grade glioma_7316-8028_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_G9A050X1	High-grade glioma_7316-8028_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_GBCZ0RW3	High-grade glioma_7316-10281_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_GBCZ0RW3	High-grade glioma_7316-10281_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_GBCZ0RW3	High-grade glioma_7316-9642_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_GBCZ0RW3	High-grade glioma_7316-9642_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_GBCZ0RW3	High-grade glioma_7316-9642_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_GHTSGFCT	High-grade glioma_7316-4438_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_GHTSGFCT	High-grade glioma_7316-4678_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_GHTSGFCT	High-grade glioma_7316-6310_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_GQH2KRKF	High-grade glioma_C4125051-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_GQH2KRKF	High-grade glioma_C4125051-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_GR02DP0Q	High-grade glioma_7316-5159_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_GR02DP0Q	High-grade glioma_7316-5159_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_H2HT2WQX	High-grade glioma_7316-619_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_H3KTPFRH	High-grade glioma_7316-717_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_H3KTPFRH	High-grade glioma_7316-717_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_HA0E85NR	High-grade glioma_7316-10221_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_HA0E85NR	High-grade glioma_7316-10221_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_HA0E85NR	High-grade glioma_7316-9304_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_HA0E85NR	High-grade glioma_7316-9304_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_HERXR7FX	High-grade glioma_7316-6039_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_HERXR7FX	High-grade glioma_7316-6039_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_HEVH2ZQ1	High-grade glioma_7316-6754_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_HF824BSM	High-grade glioma_7316-4942_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_HHG37M6W	High-grade glioma_7316-6151_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_HHG37M6W	High-grade glioma_7316-6151_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_HHG37M6W	High-grade glioma_7316-6513_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_HNZNZ635	High-grade glioma_7316-2151_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_HNZNZ635	High-grade glioma_7316-2151_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_J4GESC9A	High-grade glioma_C4114842-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_J4GESC9A	High-grade glioma_C4114842-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_J4VQP0RW	High-grade glioma_7316-526_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_J5NSRW1Y	High-grade glioma_7316-3817_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_J5NSRW1Y	High-grade glioma_7316-3817_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_JC3FDHBS	High-grade glioma_7316-6484_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_JC3FDHBS	High-grade glioma_7316-6484_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_JJ8QNAM8	High-grade glioma_7316-714_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_JJZ5PN64	High-grade glioma_7316-8964_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_JJZ5PN64	High-grade glioma_7316-8964_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_JJZ5PN64	High-grade glioma_7316-8964_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_JT9HH7M6	High-grade glioma_7316-1455_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_KBDP8ZCR	High-grade glioma_7316-1889_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_KBFM551M	High-grade glioma_7316-3214-A07082_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KBFM551M	High-grade glioma_7316-3214-A07083_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_KBFM551M	High-grade glioma_7316-3214-A07083_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KBFM551M	High-grade glioma_7316-3232_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KBFM551M	High-grade glioma_7316-3237_Solid Tissue_WGS_Progressive Disease Post-Mortem	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_KBFM551M	High-grade glioma_A07082_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KEQ53KRH	High-grade glioma_7316-440_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_KEQ53KRH	High-grade glioma_7316-440_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KX1QQQRC	High-grade glioma_7316-8939_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_KX1QQQRC	High-grade glioma_7316-8939_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KX1QQQRC	High-grade glioma_7316-8939_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_KX84KH6K	High-grade glioma_7316-2703_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_KZ04SDDS	High-grade glioma_7316-1774_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_KZ04SDDS	High-grade glioma_7316-1774_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_M2408655	High-grade glioma_C4124682-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_M2408655	High-grade glioma_C4124682-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_M8MDJNZB	High-grade glioma_7316-8965_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_M8MDJNZB	High-grade glioma_7316-8965_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2146_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2146_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2660_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2660_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2751_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-2751_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-895_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_MDWPRDBT	High-grade glioma_7316-895_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_MMMAKJJH	High-grade glioma_C4119885-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_MMMAKJJH	High-grade glioma_C4119885-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_MP85FHCR	High-grade glioma_7316-9850_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_MP85FHCR	High-grade glioma_7316-9850_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_MP85FHCR	High-grade glioma_7316-9850_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_MV5WXTQV	High-grade glioma_7316-8036_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_MV5WXTQV	High-grade glioma_7316-8036_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_MVSWHXSR	High-grade glioma_7316-8734_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_MWKY4TJ4	High-grade glioma_7316-9074_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_MXK5R7RJ	High-grade glioma_7316-1055_Solid Tissue_RNA-Seq_Second Malignancy	RNA-Seq	RNA	High-grade glioma	Second Malignancy	Unmatched
-PT_N13MXT13	High-grade glioma_7316-7758_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_N13MXT13	High-grade glioma_7316-7758_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_N32BYY8A	High-grade glioma_7316-89_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_N32BYY8A	High-grade glioma_7316-89_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_NA02P280	High-grade glioma_C4121607-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_NA02P280	High-grade glioma_C4121607-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_NC2X0HJS	High-grade glioma_7316-7668_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_NHJWA8XZ	High-grade glioma_C4113489-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_NHJWA8XZ	High-grade glioma_C4113489-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_NME1D79F	High-grade glioma_7316-7963_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_NWFDJQVK	High-grade glioma_C4124436-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_NWFDJQVK	High-grade glioma_C4124436-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_P1F0AHMT	High-grade glioma_7316-4432_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_P5HHJJPH	High-grade glioma_7316-870_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_P5HHJJPH	High-grade glioma_7316-870_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_PEHEAEVT	High-grade glioma_7316-4552_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_PF9EC93Q	High-grade glioma_7316-3765_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_PF9EC93Q	High-grade glioma_7316-3765_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_PHG2839Q	High-grade glioma_7316-9839_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_PHG2839Q	High-grade glioma_C3986061-Tumor_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_PHG2839Q	High-grade glioma_C3986061-Tumor_Solid Tissue_WXS_Deceased	WXS	DNA	High-grade glioma	Deceased	Unmatched
-PT_PWVX2F69	High-grade glioma_7316-4293_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_PZ8C9PWJ	High-grade glioma_7316-5530_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_PZ8C9PWJ	High-grade glioma_7316-5530_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_QAJRK2W9	High-grade glioma_7316-6254_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_QAJRK2W9	High-grade glioma_7316-6254_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_QBEA1CGX	High-grade glioma_7316-10711_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_QBEA1CGX	High-grade glioma_7316-10711_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_QDGVJKE0	High-grade glioma_7316-2140_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_QDGVJKE0	High-grade glioma_7316-2140_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_QQZXYR4M	High-grade glioma_7316-1946_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_QQZXYR4M	High-grade glioma_7316-1946_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_QWN0G1GH	High-grade glioma_7316-8047_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_RDWE18AC	High-grade glioma_C4114473-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_RDWE18AC	High-grade glioma_C4114473-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_RGX0DPJY	High-grade glioma_7316-7664_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_RPC00TAJ	High-grade glioma_7316-231_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_RPC00TAJ	High-grade glioma_7316-2970_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_RSDTCFDA	High-grade glioma_7316-204_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_RSDTCFDA	High-grade glioma_7316-204_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_S0Q27J13	High-grade glioma_7316-2307_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_S0Q27J13	High-grade glioma_7316-2307_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_S0Q27J13	High-grade glioma_7316-6570_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_S2BEPYQ0	High-grade glioma_7316-3000_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_S2BEPYQ0	High-grade glioma_7316-3000_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_S2M5KJTJ	High-grade glioma_7316-3655_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_S2M5KJTJ	High-grade glioma_7316-3655_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_SBE1B4CV	High-grade glioma_7316-6807_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_SBE1B4CV	High-grade glioma_7316-6807_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_SDPA6AAP	High-grade glioma_7316-624_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_SEKXH6HT	High-grade glioma_7316-4698_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_SGJK5KSB	High-grade glioma_7316-9140_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_SGJK5KSB	High-grade glioma_7316-9140_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_SW4Q1HZP	High-grade glioma_7316-8716_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_SW4Q1HZP	High-grade glioma_7316-8716_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_SYHB12RN	High-grade glioma_7316-194_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_T6VPPYVY	High-grade glioma_C4122960-Tumor_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_T6VPPYVY	High-grade glioma_C4122960-Tumor_Solid Tissue_WXS_Recurrence	WXS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_T9F17G9F	High-grade glioma_7316-8814_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_T9F17G9F	High-grade glioma_7316-8814_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_T9F17G9F	High-grade glioma_7316-8814_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_TPDB1WC8	High-grade glioma_7316-2777_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_TVJ5EGMR	High-grade glioma_7316-8033_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_TVJ5EGMR	High-grade glioma_7316-8033_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_TWAHK62W	High-grade glioma_7316-9055_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_TWAHK62W	High-grade glioma_7316-9055_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_TWAHK62W	High-grade glioma_7316-9055_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_TY4G3HAC	High-grade glioma_C4110414-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_TY4G3HAC	High-grade glioma_C4110414-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_VAJN5QP8	High-grade glioma_7316-2176_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_VAJN5QP8	High-grade glioma_7316-2176_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_VKR1MT9D	High-grade glioma_C4119639-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_VTM2STE3	High-grade glioma_7316-2189_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_VTM2STE3	High-grade glioma_7316-2189_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_VVCN8DXT	High-grade glioma_7316-71_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_VVCN8DXT	High-grade glioma_7316-71_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_VWZZTK38	High-grade glioma_7316-1844_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_WMWFCG6J	High-grade glioma_7316-8038_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_WMWFCG6J	High-grade glioma_7316-8038_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_WPQF0B3M	High-grade glioma_7316-5328_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_WPQF0B3M	High-grade glioma_7316-5328_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_WWRB8KDQ	High-grade glioma_7316-9833_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_WWRB8KDQ	High-grade glioma_7316-9833_Solid Tissue_WGS_Progressive	WGS	DNA	High-grade glioma	Progressive	Unmatched
-PT_WWRB8KDQ	High-grade glioma_C3985323-Tumor_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_WWRB8KDQ	High-grade glioma_C3985323-Tumor_Solid Tissue_WXS_Progressive	WXS	DNA	High-grade glioma	Progressive	Unmatched
-PT_X7HC5YCY	High-grade glioma_7316-255_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_X8JQPZMN	High-grade glioma_7316-9841_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_XP27KRP0	High-grade glioma_7316-3165_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_Y585X1BS	High-grade glioma_7316-622_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_Y76A7PBA	High-grade glioma_7316-2288_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_Y76A7PBA	High-grade glioma_7316-2288_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_Y8RNS9JE	High-grade glioma_7316-1656_Solid Tissue_RNA-Seq_Recurrence	RNA-Seq	RNA	High-grade glioma	Recurrence	Unmatched
-PT_Y8RNS9JE	High-grade glioma_7316-1656_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_YKFSBN25	High-grade glioma_7316-8461_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_YKFSBN25	High-grade glioma_7316-8461_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_YP8FN6MS	High-grade glioma_7316-8459_Solid Tissue_RNA-Seq_Progressive	RNA-Seq	RNA	High-grade glioma	Progressive	Unmatched
-PT_YRNATR8Q	High-grade glioma_7316-8039_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_YRNATR8Q	High-grade glioma_7316-8039_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_YSYNKHAE	High-grade glioma_7316-4466_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_YTZJ8K0X	High-grade glioma_7316-6381_Solid Tissue_RNA-Seq_Second Malignancy	RNA-Seq	RNA	High-grade glioma	Second Malignancy	Unmatched
-PT_YTZJ8K0X	High-grade glioma_7316-6381_Solid Tissue_WGS_Second Malignancy	WGS	DNA	High-grade glioma	Second Malignancy	Unmatched
-PT_Z12GNV1C	High-grade glioma_7316-6034_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_Z4BF2NSB	High-grade glioma_7316-161_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_Z4BF2NSB	High-grade glioma_7316-161_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_Z4BF2NSB	High-grade glioma_7316-5335_Solid Tissue_WGS_Recurrence	WGS	DNA	High-grade glioma	Recurrence	Unmatched
-PT_Z4BF2NSB	High-grade glioma_7316-6477_Solid Tissue_RNA-Seq_Deceased	RNA-Seq	RNA	High-grade glioma	Deceased	Unmatched
-PT_Z4BF2NSB	High-grade glioma_7316-6477_Solid Tissue_WGS_Deceased	WGS	DNA	High-grade glioma	Deceased	Unmatched
-PT_ZBHAAB3G	High-grade glioma_7316-7498_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZBHAAB3G	High-grade glioma_7316-7498_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZH3SBJPZ	High-grade glioma_7316-4215_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZKQTJ7F7	High-grade glioma_7316-9560_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZKQTJ7F7	High-grade glioma_7316-9560_Solid Tissue_WGS_Initial CNS Tumor	WGS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZKQTJ7F7	High-grade glioma_7316-9560_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZTWCA9HX	High-grade glioma_7316-8040_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZTWCA9HX	High-grade glioma_7316-8040_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZX5RFT4S	High-grade glioma_C4118778-Tumor_Solid Tissue_RNA-Seq_Initial CNS Tumor	RNA-Seq	RNA	High-grade glioma	Diagnosis	Unmatched
-PT_ZX5RFT4S	High-grade glioma_C4118778-Tumor_Solid Tissue_WXS_Initial CNS Tumor	WXS	DNA	High-grade glioma	Diagnosis	Unmatched
+Kids_First_Participant_ID	descriptors	experimental_strategy	cancer_group	cancer_group_broad
+PT_01HNFSBZ	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_0324HWD5	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_0BVR16FK	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_0DM10YSE	Diagnosis	WGS	High-grade glioma	High-grade glioma
+PT_0DXHDZJR	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_0FGS6YME	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_0MXPTTM3	Diagnosis, Diagnosis	RNA-Seq;WXS, WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_0SPKM4S8	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_0W8VDFGD	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_1608FN5A	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_2H448D64	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_2KB81GB1	Progressive	WGS	High-grade glioma	High-grade glioma
+PT_2KN2TFJP	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_2SFE7WGQ	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_33DV5RT4	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_37B5JRP1	Deceased, Diagnosis	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_394ZA6P7	Deceased, Diagnosis	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_3AWKWXEV	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_3CHB9PK5	Deceased, Diagnosis	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_3X3MF8ZD	Second Malignancy	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_4347ZBEX	Second Malignancy	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_45T6E38N	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_4B34NTJB	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_4WX3MW90	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_59FJRPVX	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_5D439P2D	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_5R8EWT55	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_5SKQHRC5	Diagnosis, Diagnosis	RNA-Seq;WGS;WXS, WXS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_63HDZHCN	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_6GDPNFA6	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_6KZSV3D7	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_6SH7PV1N	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_7HSD72ZQ	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_7WT6P5M8	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_827M0E97	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_83ECX0KT	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_87HZ0PF2	Second Malignancy	WGS	High-grade glioma	High-grade glioma
+PT_89XRZBSG	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_8AA50C9Y	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_8GN3TQRM	Deceased, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma, High-grade glioma	High-grade glioma
+PT_8HZN8J7C	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_8J4EYY40	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_8P368R5B	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_9RTMDPES	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_A0STSHYB	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_A64KYWHR	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_BCZAK6Y7	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_BFJRXMYZ	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_BN8RWJEV	Diagnosis	WGS	High-grade glioma	High-grade glioma
+PT_BNME8PG4	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_C37ATQ8H	Recurrence	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_C5FKRB1P	Diagnosis, Diagnosis	RNA-Seq;WXS, WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_C9AY9KQF	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_CCG84G7M	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_CJ3ECVWX	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_CKQZT20G	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_D4VFV3CW	Diagnosis	WGS	High-grade glioma	High-grade glioma
+PT_DF8P04Y1	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_DJG9RV4E	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_DRRTC594	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_DS0HZCSD	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_E99F32RF	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_E9J8FNW5	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_EN4G7A9Z	Progressive, Progressive	RNA-Seq;WGS, WGS	High-grade glioma, Pilocytic astrocytoma	High-grade glioma
+PT_ETMSVEFE	Second Malignancy	WGS	High-grade glioma	High-grade glioma
+PT_EWNAWYKB	Recurrence	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_EYNK9NJT	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_F0CH8F8M	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_FS1GKF9Y	Diagnosis	WXS	High-grade glioma	High-grade glioma
+PT_FSPYCARW	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_FWWRWTV2	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_G9A050X1	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_GBCZ0RW3	Diagnosis, Diagnosis	RNA-Seq;WGS;WXS, RNA-Seq;WXS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_GQH2KRKF	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_GR02DP0Q	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_H3KTPFRH	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_HA0E85NR	Diagnosis, Diagnosis	RNA-Seq;WXS, RNA-Seq;WXS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_HERXR7FX	Recurrence	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_HEVH2ZQ1	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_HNZNZ635	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_J4GESC9A	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_J4VQP0RW	Diagnosis	WGS	High-grade glioma	High-grade glioma
+PT_J5NSRW1Y	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_JC3FDHBS	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_JJZ5PN64	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_KBFM551M	Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis	RNA-Seq;WGS, WGS, WGS, WGS, WXS	High-grade glioma, High-grade glioma, High-grade glioma, High-grade glioma, High-grade glioma	High-grade glioma
+PT_KEQ53KRH	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_KX1QQQRC	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_KZ04SDDS	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_M2408655	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_M8MDJNZB	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_MDWPRDBT	Deceased, Progressive, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma, High-grade glioma, High-grade glioma	High-grade glioma
+PT_MMMAKJJH	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_MP85FHCR	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_MV5WXTQV	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_MWKY4TJ4	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_N13MXT13	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_N32BYY8A	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_NA02P280	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_NC2X0HJS	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_NHJWA8XZ	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_NME1D79F	Recurrence	WGS	High-grade glioma	High-grade glioma
+PT_NWFDJQVK	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_P5HHJJPH	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_PF9EC93Q	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_PHG2839Q	Deceased, Deceased	RNA-Seq;WXS, WGS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_PZ8C9PWJ	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_QAJRK2W9	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_QBEA1CGX	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_QDGVJKE0	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_QQZXYR4M	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_QWN0G1GH	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_RDWE18AC	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_RSDTCFDA	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_S0Q27J13	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_S2BEPYQ0	Deceased	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_S2M5KJTJ	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_SBE1B4CV	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_SGJK5KSB	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_SW4Q1HZP	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_SYHB12RN	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_T6VPPYVY	Recurrence	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_T9F17G9F	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_TVJ5EGMR	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_TWAHK62W	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_TY4G3HAC	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_VAJN5QP8	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_VKR1MT9D	Diagnosis	WXS	High-grade glioma	High-grade glioma
+PT_VTM2STE3	Progressive	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_VVCN8DXT	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_WMWFCG6J	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_WPQF0B3M	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_WWRB8KDQ	Progressive, Progressive	RNA-Seq;WGS, RNA-Seq;WXS	High-grade glioma, High-grade glioma	High-grade glioma
+PT_X8JQPZMN	Deceased	WGS	High-grade glioma	High-grade glioma
+PT_XP27KRP0	Recurrence	WGS	High-grade glioma	High-grade glioma
+PT_Y76A7PBA	Recurrence	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_Y8RNS9JE	Recurrence	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_YKFSBN25	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_YRNATR8Q	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_YTZJ8K0X	Second Malignancy	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_Z12GNV1C	Diagnosis	WGS	High-grade glioma	High-grade glioma
+PT_Z4BF2NSB	Deceased, Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	High-grade glioma, High-grade glioma, High-grade glioma	High-grade glioma
+PT_ZBHAAB3G	Diagnosis	RNA-Seq;WGS	High-grade glioma	High-grade glioma
+PT_ZKQTJ7F7	Diagnosis	RNA-Seq;WGS;WXS	High-grade glioma	High-grade glioma
+PT_ZTWCA9HX	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma
+PT_ZX5RFT4S	Diagnosis	RNA-Seq;WXS	High-grade glioma	High-grade glioma

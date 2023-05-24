@@ -36,14 +36,11 @@ Rscript -e "rmarkdown::render('analyses/01_sample_distribution_analysis/01-tumor
 # Set up
 
 ```{r load-library}
-
 suppressPackageStartupMessages({
   library(tidyverse)
   library(ggplot2)
   library(flextable)
 })
-
-
 ```
 
 ## Directories and File Inputs/Outputs
@@ -52,13 +49,13 @@ suppressPackageStartupMessages({
 # Detect the ".git" folder -- this will be in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
+
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
 
 
 # File path to input directory
-input_dir <-
-  file.path(root_dir, "input")
+input_dir <- file.path(root_dir, "input")
 
 
 # Inputs
@@ -75,18 +72,19 @@ if (!dir.exists(results_dir)) {
 
 
 # Outputs
-output_cohort_pbta <- file.path(results_dir, "cohort_pbta.tsv")
-output_paired_assays <- file.path(results_dir, "paired_assays.tsv")
-output_paired_Diagnosis <- file.path(results_dir, "paired_Diagnosis.tsv")
+output_pbta <- file.path(results_dir, "pbta.tsv")
+output_paired_assays_all <- file.path(results_dir, "paired_assays_all.tsv")
 
 output_genomic_df <- file.path(results_dir, "genomic_df.tsv")
+output_transcriptomic_df <- file.path(results_dir, "transcriptomic_df.tsv")
+output_paired_assays_all_filter <- file.path(results_dir, "paired_assays_all_filter.tsv")
+
 
 output_LGG <- file.path(results_dir, "LGG.tsv")
 output_Medulloblastoma <- file.path(results_dir, "Medulloblastoma.tsv")
 output_HGG <- file.path(results_dir, "HGG.tsv")
 output_DML <- file.path(results_dir, "DML.tsv")
 output_Ependymoma <- file.path(results_dir, "Ependymoma.tsv")
-
 ```
 
 
@@ -95,7 +93,6 @@ output_Ependymoma <- file.path(results_dir, "Ependymoma.tsv")
 # Inputs
 ## Read in metadata
 v12 <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
-
 ```
 
 # Process Data
@@ -127,7 +124,7 @@ pbta <- v12 %>%
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
            # !is.na(cancer_group) # Discard NAs in cancer type
-  mutate(match_id = paste(cancer_group, sample_id, composition, experimental_strategy, tumor_descriptor, sep = "_")) %>% 
+  mutate(match_id = paste(cancer_group, sample_id, composition, tumor_descriptor, sep = "_")) %>% 
   mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
                                             grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
                                             grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
@@ -138,7 +135,7 @@ pbta <- v12 %>%
 print(pbta %>% count(tumor_descriptor_final))
 
 # Save pbta after filter 
-write_tsv(pbta, path = output_cohort_pbta)
+write_tsv(pbta, path = output_pbta)
 ```
 
 
@@ -146,28 +143,30 @@ write_tsv(pbta, path = output_cohort_pbta)
 Let's select all patient samples containing both genomic and transcriptomic assays.
 
 ```{r assays, echo=TRUE}
-
 print(length(unique(pbta$Kids_First_Participant_ID)))
 print(length(unique(pbta$match_id)))
 
 assays <- pbta %>%
   select(Kids_First_Participant_ID, tumor_descriptor_final, match_id, experimental_strategy, cancer_group) %>%
   unique() %>%
-  arrange(Kids_First_Participant_ID)
+  arrange(Kids_First_Participant_ID, experimental_strategy)
 
 
 # we perform join here using the Kids_First_Participant_ID and match_id
 # THIS PART I AM NOT SURE OF 
-paired_assays <- assays %>%
+paired_assays_all <- assays %>%
   group_by(Kids_First_Participant_ID, match_id) %>%
   summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>%
-  mutate(experimental_strategy_sum = case_when(grepl("WGS", experimental_strategy) ~ "DNA",
-                                                grepl("WXS", experimental_strategy) ~ "DNA", 
-                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA",
-                                                TRUE ~ experimental_strategy)) 
+  mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
+                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
+                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"
+                                                ))  
   
+
+
+
 # Save paired_assays 
-write_tsv(paired_assays, path = output_paired_assays)
+write_tsv(paired_assays_all, path = output_paired_assays_all)
 ```
 
 
@@ -180,20 +179,19 @@ In the following section, we will provide summary table across different disease
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
 
 ```{r}
-paired_assays %>%
+paired_assays_all %>%
   group_by(experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
-paired_assays %>%
+paired_assays_all %>%
   group_by(experimental_strategy_sum) %>%
   tally() %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
 ```
 
 
@@ -203,7 +201,7 @@ paired_assays %>%
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic assays from transcriptomic assays.
 
 ```{r}
-tumor_descriptor_df <- paired_assays %>%
+tumor_descriptor_df <- paired_assays_all %>%
     select(Kids_First_Participant_ID, match_id, experimental_strategy, experimental_strategy_sum) %>%
     mutate(cancer_group = match_id) %>%
     mutate(cancer_group =gsub("_..*", "", cancer_group)) %>% 
@@ -225,44 +223,30 @@ tumor_descriptor_df %>%
 
 ```
 
-The following table was supposed to provide matched different time points and summarize the information under the "tumor_descriptor_sum" column.
-But it doesn't work for now.
+The following table is to provide matched different time points and summarize the information under the "tumor_descriptor_sum" column.
 
 Also, notice how for the first patient with PT_00G007DM, there are two different cancer_group assigned, which creates double events per assay.
 Why does this happen? Maybe to exclude cancer_group in match_id?
 
 
 ```{r}
-
-tumor_descriptor_df_Diagnosis <- tumor_descriptor_df  %>%
-  mutate(tumor_descriptor_sum=case_when(
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Progressive" ~ "Diagnosis-Progressive",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Recurrence" ~ "Diagnosis-Recurrence",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Deceased" ~ "Diagnosis-Deceased",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Second Malignancy" ~ "Diagnosis-Second Malignancy",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Not Reported" ~ "Diagnosis-Not Reported",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="NA" ~ "Diagnosis-NA",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Residual" ~ "Diagnosis-Residual",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Metastatic" ~ "Diagnosis-Metastatic",
-    tumor_descriptor=="Diagnosis" & tumor_descriptor=="Unvailable" ~ "Diagnosis-Unvailable",
+tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) %>%
+  mutate(tumor_descriptor_sum = case_when(
+    grepl("-", tumor_descriptor_sum) ~ tumor_descriptor_sum,
     TRUE ~ "Unmatched"
   ))
 
 
-# Save tumor_descriptor_df_Diagnosis
-write_tsv(tumor_descriptor_df_Diagnosis, path = output_paired_Diagnosis)
-
-
 tumor_descriptor_df_Diagnosis %>%
+  group_by(tumor_descriptor_sum) %>%
+  tally() %>%
+  arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ``` 
 
-!!!!!!!!!
-ATTENTION
-This is not working properly. They are matched time points within patients with paired assays.
-For example, patient with Kids_First_Participant_ID = PT_00G007DM.
-!!!!!!!!!
 
 ## Genomic assays
 Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain WXS and WGS assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
@@ -270,7 +254,7 @@ Setting aside the RNA-Seq for the moment and only looking at the patient samples
 
 ```{r}
 genomic_df <- tumor_descriptor_df %>%
-  filter(!(experimental_strategy_sum == "RNA")) %>% 
+  filter(!(experimental_strategy_sum == "RNA")) %>%   # filter(!grepl("RNA", experimental_strategy_sum))
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(tumor_descriptor),  
                                 collapse = ", "),
@@ -279,7 +263,7 @@ genomic_df <- tumor_descriptor_df %>%
             cancer_group = paste(sort(cancer_group),
                                           collapse = ", "))
 
-# Save tumor_descriptor_df_Diagnosis
+# Save genomic_df
 write_tsv(genomic_df, path = output_genomic_df)
 ```
 
@@ -309,8 +293,6 @@ genomic_df %>%
   arrange(desc(n)) %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-
 ```
 
 
@@ -319,13 +301,16 @@ Looking only at RNA-seq samples and performing the same collapsing of the tumor_
 
 ```{r}
 transcriptomic_df <- tumor_descriptor_df %>%
-  filter(experimental_strategy == "RNA-Seq") %>%
+  filter(experimental_strategy_sum %in% c("DNA,RNA", "RNA")) %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(unique(tumor_descriptor)),  
                                 collapse = ", "),
             experimental_strategy = unique(experimental_strategy),
             cancer_group = paste(sort(unique(cancer_group)),
                                           collapse = ", "))
+
+# Save transcriptomic_df
+write_tsv(transcriptomic_df, path = output_transcriptomic_df)
 ```
 
 
@@ -350,15 +335,58 @@ transcriptomic_df  %>%
 ```
 
 
+## Paired genomic and transcriptomic assays
+We will look only into aired asssays now.
+
+
+```{r}
+paired_assays_all_filter <- tumor_descriptor_df %>%
+  filter((experimental_strategy_sum == "DNA,RNA")) %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarize(descriptors = paste(sort(tumor_descriptor),  
+                                collapse = ", "),
+            experimental_strategy = paste(sort(experimental_strategy),
+                                          collapse = ", "),
+            cancer_group = paste(sort(cancer_group),
+                                          collapse = ", "))
+
+# Save paired_assays_filter
+write_tsv(paired_assays_all_filter, path = output_paired_assays_all_filter)
+```
+
+
+### All time points with paired genomic and transcriptomic assays
+Count the examples where all time points have both kinds of assays.
+
+
+```{r}
+paired_assays_filter %>%
+  group_by(descriptors) %>%
+  tally() %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+
+```{r}
+paired_assays_filter %>%
+  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+
 ## Identify duplicate events - paired assays
 We will identify duplicate events.
 We may want to discard them from further analysis.
 This identifies paired assays as well.
 
 ```{r paired_assays_mult_events, echo=TRUE}
-
 # identify multiple events per patient sample
-paired_assays_mult_events <- paired_assays %>%
+paired_assays_mult_events <- paired_assays_all %>%
   group_by(Kids_First_Participant_ID) %>%
   summarise(match_id = str_c(match_id, collapse = "~"),
             experimental_strategy = str_c(experimental_strategy, collapse = "~"),
@@ -379,45 +407,6 @@ table(paired_assays_mult_events$has_mult_events)
 ```
 
 
-## Paired genomic, transcriptomic assays
-How many participants have paired genomic and transcriptomic samples for the same tumor_descriptor values?
-
-```{r}
-# if we perform a full join here using the Kids_First_Participant_ID and descriptors, we 
-# will get NAs in columns where pairs don't exist and can use this information 
-# to count
-paired_df <-
-  full_join(genomic_df, transcriptomic_df,
-                   by = c("cancer_group", "Kids_First_Participant_ID", "descriptors", "experimental_strategy"))
-
-```
-
-### All time points
-Count the examples where all time points have both kinds of assays.
-
-```{r}
-# no NAs = both kinds of assays are present
-paired_df %>%
-  filter(complete.cases(.)) %>%
-  group_by(descriptors) %>%
-  tally() %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part="all")
-```
-
-
-
-```{r}
-paired_df %>%
-  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
-  tally() %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-```
-
-
 
 ### Genomic assays and cancer_group
 Let's investigate the number of tumor samples with genomic assays per cancer_group.
@@ -427,22 +416,31 @@ list <- genomic_df %>%
       count(cancer_group) %>% 
       arrange(desc(n)) 
 print (list, n)
-
 ```
 We will look into the first five cancer groups with the highest number of tumor samples.
-These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Diffuse midline glioma, and Ependymoma.
+These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Ependymoma, and Diffuse midline glioma.
+
 BUT there are cases that the second time point has a different cancer_group. 
 This creates combinations of the same subtype, but they won't show up in the following.
-I need to update the code to reflect this. 
-For more details, see "genomic_df.tsv".
+Let's summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a lter stage of the disease.
+We will only do this for the first five histologies for now.
+
+```{r}
+genomic_df <- genomic_df %>% 
+  mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
+                                        grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma", 
+                                        grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
+                                        grepl("Ependymoma", cancer_group) ~ "Ependymoma", 
+                                        grepl("Diffuse midline glioma", cancer_group) ~ "Diffuse midline glioma"))
+```
+
 
 #### Low-grade glioma
 Per patient sample
 
 ```{r}
 cohort <- genomic_df %>% 
-  filter(cancer_group == "Low-grade glioma")
-
+  filter(cancer_group_broad == "Low-grade glioma")
 
 cohort %>% 
   regulartable() %>%
@@ -458,9 +456,8 @@ write_tsv(LGG, path = output_LGG)
 Per patient sample
 
 ```{r}
-cohort <- tumor_descriptor_df_Diagnosis %>% 
-  filter(cancer_group == "Medulloblastoma")
-
+cohort <- genomic_df %>% 
+  filter(cancer_group_broad == "Medulloblastoma")
 
 cohort %>% 
   regulartable() %>%
@@ -469,7 +466,6 @@ cohort %>%
 # Save table
 Medulloblastoma <- cohort
 write_tsv(LGG, path = output_Medulloblastoma)
-
 ```
 
 
@@ -477,9 +473,8 @@ write_tsv(LGG, path = output_Medulloblastoma)
 Per patient sample
 
 ```{r}
-cohort <- tumor_descriptor_df_Diagnosis %>% 
-  filter(cancer_group == "High-grade glioma")
-
+cohort <- genomic_df %>% 
+  filter(cancer_group_broad == "High-grade glioma")
 
 cohort %>% 
   regulartable() %>%
@@ -496,8 +491,8 @@ write_tsv(HGG, path = output_HGG)
 Per patient sample
 
 ```{r}
-cohort <- tumor_descriptor_df_Diagnosis %>% 
-  filter(cancer_group == "Diffuse midline glioma")
+cohort <- genomic_df %>% 
+  filter(cancer_group_broad == "Diffuse midline glioma")
 
 
 cohort %>% 
@@ -514,8 +509,8 @@ write_tsv(DML, path = output_DML)
 Per patient sample
 
 ```{r}
-cohort <- tumor_descriptor_df_Diagnosis %>% 
-  filter(cancer_group == "Ependymoma")
+cohort <- genomic_df %>% 
+  filter(cancer_group_broad == "Ependymoma")
 
 
 cohort %>% 

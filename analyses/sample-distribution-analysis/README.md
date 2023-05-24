@@ -20,13 +20,14 @@ The structure of this folder is as follows:
 │   ├── PBTA-germline-histology-groups-plot-mapping.tsv
 ├── README.md
 ├── results
-    ├── cohort_pbta.tsv
     ├── DML.tsv
-    ├── Ependymoma.tsv
+    ├── Ependymoma.tsv
     ├── genomic_df.tsv
     ├── HGG.tsv
     ├── LGG.tsv
     ├── Medulloblastoma.tsv
-    ├── paired_assays.tsv
-    └── paired_Diagnosis.tsv
+    ├── paired_assays_all.tsv
+    ├── paired_assays_all_filter.tsv
+    ├── pbta.tsv
+    └── transcriptomic_df.tsv
 ```
