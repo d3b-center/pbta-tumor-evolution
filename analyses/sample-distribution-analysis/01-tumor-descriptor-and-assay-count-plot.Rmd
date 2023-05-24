@@ -55,7 +55,13 @@ setwd(root_dir)
 
 
 # File path to input directory
+<<<<<<< HEAD
 input_dir <- file.path(root_dir, "input")
+=======
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
+input_dir <- file.path(analysis_dir, "input")
+  file.path(root_dir, "input")
+>>>>>>> add-sample-distribution
 
 
 # Inputs
@@ -65,7 +71,7 @@ input_cols <- file.path(input_dir, "PBTA-germline-histology-groups-plot-mapping.
 
 # File path to results directory
 results_dir <-
-  file.path(root_dir, "results")
+  file.path(analysis_dir, "results")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
@@ -124,7 +130,11 @@ pbta <- v12 %>%
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
            # !is.na(cancer_group) # Discard NAs in cancer type
+<<<<<<< HEAD
   mutate(match_id = paste(cancer_group, sample_id, composition, tumor_descriptor, sep = "_")) %>% 
+=======
+  mutate(match_id = paste(cancer_group, sample_id, composition,  tumor_descriptor, sep = "_")) %>% 
+>>>>>>> add-sample-distribution
   mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
                                             grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
                                             grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
@@ -149,7 +159,11 @@ print(length(unique(pbta$match_id)))
 assays <- pbta %>%
   select(Kids_First_Participant_ID, tumor_descriptor_final, match_id, experimental_strategy, cancer_group) %>%
   unique() %>%
+<<<<<<< HEAD
   arrange(Kids_First_Participant_ID, experimental_strategy)
+=======
+  arrange(Kids_First_Participant_ID, experimental_strategy))
+>>>>>>> add-sample-distribution
 
 
 # we perform join here using the Kids_First_Participant_ID and match_id
@@ -160,7 +174,11 @@ paired_assays_all <- assays %>%
   mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
                                                 grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
                                                 grepl("RNA-Seq", experimental_strategy) ~ "RNA"
+<<<<<<< HEAD
                                                 ))  
+=======
+                                                )) 
+>>>>>>> add-sample-distribution
   
 
 
