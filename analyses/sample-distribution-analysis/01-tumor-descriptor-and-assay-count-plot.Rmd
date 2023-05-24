@@ -162,10 +162,10 @@ assays <- pbta %>%
 paired_assays <- assays %>%
   group_by(Kids_First_Participant_ID, match_id) %>%
   summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>%
-  mutate(experimental_strategy_sum = case_when(grepl("WGS", experimental_strategy) ~ "DNA",
-                                                grepl("WXS", experimental_strategy) ~ "DNA", 
-                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA",
-                                                TRUE ~ experimental_strategy)) 
+  mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
+                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
+                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"
+                                                )) 
   
 # Save paired_assays 
 write_tsv(paired_assays, path = output_paired_assays)
