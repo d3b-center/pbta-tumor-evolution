@@ -128,7 +128,7 @@ pbta <- v12 %>%
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
            # !is.na(cancer_group) # Discard NAs in cancer type
-  mutate(match_id = paste(cancer_group, sample_id, composition, experimental_strategy, tumor_descriptor, sep = "_")) %>% 
+  mutate(match_id = paste(cancer_group, sample_id, composition,  tumor_descriptor, sep = "_")) %>% 
   mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
                                             grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
                                             grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
