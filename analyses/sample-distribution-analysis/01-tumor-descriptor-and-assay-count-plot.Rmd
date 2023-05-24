@@ -57,7 +57,8 @@ setwd(root_dir)
 
 
 # File path to input directory
-input_dir <-
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
+input_dir <- file.path(analysis_dir, "input")
   file.path(root_dir, "input")
 
 
