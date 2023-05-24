@@ -195,7 +195,6 @@ paired_assays_all %>%
 ```
 
 
-
 # Diagnosis vs. any other point in time (recurrence, progressive etc)
 
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic assays from transcriptomic assays.
@@ -224,10 +223,6 @@ tumor_descriptor_df %>%
 ```
 
 The following table is to provide matched different time points and summarize the information under the "tumor_descriptor_sum" column.
-
-Also, notice how for the first patient with PT_00G007DM, there are two different cancer_group assigned, which creates double events per assay.
-Why does this happen? Maybe to exclude cancer_group in match_id?
-
 
 ```{r}
 tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
@@ -422,7 +417,7 @@ These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Ependymoma, and
 
 BUT there are cases that the second time point has a different cancer_group. 
 This creates combinations of the same subtype, but they won't show up in the following.
-Let's summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a lter stage of the disease.
+Let's summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.
 We will only do this for the first five histologies for now.
 
 ```{r}
@@ -449,7 +444,6 @@ cohort %>%
 # Save table
 LGG <- cohort
 write_tsv(LGG, path = output_LGG)
-
 ```
 
 #### Medulloblastoma
@@ -483,8 +477,6 @@ cohort %>%
 # Save table
 HGG <- cohort
 write_tsv(HGG, path = output_HGG)
-
-
 ```
 
 #### Diffuse midline glioma
@@ -502,7 +494,6 @@ cohort %>%
 # Save table
 DML <- cohort
 write_tsv(DML, path = output_DML)
-
 ```
 
 #### Ependymoma
@@ -520,7 +511,6 @@ cohort %>%
 # Save table
 Ependymoma <- cohort
 write_tsv(Ependymoma, path = output_Ependymoma)
-
 ```
 
 ```{r}
