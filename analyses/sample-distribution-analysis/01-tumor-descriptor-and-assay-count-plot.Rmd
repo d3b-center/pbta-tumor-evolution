@@ -154,7 +154,7 @@ print(length(unique(pbta$match_id)))
 assays <- pbta %>%
   select(Kids_First_Participant_ID, tumor_descriptor_final, match_id, experimental_strategy, cancer_group) %>%
   unique() %>%
-  arrange(Kids_First_Participant_ID)
+  arrange(Kids_First_Participant_ID, experimental_strategy))
 
 
 # we perform join here using the Kids_First_Participant_ID and match_id
