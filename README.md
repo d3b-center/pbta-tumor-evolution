@@ -29,6 +29,7 @@ docker exec -ti <CONTAINER_NAME> bash
 
 ```
 .
+├── data
 ├── Dockerfile
 ├── README.md
 └── scripts
