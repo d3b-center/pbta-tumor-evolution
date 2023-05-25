@@ -47,7 +47,7 @@
 
 #### Documentation Checklist
 
-<!-- Please review https://github.com/AlexsLemonade/OpenPBTA-analysis#documenting-your-analysis -->
+<!-- Please review https://github.com/d3b-center/pbta-tumor-evolution#documenting-your-analysis -->
 
 - [ ] This analysis module has a `README` and it is up to date.
 - [ ] This analysis is recorded in the table in `analyses/README.md` and the entry is up to date.

@@ -1,6 +1,6 @@
 ---
 name: Data question
-about: Use this to ask a question about or report an issue with the OpenPBTA data
+about: Use this to ask a question about or report an issue with the pbta-tumor-evolution analysis
 title: ''
 labels: data
 assignees: ''
@@ -16,7 +16,7 @@ assignees: ''
 
 
 
-#### Put a link to the relevant section of the [OpenPBTA-manuscript](https://github.com/AlexsLemonade/OpenPBTA-manuscript/) here.
+#### Put a link to the relevant section of the [pbta-tumor-evolution](https://github.com/d3b-center/pbta-tumor-evolution/) here.
 
 
 

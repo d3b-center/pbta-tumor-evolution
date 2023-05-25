@@ -13,7 +13,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     container:
-      image: rocker/tidyverse:3.6.3
+      image: rocker/tidyverse:4.2
 
     # We want to count the contributions to the master branch
     steps:
@@ -126,8 +126,8 @@ jobs:
           body: |
             ### Description
 
-            This PR auto-generated from GitHub Actions workflow that counts git contributions and sets author order accordingly in the `AlexsLemonade/OpenPBTA-analysis` repo.
-            See [the relevant module](https://github.com/AlexsLemonade/OpenPBTA-analysis/tree/master/analyses/count-contributions) for more info.
+            This PR auto-generated from GitHub Actions workflow that counts git contributions and sets author order accordingly in the `d3b-center/pbta-tumor-evolution` repo.
+            See [the relevant module](https://github.com/d3b-center/pbta-tumor-evolution/tree/master/analyses/count-contributions) for more info.
  
             ### Instruction for reviewers
 
