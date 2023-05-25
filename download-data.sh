@@ -35,7 +35,7 @@ then
   echo "Downloading ${GENCODE39##*/}"
   curl -O $GENCODE39
 fi
-
+cd ..
 
 # Check the md5s for everything we downloaded except CHANGELOG.md
 cd data/$RELEASE
