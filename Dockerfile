@@ -44,8 +44,12 @@ RUN apt-get -y --no-install-recommends install \
 # install R packages from CRAN
 RUN install2.r \
 	BiocManager \
+  cDriver \
+  clonevol \
   ComplexHeatmap \
   data.table \
+  devtools \
+  fishplot \
   flextable \
   ggpubr \
   ggthemes \
