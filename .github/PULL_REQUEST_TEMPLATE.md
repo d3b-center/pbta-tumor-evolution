@@ -43,7 +43,6 @@
 <!-- Check all those that apply or remove this section if it is not applicable.-->
 
 - [ ] The dependencies required to run the code in this pull request have been added to the project Dockerfile.
-- [ ] This analysis has been added to continuous integration.
 
 #### Documentation Checklist
 
