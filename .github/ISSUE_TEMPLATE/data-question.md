@@ -16,7 +16,6 @@ assignees: ''
 
 
 
-#### Put a link to the relevant section of the [pbta-tumor-evolution](https://github.com/d3b-center/pbta-tumor-evolution/) here.
 
 
 
