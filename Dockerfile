@@ -53,10 +53,12 @@ RUN install2.r \
   flextable \
   ggpubr \
   ggthemes \
+  immunedeconv \
   msigdbr \
 	optparse \
 	pheatmap \
 	RColorBrewer \
+  rlist \
 	survival \
   survMisc \
   survminer \
