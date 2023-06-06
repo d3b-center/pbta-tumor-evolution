@@ -1,152 +1,21 @@
 Kids_First_Participant_ID	descriptors	experimental_strategy	cancer_group	cancer_group_broad
 PT_04V47WFC	Diagnosis, Progressive, Progressive	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_04X0KGW6	Second Malignancy	WGS	Ependymoma	Ependymoma
-PT_06H29FCG	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_0NY38X3W	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_0Q13NSP5	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_0WKX8Q5X	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_101VYN5T	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_14Z5353Q	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_164RNWTT	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1B265M3A	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1DY2TP9N	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1KY3PW1Z	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1MW98VR1	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1PZC01QF	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_1Z015H6V	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_22F1768J	Deceased	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_23K3YS1P	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_2CJ31SBX	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_2DEB3637	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_2SCVQ2N6	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_32H0CD1P	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_32JK6Z61	Deceased	WGS	Ependymoma	Ependymoma
-PT_360E6Z0S	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_3A2Q62RD	Diagnosis, Progressive, Progressive	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_3KWSRWZN	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_3PK66TJY	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_3R0P995B	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
 PT_3VCS1PPF	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_46F28BFH	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_625X34JX	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_67R1AF5R	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_6B7ZN2M9	Recurrence	RNA-Seq;WXS	Ependymoma	Ependymoma
-PT_6B8W4B6B	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_6BX46NVR	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_6N4TJ9G3	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_6NSPR99T	Deceased	WGS	Ependymoma	Ependymoma
-PT_6TMT65YA	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_6WZ8RVRQ	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_765TC2XG	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_7E3V3JFX	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_82A9SDRN	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_8D8V9PBH	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_8RB7TPS2	Diagnosis, Diagnosis	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_8SDJXNFR	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_94BFYTVZ	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_99S5BPE3	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_9AW9EWHA	Recurrence	WGS	Ependymoma	Ependymoma
-PT_AH6K40Q7	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_AJJFDXQS	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_AY2BVCYP	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_B1J3PZXF	Diagnosis	RNA-Seq;WXS	Ependymoma	Ependymoma
 PT_B5DQ8FF0	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_BNARR0N6	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_BWN251DF	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_BZCJMEX8	Diagnosis, Recurrence	RNA-Seq;WGS, WGS	Ependymoma, Ependymoma	Ependymoma
 PT_C1RDBCVM	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_C4P0F36E	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_C94VR1Y2	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_CMB6TASJ	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_CPYZVCN8	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_CYBYN18G	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_CYVVA9AB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_D3AN5M5W	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_D6AJHDST	Progressive, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
 PT_DNAJYFZT	Deceased, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_E0QNEXZ8	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_E4F78SHX	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_EB89G70N	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_ECMZCNTF	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_EG7PH32E	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_EP0C760T	Diagnosis	WGS	Ependymoma	Ependymoma
 PT_EQX0VT4F	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_ESC6NXTS	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_EZW3S4F1	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_FCM7XPVR	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_FHDZNN40	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_FSR10RSN	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_G0CGYF8E	Recurrence	WGS	Ependymoma	Ependymoma
-PT_G4HD4QTK	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_GAM3E6M3	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_GBN55D2P	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_GDE98S17	Recurrence	WGS	Ependymoma	Ependymoma
-PT_GH27VJBD	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_GK725SCY	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_GMFX689Z	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_GXBA7S2C	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_H876VB6R	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_HV6XEG0K	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_J8C3VPNF	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_JCFBT5TR	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_JJKK6YFQ	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_JN3EN2HR	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_JP1FDKN9	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_JXSTA5HB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_K2YDNZDA	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_K84J9401	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_KVFS3Z2Q	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_MT27S7S4	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_N4PR21ME	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_N9KYV4WB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_N9W4GT6D	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_NAYJ2G2E	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_NJQ26FHN	Deceased, Diagnosis, Recurrence	RNA-Seq;WGS, WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
 PT_NPETR8RY	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_NYBH025T	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_PAPEQ0T0	Diagnosis, Diagnosis, Progressive	RNA-Seq;WGS, WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_PB4Q0ZX1	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_PKP1250P	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_QBAA2E23	Diagnosis	RNA-Seq;WXS	Ependymoma	Ependymoma
-PT_QHBEC0M5	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_QT9PS43V	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_QVQC3KY1	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_QVWCRKZM	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_QZN7FZER	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_R6WWH1QX	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_RM5S859Q	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_RNVACT1Q	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_RY0GF9JR	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_S4H6KA09	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_S8E3281G	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_T4VKB29K	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_T4VN7ZRB	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_TE4DP9BW	Diagnosis	RNA-Seq;WXS	Ependymoma	Ependymoma
 PT_TP6GS00H	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_TY3W122M	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_V0X73HEQ	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_V3Q78E6F	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VBVZ2NAR	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VD2DHTMY	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VE0Q731Y	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VG6S9YQ9	Recurrence	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VN04Y016	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_VY7PV323	Not Reported	RNA-Seq;WXS	Ependymoma	Ependymoma
-PT_W17NV5YG	Diagnosis, Diagnosis	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
-PT_WKNKNYHH	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_WQ2EJVF5	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_X7GTQR9N	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_XHYBZKCX	Diagnosis, Unavailable	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, NA	Ependymoma
-PT_YDGG20RS	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_YDQMJZJB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_YHV7AGAY	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_YHYP7ZKK	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_YM51XZH0	Deceased	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_YXZPWFVB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_Z4GS3ZQQ	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Dysembryoplastic neuroepithelial tumor, Ependymoma	Ependymoma
-PT_ZA95JQEB	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_ZD45GXZ0	Progressive	RNA-Seq;WGS	Ependymoma	Ependymoma
-PT_ZNYCHPNG	Diagnosis	WGS	Ependymoma	Ependymoma
-PT_ZWY04DCR	Diagnosis	RNA-Seq;WGS	Ependymoma	Ependymoma
 PT_ZZRBX5JT	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
-PT_ZZWYKZZ8	Deceased	RNA-Seq;WGS	Ependymoma	Ependymoma

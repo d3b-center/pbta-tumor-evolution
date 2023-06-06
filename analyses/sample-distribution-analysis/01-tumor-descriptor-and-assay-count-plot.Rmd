@@ -53,9 +53,10 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
 
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
 
 # File path to input directory
-input_dir <- file.path(root_dir, "input")
+input_dir <- file.path(analysis_dir, "input")
 
 
 # Inputs
@@ -65,26 +66,12 @@ input_cols <- file.path(input_dir, "PBTA-germline-histology-groups-plot-mapping.
 
 # File path to results directory
 results_dir <-
-  file.path(root_dir, "results")
+  file.path(analysis_dir, "results")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
 
-# Outputs
-output_pbta <- file.path(results_dir, "pbta.tsv")
-output_paired_assays_all <- file.path(results_dir, "paired_assays_all.tsv")
-
-output_genomic_df <- file.path(results_dir, "genomic_df.tsv")
-output_transcriptomic_df <- file.path(results_dir, "transcriptomic_df.tsv")
-output_paired_assays_all_filter <- file.path(results_dir, "paired_assays_all_filter.tsv")
-
-
-output_LGG <- file.path(results_dir, "LGG.tsv")
-output_Medulloblastoma <- file.path(results_dir, "Medulloblastoma.tsv")
-output_HGG <- file.path(results_dir, "HGG.tsv")
-output_DML <- file.path(results_dir, "DML.tsv")
-output_Ependymoma <- file.path(results_dir, "Ependymoma.tsv")
 ```
 
 
@@ -130,12 +117,10 @@ pbta <- v12 %>%
                                             grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
                                             grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
                                             grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
-                                            TRUE ~ tumor_descriptor))
+                                            TRUE ~ tumor_descriptor)) %>%
+  write_tsv(file.path(results_dir, "pbta.tsv"))
 
 print(pbta %>% count(tumor_descriptor_final))
-
-# Save pbta after filter 
-write_tsv(pbta, path = output_pbta)
 ```
 
 
@@ -160,13 +145,8 @@ paired_assays_all <- assays %>%
   mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
                                                 grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
                                                 grepl("RNA-Seq", experimental_strategy) ~ "RNA"
-                                                ))  
-  
-
-
-
-# Save paired_assays 
-write_tsv(paired_assays_all, path = output_paired_assays_all)
+                                                ))  %>%
+  write_tsv(file.path(results_dir, "paired_assays_all.tsv"))
 ```
 
 
@@ -227,6 +207,7 @@ The following table is to provide matched different time points and summarize th
 ```{r}
 tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
   group_by(Kids_First_Participant_ID) %>%
+  arrange(tumor_descriptor) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) %>%
   mutate(tumor_descriptor_sum = case_when(
     grepl("-", tumor_descriptor_sum) ~ tumor_descriptor_sum,
@@ -256,10 +237,8 @@ genomic_df <- tumor_descriptor_df %>%
             experimental_strategy = paste(sort(experimental_strategy),
                                           collapse = ", "),
             cancer_group = paste(sort(cancer_group),
-                                          collapse = ", "))
-
-# Save genomic_df
-write_tsv(genomic_df, path = output_genomic_df)
+                                          collapse = ", "))%>%
+  write_tsv(file.path(results_dir, "genomic_df.tsv"))
 ```
 
 
@@ -291,6 +270,33 @@ genomic_df %>%
 ```
 
 
+
+# We will filter out patient cases with not matched time point.
+
+```{r}
+genomic_df_filter <- genomic_df %>%
+  filter(!(descriptors %in% c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Metastatic", 
+                              "NA", "Not Reported", "Residual", "Second Malignancy", "Unavailable",
+                              "Deceased, Deceased",
+                              "Diagnosis, Diagnosis",
+                              "Progressive, Progressive",
+                              "Recurrence, Recurrence"))) %>%
+  write_tsv(file.path(results_dir, "genomic_df_filter.tsv"))
+
+genomic_df_filter %>%
+  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+print(length(unique(genomic_df_filter$Kids_First_Participant_ID)))
+
+```
+
+We have 124 patient cases with tumor samples across multiple time points with genomic assays (paired or not with transcriptomic).
+
+
 ## Transcriptomic assays
 Looking only at RNA-seq samples and performing the same collapsing of the tumor_descriptor column.
 
@@ -302,10 +308,8 @@ transcriptomic_df <- tumor_descriptor_df %>%
                                 collapse = ", "),
             experimental_strategy = unique(experimental_strategy),
             cancer_group = paste(sort(unique(cancer_group)),
-                                          collapse = ", "))
-
-# Save transcriptomic_df
-write_tsv(transcriptomic_df, path = output_transcriptomic_df)
+                                          collapse = ", ")) %>%
+  write_tsv(file.path(results_dir, "transcriptomic_df.tsv"))
 ```
 
 
@@ -343,10 +347,8 @@ paired_assays_all_filter <- tumor_descriptor_df %>%
             experimental_strategy = paste(sort(experimental_strategy),
                                           collapse = ", "),
             cancer_group = paste(sort(cancer_group),
-                                          collapse = ", "))
-
-# Save paired_assays_filter
-write_tsv(paired_assays_all_filter, path = output_paired_assays_all_filter)
+                                          collapse = ", ")) %>%
+  write_tsv(file.path(results_dir, "paired_assays_all_filter.tsv"))
 ```
 
 
@@ -355,7 +357,7 @@ Count the examples where all time points have both kinds of assays.
 
 
 ```{r}
-paired_assays_filter %>%
+paired_assays_all_filter %>%
   group_by(descriptors) %>%
   tally() %>%
   arrange(desc(n)) %>% 
@@ -365,7 +367,7 @@ paired_assays_filter %>%
 
 
 ```{r}
-paired_assays_filter %>%
+paired_assays_all_filter %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
@@ -421,7 +423,7 @@ Let's summarize this to ensure we capture all tumor samples regardless of diagno
 We will only do this for the first five histologies for now.
 
 ```{r}
-genomic_df <- genomic_df %>% 
+genomic_df_filter<- genomic_df_filter %>% 
   mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
                                         grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma", 
                                         grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
@@ -434,32 +436,26 @@ genomic_df <- genomic_df %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_df %>% 
-  filter(cancer_group_broad == "Low-grade glioma")
+cohort <- genomic_df_filter %>% 
+  filter(cancer_group_broad == "Low-grade glioma") %>%
+  write_tsv(file.path(results_dir, "LGG.tsv"))
 
 cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-# Save table
-LGG <- cohort
-write_tsv(LGG, path = output_LGG)
 ```
 
 #### Medulloblastoma
 Per patient sample
 
 ```{r}
-cohort <- genomic_df %>% 
-  filter(cancer_group_broad == "Medulloblastoma")
+cohort <- genomic_df_filter %>% 
+  filter(cancer_group_broad == "Medulloblastoma") %>%
+  write_tsv(file.path(results_dir, "Medulloblastoma.tsv"))
 
 cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-# Save table
-Medulloblastoma <- cohort
-write_tsv(LGG, path = output_Medulloblastoma)
 ```
 
 
@@ -467,50 +463,39 @@ write_tsv(LGG, path = output_Medulloblastoma)
 Per patient sample
 
 ```{r}
-cohort <- genomic_df %>% 
-  filter(cancer_group_broad == "High-grade glioma")
+cohort <- genomic_df_filter %>% 
+  filter(cancer_group_broad == "High-grade glioma") %>%
+  write_tsv(file.path(results_dir, "HGG.tsv"))
 
 cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-# Save table
-HGG <- cohort
-write_tsv(HGG, path = output_HGG)
 ```
 
 #### Diffuse midline glioma
 Per patient sample
 
 ```{r}
-cohort <- genomic_df %>% 
-  filter(cancer_group_broad == "Diffuse midline glioma")
-
+cohort <- genomic_df_filter %>% 
+  filter(cancer_group_broad == "Diffuse midline glioma") %>%
+  write_tsv(file.path(results_dir, "DML.tsv"))
 
 cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-# Save table
-DML <- cohort
-write_tsv(DML, path = output_DML)
 ```
 
 #### Ependymoma
 Per patient sample
 
 ```{r}
-cohort <- genomic_df %>% 
-  filter(cancer_group_broad == "Ependymoma")
-
+cohort <- genomic_df_filter %>% 
+  filter(cancer_group_broad == "Ependymoma") %>%
+  write_tsv(file.path(results_dir, "Ependymoma.tsv"))
 
 cohort %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
-# Save table
-Ependymoma <- cohort
-write_tsv(Ependymoma, path = output_Ependymoma)
 ```
 
 ```{r}
