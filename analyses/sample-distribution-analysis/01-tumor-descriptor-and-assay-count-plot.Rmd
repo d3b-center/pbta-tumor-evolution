@@ -55,7 +55,7 @@ setwd(root_dir)
 
 
 # File path to input directory
-input_dir <- file.path(root_dir, "input")
+input_dir <- file.path(analysis_dir, "input")
 
 
 # Inputs
