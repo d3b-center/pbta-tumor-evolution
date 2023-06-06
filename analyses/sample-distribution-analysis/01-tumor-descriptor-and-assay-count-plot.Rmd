@@ -227,6 +227,7 @@ The following table is to provide matched different time points and summarize th
 ```{r}
 tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
   group_by(Kids_First_Participant_ID) %>%
+  arrange(tumor_descriptor) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) %>%
   mutate(tumor_descriptor_sum = case_when(
     grepl("-", tumor_descriptor_sum) ~ tumor_descriptor_sum,
