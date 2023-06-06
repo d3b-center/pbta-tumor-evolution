@@ -52,7 +52,10 @@ suppressPackageStartupMessages({
 
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
+<<<<<<< HEAD
 
+=======
+>>>>>>> add-sample-distribution
 analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
 
 # File path to input directory
