@@ -65,7 +65,7 @@ input_cols <- file.path(input_dir, "PBTA-germline-histology-groups-plot-mapping.
 
 # File path to results directory
 results_dir <-
-  file.path(root_dir, "results")
+  file.path(analysis_dir, "results")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
