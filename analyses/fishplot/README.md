@@ -15,7 +15,7 @@ NOTE: The CloneFinder_input_read_count_csv folder should generate 125 CSV files.
 `02B-CloneFinder-run-v2.sh` is the bash file running CloneFinder. -IN PROGRESS-
 
 
-`03-fishplot.Rmd` is a script written to perform the subclonal inferences on the PBTA dataset by using fishplot approach. We will define timepoints as indicated in "age_at_event_days_mut" column. We will use clone frequency table generated from `02A-CloneFinder.sh` as frac.table (this might need to be modified). Parents need to be defined by the inferred phylogeny of the tumor (Which subclones are descended from which other clones?). For the parents, NY clones with high frequencies should be the parent clones with the ones with low frequencies BEING their descendants (based on logic and lit.). We will need to decide on a threshold for this and apply for all. -IN PROGRESS-
+`03-fishplot.Rmd` is a script written to perform the subclonal inferences on the PBTA dataset by using fishplot approach. We will define timepoints as indicated in "age_at_event_days_mut" column. Frac.table needs clone frequency (not VAF) as input. 90 indicates that 90% of the cells contain the mutation. We will use clone frequency table generated from `02A-CloneFinder.sh` as frac.table (this might need to be modified). Parents need to be defined by the inferred phylogeny of the tumor (Which subclones are descended from which other clones?). For the parents, NY clones with high frequencies should be the parent clones with the ones with low frequencies BEING their descendants (based on logic and lit.). We will need to decide on a threshold for this and apply for all. -IN PROGRESS-
  
 
 NOTE: If Clonefinder doesn't work, I can also try clonevol for inferring clone frequencies for fishplot.
