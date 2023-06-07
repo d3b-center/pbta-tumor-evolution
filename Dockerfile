@@ -46,7 +46,6 @@ RUN install2.r \
 	BiocManager \
   cDriver \
   clonevol \
-  ComplexHeatmap \
   data.table \
   devtools \
   fishplot \
@@ -57,6 +56,8 @@ RUN install2.r \
   msigdbr \
 	optparse \
 	pheatmap \
+  plyr \
+  purrr \
 	RColorBrewer \
   rlist \
 	survival \
@@ -65,12 +66,29 @@ RUN install2.r \
   tidytext \
   vroom
 
-	
+# install R packages from Bioconductor 
+RUN ./install_bioc.r \
+  ComplexHeatmap \
+  GSVA 
+
 # install R packages from GitHub
 
 # Maftools
 RUN ./install_github.r \
 	PoisonAlien/maftools
+
+RUN ./install_github.r \
+	clauswilke/colorblindr
+
+# Install pip3 and low-level python installation reqs
+RUN apt-get update
+RUN apt-get -y --no-install-recommends install \
+    python3-pip  python3-dev
+RUN ln -s /usr/bin/python3 /usr/bin/python    
+RUN pip3 install \
+    "SciPy" \
+    "NumPy" \
+    "Biopython"
 
 
 WORKDIR /rocker-build/
