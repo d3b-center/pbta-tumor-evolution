@@ -1,0 +1,544 @@
+---
+title: "Inference of subclonal architecture of tumors across multiple timepoints for the PBTA Cohort (pbta-tumor-evolution project)"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+
+#### Tumor evolution project 
+
+# Background
+We are investigating the subclonal architecture of tumors across multiple timepoints in the PBTA cohort.
+We will infer fishplots for each patient sample with multiple time points.
+
+### Data used 
+In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
+We use the output files from the "analyses/sample-distribution-analysis/results".
+
+### Method used 
+For visualizing the tumor sublcones, we will use the fishplot R package as described in here: https://github.com/chrisamiller/fishplot
+
+
+### Usage
+
+This notebook is intended to be run via the command line from the top directory
+of the repository as follows:
+
+```
+Rscript -e "rmarkdown::render('analyses/fishplot/01-fishplot.Rmd', clean = TRUE)"
+```
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(data.table)
+  library(R.utils)
+  library(fishplot) # https://github.com/chrisamiller/fishplot
+  library(clonevol)
+  library(devtools)
+  library(cDriver) # https://github.com/hanasusak/cDriver/
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+#root_dir <- setwd("/Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot")
+setwd(root_dir)
+
+
+# File path to input directory
+input_dir <-
+  file.path(root_dir, "input")
+
+# Inputs
+# input_snv <- source(file.path(root_dir, "data", "snv-consensus-plus-hotspots.maf.tsv.gz"))
+input_snv <- file.path(input_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+
+# The following files were generated from the add-sample-distribution analysis
+# to source files from there - TO FIX THIS LATER
+input_cohort_pbta <- file.path(input_dir, "pbta.tsv")
+input_genomic_df <- file.path(input_dir, "genomic_df.tsv")
+
+# File path to results directory
+results_dir <-
+  file.path(root_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# File path to plots directory
+plots_dir <-
+   file.path(root_dir, "plots")
+ if (!dir.exists(plots_dir)) {
+   dir.create(plots_dir)
+ }
+
+
+# to add this later
+# source publication theme
+# source(file.path(root_dir, "figures", "theme.R"))
+```
+
+
+## Load data
+```{r load-inputs-please-wait}
+# Inputs
+## Read MAF file
+snv <- data.table::fread(input_snv, data.table = F)
+
+## Read in input_cohort_pbta file
+pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = FALSE)
+
+## Read in genomic_df file
+genomic_df <- readr::read_tsv(input_genomic_df, guess_max = 100000, show_col_types = FALSE)
+
+```
+
+
+# Process Data: snv
+
+We need to process each input file and generate input files for the fishplot analysis.
+We will first change the column name of the biospecimen column to match the one from the histolgies files.
+Then, we will calculate VAFs and CCFs per tumor sample.
+
+```{r process snv, echo=TRUE}
+colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
+```  
+
+
+```{r calculate VAF, echo=TRUE}
+# using formula for VAF calculation
+snv_vaf <- snv %>% mutate(VAF = t_alt_count / (t_ref_count + t_alt_count))
+```
+
+
+```{r calculate CCF, echo=TRUE}
+# computational way by using cDriver R package
+# if you encounter the following "Error: vector memory exhausted (limit reached?)"
+# you may need to increase the memory in Renviron for this step
+# https://stackoverflow.com/questions/51295402/r-on-macos-error-vector-memory-exhausted-limit-reached
+# gc() #to check the memory used and/or available
+snv_vaf_ccf <- CCF(snv_vaf)
+
+# using formula for CCF calculation
+snv_vaf_ccf_formula <- snv_vaf_ccf %>% mutate(CCF_formula = (2*t_alt_count)/ (t_ref_count + t_alt_count))
+```
+
+Both methods for CCF calculation seem to return the same values. The one using the formula is faster and requires less memory.
+For now, we will proceed with the results from cDriver R package.
+
+```{r echo=TRUE}
+# we will subset to variables we will interested to focus on for downstream analysis
+snv_vaf_ccf_subset <- subset(snv_vaf_ccf_formula, 
+                             select = c(Hugo_Symbol, Kids_First_Biospecimen_ID, Chromosome, Start_Position, End_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2, Variant_Type, Gene, VAF, CCF, CCF_formula, t_ref_count, t_alt_count)) %>%
+  write_tsv(file.path(results_dir, "snv_vaf_ccf_subset.tsv"))
+
+```
+
+# Process Data for CloneFinder
+
+```{r echo=TRUE}
+# we will replace names in the column to follow input guidelines for CloneFinder
+# we will use Tumor_Seq_Allele1 for now (to repeat analysis with Tumor_Seq_Allele2)
+read_counts_all_samples <- subset(snv_vaf_ccf_subset, 
+                             select = c(Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele1, t_ref_count, t_alt_count))
+
+
+read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "Tumor_Seq_Allele1"), 
+         new = c('Chr','Position','Wild', "Mut")) %>%
+  write_tsv(file.path(results_dir, "read_counts_all_samples.tsv"))
+
+
+# Create dir to save read count data to be used as input for CloneFinder
+temp_path <-
+  file.path(results_dir, "CloneFinder_input_read_count")
+if (!dir.exists(temp_path)) {
+  dir.create(temp_path)
+}
+
+
+# we will split Read_count data by the "Kids_First_Biospecimen_ID" column
+#samples <- read_counts_all_samples$Kids_First_Biospecimen_ID
+  
+#for(i in unique(samples)) {
+#        nam <- paste("read_counts_all_samples", i, sep = ".")
+#        assign(nam, read_counts_all_samples[data_names==i,])
+#        }
+
+
+read_counts_all_samples %>% 
+  group_split(Kids_First_Biospecimen_ID) %>% 
+  walk(~write_csv(.x, paste0(temp_path, .x$Kids_First_Biospecimen_ID[1], ".csv")))
+
+# this saves csv files outside of the "temp_path" folder 
+# I manually moved them into the "temp_path" folder 
+# TO FIX
+# also I want to drop first column in each excel file
+# but let's hope this will not be an issue for CloneFinder
+
+
+
+
+```
+
+
+
+
+# Process Data: LGG
+
+In this section, we will focus on patient cases diagnosed with LGG. We will use the genomic_df as input file. 
+There are patients cases with. mutliple histologies at different time points. We group as Low-grade glioma any patient cases with at least one time point with Low-grade glioma histologies. We will create a new column "cancer_group_broad" to describe this information.
+
+Then, we will filter out any not matched time point.
+We will also remove any time points matching with itself, e.g., Diagnosis-Diagnosis.
+For the latter, I need a refined code for filtering out, if possible - this is more manual. TO WORK ON THIS!!!
+
+```{r process LGG, echo=TRUE}
+LGG_filter <- genomic_df %>%
+  mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma")) %>%
+  filter(cancer_group_broad == "Low-grade glioma") %>%
+  mutate(descriptors_keep = case_when(grepl("Deceased, Progressive, Progressive", descriptors) ~ "keep",
+                                      grepl("Diagnosis, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "keep",
+                                      grepl("Diagnosis, Progressive", descriptors) ~ "keep", 
+                                      grepl("Diagnosis, Progressive, Recurrence", descriptors) ~ "keep",
+                                      grepl("Diagnosis, Recurrence", descriptors) ~ "keep",
+                                      grepl("Diagnosis, Recurrence, Recurrence", descriptors) ~ "keep",
+                                      grepl("NA, Progressive", descriptors) ~ "keep",
+                                      grepl("Progressive, Recurrence", descriptors) ~ "keep",
+                                      grepl("Recurrence, Second Malignancy", descriptors) ~ "keep"))  %>%
+  filter(descriptors_keep == "keep")  %>%
+  write_tsv(file.path(results_dir, "LGG_filter.tsv"))
+```
+
+We have 27 patient samples with matched time points diagnosed with Low grade glioma (with both genomic and transcriptomic assays).
+
+
+# Merge Data
+
+We will merge all dataframes together.
+We will first merge LGG_filter with pbta, and then, with snv_vaf_subset.
+
+```{r merge df, echo=TRUE}
+# we first need the age_at_event_days column to be added into the LGG_filter df
+pbta_subset <- pbta %>%
+  #mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma")) %>%
+  #filter(cancer_group == "Low-grade glioma") %>%
+  subset(select = c(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, 
+                          tumor_descriptor, age_at_event_days, experimental_strategy,
+                          broad_histology, molecular_subtype, normal_fraction, tumor_fraction))%>%
+  write_tsv(file.path(results_dir, "pbta_subset.tsv"))
+
+
+LGG_filter_pbta <- LGG_filter %>% 
+  left_join(pbta_subset, by=c('Kids_First_Participant_ID'))
+  #distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>%
+
+# For the subclonal analysis, we will need timepoints. We will sue the column "age_at_event_days".
+# The first timepoint needs to be set up at 0 in order to run fishplot function
+# We will create age_at_event_days_mut column where we will replace with zeros the age for the first time point event.
+
+LGG_filter_pbta <- LGG_filter_pbta[!duplicated(LGG_filter_pbta[c("Kids_First_Participant_ID", "tumor_descriptor")]),] %>%
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
+                                            TRUE ~ tumor_descriptor)) %>%
+  mutate(age_at_event_days_mut = age_at_event_days) %>%
+  mutate(age_at_event_days_mut = case_when(descriptors == "Deceased, Progressive, Progressive" & tumor_descriptor == "Progressive" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Diagnosis, Diagnosis, Diagnosis, Progressive, Progressive" & tumor_descriptor == "Diagnosis" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Diagnosis, Progressive" & tumor_descriptor == "Diagnosis" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Diagnosis, Progressive, Recurrence" & tumor_descriptor == "Diagnosis" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Diagnosis, Recurrence" & tumor_descriptor == "Diagnosis" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Diagnosis, Recurrence, Recurrence" & tumor_descriptor == "Diagnosis" ~ age_at_event_days_mut == "0",
+                                           descriptors == "NA, Progressive" & tumor_descriptor == "NA" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Progressive, Recurrence" & tumor_descriptor == "Recurrence" ~ age_at_event_days_mut == "0",
+                                           descriptors == "Recurrence, Second Malignancy" & tumor_descriptor == "Second Malignancy" ~ age_at_event_days_mut == "0", 
+                                           TRUE ~ age_at_event_days_mut)) %>%
+  write_tsv(file.path(results_dir, "LGG_filter_pbta.tsv"))
+
+#  merge_df_all <- LGG_filter_pbta %>% 
+#  left_join(snv_vaf_ccf_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+#  write_tsv(file.path(results_dir, "merge_df_all.tsv"))
+```
+
+
+# Run subclonal analysis to produce fishplot
+
+We will use the fishplot R package to infer and visualize subclones across multiple time points.
+
+
+```{r subclonal analysis, echo=TRUE}
+#provide a list of timepoints to plot
+#You may need to add interpolated points to end up with the desired visualization. 
+
+# timepoints <- merge_df_all_mut$age_at_event_days_mut   
+# timepoints <- LGG_filter_pbta$age_at_event_days_mut
+
+#provide a matrix with the fraction of each population
+#present at each timepoint
+# here, we need to deconvolute tumor samples and infer the clones. I could do that with sciClone, but I still need to figure out how to properly install this (one dependency doesn't exist in CRAN anymore). I will also try with pyclone. In the meantime, let's use the column "tumor_fraction".
+# Since there are NAs in tumor_fraction column, I will exclude these patient cases for now.
+# then we need to exclude patient cases with less than 2 time points.
+
+# We have now 6 patients: PT_1H2REHT2", "PT_2MZPGZN1", "PT_962TCBVR", "PT_HXV713W6", "PT_YDFPMXAR", "PT_YGN06RPZ"
+
+
+Kids_First_Participant_ID_keep <- LGG_filter_pbta %>%
+  filter(!is.na(tumor_fraction), 
+         !is.na(normal_fraction),
+         Kids_First_Participant_ID %in% c("PT_1H2REHT2", "PT_2MZPGZN1", "PT_962TCBVR",
+                                          "PT_HXV713W6", "PT_YDFPMXAR", "PT_YGN06RPZ")) %>%
+  write_tsv(file.path(results_dir, "Kids_First_Participant_ID_keep.tsv"))
+  
+
+# Kids_First_Participant_ID_keep <- LGG_filter_pbta %>%
+# filter(!is.na(tumor_fraction), 
+#         !is.na(normal_fraction)) %>%
+#  count(Kids_First_Participant_ID) %>%
+#  filter (!n == 1) %>%
+#  write_tsv(file.path(results_dir, "Kids_First_Participant_ID_keep1.tsv"))
+```
+
+```{r PT_1H2REHT2, echo=TRUE}
+PT_1H2REHT2 <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_1H2REHT2")
+
+timepoints <- PT_1H2REHT2$age_at_event_days_mut
+
+frac.table = matrix(
+      c(40, 00,
+         00, 36),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_1H2REHT2.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_1H2REHT2",
+             cex.title=0.5, vlines=c(0, 9714), 
+             vlab=c("day 0","day 9714")))
+   dev=dev.off()
+   
+#generate phylogeny with clonevol
+x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
+#create a list of fish objects 
+f = generateFishplotInputs(results=x)
+fishes = createFishPlotObjects(f)
+#plot with fishplot
+pdf('fish.pdf', width=8, height=5)
+for (i in 1:length(fishes)){
+    fish = layoutClones(fishes[[i]])
+    fish = setCol(fish,f$clonevol.clone.colors)
+    fishPlot(fish,shape="spline", title.btm="Patient", cex.title=0.5,
+             vlines=seq(1, length(samples)), vlab=samples, pad.left=0.5)
+}
+dev <- dev.off()   
+```
+
+
+```{r PT_2MZPGZN1, echo=TRUE}
+PT_2MZPGZN1 <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_2MZPGZN1")
+
+timepoints <- PT_2MZPGZN1$age_at_event_days_mut
+
+frac.table = matrix(
+      c(41, 00,
+         00, 26),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_2MZPGZN1.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_2MZPGZN1",
+             cex.title=0.5, vlines=c(0, 3259), 
+             vlab=c("day 0","day 3259")))
+   dev=dev.off()
+```
+
+```{r PT_962TCBVR, echo=TRUE}
+PT_962TCBVR <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_962TCBVR")
+
+timepoints <- PT_962TCBVR$age_at_event_days_mut
+
+frac.table = matrix(
+      c(100, 00, 00,
+         00, 100, 00,
+        00, 00, 100),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_962TCBVR.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_962TCBVR",
+             cex.title=0.5, vlines=c(0, 1717, 2402), 
+             vlab=c("day 0","day 1717", "day 2402")))
+   dev=dev.off()
+```
+
+
+
+```{r PT_HXV713W6, echo=TRUE}
+PT_HXV713W6 <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_HXV713W6")
+
+timepoints <- PT_HXV713W6$age_at_event_days_mut
+
+frac.table = matrix(
+      c(48, 00,
+         00, 100),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_HXV713W6.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_HXV713W6",
+             cex.title=0.5, vlines=c(0, 1720), 
+             vlab=c("day 0","day 1720")))
+   dev=dev.off()
+```
+
+
+
+```{r PT_YDFPMXAR, echo=TRUE}
+PT_YDFPMXAR <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_YDFPMXAR")
+
+timepoints <- PT_YDFPMXAR$age_at_event_days_mut
+
+frac.table = matrix(
+      c(64, 00,
+         00, 100),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_YDFPMXAR.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_YDFPMXAR",
+             cex.title=0.5, vlines=c(0, 5780), 
+             vlab=c("day 0","day 5780")))
+   dev=dev.off()
+```
+
+```{r PT_YGN06RPZ, echo=TRUE}
+PT_YGN06RPZ <- Kids_First_Participant_ID_keep %>%
+  filter(Kids_First_Participant_ID == "PT_YGN06RPZ")
+
+timepoints <- PT_YGN06RPZ$age_at_event_days_mut
+
+frac.table = matrix(
+      c(32, 00,
+         00, 35),
+      ncol=length(timepoints))
+
+
+    #provide a vector listing each clone's parent
+    #(0 indicates no parent)
+    parents = c(0,0)
+
+    # I think that fishplot is random-number function
+    # under the same parents vector listing I got errors
+    set.seed(1234)
+    #create a fish object
+    fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE)
+
+    #calculate the layout of the drawing
+    fish = layoutClones(fish)
+
+    #draw the plot, using the splining method (recommended)
+    #and providing both timepoints to label and a plot title
+   pdf("./plots/fishplot_PT_YGN06RPZ.pdf",width=8,height=4)
+   print(fishPlot(fish,shape="spline",title.btm="PT_YGN06RPZ",
+             cex.title=0.5, vlines=c(0, 2645), 
+             vlab=c("day 0","day 2645")))
+   dev=dev.off()
+```
+
+
+
+
+```{r}
+sessionInfo()
+```
+  
