@@ -86,9 +86,9 @@ RUN apt-get -y --no-install-recommends install \
     python3-pip  python3-dev
 RUN ln -s /usr/bin/python3 /usr/bin/python    
 RUN pip3 install \
-    "SciPy" \
-    "NumPy" \
-    "Biopython"
+    "SciPy==1.10.1" \
+    "NumPy==1.24.3" \
+    "Biopython==1.81"
 
 
 WORKDIR /rocker-build/
