@@ -6,10 +6,10 @@ This folder contains scripts tasked to infer and visualize subclones in tumor sa
 
 `01-process-data.Rmd` is a script written to process and generate input files for inferring (1) clone phylogenies and (2) fishplots per patient sample. This script produces: (i) VAF calculation, (ii) CCF calculation, (iii) table with patient samples with at least 2 tumor samples per anatomical site, (iv) CSV/TXT files with Read counts for each patient sample from (iii). 
 
-NOTE: The CloneFinder_input_read_count_csv folder should generate 125 CSV files. This was too large to upload to git repo. Insetad I kept one generated file as an example (CloneFinder_input_read_count_csv.PT_0DWRY9ZX.csv).
+NOTE: The CloneFinder_input_read_count_csv folder should generate 125 CSV files. This was too large to upload to git repo. Instead I kept one generated file as an example (CloneFinder_input_read_count_csv.PT_0DWRY9ZX.csv).
 
 
-`02A-CloneFinder.sh` is a bash file with serial port input. This also describes the steps for installing/running CloneFinder. We will use this to deconvolute tumor samples, aas well as to infer number of clones, clone frequency table and clone phylogeny. We need to be mindful for cases with low read counts and discard those, if necessary. We will need to decide on a threshold for this and apply for all. -IN PROGRESS-
+`02A-CloneFinder.sh` is a bash file with serial port input. This also describes the steps for installing/running CloneFinder. We will use this to deconvolute tumor samples, as well as to infer number of clones, clone frequency table and clone phylogeny. We need to be mindful for cases with low read counts and discard those, if necessary. We will need to decide on a threshold for this and apply for all. -IN PROGRESS-
 
 
 `02B-CloneFinder-run-v2.sh` is the bash file running CloneFinder. -IN PROGRESS-

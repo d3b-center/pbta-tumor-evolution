@@ -56,7 +56,6 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-#root_dir <- setwd("/Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot")
 setwd(root_dir)
 
 
@@ -64,9 +63,8 @@ setwd(root_dir)
 input_dir <-
   file.path(root_dir, "input")
 
-# Inputs
-# input_snv <- source(file.path(root_dir, "data", "snv-consensus-plus-hotspots.maf.tsv.gz"))
-input_snv <- file.path(input_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+# Inputs - THIS FILE DOESN'T SHOW IN THE DATA FOLDER?!
+input_snv <- source(file.path(root_dir, "./data/snv-consensus-plus-hotspots.maf.tsv.gz"))
 
 # The following files were generated from the add-sample-distribution analysis
 # to source files from there - TO FIX THIS LATER
@@ -104,7 +102,7 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 ```
 
 
-# Process Data: snv - MIGHT REMOVE THIS LATER
+# Process Data: snv - MIGHT REMOVE THIS SECTIONLATER
 
 We need to process each input file and generate input files for the fishplot analysis.
 We will first change the column name of the biospecimen column to match the one from the histolgies files.
