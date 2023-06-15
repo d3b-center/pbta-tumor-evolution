@@ -63,7 +63,7 @@ input_dir <-
   file.path(analysis_dir, "input")
 
 # Inputs
-#input_snv <- source(file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz"))
+input_snv <- source(file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz"))
 
 # The following files were generated from the add-sample-distribution analysis
 # to source files from there - TO FIX THIS LATER
@@ -91,7 +91,7 @@ plots_dir <-
 ```{r load-inputs-please-wait}
 # Inputs
 ## Read MAF file
-#snv <- data.table::fread(input_snv, data.table = F)
+snv <- data.table::fread(input_snv, data.table = F)
 
 # sourcing snv from the data folder doesn't work for me so I load it based on the following:
 #snv <- data.table::fread("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/data/snv-consensus-plus-hotspots.maf.tsv.gz", data.table = F)
