@@ -63,7 +63,7 @@ input_dir <-
   file.path(analysis_dir, "input")
 
 # Inputs
-input_snv <- source(file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz"))
+input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
 
 # The following files were generated from the add-sample-distribution analysis
 # to source files from there - TO FIX THIS LATER
@@ -93,9 +93,6 @@ plots_dir <-
 ## Read MAF file
 snv <- data.table::fread(input_snv, data.table = F)
 
-# sourcing snv from the data folder doesn't work for me so I load it based on the following:
-#snv <- data.table::fread("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/data/snv-consensus-plus-hotspots.maf.tsv.gz", data.table = F)
-## Read in input_cohort_pbta file
 pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = FALSE)
 
 ## Read in genomic_df_filter file
@@ -113,7 +110,7 @@ colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospe
 ```  
 
 
-```{r echo=TRUE}
+```{r subset snv, echo=TRUE}
 # we will subset to variables we will interested to focus on for downstream analysis
 snv_subset <- subset(snv, 
                              select = c(Hugo_Symbol, Kids_First_Biospecimen_ID, Chromosome, Start_Position, End_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2, Variant_Type, Gene, t_ref_count, t_alt_count)) 
@@ -130,7 +127,7 @@ This is because CloneFinder requires at least 2 tumor samples per anatomical sit
 Thus, we will first identify the number of tumor samples per patient and we will keep only those with more than 2 tumor samples.
 
 
-```{r echo=TRUE}
+```{r Process Data for CloneFinder-Step1}
 # Merge genomic_df_filter with pbta_subset to get sample_id information
 # Create match_id2 to count for multiple samples per patient, if any
 
@@ -208,13 +205,13 @@ Anyway, in the next step, we will use this to filter and prepare input files for
 Input files for CloneFinder should contain the read counts for reference and alteration per each chromosomal position.
 We will split these per patient sample based on the filtering from step 1.
 
-```{r echo=TRUE}
+```{r Process Data for CloneFinder-Step2}
 # we will replace names in the column to follow input guidelines for CloneFinder
 
 read_counts_all_samples <- subset(snv_subset, 
                              select = c(Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, t_ref_count, t_alt_count))
 
-read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "Tumor_Seq_Allele1", "t_ref_count", "t_alt_count"), 
+read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "t_ref_count", "t_alt_count"), 
          new = c('Chr','Position','Wild', "Mut", "XX:ref", "XX:alt")) 
 
 read_counts_all_samples_keep <- read_counts_all_samples %>% 
@@ -253,7 +250,7 @@ setwd(root_dir)
 Next we need to create different columns assigning the read counts for ref and alt per tumor sample ("Kids_First_Biospecimen_ID").
 We will do this in three steps: (1) create wide df for ref variant, (2) create wide df for alt variant, and (3) merge wide df.
 
-```{r echo=TRUE}
+```{r Process Data for CloneFinder-Step3}
 #create out_dir
     temp_path <-
       file.path(results_dir, "02_CloneFinder_input_files")
@@ -275,7 +272,6 @@ names(data_all) <- gsub("01_", "",
 # we will change the dir here otherwise files are saved outside of the dsired folder
 setwd(temp_path)
 
-
 # create a loop for the elements in the 'all_files' list
 # and create input files
 
@@ -292,7 +288,6 @@ data_all[[i]]$df <-  data_all[[i]] %>%
 # XX:ref
 # we need to have separate columns with the tumor sample containing read counts per variant
 # we will first create a data frame for the read counts for the reference variant
-
 
 data_all[[i]]$df_ref <- data_all[[i]]$df %>%
   subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) %>%
@@ -348,7 +343,7 @@ setwd(root_dir)
 
 ## Step 4 
 
-```{r echo=TRUE}
+```{r Process Data for CloneFinder-Step4}
 # let's create a list of the samples and their directory path
 # we will use this to run CloneFinder for all samples together
 
