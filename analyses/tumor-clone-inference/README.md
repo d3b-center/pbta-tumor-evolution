@@ -6,8 +6,6 @@ This folder contains scripts tasked to infer and visualize subclones in tumor sa
 
 `01-process-data.Rmd` is a script written to process and generate input files for inferring (1) clone phylogenies and (2) fishplots per patient sample. This script produces: (i) table with patient samples with at least 2 tumor samples per anatomical site, (ii) CSV/TXT files with Read counts for each patient sample from (i). 
 
-NOTE: The CloneFinder_input_read_count_csv folder should generate multiple CSV files. This was too large to upload to git repo. Instead I kept one generated file as an example (01_PT_KTRJ8TFY.csv).
-
 
 `02A-CloneFinder.sh` is a bash file with serial port input. This also describes the steps for installing/running CloneFinder. We will use this to deconvolute tumor samples, as well as to infer number of clones, clone frequency table and clone phylogeny. We need to be mindful for cases with low read counts and discard those, if necessary. We will need to decide on a threshold for this and apply for all. -IN PROGRESS-
 
@@ -30,11 +28,15 @@ The structure of this folder is as follows:
 ├── input
 │   ├── genomic_df_filter.tsv
 │   ├── genomic_df.tsv
-│   ├── pbta.tsv
+│   └── pbta.tsv
 ├── README.md
-├── results
+└── results
     ├── 01_Read_count_Per_Patient
-    │    └── 01_PT_KTRJ8TFY.csv
+    │   ├── 01_PT_KTRJ8TFY.csv
+    │   ├── 01_PT_KZ56XHJT.csv
+    │   ├── 01_PT_MNSEJCDM.csv
+    │   ├── 01_PT_NK8A49X5.csv
+    │   └── 01_PT_S4YNE17X.csv
     ├── 02_CloneFinder_input_files  
     ├── distinct_samples_list.csv
     ├── genomic_df_subset_keep.tsv
