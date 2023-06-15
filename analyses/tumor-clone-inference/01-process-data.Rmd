@@ -29,7 +29,7 @@ This notebook is intended to be run via the command line from the top directory
 of the repository as follows:
 
 ```
-Rscript -e "rmarkdown::render('analyses/fishplot/01-process-data.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('analyses/tumor-clone-inference/01-process-data.Rmd', clean = TRUE)"
 ```
 
 # Set up
@@ -39,14 +39,11 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(data.table)
   library(R.utils)
-  library(fishplot) # https://github.com/chrisamiller/fishplot
   library(clonevol)
   library(devtools)
-  library(cDriver) # https://github.com/hanasusak/cDriver/
   library(purrr)
   library(flextable)
   library(plyr)
-  #library(reshape2)
 })
 ```
 
