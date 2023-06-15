@@ -202,7 +202,7 @@ keep <- count %>%
 This results to 5 patients. BUT I had issues for automatically calculating the number of patients and so I did this manually.
 Maybe there is a way to do computationally?
 
-Anyway, int he nexts tep, we will use this to filter and prepare input files for CloneFinder.
+Anyway, in the next step, we will use this to filter and prepare input files for CloneFinder.
 
 ## Step 2
 Input files for CloneFinder should contain the read counts for reference and alteration per each chromosomal position.
@@ -235,16 +235,17 @@ if (!dir.exists(temp_path_csv)) {
   dir.create(temp_path_csv)
 }
 
-# we will split Read_count data by the "Kids_First_Participant_ID.x" column
+# we will change the dir here otherwise files are saved outside of the dsired folder
+setwd(temp_path_csv)
 
+# we will split Read_count data by the "Kids_First_Participant_ID.x" column
 read_counts_all_samples_keep %>% 
   group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste(temp_path_csv, sep = "_", .x$Kids_First_Participant_ID[1], "csv"))) #%>%
+  walk(~write_csv(.x, paste0("01_", .x$Kids_First_Participant_ID[1], ".csv"))) #%>%
 
-# this saves csv files outside of the "temp_path" folder 
-# I don't know why
-# I manually moved them into the "temp_path" folder 
-# TODO but to fix later
+# let's change back to the root_dir for the rest of the module
+setwd(root_dir)
+
 ```
 
 ## Step 3 
@@ -267,9 +268,13 @@ data_all <- lapply(all_files, read.csv)
 
 ##Create list of data frame names without the "CloneFinder_input_read_count_csv." part 
 # get only the file names, not the full path.
-names(data_all) <- gsub("01_Read_count_Per_Patient_", "",
+names(data_all) <- gsub("01_", "",
                        list.files(temp_path_csv,full.names = FALSE),
                        fixed = TRUE)
+
+# we will change the dir here otherwise files are saved outside of the dsired folder
+setwd(temp_path)
+
 
 # create a loop for the elements in the 'all_files' list
 # and create input files
@@ -336,6 +341,9 @@ data_all[[i]]$merge_counts[is.na(data_all[[i]]$merge_counts)] <- 0
 
 write.table(data_all[[i]]$merge_counts, paste0(temp_path, "_edited.txt"))
 } 
+
+# let's change back to the root_dir for the rest of the module
+setwd(root_dir)
 ```
 
 ## Step 4 
