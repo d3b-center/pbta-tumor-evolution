@@ -1,0 +1,21 @@
+Kids_First_Participant_ID	descriptors	experimental_strategy	cancer_group	cancer_group_broad
+PT_04V47WFC	Diagnosis, Progressive, Progressive	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_3A2Q62RD	Diagnosis, Progressive, Progressive	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_3R0P995B	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_3VCS1PPF	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_99S5BPE3	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_B5DQ8FF0	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_BZCJMEX8	Diagnosis, Recurrence	RNA-Seq;WGS, WGS	Ependymoma, Ependymoma	Ependymoma
+PT_C1RDBCVM	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_D6AJHDST	Progressive, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_DNAJYFZT	Deceased, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_EQX0VT4F	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_JP1FDKN9	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_NJQ26FHN	Deceased, Diagnosis, Recurrence	RNA-Seq;WGS, WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_NPETR8RY	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_PAPEQ0T0	Diagnosis, Diagnosis, Progressive	RNA-Seq;WGS, WGS, WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_T4VN7ZRB	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Ependymoma
+PT_TP6GS00H	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma
+PT_XHYBZKCX	Diagnosis, Unavailable	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, NA	Ependymoma
+PT_Z4GS3ZQQ	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Dysembryoplastic neuroepithelial tumor, Ependymoma	Ependymoma
+PT_ZZRBX5JT	Diagnosis, Recurrence, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Ependymoma

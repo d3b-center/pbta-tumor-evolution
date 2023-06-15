@@ -29,7 +29,10 @@ docker exec -ti <CONTAINER_NAME> bash
 
 ```
 .
+├── data
 ├── Dockerfile
+├── download-data.sh
+├── LICENSE
 ├── README.md
 └── scripts
     ├── install_bioc.r
