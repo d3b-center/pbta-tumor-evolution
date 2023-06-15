@@ -105,12 +105,12 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 We need to process each input file and generate input files for the fishplot analysis.
 We will first change the column name of the biospecimen column to match the one from the histolgies files.
 
-```{r process snv, echo=TRUE}
+```{r process snv}
 colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
 ```  
 
 
-```{r subset snv, echo=TRUE}
+```{r subset snv}
 # we will subset to variables we will interested to focus on for downstream analysis
 snv_subset <- subset(snv, 
                              select = c(Hugo_Symbol, Kids_First_Biospecimen_ID, Chromosome, Start_Position, End_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2, Variant_Type, Gene, t_ref_count, t_alt_count)) 
@@ -120,10 +120,8 @@ snv_subset <- subset(snv,
 ## Step 1
 
 We need to generate the input files for CloneFinder according to the method's template.
-
 First though, we need to ensure that we have enough number of tumor samples per time point and patient case.
 This is because CloneFinder requires at least 2 tumor samples per anatomical site.
-
 Thus, we will first identify the number of tumor samples per patient and we will keep only those with more than 2 tumor samples.
 
 
@@ -193,7 +191,6 @@ count %>%
 keep <- count %>%
   filter(Kids_First_Participant_ID %in% c("PT_KZ56XHJT", "PT_MNSEJCDM", "PT_KTRJ8TFY", "PT_NK8A49X5", "PT_S4YNE17X")) %>% # "PT_HFQNKP5X" for Deceased (6), Progressive (2), Recurrence (1)
   write_tsv(file.path(results_dir, "genomic_df_subset_keep.tsv"))
-
 ```
 
 This results to 5 patients. BUT I had issues for automatically calculating the number of patients and so I did this manually.
@@ -209,9 +206,9 @@ We will split these per patient sample based on the filtering from step 1.
 # we will replace names in the column to follow input guidelines for CloneFinder
 
 read_counts_all_samples <- subset(snv_subset, 
-                             select = c(Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, t_ref_count, t_alt_count))
+                             select = c(Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count))
 
-read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "t_ref_count", "t_alt_count"), 
+read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "Tumor_Seq_Allele2", "t_ref_count", "t_alt_count"), 
          new = c('Chr','Position','Wild', "Mut", "XX:ref", "XX:alt")) 
 
 read_counts_all_samples_keep <- read_counts_all_samples %>% 
