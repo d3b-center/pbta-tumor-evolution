@@ -29,7 +29,7 @@ This notebook is intended to be run via the command line from the top directory
 of the repository as follows:
 
 ```
-Rscript -e "rmarkdown::render('analyses/tumor-clone-inference/01-process-data.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
 ```
 
 # Set up
@@ -44,7 +44,13 @@ suppressPackageStartupMessages({
   library(purrr)
   library(flextable)
   library(plyr)
+  library(future)
 })
+
+# run processes asynchronously when possible using future package
+plan("multisession", workers = 4)
+# increase the limit of the data to be shuttled between the processes from default 500MB to 50GB
+options(future.globals.maxSize = 30 * 1024 ^ 3)
 ```
 
 ## Directories and File Inputs/Outputs
@@ -103,7 +109,7 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 # Process Data: snv 
 
 We need to process each input file and generate input files for the fishplot analysis.
-We will first change the column name of the biospecimen column to match the one from the histolgies files.
+We will first change the column name of the biospecimen column to match the one from the histologies files.
 
 ```{r process snv}
 colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
@@ -237,7 +243,7 @@ setwd(temp_path_csv)
 # we will split Read_count data by the "Kids_First_Participant_ID.x" column
 read_counts_all_samples_keep %>% 
   group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0("01_", .x$Kids_First_Participant_ID[1], ".csv"))) #%>%
+  walk(~write_csv(.x, paste0("01_", .x$Kids_First_Participant_ID[1], ".csv")))
 
 # let's change back to the root_dir for the rest of the module
 setwd(root_dir)
@@ -275,65 +281,66 @@ setwd(temp_path)
 # and create input files
 
 for(i in 1:length(data_all)) {  
+
+# we need to have separate columns with the tumor sample containing read counts per variant
   
+#####################
+# we will first create a data frame for the read counts for the reference variant
+# XX:ref  
 # create unique identifier based on chromosome and chromosomal position for each variant
 # let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
+# i = "PT_KTRJ8TFY.csv"
   
-data_all[[i]]$df <-  data_all[[i]] %>%
+data_all[[i]]$df_ref <-  data_all[[i]] %>%
        mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) 
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "ref")) 
+
+# write function to run for the list of dataframes
+df_ref <- function(x){
+  data_all[[i]]$df_ref %>%
+  subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) 
+  pivot_wider(data_all[[i]]$df_ref, names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.ref)
+}
+
+# run function
+data_all[[i]]$df_ref<- lapply(data_all, df_ref)
 
 #####################
-# XX:ref
-# we need to have separate columns with the tumor sample containing read counts per variant
-# we will first create a data frame for the read counts for the reference variant
-
-data_all[[i]]$df_ref <- data_all[[i]]$df %>%
-  subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) %>%
-    reshape(idvar = "match_id_unique", timevar = "Kids_First_Biospecimen_ID_descriptor", direction = "wide") 
-
-
-# we will rename the new columns to include the information of type of read counts (ref) and also reflect the format for CloneFinder (<SAMPLE_NAME>:ref) 
-data_all[[i]]$df_ref <- data_all[[i]]$df_ref %>%
-  rename_all(~stringr::str_replace_all(.,"XX:ref.",""))
-
-colnames(data_all[[i]]$df_ref) <- paste(colnames(data_all[[i]]$df_ref), sep = ":", "ref") 
-
-# we want to keep the label for match_id_unique column as it was though
-setnames(data_all[[i]]$df_ref, old = c("match_id_unique:ref"), 
-         new = c("match_id_unique"))
-
-#####################
+# we will next create a data frame for the read counts for the alt variant
 # XX:alt
-# we need to have separate columns with the tumor sample containing read counts per variant
-# we will first create a data frame for the read counts for the reference variant
-data_all[[i]]$df_alt <- data_all[[i]]$df %>%
-  subset(select = c(Wild, Mut, match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) %>%
-  reshape(idvar = "match_id_unique", timevar = "Kids_First_Biospecimen_ID_descriptor", direction = "wide") 
+# create unique identifier based on chromosome and chromosomal position for each variant
+# let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
 
-# we will rename the new columns to include the information of type of read counts (alt) and also reflect the format for CloneFinder (<SAMPLE_NAME>:alt) 
-data_all[[i]]$df_alt <- data_all[[i]]$df_alt %>%
-  rename_all(~stringr::str_replace_all(.,"XX:alt.",""))
+data_all[[i]]$df_alt <-  data_all[[i]] %>%
+       mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "alt")) 
 
-colnames(data_all[[i]]$df_alt) <- paste(colnames(data_all[[i]]$df_alt), sep = ":", "alt") 
+# write function to run for the list of dataframes
+df_alt <- function(x){
+  data_all[[i]]$df_alt %>%
+  subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) 
+  pivot_wider(data_all[[i]]$df_alt, names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.alt)
+}
 
-# we want to keep the label for match_id_unique column as it was though
-setnames(data_all[[i]]$df_alt, old = "match_id_unique:alt", 
-         new = "match_id_unique")
+# run function
+data_all[[i]]$df_alt<- lapply(data_all, df_alt)
 
 #####################
-# merge df_ref with df_alt
+# merge data_all[[i]]$df_ref with data_all[[i]]$df_alt
 # add columns: 'Chr','Position','Wild', "Mut" that are missing so it matches the CloneFinder input
-data_all[[i]]$merge_counts <- data_all[[i]]$df_ref %>% 
-  left_join(data_all[[i]]$df_alt, by=c('match_id_unique')) #%>% 
-  #mutate(Chr =gsub("_..*", "", match_id_unique)) %>% 
-  #mutate(Position =gsub("_", "", match_id_unique)) %>% 
-  #subset(select = -c(match_id_unique))
+
+data_all[[i]]$merge_read_counts <- list(data_all[[i]]$df_ref, left_join(data_all[[i]]$df_alt)) %>% 
+                                          reduce(left_join, by=c('match_id_unique'))  %>% 
+                                          mutate(Chr =gsub("_..*", "", match_id_unique)) %>% 
+                                          mutate(Position =gsub("_", "", match_id_unique)) 
 
 # we will replace any NAs with zero
-data_all[[i]]$merge_counts[is.na(data_all[[i]]$merge_counts)] <- 0
-
-write.table(data_all[[i]]$merge_counts, paste0(temp_path, "_edited.txt"))
+data_all[[i]]$merge_read_counts[is.na(data_all[[i]]$merge_read_counts)] <- 0  
+  
+# save edited files
+write.table(data_all[[i]]$merge_read_counts, paste0(temp_path, "_edited.txt"))
 } 
 
 # let's change back to the root_dir for the rest of the module
@@ -367,4 +374,3 @@ if (!dir.exists(CloneFinder_results)) {
 ```{r}
 sessionInfo()
 ```
-  

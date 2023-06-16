@@ -25,6 +25,8 @@ The structure of this folder is as follows:
 ```
 ├── 01-process-data.Rmd
 ├── 01-process-data.nb.html
+├── 02A-CloneFinder.sh
+├── 02B-CloneFinder-run.sh
 ├── input
 │   ├── genomic_df_filter.tsv
 │   ├── genomic_df.tsv
