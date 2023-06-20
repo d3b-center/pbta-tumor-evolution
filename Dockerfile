@@ -50,6 +50,7 @@ RUN install2.r \
   devtools \
   fishplot \
   flextable \
+  future \
   ggpubr \
   ggthemes \
   immunedeconv \
