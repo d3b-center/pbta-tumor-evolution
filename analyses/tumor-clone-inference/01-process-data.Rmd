@@ -247,7 +247,6 @@ read_counts_all_samples_keep %>%
 
 # let's change back to the root_dir for the rest of the module
 setwd(root_dir)
-
 ```
 
 ## Step 3 
@@ -274,7 +273,7 @@ names(data_all) <- gsub("01_", "",
                        list.files(temp_path_csv,full.names = FALSE),
                        fixed = TRUE)
 
-# we will change the dir here otherwise files are saved outside of the dsired folder
+# we will change the dir here otherwise files are saved outside of the desired folder
 setwd(temp_path)
 
 # create a loop for the elements in the 'all_files' list
@@ -285,47 +284,36 @@ for(i in 1:length(data_all)) {
 # we need to have separate columns with the tumor sample containing read counts per variant
   
 #####################
-# we will first create a data frame for the read counts for the reference variant
-# XX:ref  
+# we will first create a data frame for the read counts for the reference and alteration variant
 # create unique identifier based on chromosome and chromosomal position for each variant
 # let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
 # i = "PT_KTRJ8TFY.csv"
+# XX:ref  
   
-data_all[[i]]$df_ref <-  data_all[[i]] %>%
+data_all[[i]]$df <- data_all[[i]] %>%
        mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
        mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "ref")) 
 
-# write function to run for the list of dataframes
-df_ref <- function(x){
-  data_all[[i]]$df_ref %>%
-  subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) 
-  pivot_wider(data_all[[i]]$df_ref, names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.ref)
-}
+  
+data_all[[i]]$df_ref <- data_all[[i]]$df %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "ref")) %>% 
+       subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) 
 
-# run function
-data_all[[i]]$df_ref<- lapply(data_all, df_ref)
+# then we need to transform the data from long to wide
+data_all[[i]]$df_ref %>%
+       pivot_wider(names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.ref, values_fn = list)
+
 
 #####################
-# we will next create a data frame for the read counts for the alt variant
+# then we need to transform the data from long to wide
 # XX:alt
-# create unique identifier based on chromosome and chromosomal position for each variant
-# let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
+data_all[[i]]$df_alt <- data_all[[i]]$df %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "alt")) %>% 
+       subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) 
 
-data_all[[i]]$df_alt <-  data_all[[i]] %>%
-       mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "alt")) 
-
-# write function to run for the list of dataframes
-df_alt <- function(x){
-  data_all[[i]]$df_alt %>%
-  subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) 
-  pivot_wider(data_all[[i]]$df_alt, names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.alt)
-}
-
-# run function
-data_all[[i]]$df_alt<- lapply(data_all, df_alt)
+# then we need to transform the data from long to wide
+data_all[[i]]$df_ref %>%
+       pivot_wider(names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.alt, values_fn = list)
 
 #####################
 # merge data_all[[i]]$df_ref with data_all[[i]]$df_alt
