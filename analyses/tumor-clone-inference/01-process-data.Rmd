@@ -300,8 +300,8 @@ data_all[[i]]$df_ref <- data_all[[i]]$df %>%
        subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) 
 
 # then we need to transform the data from long to wide
-data_all[[i]]$df_ref %>%
-       pivot_wider(names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.ref, values_fn = list)
+data_all[[i]]$df_ref_wide = data_all[[i]]$df_ref %>%
+       pivot_wider(names_from = "Kids_First_Biospecimen_ID_descriptor", values_from = "XX.ref", values_fn = list)
 
 
 #####################
@@ -312,14 +312,14 @@ data_all[[i]]$df_alt <- data_all[[i]]$df %>%
        subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) 
 
 # then we need to transform the data from long to wide
-data_all[[i]]$df_ref %>%
+data_all[[i]]$df_alt_wide = data_all[[i]]$df_alt %>%
        pivot_wider(names_from = Kids_First_Biospecimen_ID_descriptor, values_from = XX.alt, values_fn = list)
 
 #####################
 # merge data_all[[i]]$df_ref with data_all[[i]]$df_alt
 # add columns: 'Chr','Position','Wild', "Mut" that are missing so it matches the CloneFinder input
 
-data_all[[i]]$merge_read_counts <- list(data_all[[i]]$df_ref, left_join(data_all[[i]]$df_alt)) %>% 
+data_all[[i]]$merge_read_counts <- list(data_all[[i]]$df_ref_wide, left_join(data_all[[i]]$df_alt_wide)) %>% 
                                           reduce(left_join, by=c('match_id_unique'))  %>% 
                                           mutate(Chr =gsub("_..*", "", match_id_unique)) %>% 
                                           mutate(Position =gsub("_", "", match_id_unique)) 
