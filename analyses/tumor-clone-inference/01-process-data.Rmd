@@ -280,6 +280,7 @@ setwd(temp_path)
 # and create input files
 
 for(i in 1:length(data_all)) {  
+# i = "PT_KTRJ8TFY.csv"
 
 # we need to have separate columns with the tumor sample containing read counts per variant
   
@@ -287,12 +288,11 @@ for(i in 1:length(data_all)) {
 # we will first create a data frame for the read counts for the reference and alteration variant
 # create unique identifier based on chromosome and chromosomal position for each variant
 # let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
-# i = "PT_KTRJ8TFY.csv"
 # XX:ref  
   
 data_all[[i]]$df <- data_all[[i]] %>%
        mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
+       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_"))
 
   
 data_all[[i]]$df_ref <- data_all[[i]]$df %>%
