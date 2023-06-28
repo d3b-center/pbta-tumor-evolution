@@ -67,19 +67,18 @@ RUN ./install_bioc.r \
 
 # install R packages from GitHub
 
-# Maftools
 RUN ./install_github.r \
   cDriver \
-	PoisonAlien/maftools
+  chrisamiller/fishplot \
+	clauswilke/colorblindr \
+  hdng/clonevol \
+  hdng/trees \
+  PoisonAlien/maftools
+
 
 # package required for immune deconvolution
 RUN R -e "remotes::install_github('omnideconv/immunedeconv', ref = '0c5c61978029c069eb1ab7487aaeb8b721810401', dependencies = TRUE)"
 
-RUN ./install_github.r \
-  chrisamiller/fishplot \
-	clauswilke/colorblindr \
-  hdng/clonevol \
-  hdng/trees
 
 # Install pip3 and low-level python installation reqs
 RUN apt-get update
