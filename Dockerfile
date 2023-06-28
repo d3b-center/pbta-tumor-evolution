@@ -1,8 +1,8 @@
-FROM rocker/tidyverse:4.2
+FROM rocker/tidyverse:4.2.3
 MAINTAINER chronia@chop.edu
 WORKDIR /rocker-build/
 
-RUN RSPM="https://packagemanager.rstudio.com/cran/2022-10-07" \
+RUN RSPM="https://packagemanager.rstudio.com/cran/2023-02-10" \
   && echo "options(repos = c(CRAN='$RSPM'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site
   
 COPY scripts/install_bioc.r .
@@ -22,20 +22,13 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     liblzma-dev \
     libreadline-dev
 
+
 # libmagick++-dev is needed for coloblindr to install
 RUN apt-get -y --no-install-recommends install \
     libgdal-dev \
     libudunits2-dev \
     libmagick++-dev
 
-# Required for installing pdftools, which is a dependency of gridGraphics
-RUN apt-get -y --no-install-recommends install \
-    libpoppler-cpp-dev
-
-# Install java
-RUN apt-get update && apt-get -y --no-install-recommends install \
-   default-jdk \
-   libxt6
    
 # cmakeis needed for ggpubr to install
 RUN apt-get -y --no-install-recommends install \
@@ -44,42 +37,49 @@ RUN apt-get -y --no-install-recommends install \
 # install R packages from CRAN
 RUN install2.r \
 	BiocManager \
-  cDriver \
-  clonevol \
   data.table \
   devtools \
   fishplot \
   flextable \
   future \
+  ggplot2\ 
   ggpubr \
   ggthemes \
-  immunedeconv \
-  msigdbr \
+  gridBase \
+  gridExtra \
+  igraph \
 	optparse \
+  packcircles \
 	pheatmap \
   plyr \
   purrr \
 	RColorBrewer \
+  R.utils \
   rlist \
-	survival \
-  survMisc \
-  survminer \
   tidytext \
+  tidyverse \
   vroom
+
 
 # install R packages from Bioconductor 
 RUN ./install_bioc.r \
-  ComplexHeatmap \
-  GSVA 
+  ComplexHeatmap
 
 # install R packages from GitHub
 
 # Maftools
 RUN ./install_github.r \
+  cDriver \
 	PoisonAlien/maftools
 
+# package required for immune deconvolution
+RUN R -e "remotes::install_github('omnideconv/immunedeconv', ref = '0c5c61978029c069eb1ab7487aaeb8b721810401', dependencies = TRUE)"
+
 RUN ./install_github.r \
-	clauswilke/colorblindr
+  chrisamiller/fishplot \
+	clauswilke/colorblindr \
+  hdng/clonevol \
+  hdng/trees
 
 # Install pip3 and low-level python installation reqs
 RUN apt-get update
