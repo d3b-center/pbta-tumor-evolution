@@ -6,7 +6,6 @@ RUN RSPM="https://packagemanager.rstudio.com/cran/2023-02-10" \
   && echo "options(repos = c(CRAN='$RSPM'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site
   
 COPY scripts/install_bioc.r .
-
 COPY scripts/install_github.r .
 
 ### Install apt-getable packages to start
@@ -32,34 +31,6 @@ RUN apt-get -y --no-install-recommends install \
 RUN apt-get -y --no-install-recommends install \
     cmake
 
-# install R packages from CRAN
-RUN install2.r \
-	BiocManager \
-  data.table \
-  devtools \
-  flextable \
-  future \
-  ggplot2 \ 
-  ggpubr \
-  ggthemes \
-  gridBase \
-  gridExtra \
-  igraph \
-	optparse \
-  packcircles \
-	pheatmap \
-  purrr \
-	RColorBrewer \
-  R.utils \
-  rlist \
-  tidytext \
-  vroom
-
-
-# install R packages from Bioconductor 
-RUN ./install_bioc.r \
-  ComplexHeatmap
-
 # install R packages from GitHub
 # Maftools
 RUN ./install_github.r 'PoisonAlien/maftools' --ref '80b22a48cccb9be696cc164a6b6b5aa6c1ef8ee3' 
@@ -76,11 +47,31 @@ RUN ./install_github.r 'chrisamiller/fishplot' --ref '7b7477aa21c4eb62b0defd00c6
 # Inferring and visualizing clonal evolution in multi-sample cancer sequencing.
 RUN ./install_github.r 'hdng/clonevol' --ref '7aff737aedde157de4e7374cedf9a873e80c8046'
 
-# part of hdng/clonevol installation
-RUN ./install_github.r 'hdng/trees' --ref '2dd14481c949cd41b8b4fcdb378a3e161aa4c25c'
-
 # package required for immune deconvolution
 RUN ./install_github.r 'omnideconv/immunedeconv' --ref '0c5c61978029c069eb1ab7487aaeb8b721810401'
+
+# install R packages from CRAN
+RUN install2.r \
+	BiocManager \
+  data.table \
+  devtools \
+  flextable \
+  future \
+  ggplot2 \ 
+  ggpubr \
+  ggthemes \
+	optparse \
+	pheatmap \
+  purrr \
+	RColorBrewer \
+  R.utils \
+  rlist \
+  tidytext \
+  vroom
+
+# install R packages from Bioconductor 
+RUN ./install_bioc.r \
+  ComplexHeatmap
 
 # Install pip3 and low-level python installation reqs
 RUN apt-get update
