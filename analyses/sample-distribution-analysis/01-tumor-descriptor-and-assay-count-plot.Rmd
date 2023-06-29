@@ -30,7 +30,7 @@ This notebook is intended to be run via the command line from the top directory
 of the repository as follows:
 
 ```
-Rscript -e "rmarkdown::render('analyses/01_sample_distribution_analysis/01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
 ```
 
 # Set up
@@ -199,7 +199,6 @@ tumor_descriptor_df %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-
 ```
 
 The following table is to provide matched different time points and summarize the information under the "tumor_descriptor_sum" column.
@@ -291,7 +290,6 @@ genomic_df_filter %>%
   fontsize(size = 12, part = "all")
 
 print(length(unique(genomic_df_filter$Kids_First_Participant_ID)))
-
 ```
 
 We have 124 patient cases with tumor samples across multiple time points with genomic assays (paired or not with transcriptomic).
@@ -406,20 +404,20 @@ table(paired_assays_mult_events$has_mult_events)
 
 
 ### Genomic assays and cancer_group
-Let's investigate the number of tumor samples with genomic assays per cancer_group.
+Let us investigate the number of tumor samples with genomic assays per cancer_group.
 
 ```{r}
 list <- genomic_df %>% 
       count(cancer_group) %>% 
       arrange(desc(n)) 
-print (list, n)
+print (list, dplyr.print_min = Inf)
 ```
 We will look into the first five cancer groups with the highest number of tumor samples.
 These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Ependymoma, and Diffuse midline glioma.
 
 BUT there are cases that the second time point has a different cancer_group. 
-This creates combinations of the same subtype, but they won't show up in the following.
-Let's summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.
+This creates combinations of the same subtype, but they will not show up in the following.
+Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.
 We will only do this for the first five histologies for now.
 
 ```{r}
