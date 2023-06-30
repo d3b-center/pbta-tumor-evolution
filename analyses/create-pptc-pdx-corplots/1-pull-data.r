@@ -1,4 +1,56 @@
-# Pulling out Dx-Relapse matches from MAF file
+
+# Load libraries
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggplot2)
+  library(flextable)
+})
+
+
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+# root_dir <- "/Users/chronia/CHOP/GitHub/pbta-tumor-evolution"
+setwd(root_dir)
+
+analysis_dir <- file.path(root_dir, "analyses", "create-pptc-pdx-corplots")
+
+# File path to input directory
+input_dir <-
+  file.path(analysis_dir, "input")
+
+# Inputs
+input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
+
+# The following files were generated from the add-sample-distribution analysis
+# to source files from there - TO FIX THIS LATER
+input_genomic_df_filter <- file.path(input_dir, "genomic_df_filter.tsv")
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+
+
+
+
+
+
+
+
+# Pulling out Dx-Relapse or any other matches from MAF file
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
 
@@ -11,8 +63,6 @@ input_dir <-
 # Inputs
 input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
 
-
-load("~/Box Sync/PPTC-genomics-collaboration/Pedcbio-upload/2019-02-14-allpdx-clean-maf-240.rda")
 inData <- pptc.merge
 #colnames(inData)
 

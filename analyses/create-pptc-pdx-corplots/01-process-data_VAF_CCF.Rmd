@@ -1,0 +1,161 @@
+---
+title: "Estimation of VAFs of tumors across multiple timepoints for the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+
+#### Tumor evolution project 
+
+# Background
+We are investigating the change of VAFs across multiple timepoints in the PBTA cohort.
+
+### Data used 
+In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
+We use the output files from the "analyses/sample-distribution-analysis/results".
+
+### Method used 
+
+
+### Usage
+
+This notebook is intended to be run via the command line from the top directory
+of the repository as follows:
+
+```
+Rscript -e "rmarkdown::render('analyses/create-pptc-pdx-corplots/01-process-data_VAF_CCF.Rmd', clean = TRUE)"
+```
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(data.table)
+  library(cDriver) # https://github.com/hanasusak/cDriver/
+  library(flextable)
+  library(plyr)
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+# root_dir <- "/Users/chronia/CHOP/GitHub/pbta-tumor-evolution"
+setwd(root_dir)
+
+analysis_dir <- file.path(root_dir, "analyses", "create-pptc-pdx-corplots")
+
+# File path to input directory
+input_dir <-
+  file.path(analysis_dir, "input")
+
+# Inputs
+input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
+
+# The following files were generated from the add-sample-distribution analysis
+input_cohort_pbta <- file.path(input_dir, "pbta.tsv")
+input_genomic_df_filter <- file.path(input_dir, "genomic_df_filter.tsv")
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+```
+
+## Load data
+```{r load-inputs-please-wait}
+# Inputs
+## Read MAF file
+snv <- data.table::fread(input_snv, data.table = F)
+
+pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = FALSE)
+
+## Read in genomic_df_filter file
+genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
+```
+
+
+# Process Data: snv 
+
+We need to process each input file and generate input files for the fishplot analysis.
+We will first change the column name of the biospecimen column to match the one from the histologies files.
+
+```{r process snv}
+colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
+```  
+
+```{r calculate VAF, echo=TRUE}
+# using formula for VAF calculation
+snv_vaf <- snv %>% mutate(VAF = t_alt_count / (t_ref_count + t_alt_count))
+```
+
+```{r calculate CCF, echo=TRUE}
+# computational way by using cDriver R package
+# if you encounter the following "Error: vector memory exhausted (limit reached?)"
+# you may need to increase the memory in Renviron for this step
+# https://stackoverflow.com/questions/51295402/r-on-macos-error-vector-memory-exhausted-limit-reached
+# gc() #to check the memory used and/or available
+snv_vaf_ccf <- CCF(snv_vaf)
+
+# using formula for CCF calculation
+snv_vaf_ccf_formula <- snv_vaf_ccf %>% mutate(CCF_formula = (2*t_alt_count)/ (t_ref_count + t_alt_count))
+```
+
+Both methods for CCF calculation seem to return the same values. The one using the formula is faster and requires less memory.
+For now, we will proceed with the results from cDriver R package.
+
+
+```{r echo=TRUE}
+# we will subset to variables we will interested to focus on for downstream analysis
+snv_vaf_ccf_subset <- subset(snv_vaf_ccf_formula, 
+                             select = c(Kids_First_Biospecimen_ID, Hugo_Symbol,Variant_Classification,VAF))
+```
+
+TODO 
+The following code is part of the module "tumor-clone-inference" and generates the "genomic_df_subset.tsv" file.
+Maybe remove this part from here (or vice versa) so it's not dubplaicate in the repo.
+
+```{r echo=TRUE}
+# Merge genomic_df_filter with pbta_subset to get sample_id information
+# Create match_id2 to count for multiple samples per patient, if any
+genomic_df_filter_merge <- genomic_df_filter %>% 
+  left_join(pbta, by=c('Kids_First_Participant_ID'))
+
+genomic_df_subset <- genomic_df_filter_merge %>%
+  subset(select = c(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, sample_id, composition, match_id, tumor_descriptor, descriptors, cancer_group.x, experimental_strategy.y)) %>%
+  filter(!(experimental_strategy.y == "RNA-Seq")) %>%
+  mutate(match_id2 = paste(Kids_First_Participant_ID, sample_id, composition, sep = "_")) %>%
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
+                                 grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                 grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
+                                 TRUE ~ tumor_descriptor)) %>%
+  write_tsv(file.path(results_dir, "genomic_df_subset.tsv"))
+
+genomic_df_subset <- genomic_df_subset %>%
+  select(Kids_First_Participant_ID, match_id2, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, cancer_group.x, experimental_strategy.y)  %>%
+  arrange(Kids_First_Participant_ID) 
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
+  
