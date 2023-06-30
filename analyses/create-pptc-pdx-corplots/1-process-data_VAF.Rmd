@@ -27,7 +27,7 @@ This notebook is intended to be run via the command line from the top directory
 of the repository as follows:
 
 ```
-Rscript -e "rmarkdown::render('analyses/create-pptc-pdx-corplots/01-process-data_VAF_CCF.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('analyses/create-pptc-pdx-corplots/01-process-data_VAF.Rmd', clean = TRUE)"
 ```
 
 # Set up
@@ -36,7 +36,6 @@ Rscript -e "rmarkdown::render('analyses/create-pptc-pdx-corplots/01-process-data
 suppressPackageStartupMessages({
   library(tidyverse)
   library(data.table)
-  library(cDriver) # https://github.com/hanasusak/cDriver/
   library(flextable)
   library(plyr)
 })
@@ -108,29 +107,13 @@ colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospe
 snv_vaf <- snv %>% mutate(VAF = t_alt_count / (t_ref_count + t_alt_count))
 ```
 
-```{r calculate CCF, echo=TRUE}
-# computational way by using cDriver R package
-# if you encounter the following "Error: vector memory exhausted (limit reached?)"
-# you may need to increase the memory in Renviron for this step
-# https://stackoverflow.com/questions/51295402/r-on-macos-error-vector-memory-exhausted-limit-reached
-# gc() #to check the memory used and/or available
-snv_vaf_ccf <- CCF(snv_vaf)
-
-# using formula for CCF calculation
-snv_vaf_ccf_formula <- snv_vaf_ccf %>% mutate(CCF_formula = (2*t_alt_count)/ (t_ref_count + t_alt_count))
-```
-
-Both methods for CCF calculation seem to return the same values. The one using the formula is faster and requires less memory.
-For now, we will proceed with the results from cDriver R package.
-
-
 ```{r echo=TRUE}
 # we will subset to variables we will interested to focus on for downstream analysis
-snv_vaf_ccf_subset <- subset(snv_vaf_ccf_formula, 
-                             select = c(Kids_First_Biospecimen_ID, Hugo_Symbol,Variant_Classification,VAF))
+snv_vaf_subset <- subset(snv_vaf, 
+                             select = c(Kids_First_Biospecimen_ID, Hugo_Symbol,Chromosome, Start_Position, Variant_Classification,VAF))
 ```
 
-TODO 
+* TODO *
 The following code is part of the module "tumor-clone-inference" and generates the "genomic_df_subset.tsv" file.
 Maybe remove this part from here (or vice versa) so it's not dubplaicate in the repo.
 
@@ -153,7 +136,39 @@ genomic_df_subset <- genomic_df_filter_merge %>%
 genomic_df_subset <- genomic_df_subset %>%
   select(Kids_First_Participant_ID, match_id2, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, cancer_group.x, experimental_strategy.y)  %>%
   arrange(Kids_First_Participant_ID) 
+
+genomic_df_subset %>%
+  group_by(Kids_First_Participant_ID, match_id2, descriptors) %>%
+  tally() %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
 ```
+
+
+```{r echo=TRUE}
+maf_files <- snv_vaf_subset %>% 
+  left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+  filter(!is.na(Kids_First_Participant_ID))
+  
+# Create dir to save MAF files
+temp_path_csv <-
+  file.path(results_dir, "01_MAF_files_Per_Patient")
+if (!dir.exists(temp_path_csv)) {
+  dir.create(temp_path_csv)
+}
+
+# we will change the dir here otherwise files are saved outside of the desired folder
+setwd(temp_path_csv)
+
+# we will split masf data by the "Kids_First_Participant_ID.x" column
+maf_files %>% 
+  group_split(Kids_First_Participant_ID) %>% 
+  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+# let's change back to the root_dir for the rest of the module
+setwd(root_dir)
+```
+
 
 ```{r echo=TRUE}
 sessionInfo()
