@@ -27,7 +27,7 @@ This notebook is intended to be run via the command line from the top directory
 of the repository as follows:
 
 ```
-Rscript -e "rmarkdown::render('analyses/create-pptc-pdx-corplots/01-process-data_VAF.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('analyses/create-corplots/01-process-data_VAF.Rmd', clean = TRUE)"
 ```
 
 # Set up
@@ -71,13 +71,6 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-
-# File path to plots directory
-plots_dir <-
-  file.path(analysis_dir, "plots")
-if (!dir.exists(plots_dir)) {
-  dir.create(plots_dir)
-}
 ```
 
 ## Load data
