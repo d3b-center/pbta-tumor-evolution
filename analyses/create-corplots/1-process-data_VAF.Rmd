@@ -51,7 +51,7 @@ root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 # root_dir <- "/Users/chronia/CHOP/GitHub/pbta-tumor-evolution"
 setwd(root_dir)
 
-analysis_dir <- file.path(root_dir, "analyses", "create-pptc-pdx-corplots")
+analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 
 # File path to input directory
 input_dir <-
