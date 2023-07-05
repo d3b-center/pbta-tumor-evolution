@@ -162,6 +162,33 @@ maf_files %>%
 setwd(root_dir)
 ```
 
+We will focus on patient cases containing autopsy samples and save these maf files separately.
+
+```{r echo=TRUE}
+maf_files_Deceased <- snv_vaf_subset %>% 
+  left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+  filter(!is.na(Kids_First_Participant_ID)) %>%
+  filter(tumor_descriptor == "Deceased")
+
+  
+# Create dir to save MAF files
+temp_path_csv <-
+  file.path(results_dir, "01_MAF_files_Per_Patient_Deceased")
+if (!dir.exists(temp_path_csv)) {
+  dir.create(temp_path_csv)
+}
+
+# we will change the dir here otherwise files are saved outside of the desired folder
+setwd(temp_path_csv)
+
+# we will split masf data by the "Kids_First_Participant_ID.x" column
+maf_files_Deceased %>% 
+  group_split(Kids_First_Participant_ID) %>% 
+  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+# let's change back to the root_dir for the rest of the module
+setwd(root_dir)
+```
 
 ```{r echo=TRUE}
 sessionInfo()
