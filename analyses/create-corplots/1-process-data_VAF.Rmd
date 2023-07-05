@@ -168,7 +168,8 @@ We will focus on patient cases containing autopsy samples and save these maf fil
 maf_files_Deceased <- snv_vaf_subset %>% 
   left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
-  filter(tumor_descriptor == "Deceased")
+  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
+  filter(Deceased == "Deceased")
 
   
 # Create dir to save MAF files
