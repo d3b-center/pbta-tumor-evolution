@@ -44,13 +44,7 @@ suppressPackageStartupMessages({
   library(purrr)
   library(flextable)
   library(plyr)
-  library(future)
 })
-
-# run processes asynchronously when possible using future package
-plan("multisession", workers = 4)
-# increase the limit of the data to be shuttled between the processes from default 500MB to 50GB
-options(future.globals.maxSize = 30 * 1024 ^ 3)
 ```
 
 ## Directories and File Inputs/Outputs
