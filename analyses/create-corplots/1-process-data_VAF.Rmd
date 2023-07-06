@@ -79,6 +79,7 @@ if (!dir.exists(results_dir)) {
 ## Read MAF file
 snv <- data.table::fread(input_snv, data.table = F)
 
+# read pbta cohort
 pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = FALSE)
 
 ## Read in genomic_df_filter file
@@ -88,7 +89,7 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 
 # Process Data: snv 
 
-We need to process each input file and generate input files for the fishplot analysis.
+We need to process each input file and generate input files.
 We will first change the column name of the biospecimen column to match the one from the histologies files.
 
 ```{r process snv}
@@ -108,7 +109,7 @@ snv_vaf_subset <- subset(snv_vaf,
 
 * TODO *
 The following code is part of the module "tumor-clone-inference" and generates the "genomic_df_subset.tsv" file.
-Maybe remove this part from here (or vice versa) so it's not dubplaicate in the repo.
+Maybe remove this part from here (or vice versa) so it's not duplicate in the repo.
 
 ```{r echo=TRUE}
 # Merge genomic_df_filter with pbta_subset to get sample_id information
@@ -169,10 +170,10 @@ maf_files_Deceased <- snv_vaf_subset %>%
   left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased")
-
+  filter(Deceased == "Deceased") %>%
+  write_tsv(file.path(results_dir, "maf_files_Deceased.tsv"))
   
-# Create dir to save MAF files
+# Create dir to save MAF files separately for each patient case as well
 temp_path_csv <-
   file.path(results_dir, "01_MAF_files_Per_Patient_Deceased")
 if (!dir.exists(temp_path_csv)) {
