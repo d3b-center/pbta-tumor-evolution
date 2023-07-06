@@ -38,6 +38,17 @@ suppressPackageStartupMessages({
   library(data.table)
   library(flextable)
   library(plyr)
+  
+  
+  
+  library(ggplot2)
+  
+  
+  library(ggbeeswarm)
+  library(gghighlight)
+  library(ggrepel)
+  library(ggthemes)
+  library(ggpubr)
 })
 ```
 
@@ -71,6 +82,12 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
+# File path to results directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
 ```
 
 ## Load data
@@ -191,6 +208,64 @@ maf_files_Deceased %>%
 # let's change back to the root_dir for the rest of the module
 setwd(root_dir)
 ```
+
+
+```{r echo=TRUE}
+# Storing all Sample pairs in a list so each file can be processed iteratively
+#file_list <- list.files(path=input_maf, pattern="*-vaf.csv") 
+
+all_files <-  list.files(path = input_maf, # Identify all CSV files
+                       pattern = "*-vaf.csv", full.names = TRUE)
+data_all <- read.csv(all_files[1])
+for(i in 2:length(all_files)) {
+  data_i <- read.csv(all_files[i])
+  #data_all <- merge(data_all, data_i, by = c("RNAseq_id"))
+}
+
+
+```
+
+
+```{r plot}
+for (i in all_files){
+  
+  #base = strsplit(x,"-vaf.csv")[[1]]  # splitting to save Dx and relapse sample names
+  #words = strsplit(base,"_")[[1]] 
+  
+  #axis_x = paste0(words[1]) # Model name 
+  #axis_y = paste0(words[2]) # Model name
+  
+  # Reading files iteratively and storing in a dataframe
+  # dat1 <- read.csv(all_files[i])
+  
+  data_i[is.na(data_i)] = 0  # Replace all na's with 0
+  #dat1$Protein_Change[dat1$Protein_Change== "0"] <- " "
+  
+  # Matching the model name and fetching corresponding Histology.Detail for plot_title
+  #inx = which(df_hist$Model %in% axis_x)
+  # plot_title = df_hist$Histology.Detailed[inx]
+    plot_title = "patient"
+      
+  # Plotting scatterplot for all Progressive-Deceased Samples 
+  
+  p <- ggplot(data_i, aes(data_i$Progressive, data_i$Deceased, color = tumor_descriptor)) + 
+    geom_point( size = 10,fill = 4, alpha = 1/6) + 
+    scale_colour_manual(values = c("gray34", "dodgerblue3", "firebrick3")) + 
+    labs(title = paste(plot_title), x = axis_x, y = axis_y) + 
+    geom_vline(xintercept = 0.1, linetype = "dashed") + # Adding vertical intercept
+    geom_hline(yintercept = 0.1, linetype = "dashed") + # Adding horizontal intercept line
+    geom_text_repel(aes(label =ifelse(data_i$label > 0, paste("",ddata_i$Hugo_Symbol,"",data_i$label_PC,""),'')),size = 3.5,hjust = 0,vjust = 0, nudge_x = 0.005,point.padding = NA,segment.color = NA, show.legend = FALSE, xlim = c(0.02,NA),ylim = c(0.025,0.96)) + # if label column is one, then label the point with gene name and it's corresponding Protein Change value
+    theme_Publication() + 
+    theme(plot.title = element_text(hjust = 0.5))+ 
+    xlim(0,1) + 
+    ylim(0,1)
+  
+  # Save as PDF
+  ggsave(paste0(plots_dir,"-vaf.pdf"), p, width=8, height=6, device = "pdf")
+  
+}
+```
+
 
 ```{r echo=TRUE}
 sessionInfo()
