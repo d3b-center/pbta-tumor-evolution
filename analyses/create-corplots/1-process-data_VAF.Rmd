@@ -231,11 +231,13 @@ In the following there are Kids_First_Biospecimen_ID missing in the TMB file so 
 ```{r Stacked_barplot}
 colnames(tmb)[which(names(tmb) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
 
-maf_files_Deceased_subset <- subset(maf_files_Deceased, 
-                                    select = c(Kids_First_Biospecimen_ID, match_id, tumor_descriptor, Kids_First_Participant_ID)) 
+genomic_df_subset_Deceased <- genomic_df_subset %>%
+  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
+  filter(Deceased == "Deceased")
+
 tmb_merge <- tmb %>% 
-  left_join(maf_files_Deceased_subset, by=c('Kids_First_Biospecimen_ID')) %>%
-  #filter(!is.na(tumor_descriptor))   %>%
+  left_join(genomic_df_subset_Deceased , by=c('Kids_First_Biospecimen_ID')) %>%
+  filter(!is.na(tumor_descriptor))   %>%
   write_tsv(file.path(scratch, "tmb_merge.tsv"))
 
 # set the order for the x axis
@@ -251,8 +253,29 @@ print(ggplot(tmb_merge, aes(x = factor(Kids_First_Participant_ID), y = mutation_
   labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
 
 ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
+
+
+# Remove PT_3CHB9PK5 due to high TMB to make plot look nicer
+tmb_merge_rm_PT_3CHB9PK5 <- tmb_merge %>% 
+  filter(!(Kids_First_Participant_ID == "PT_3CHB9PK5"))   
+
+# set the order for the x axis
+tmb_merge_rm_PT_3CHB9PK5$tumor_descriptor <- factor(x = tmb_merge_rm_PT_3CHB9PK5$tumor_descriptor, levels = c("Diagnosis","Progressive", "Recurrence", "Deceased"))
+
+print(ggplot(tmb_merge_rm_PT_3CHB9PK5, aes(x = factor(Kids_First_Participant_ID), y = mutation_count, fill = tumor_descriptor))+  
+  geom_col(position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = c("gray", "pink", "firebrick3", "dodgerblue3")) +
+  geom_bar( stat="identity", width = 0.9) + 
+  theme_Publication() + 
+  theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust =1)) + 
+  scale_y_continuous(limits=c(0,500)) +
+  labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
+
+ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased_rm_PT_3CHB9PK5.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
 ```
 
+Attention, the sample PT_6N825561 has no Kids_First_Biospecimen_ID in the TMB file, hence no Stacked_barplot is shown.
+The following are missing: Kids_First_Biospecimen_ID = BS_0YWFFRYV; BS_3V7ZNBTG; BS_E0S2Y0TS; BS_YTCYVVY9
 
 ## Corplots across all Matched Samples
 
