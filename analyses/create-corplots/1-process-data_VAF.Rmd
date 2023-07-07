@@ -23,8 +23,7 @@ We use the output files from the "analyses/sample-distribution-analysis/results"
 
 ### Usage
 
-This notebook is intended to be run via the command line from the top directory
-of the repository as follows:
+This notebook is intended to be run via the command line from the top directory of the repository as follows:
 
 ```
 Rscript -e "rmarkdown::render('analyses/create-corplots/1-process-data_VAF.Rmd', clean = TRUE)"
@@ -38,17 +37,9 @@ suppressPackageStartupMessages({
   library(data.table)
   library(flextable)
   library(plyr)
-  
-  
-  
   library(ggplot2)
-  
-  
-  library(ggbeeswarm)
-  library(gghighlight)
-  library(ggrepel)
-  library(ggthemes)
   library(ggpubr)
+  library(ggrepel)
 })
 ```
 
@@ -88,6 +79,8 @@ plots_dir <-
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
+
+source(paste0(root_dir, "/figures/theme.R"))
 ```
 
 ## Load data
@@ -107,7 +100,7 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 # Process Data: snv 
 
 We need to process each input file and generate input files.
-We will first change the column name of the biospecimen column to match the one from the histologies files.
+We will first change the column name of the biospecimen column to match the column name from the histologies files.
 
 ```{r process snv}
 colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
@@ -144,10 +137,6 @@ genomic_df_subset <- genomic_df_filter_merge %>%
                                  TRUE ~ tumor_descriptor)) %>%
   write_tsv(file.path(results_dir, "genomic_df_subset.tsv"))
 
-genomic_df_subset <- genomic_df_subset %>%
-  select(Kids_First_Participant_ID, match_id2, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, cancer_group.x, experimental_strategy.y)  %>%
-  arrange(Kids_First_Participant_ID) 
-
 genomic_df_subset %>%
   group_by(Kids_First_Participant_ID, match_id2, descriptors) %>%
   tally() %>%
@@ -157,50 +146,54 @@ genomic_df_subset %>%
 
 
 ```{r echo=TRUE}
-maf_files <- snv_vaf_subset %>% 
-  left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
-  filter(!is.na(Kids_First_Participant_ID))
+#maf_files <- snv_vaf_subset %>% 
+#  left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+#  filter(!is.na(Kids_First_Participant_ID))
   
 # Create dir to save MAF files
-temp_path_csv <-
-  file.path(results_dir, "01_MAF_files_Per_Patient")
-if (!dir.exists(temp_path_csv)) {
-  dir.create(temp_path_csv)
-}
+#temp_path_csv <-
+#  file.path(results_dir, "01_MAF_files_Per_Patient")
+#if (!dir.exists(temp_path_csv)) {
+#  dir.create(temp_path_csv)
+#}
 
 # we will change the dir here otherwise files are saved outside of the desired folder
-setwd(temp_path_csv)
+#setwd(temp_path_csv)
 
 # we will split masf data by the "Kids_First_Participant_ID.x" column
-maf_files %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#maf_files %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
 
 # let's change back to the root_dir for the rest of the module
-setwd(root_dir)
+#setwd(root_dir)
 ```
 
+# Autopsy samples 
 We will focus on patient cases containing autopsy samples and save these maf files separately.
 
 ```{r echo=TRUE}
+# Create dir to save MAF files separately for each patient case as well
+scratch <-
+  file.path(results_dir, "scratch")
+if (!dir.exists(scratch)) {
+  dir.create(scratch)
+}
+
+# we will change the dir here otherwise files are saved outside of the desired folder
+setwd(scratch)
+
 maf_files_Deceased <- snv_vaf_subset %>% 
   left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased") %>%
-  write_tsv(file.path(results_dir, "maf_files_Deceased.tsv"))
+  filter(Deceased == "Deceased") 
+
+# Let us keep only VAF >= 0.1
+maf_files_Deceased <- maf_files_Deceased[maf_files_Deceased$VAF>=0.5,] %>%
+  write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
   
-# Create dir to save MAF files separately for each patient case as well
-temp_path_csv <-
-  file.path(results_dir, "01_MAF_files_Per_Patient_Deceased")
-if (!dir.exists(temp_path_csv)) {
-  dir.create(temp_path_csv)
-}
-
-# we will change the dir here otherwise files are saved outside of the desired folder
-setwd(temp_path_csv)
-
-# we will split masf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID.x" column
 maf_files_Deceased %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -209,61 +202,116 @@ maf_files_Deceased %>%
 setwd(root_dir)
 ```
 
+## VAFs across all Matched Samples: Violin_plot
 
-```{r echo=TRUE}
-# Storing all Sample pairs in a list so each file can be processed iteratively
-#file_list <- list.files(path=input_maf, pattern="*-vaf.csv") 
+```{r Violin_plot}
+# set the order for the x axis
+maf_files_Deceased$tumor_descriptor <- factor(x = maf_files_Deceased$tumor_descriptor, levels = c("Diagnosis","Progressive", "Recurrence", "Deceased"))
+#my_comparisons = list( c("Diagnosis","Progressive"), c("Diagnosis", "Recurrence"), c("Diagnosis", "Deceased"),
+#                       c("Progressive", "Recurrence"), c("Progressive", "Deceased"),
+#                       c("Recurrence", "Deceased"))
 
-all_files <-  list.files(path = input_maf, # Identify all CSV files
-                       pattern = "*-vaf.csv", full.names = TRUE)
-data_all <- read.csv(all_files[1])
-for(i in 2:length(all_files)) {
-  data_i <- read.csv(all_files[i])
-  #data_all <- merge(data_all, data_i, by = c("RNAseq_id"))
-}
+print(ggplot(maf_files_Deceased, aes(x= tumor_descriptor, y= VAF, fill = tumor_descriptor)) + 
+  geom_violin() +
+  #stat_compare_means(comparisons = my_comparisons, label.y = c(29, 35, 40))+ # Add pairwise comparisons p-value
+  stat_compare_means(label.y = 55)  +   # Add global p-value
+  stat_compare_means(method = "wilcox.test")+ # Add significance levels
+  theme_Publication() +
+  scale_y_continuous(limits=c(0.5,1))) +
+  labs(title = "", x = "Time points", y = "VAF")
 
+ggsave(filename = "Violin_plot_tumor_descriptor_Deceased.pdf", path = plots_dir,, width=7 ,height =5 ,device = "pdf")
+```
 
+## Mutations across all Matched Samples: Stacked_barplot
+
+TODO - HOW TO COUNT #MUTATIONS PER POSITION???
+
+```{r Stacked_barplot}
+# count number of mutations per Kids_First_Participant_ID and tumor_descriptor
+# tumor_descriptor <- c("Diagnosis","Progressive", "Recurrence", "Deceased")
+counts <- ddply(maf_files_Deceased, .(maf_files_Deceased$Kids_First_Participant_ID, maf_files_Deceased$tumor_descriptor), nrow)
+names(counts) <- c("Kids_First_Participant_ID", "tumor_descriptor", "Freq")
+
+# set the order for the x axis
+counts$tumor_descriptor <- factor(x = counts$tumor_descriptor, levels = c("Diagnosis","Progressive", "Recurrence", "Deceased"))
+
+print(ggplot(counts, aes(x = factor(Kids_First_Participant_ID), y = Freq, fill = tumor_descriptor))+  
+  geom_col(position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = c("gray", "pink", "firebrick3", "dodgerblue3")) +
+  geom_bar( stat="identity", width = 0.9) + 
+  theme_Publication() + 
+  theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust =1)) + 
+#  scale_y_continuous(limits=c(0,1))) +
+  labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
+
+ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
+
+# Remove PT_3CHB9PK5 for now because there are high number of mutations in there
+# We will fix this once ensure we count number of mutations the right way
+
+counts1 = counts %>%
+  filter(!(Kids_First_Participant_ID == "PT_3CHB9PK5")) 
+
+print(ggplot(counts1, aes(x = factor(Kids_First_Participant_ID), y = Freq, fill = tumor_descriptor))+  
+  geom_col(position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = c("gray", "pink", "firebrick3", "dodgerblue3")) +
+  geom_bar( stat="identity", width = 0.9) + 
+  theme_Publication() + 
+  theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust =1)) + 
+#  scale_y_continuous(limits=c(0,1))) +
+  labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
+
+ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased1.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
 ```
 
 
+## Corplots across all Matched Samples
+
+
 ```{r plot}
+# Storing all Sample pairs in a list so each file can be processed iteratively
+all_files <-  list.files(path = scratch, # Identify all CSV files
+                       pattern = "*-vaf.csv", full.names = TRUE)
+data_all <- read.csv(all_files[1])
+
+for(i in 2:length(all_files)) {
+  data_i <- read.csv(all_files[i])   # Reading files iteratively and storing in a dataframe
+  data_i[is.na(data_i)] = 0  # Replace all na's with 0
+}
+
+
 for (i in all_files){
   
-  #base = strsplit(x,"-vaf.csv")[[1]]  # splitting to save Dx and relapse sample names
-  #words = strsplit(base,"_")[[1]] 
+  d <- subset(data_i,
+              select = c(Hugo_Symbol, VAF, tumor_descriptor)) 
+  d <- dcast(d,Hugo_Symbol~tumor_descriptor)
+
   
-  #axis_x = paste0(words[1]) # Model name 
-  #axis_y = paste0(words[2]) # Model name
-  
-  # Reading files iteratively and storing in a dataframe
-  # dat1 <- read.csv(all_files[i])
-  
-  data_i[is.na(data_i)] = 0  # Replace all na's with 0
-  #dat1$Protein_Change[dat1$Protein_Change== "0"] <- " "
-  
-  # Matching the model name and fetching corresponding Histology.Detail for plot_title
-  #inx = which(df_hist$Model %in% axis_x)
-  # plot_title = df_hist$Histology.Detailed[inx]
-    plot_title = "patient"
-      
-  # Plotting scatterplot for all Progressive-Deceased Samples 
-  
-  p <- ggplot(data_i, aes(data_i$Progressive, data_i$Deceased, color = tumor_descriptor)) + 
+  # Plotting scatterplot for all Diagnosis-Deceased Samples 
+ 
+  p <- print(ggplot(d, aes(Diagnosis, Deceased, alpha = Hugo_Symbol)) +   # data_i$Recurrence, data_i$Deceased, 
     geom_point( size = 10,fill = 4, alpha = 1/6) + 
     scale_colour_manual(values = c("gray34", "dodgerblue3", "firebrick3")) + 
-    labs(title = paste(plot_title), x = axis_x, y = axis_y) + 
+    #labs(title = paste(plot_title), x = axis_x, y = axis_y) + 
     geom_vline(xintercept = 0.1, linetype = "dashed") + # Adding vertical intercept
     geom_hline(yintercept = 0.1, linetype = "dashed") + # Adding horizontal intercept line
-    geom_text_repel(aes(label =ifelse(data_i$label > 0, paste("",ddata_i$Hugo_Symbol,"",data_i$label_PC,""),'')),size = 3.5,hjust = 0,vjust = 0, nudge_x = 0.005,point.padding = NA,segment.color = NA, show.legend = FALSE, xlim = c(0.02,NA),ylim = c(0.025,0.96)) + # if label column is one, then label the point with gene name and it's corresponding Protein Change value
+   # geom_text_repel(aes(label =ifelse(data_i$label > 0, paste("",data_i$Hugo_Symbol,""),'')),size = 3.5,hjust = 0,vjust = 0, nudge_x = 0.005,point.padding = NA,segment.color = NA, show.legend = FALSE, xlim = c(0.02,NA),ylim = c(0.025,0.96)) + # if label column is one, then label the point with gene name and it's corresponding Protein Change value
     theme_Publication() + 
-    theme(plot.title = element_text(hjust = 0.5))+ 
+    theme()+ 
     xlim(0,1) + 
-    ylim(0,1)
+    ylim(0,1))
   
   # Save as PDF
   ggsave(paste0(plots_dir,"-vaf.pdf"), p, width=8, height=6, device = "pdf")
   
 }
+```
+
+
+```{r echo=TRUE}
+# Delete Dir scratch because it contains large files not needed anymore
+unlink(scratch,recursive = TRUE)
 ```
 
 
