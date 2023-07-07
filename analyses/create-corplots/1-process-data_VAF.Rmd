@@ -65,6 +65,7 @@ input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
 # The following files were generated from the add-sample-distribution analysis
 input_cohort_pbta <- file.path(input_dir, "pbta.tsv")
 input_genomic_df_filter <- file.path(input_dir, "genomic_df_filter.tsv")
+input_tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # File path to results directory
 results_dir <-
@@ -94,6 +95,9 @@ pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = 
 
 ## Read in genomic_df_filter file
 genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
+
+# Read file with TMB information
+tmb <- readr::read_tsv(input_tmb, guess_max = 100000, show_col_types = FALSE)
 ```
 
 
@@ -187,10 +191,7 @@ maf_files_Deceased <- snv_vaf_subset %>%
   left_join(genomic_df_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased") 
-
-# Let us keep only VAF >= 0.1
-maf_files_Deceased <- maf_files_Deceased[maf_files_Deceased$VAF>=0.5,] %>%
+  filter(Deceased == "Deceased") %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
   
 # we will split maf data by the "Kids_First_Participant_ID.x" column
@@ -217,7 +218,7 @@ print(ggplot(maf_files_Deceased, aes(x= tumor_descriptor, y= VAF, fill = tumor_d
   stat_compare_means(label.y = 55)  +   # Add global p-value
   stat_compare_means(method = "wilcox.test")+ # Add significance levels
   theme_Publication() +
-  scale_y_continuous(limits=c(0.5,1))) +
+  scale_y_continuous(limits=c(0,1))) +
   labs(title = "", x = "Time points", y = "VAF")
 
 ggsave(filename = "Violin_plot_tumor_descriptor_Deceased.pdf", path = plots_dir,, width=7 ,height =5 ,device = "pdf")
@@ -225,44 +226,31 @@ ggsave(filename = "Violin_plot_tumor_descriptor_Deceased.pdf", path = plots_dir,
 
 ## Mutations across all Matched Samples: Stacked_barplot
 
-TODO - HOW TO COUNT #MUTATIONS PER POSITION???
+In the following there are Kids_First_Biospecimen_ID missing in the TMB file so they wont show in the df and plot.
 
 ```{r Stacked_barplot}
-# count number of mutations per Kids_First_Participant_ID and tumor_descriptor
-# tumor_descriptor <- c("Diagnosis","Progressive", "Recurrence", "Deceased")
-counts <- ddply(maf_files_Deceased, .(maf_files_Deceased$Kids_First_Participant_ID, maf_files_Deceased$tumor_descriptor), nrow)
-names(counts) <- c("Kids_First_Participant_ID", "tumor_descriptor", "Freq")
+colnames(tmb)[which(names(tmb) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
+
+maf_files_Deceased_subset <- subset(maf_files_Deceased, 
+                                    select = c(Kids_First_Biospecimen_ID, match_id, tumor_descriptor, Kids_First_Participant_ID)) 
+tmb_merge <- tmb %>% 
+  left_join(maf_files_Deceased_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+  #filter(!is.na(tumor_descriptor))   %>%
+  write_tsv(file.path(scratch, "tmb_merge.tsv"))
 
 # set the order for the x axis
-counts$tumor_descriptor <- factor(x = counts$tumor_descriptor, levels = c("Diagnosis","Progressive", "Recurrence", "Deceased"))
+tmb_merge$tumor_descriptor <- factor(x = tmb_merge$tumor_descriptor, levels = c("Diagnosis","Progressive", "Recurrence", "Deceased"))
 
-print(ggplot(counts, aes(x = factor(Kids_First_Participant_ID), y = Freq, fill = tumor_descriptor))+  
+print(ggplot(tmb_merge, aes(x = factor(Kids_First_Participant_ID), y = mutation_count, fill = tumor_descriptor))+  
   geom_col(position = position_stack(reverse = TRUE)) +
   scale_fill_manual(values = c("gray", "pink", "firebrick3", "dodgerblue3")) +
   geom_bar( stat="identity", width = 0.9) + 
   theme_Publication() + 
   theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust =1)) + 
-#  scale_y_continuous(limits=c(0,1))) +
+  scale_y_continuous(limits=c(0,12800)) +
   labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
 
 ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
-
-# Remove PT_3CHB9PK5 for now because there are high number of mutations in there
-# We will fix this once ensure we count number of mutations the right way
-
-counts1 = counts %>%
-  filter(!(Kids_First_Participant_ID == "PT_3CHB9PK5")) 
-
-print(ggplot(counts1, aes(x = factor(Kids_First_Participant_ID), y = Freq, fill = tumor_descriptor))+  
-  geom_col(position = position_stack(reverse = TRUE)) +
-  scale_fill_manual(values = c("gray", "pink", "firebrick3", "dodgerblue3")) +
-  geom_bar( stat="identity", width = 0.9) + 
-  theme_Publication() + 
-  theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust =1)) + 
-#  scale_y_continuous(limits=c(0,1))) +
-  labs(title = "", x = "Kids_First_Participant_ID", y = "Total Mutations"))
-
-ggsave(filename = "Stacked_barplot_tumor_descriptor_Deceased1.pdf", path = plots_dir,, width=10 ,height =6 ,device = "pdf")
 ```
 
 
