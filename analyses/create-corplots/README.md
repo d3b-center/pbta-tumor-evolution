@@ -4,7 +4,7 @@
 This pipeline plots VAF values across multiple timepoints in the PBTA cohort, label genes of interest and generates plots of total number of mutation across various samples.
 
 
-`1-process-data_VAF.Rmd` is a script written to investigate VAFs and TMB across matched samples(Violin_plot and stacked barplots). This script also produces pdf files containing the correlation of VAFs of paires longitudinal samples, i.e., Dx-Deceased, Progressive-Deceased, and Recurrence-Deceased.   
+`1-process-data_VAF.Rmd` is a script written to investigate VAFs and TMB across matched samples(Violin_plot and stacked barplots). This script also produces pdf files containing the correlation of VAFs of paired longitudinal samples, i.e., Dx-Deceased, Progressive-Deceased, and Recurrence-Deceased.   
 
 
 ## Folder structure 
