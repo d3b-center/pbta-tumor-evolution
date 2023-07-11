@@ -60,7 +60,7 @@ input_dir <-
   file.path(analysis_dir, "input")
 
 # Inputs
-input_snv <- file.path(root_dir, "data/snv-consensus-plus-hotspots.maf.tsv.gz")
+maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 
 # The following files were generated from the add-sample-distribution analysis
 input_cohort_pbta <- file.path(input_dir, "pbta.tsv")
