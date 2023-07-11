@@ -56,8 +56,8 @@ setwd(root_dir)
 analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 
 # File path to input directory
-input_dir <-
-  file.path(analysis_dir, "input")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
 # Inputs
 maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
