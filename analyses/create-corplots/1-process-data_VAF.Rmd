@@ -86,19 +86,19 @@ source(paste0(root_dir, "/figures/theme.R"))
 
 ## Load and Process data
 ```{r load-inputs-please-wait}
-## Read MAF file
-snv <- data.table::fread(maf, data.table = F) %>%
-  filter(Tumor_Sample_Barcode %in% pbta_histologies$Kids_First_Biospecimen_ID) %>%
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
-  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # using formula for VAF calculation
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
-
 # pbta cohort
 pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
   filter(cohort == "PBTA",
          !is.na(pathology_diagnosis),
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
+
+## Read MAF file
+snv <- data.table::fread(maf, data.table = F) %>%
+  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
+  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
 
 ## Read in genomic_df_filter file
 genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
