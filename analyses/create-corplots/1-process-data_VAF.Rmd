@@ -64,7 +64,7 @@ maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 
 # The following files were generated from the add-sample-distribution analysis
 v12 <- file.path(data_dir, "histologies.tsv")
-input_genomic_df_filter <- file.path(input_dir, "genomic_df_filter.tsv")
+input_genomic_df_filter <- file.path(files_dir, "genomic_df_filter.tsv")
 input_tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # File path to results directory
@@ -86,7 +86,6 @@ source(paste0(root_dir, "/figures/theme.R"))
 
 ## Load and Process data
 ```{r load-inputs-please-wait}
-# Inputs
 ## Read MAF file
 snv <- data.table::fread(maf, data.table = F) %>%
   filter(Tumor_Sample_Barcode %in% pbta_histologies$Kids_First_Biospecimen_ID) %>%
@@ -94,8 +93,12 @@ snv <- data.table::fread(maf, data.table = F) %>%
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # using formula for VAF calculation
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
 
-## Read v12 file
-v12 <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
+# pbta cohort
+pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(cohort == "PBTA",
+         !is.na(pathology_diagnosis),
+         !composition %in% c("Derived Cell Line", "PDX"),
+         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
 
 ## Read in genomic_df_filter file
 genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
@@ -106,18 +109,7 @@ tmb <- readr::read_tsv(input_tmb, guess_max = 100000, show_col_types = FALSE)
 
 # Process Data: snv 
 
-* TODO *
-The following code is part of the module "tumor-clone-inference" and generates the "genomic_df_subset.tsv" file.
-should I remove this part from here (or vice versa) so it's not duplicate in the repo? 
-
 ```{r echo=TRUE}
-# pbta cohort
-pbta <- v12 %>%
-  filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis),
-         !composition %in% c("Derived Cell Line", "PDX"),
-         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
-
 # Merge genomic_df_filter with pbta_subset to get sample_id information
 # Create match_id2 to count for multiple samples per patient, if any
 genomic_df_filter_merge <- genomic_df_filter %>% 
