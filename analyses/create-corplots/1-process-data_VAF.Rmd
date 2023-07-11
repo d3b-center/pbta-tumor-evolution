@@ -57,6 +57,7 @@ analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 # File path to input directory
 input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+data_dir <- file.path(root_dir, "data")
 
 # Inputs
 maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
@@ -92,7 +93,6 @@ snv <- data.table::fread(maf, data.table = F) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # using formula for VAF calculation
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
-
 
 ## Read v12 file
 v12 <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
