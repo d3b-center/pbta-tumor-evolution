@@ -50,7 +50,6 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-# root_dir <- "/Users/chronia/CHOP/GitHub/pbta-tumor-evolution"
 setwd(root_dir)
 
 analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
@@ -63,7 +62,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 
 # The following files were generated from the add-sample-distribution analysis
-input_cohort_pbta <- file.path(input_dir, "pbta.tsv")
+v12 <- file.path(data_dir, "histologies.tsv")
 input_genomic_df_filter <- file.path(input_dir, "genomic_df_filter.tsv")
 input_tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
@@ -84,14 +83,19 @@ if (!dir.exists(plots_dir)) {
 source(paste0(root_dir, "/figures/theme.R"))
 ```
 
-## Load data
+## Load and Process data
 ```{r load-inputs-please-wait}
 # Inputs
 ## Read MAF file
-snv <- data.table::fread(input_snv, data.table = F)
+snv <- data.table::fread(maf, data.table = F) %>%
+  filter(Tumor_Sample_Barcode %in% pbta_histologies$Kids_First_Biospecimen_ID) %>%
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
+  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # using formula for VAF calculation
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
 
-# read pbta cohort
-pbta <- readr::read_tsv(input_cohort_pbta, guess_max = 100000, show_col_types = FALSE)
+
+## Read v12 file
+v12 <- readr::read_tsv(input_metadata, guess_max = 100000, show_col_types = FALSE)
 
 ## Read in genomic_df_filter file
 genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
@@ -100,32 +104,20 @@ genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000
 tmb <- readr::read_tsv(input_tmb, guess_max = 100000, show_col_types = FALSE)
 ```
 
-
 # Process Data: snv 
-
-We need to process each input file and generate input files.
-We will first change the column name of the biospecimen column to match the column name from the histologies files.
-
-```{r process snv}
-colnames(snv)[which(names(snv) == "Tumor_Sample_Barcode")] <- "Kids_First_Biospecimen_ID"
-```  
-
-```{r calculate VAF, echo=TRUE}
-# using formula for VAF calculation
-snv_vaf <- snv %>% mutate(VAF = t_alt_count / (t_ref_count + t_alt_count))
-```
-
-```{r echo=TRUE}
-# we will subset to variables we will interested to focus on for downstream analysis
-snv_vaf_subset <- subset(snv_vaf, 
-                             select = c(Kids_First_Biospecimen_ID, Hugo_Symbol,Chromosome, Start_Position, Variant_Classification,VAF))
-```
 
 * TODO *
 The following code is part of the module "tumor-clone-inference" and generates the "genomic_df_subset.tsv" file.
 should I remove this part from here (or vice versa) so it's not duplicate in the repo? 
 
 ```{r echo=TRUE}
+# pbta cohort
+pbta <- v12 %>%
+  filter(cohort == "PBTA",
+         !is.na(pathology_diagnosis),
+         !composition %in% c("Derived Cell Line", "PDX"),
+         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
+
 # Merge genomic_df_filter with pbta_subset to get sample_id information
 # Create match_id2 to count for multiple samples per patient, if any
 genomic_df_filter_merge <- genomic_df_filter %>% 
