@@ -16,19 +16,8 @@ The structure of this folder is as follows:
 ├── 01-tumor-descriptor-and-assay-count-plot.Rmd
 ├── 01-tumor-descriptor-and-assay-count-plot.nb.html
 ├── input
-│   ├── histologies.tsv
-│   ├── PBTA-germline-histology-groups-plot-mapping.tsv
+│   └── PBTA-germline-histology-groups-plot-mapping.tsv
 ├── README.md
 ├── results
-    ├── DML.tsv
-    ├── Ependymoma.tsv
-    ├── genomic_df_filter.tsv
-    ├── genomic_df.tsv
-    ├── HGG.tsv
-    ├── LGG.tsv
-    ├── Medulloblastoma.tsv
-    ├── paired_assays_all_filter.tsv
-    ├── paired_assays_all.tsv
-    ├── pbta.tsv
-    └── transcriptomic_df.tsv
+│   └── genomic_assays_matched_time_points.tsv
 ```
