@@ -12,8 +12,8 @@ This pipeline plots VAF values across multiple timepoints in the PBTA cohort, la
 The structure of this folder is as follows:
 
 ```
-├── 1-process-data_VAF.Rmd
-├── 1-process-data_VAF.nb.html
+├── 01-process-data.Rmd
+├── 01-process-data.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md

@@ -7,5 +7,5 @@ set -o pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")" 
 
 # Run Rmd script to process data
-Rscript --vanilla 1-process-data_VAF.Rmd
+Rscript --vanilla 01-process-data.Rmd
 
