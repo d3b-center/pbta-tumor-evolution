@@ -144,6 +144,7 @@ We will do this for different pairs.
 maf_files_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
   left_join(snv, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
+  filter(!is.na(VAF)) %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
 ```
 
