@@ -122,7 +122,7 @@ tmb <- readr::read_tsv(tmb, guess_max = 100000, show_col_types = FALSE)
 # We need to count how many tumor samples we have per patient/time point, if any
 # We need to create a column to do that: match_id_multiple_samples
 genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_points_list %>% 
-  inner_join(pbta, by=c('Kids_First_Participant_ID')) %>%
+  left_join(pbta, by=c('Kids_First_Participant_ID')) %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
   mutate(match_id_multiple_samples = paste(Kids_First_Participant_ID, sample_id, composition, sep = "_")) %>%
   mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
@@ -130,13 +130,6 @@ genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_poi
                                  grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
                                  TRUE ~ tumor_descriptor)) %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points_list_merge.tsv"))
-
-
-genomic_assays_matched_time_points_list_merge %>%
-  group_by(Kids_First_Participant_ID, match_id_multiple_samples, tumor_descriptor) %>%
-  tally() %>%
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
 ```
 
 # Autopsy samples 
@@ -144,7 +137,7 @@ We will focus on patient cases containing autopsy samples and save these maf fil
 We will do this for different pairs.
 
 
-```{r echo=TRUE}
+```{r maf_files_Deceased}
 #let us filter by Deceased samples
 maf_files_Deceased <- snv %>% 
   left_join(genomic_assays_matched_time_points_list_merge, by=c('Kids_First_Biospecimen_ID')) %>%
@@ -152,7 +145,11 @@ maf_files_Deceased <- snv %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
   filter(Deceased == "Deceased") %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
+```
 
+## Let's save the maf files per each category
+
+```{r save-maf-files}
 ##########################################################################################
 # Storing all Dx-Deceased Sample pairs in a list so each file can be processed iteratively
 scratch_Dx_Dec <-
