@@ -129,6 +129,8 @@ genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_poi
                                  grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
                                  grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
                                  TRUE ~ tumor_descriptor)) %>%
+  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
+  filter(Deceased == "Deceased") %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points_list_merge.tsv"))
 ```
 
@@ -142,8 +144,6 @@ We will do this for different pairs.
 maf_files_Deceased <- snv %>% 
   left_join(genomic_assays_matched_time_points_list_merge, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
-  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased") %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
 ```
 
