@@ -15,8 +15,6 @@ The structure of this folder is as follows:
 ├── 1-process-data_VAF.Rmd
 ├── 1-process-data_VAF.nb.html
 ├── input
-│   ├── genomic_df_filter.tsv
-│   ├── pbta.tsv
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
 ├── plots
@@ -54,4 +52,5 @@ The structure of this folder is as follows:
 │   └── Violin_plot_tumor_descriptor_Deceased.pdf
 ├── results
 │   └── genomic_df_subset.tsv
+└── run-create-corplots.sh
 ```

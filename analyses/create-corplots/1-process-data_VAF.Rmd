@@ -52,20 +52,23 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
 
-analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
+data_dir <- file.path(root_dir, "data")
+# Inputs
+v12 <- file.path(data_dir, "histologies.tsv")
+maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 
 # File path to input directory
 input_dir <- file.path(analysis_dir, "input")
-files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
-data_dir <- file.path(root_dir, "data")
 
-# Inputs
-maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+# tmb file
+tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # The following files were generated from the add-sample-distribution analysis
-v12 <- file.path(data_dir, "histologies.tsv")
-input_genomic_df_filter <- file.path(files_dir, "genomic_df_filter.tsv")
-input_tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+genomic_assays_matched_time_points <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
+
+# create analysis_dir
+analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 
 # File path to results directory
 results_dir <-
@@ -92,6 +95,7 @@ pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
          !is.na(pathology_diagnosis),
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
+maf <-  data.table::fread(maf, data.table = F)
 
 ## Read MAF file
 snv <- data.table::fread(maf, data.table = F) %>%
@@ -100,11 +104,11 @@ snv <- data.table::fread(maf, data.table = F) %>%
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
 
-## Read in genomic_df_filter file
-genomic_df_filter <- readr::read_tsv(input_genomic_df_filter, guess_max = 100000, show_col_types = FALSE)
+## Read in genomic_assays_matched_time_points file
+genomic_assays_matched_time_points <- readr::read_tsv(genomic_assays_matched_time_points, guess_max = 100000, show_col_types = FALSE)
 
 # Read file with TMB information
-tmb <- readr::read_tsv(input_tmb, guess_max = 100000, show_col_types = FALSE)
+tmb <- readr::read_tsv(tmb, guess_max = 100000, show_col_types = FALSE)
 ```
 
 # Process Data: snv 
