@@ -49,13 +49,29 @@ suppressPackageStartupMessages({
 # Detect the ".git" folder -- this will be in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 setwd(root_dir)
+
+# File path to scratch dir to save large files not needed at later stages in the analysis
+scratch <-
+  file.path(root_dir, "scratch")
+if (!dir.exists(scratch)) {
+  dir.create(scratch)
+}
+
+
 
 data_dir <- file.path(root_dir, "data")
 # Inputs
 v12 <- file.path(data_dir, "histologies.tsv")
 maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+
+
+# create analysis_dir
+analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 
 # File path to input directory
 input_dir <- file.path(analysis_dir, "input")
@@ -67,8 +83,6 @@ tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 genomic_assays_matched_time_points <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
 
-# create analysis_dir
-analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
 
 # File path to results directory
 results_dir <-
@@ -83,6 +97,9 @@ plots_dir <-
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
+
+
+
 
 source(paste0(root_dir, "/figures/theme.R"))
 ```
@@ -102,7 +119,7 @@ snv <- data.table::fread(maf, data.table = F) %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF)
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short)
 
 ## Read in genomic_assays_matched_time_points file
 genomic_assays_matched_time_points <- readr::read_tsv(genomic_assays_matched_time_points, guess_max = 100000, show_col_types = FALSE)

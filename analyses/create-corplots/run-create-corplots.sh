@@ -7,5 +7,4 @@ set -o pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")" 
 
 # Run Rmd script to process data
-Rscript --vanilla 01-process-data.Rmd
-
+Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
