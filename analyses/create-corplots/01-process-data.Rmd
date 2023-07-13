@@ -102,9 +102,9 @@ pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
 ## Read MAF file
 snv <- data.table::fread(maf, data.table = F) %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # We will first change the column name of the biospecimen column to match the column name from the histologies files.
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short)
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short) 
 
 ## Read in genomic_assays_matched_time_points file and get the list of patients
 genomic_assays_matched_time_points_list <- readr::read_tsv(genomic_assays_matched_time_points, guess_max = 100000, show_col_types = FALSE) %>%
@@ -141,8 +141,8 @@ We will do this for different pairs.
 
 ```{r maf_files_Deceased}
 #let us filter by Deceased samples
-maf_files_Deceased <- snv %>% 
-  left_join(genomic_assays_matched_time_points_list_merge, by=c('Kids_First_Biospecimen_ID')) %>%
+maf_files_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
+  left_join(snv, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
 ```
@@ -163,7 +163,7 @@ data <- maf_files_Deceased %>%
   mutate(data = case_when(grepl("Deceased, Diagnosis", descriptors) ~ "Dx_Dec")) %>%
   filter(data == "Dx_Dec")
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -181,7 +181,7 @@ setwd(scratch_Pro_Dec)
 data <- maf_files_Deceased %>% 
   filter(descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive"))
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -199,7 +199,7 @@ setwd(scratch_Rec_Dec)
 data <- maf_files_Deceased %>% 
   filter(descriptors == "Deceased, Recurrence")
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -217,7 +217,7 @@ data <- maf_files_Deceased %>%
         mutate(data = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "Dx_Pro_Dec")) %>%
  filter(data == "Dx_Pro_Dec")
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -236,7 +236,7 @@ data <- maf_files_Deceased %>%
   mutate(data = case_when(grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "Dx_Rec_Dec")) %>%
   filter(data == "Dx_Rec_Dec")
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
   walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
@@ -254,7 +254,7 @@ data <- maf_files_Deceased %>%
  mutate(data = case_when(grepl("Deceased, Progressive, Recurrence", descriptors) ~ "Pro_Rec_Dec")) %>%
   filter(data == "Pro_Rec_Dec")
 
-# we will split maf data by the "Kids_First_Participant_ID.x" column
+# we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
