@@ -89,6 +89,8 @@ if (!dir.exists(scratch)) {
 ```
 
 ## Load and Process data
+We will also Calculate VAFs per each Kids_First_Biospecimen_ID.
+
 ```{r load-inputs-please-wait}
 # pbta cohort
 pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
@@ -112,7 +114,7 @@ genomic_assays_matched_time_points_list <- readr::read_tsv(genomic_assays_matche
 tmb <- readr::read_tsv(tmb, guess_max = 100000, show_col_types = FALSE)
 ```
 
-# Process Data: snv 
+# Select patients with genomic assays
 
 ```{r echo=TRUE}
 # We will look only into samples with genomic assays
@@ -143,16 +145,13 @@ We will do this for different pairs.
 
 
 ```{r echo=TRUE}
-# we will change the dir here otherwise files are saved outside of the desired folder
-setwd(scratch)
-
+#let us filter by Deceased samples
 maf_files_Deceased <- snv %>% 
   left_join(genomic_assays_matched_time_points_list_merge, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
   filter(Deceased == "Deceased") %>%
   write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
-
 
 ##########################################################################################
 # Storing all Dx-Deceased Sample pairs in a list so each file can be processed iteratively
