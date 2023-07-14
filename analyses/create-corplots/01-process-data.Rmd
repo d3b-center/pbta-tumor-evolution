@@ -67,7 +67,7 @@ input_dir <- file.path(analysis_dir, "input")
 tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # The following files were generated from the add-sample-distribution analysis
-files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+scratch_dir <- file.path(root_dir, "scratch")
 genomic_assays_matched_time_points <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
 
 
