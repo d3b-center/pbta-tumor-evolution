@@ -181,7 +181,7 @@ setwd(scratch_dx_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
 data %>% 
   group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(paste0(scratch_dx_dec, .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
   
 #sptdf <- split(data, data$Kids_First_Participant_ID)
 #lapply(sptdf, function(DF){
