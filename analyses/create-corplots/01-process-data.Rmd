@@ -50,6 +50,7 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+setwd(root_dir)
 
 data_dir <- file.path(root_dir, "data")
 # Inputs
@@ -67,23 +68,47 @@ input_dir <- file.path(analysis_dir, "input")
 tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # The following files were generated from the add-sample-distribution analysis
-scratch_dir <- file.path(root_dir, "scratch")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 genomic_assays_matched_time_points <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
 
+# File path to scratch dir to save large files not needed at later stages in the analysis
+scratch_dir <- file.path(root_dir, "scratch")
 
-# File path to results directory
-results_dir <-
-  file.path(analysis_dir, "results")
-if (!dir.exists(results_dir)) {
-  dir.create(results_dir)
+# File path to scratch dir for each paired samples
+scratch_dx_dec <-
+  file.path(scratch_dir, "dx_dec")
+if (!dir.exists(scratch_dx_dec)) {
+  dir.create(scratch_dx_dec)
 }
 
+scratch_pro_dec <-
+  file.path(scratch_dir, "pro_dec")
+if (!dir.exists(scratch_pro_dec)) {
+  dir.create(scratch_pro_dec)
+}
 
-# File path to scratch dir to save large files not needed at later stages in the analysis
-scratch <-
-  file.path(root_dir, "scratch")
-if (!dir.exists(scratch)) {
-  dir.create(scratch)
+scratch_rec_dec <-
+  file.path(scratch_dir, "rec_dec")
+if (!dir.exists(scratch_rec_dec)) {
+  dir.create(scratch_rec_dec)
+}
+
+scratch_dx_pro_dec <-
+  file.path(scratch_dir, "dx_pro_dec")
+if (!dir.exists(scratch_dx_pro_dec)) {
+  dir.create(scratch_dx_pro_dec)
+}
+
+scratch_dx_rec_dec <-
+  file.path(scratch_dir, "dx_rec_dec")
+if (!dir.exists(scratch_dx_rec_dec)) {
+  dir.create(scratch_dx_rec_dec)
+}
+
+scratch_pro_rec_dec <-
+  file.path(scratch_dir, "pro_rec_dec")
+if (!dir.exists(scratch_pro_rec_dec)) {
+  dir.create(scratch_pro_rec_dec)
 }
 ```
 
@@ -129,8 +154,7 @@ genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_poi
                                  grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
                                  TRUE ~ tumor_descriptor)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased") %>%
-  write_tsv(file.path(results_dir, "genomic_assays_matched_time_points_list_merge.tsv"))
+  filter(Deceased == "Deceased") 
 ```
 
 # Autopsy samples 
@@ -143,8 +167,7 @@ We will do this for different pairs.
 maf_files_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
   left_join(snv, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
-  filter(!is.na(VAF)) %>%
-  write_tsv(file.path(scratch, "maf_files_Deceased.tsv"))
+  filter(!is.na(VAF))
 ```
 
 ## Let's save the maf files per each category
@@ -152,115 +175,136 @@ maf_files_Deceased <- genomic_assays_matched_time_points_list_merge %>%
 ```{r save-maf-files}
 ##########################################################################################
 # Storing all Dx-Deceased Sample pairs in a list so each file can be processed iteratively
-scratch_Dx_Dec <-
-  file.path(scratch, "Dx_Dec")
-if (!dir.exists(scratch_Dx_Dec)) {
-  dir.create(scratch_Dx_Dec)
-}
-
-setwd(scratch_Dx_Dec)
 data <- maf_files_Deceased %>% 
-  mutate(data = case_when(grepl("Deceased, Diagnosis", descriptors) ~ "Dx_Dec")) %>%
-  filter(data == "Dx_Dec")
+  mutate(data = case_when(grepl("Deceased, Diagnosis", descriptors) ~ "dx_dec")) %>%
+  filter(data == "dx_dec")
 
+setwd(scratch_dx_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 
 
 ##########################################################################################
-# Storing all Pro_Dec Sample pairs in a list so each file can be processed iteratively
-scratch_Pro_Dec <-
-  file.path(scratch, "Pro_Dec")
-if (!dir.exists(scratch_Pro_Dec)) {
-  dir.create(scratch_Pro_Dec)
-}
-
-setwd(scratch_Pro_Dec)
+# Storing all pro_dec Sample pairs in a list so each file can be processed iteratively
 data <- maf_files_Deceased %>% 
   filter(descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive"))
 
+setwd(scratch_pro_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 
 
 ##########################################################################################
 # Storing all Deceased, Recurrence Sample pairs in a list so each file can be processed iteratively
-scratch_Rec_Dec <-
-  file.path(scratch, "Rec_Dec")
-if (!dir.exists(scratch_Rec_Dec)) {
-  dir.create(scratch_Rec_Dec)
-}
-
-setwd(scratch_Rec_Dec)
 data <- maf_files_Deceased %>% 
   filter(descriptors == "Deceased, Recurrence")
 
+setwd(scratch_rec_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 
 ##########################################################################################  
-# Storing all Dx_Pro_Dec Sample pairs in a list so each file can be processed iteratively
-scratch_Dx_Pro_Dec <-
-  file.path(scratch, "Dx_Pro_Dec")
-if (!dir.exists(scratch_Dx_Pro_Dec)) {
-  dir.create(scratch_Dx_Pro_Dec)
-}
-
-setwd(scratch_Dx_Pro_Dec)
+# Storing all dx_pro_dec Sample pairs in a list so each file can be processed iteratively
 data <- maf_files_Deceased %>% 
-        mutate(data = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "Dx_Pro_Dec")) %>%
- filter(data == "Dx_Pro_Dec")
+        mutate(data = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec")) %>%
+ filter(data == "dx_pro_dec")
 
+setwd(scratch_dx_pro_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 
 
 ##########################################################################################
-# Storing all Dx_Rec_Dec Sample pairs in a list so each file can be processed iteratively
-scratch_Dx_Rec_Dec <-
-  file.path(scratch, "Dx_Rec_Dec")
-if (!dir.exists(scratch_Dx_Rec_Dec)) {
-  dir.create(scratch_Dx_Rec_Dec)
-}
-
-setwd(scratch_Dx_Rec_Dec)
+# Storing all dx_rec_dec Sample pairs in a list so each file can be processed iteratively
 data <- maf_files_Deceased %>% 
-  mutate(data = case_when(grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "Dx_Rec_Dec")) %>%
-  filter(data == "Dx_Rec_Dec")
+  mutate(data = case_when(grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec")) %>%
+  filter(data == "dx_rec_dec")
 
+setwd(scratch_dx_rec_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 
 ##########################################################################################
-# Storing all Pro_Rec_Dec Sample pairs in a list so each file can be processed iteratively
-scratch_Pro_Rec_Dec <-
-  file.path(scratch, "Pro_Rec_Dec")
-if (!dir.exists(scratch_Pro_Rec_Dec)) {
-  dir.create(scratch_Pro_Rec_Dec)
-}
-
-setwd(scratch_Pro_Rec_Dec)
+# Storing all pro_rec_dec Sample pairs in a list so each file can be processed iteratively
 data <- maf_files_Deceased %>% 
- mutate(data = case_when(grepl("Deceased, Progressive, Recurrence", descriptors) ~ "Pro_Rec_Dec")) %>%
-  filter(data == "Pro_Rec_Dec")
+ mutate(data = case_when(grepl("Deceased, Progressive, Recurrence", descriptors) ~ "pro_rec_dec")) %>%
+  filter(data == "pro_rec_dec")
 
+setwd(scratch_pro_rec_dec)
 # we will split maf data by the "Kids_First_Participant_ID" column
-data %>% 
-  group_split(Kids_First_Participant_ID) %>% 
- walk(~write_csv(.x, paste0(.x$Kids_First_Participant_ID[1], "-vaf.csv")))
-##########################################################################################
-# let's change back to the root_dir for the rest of the module
-setwd(root_dir)
+#data %>% 
+#  group_split(Kids_First_Participant_ID) %>% 
+#  walk(~write_csv(.x, paste0((path = scratch_dx_dec), .x$Kids_First_Participant_ID[1], "-vaf.csv")))
+
+sptdf <- split(data, data$Kids_First_Participant_ID)
+lapply(sptdf, function(DF){
+  outfile <- as.character(unique(DF[["Kids_First_Participant_ID"]]))
+  outfile <- paste0(outfile, "-vaf.txt", sep = "\t")
+  write.table(DF, 
+              file = outfile,
+              row.names = FALSE,
+              quote = FALSE)
+})
 ```
 
 
