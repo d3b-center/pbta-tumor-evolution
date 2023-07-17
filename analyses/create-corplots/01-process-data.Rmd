@@ -138,7 +138,8 @@ data <- maf_files_Deceased %>%
   filter(data == "dx_dec")
 
 # list with splitData
-splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID)
+splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_dx_dec.rds"))
 
 
 ##########################################################################################
@@ -147,8 +148,8 @@ data <- maf_files_Deceased %>%
   filter(descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive"))
 
 # list with splitData
-splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID)
-
+splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_pro_dec.rds"))
 
 ##########################################################################################
 # split maf data
@@ -156,7 +157,8 @@ data <- maf_files_Deceased %>%
   filter(descriptors == "Deceased, Recurrence")
 
 # list with splitData
-splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID)
+splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_rec_dec.rds"))
 
 ##########################################################################################  
 # split maf data
@@ -165,7 +167,8 @@ data <- maf_files_Deceased %>%
  filter(data == "dx_pro_dec")
 
 # list with splitData
-splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID)
+splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_dx_pro_dec.rds"))
 
 ##########################################################################################
 # split maf data
@@ -174,8 +177,8 @@ data <- maf_files_Deceased %>%
   filter(data == "dx_rec_dec")
 
 # list with splitData
-splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID)
-
+splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_dx_rec_dec.rds"))
 
 ##########################################################################################
 # split maf data
@@ -184,7 +187,8 @@ data <- maf_files_Deceased %>%
   filter(data == "pro_rec_dec")
 
 # list with splitData
-splitData_pro_rec_dec <-  split(data, data$Kids_First_Participant_ID)
+splitData_pro_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
+  saveRDS(file.path(scratch_dir, "splitData_pro_rec_dec.rds"))
 ```
 
 
