@@ -141,7 +141,6 @@ data <- maf_files_Deceased %>%
 splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
   saveRDS(file.path(scratch_dir, "splitData_dx_dec.Rds"))
 
-
 ##########################################################################################
 # split maf data
 data <- maf_files_Deceased %>% 
@@ -149,7 +148,7 @@ data <- maf_files_Deceased %>%
 
 # list with splitData
 splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRds(file.path(scratch_dir, "splitData_pro_dec.Rds"))
+  saveRDS(file.path(scratch_dir, "splitData_pro_dec.Rds"))
 
 ##########################################################################################
 # split maf data
@@ -158,7 +157,7 @@ data <- maf_files_Deceased %>%
 
 # list with splitData
 splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRds(file.path(scratch_dir, "splitData_rec_dec.Rds"))
+  saveRDS(file.path(scratch_dir, "splitData_rec_dec.Rds"))
 
 ##########################################################################################  
 # split maf data
@@ -168,7 +167,7 @@ data <- maf_files_Deceased %>%
 
 # list with splitData
 splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRds(file.path(scratch_dir, "splitData_dx_pro_dec.Rds"))
+  saveRDS(file.path(scratch_dir, "splitData_dx_pro_dec.Rds"))
 
 ##########################################################################################
 # split maf data
@@ -178,7 +177,7 @@ data <- maf_files_Deceased %>%
 
 # list with splitData
 splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRds(file.path(scratch_dir, "splitData_dx_rec_dec.Rds"))
+  saveRDS(file.path(scratch_dir, "splitData_dx_rec_dec.Rds"))
 
 ##########################################################################################
 # split maf data
@@ -188,7 +187,7 @@ data <- maf_files_Deceased %>%
 
 # list with splitData
 splitData_pro_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRds(file.path(scratch_dir, "splitData_pro_rec_dec.Rds"))
+  saveRDS(file.path(scratch_dir, "splitData_pro_rec_dec.Rds"))
 ```
 
 
