@@ -37,9 +37,7 @@ suppressPackageStartupMessages({
   library(data.table)
   library(flextable)
   library(plyr)
-  library(ggplot2)
   library(ggpubr)
-  library(ggrepel)
 })
 ```
 
