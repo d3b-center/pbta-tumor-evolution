@@ -34,10 +34,7 @@ Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(data.table)
-  library(flextable)
   library(plyr)
-  library(ggpubr)
 })
 ```
 
@@ -54,7 +51,6 @@ data_dir <- file.path(root_dir, "data")
 # Inputs
 v12 <- file.path(data_dir, "histologies.tsv")
 maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-
 
 # create analysis_dir
 analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
@@ -85,8 +81,9 @@ pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
 snv <- data.table::fread(maf, data.table = F) %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
-  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short) 
+  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF 
+  mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatatenate gene and protein information
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
 ## Read in genomic_assays_matched_time_points file and get the list of patients
 genomic_assays_matched_time_points_list <- readr::read_tsv(genomic_assays_matched_time_points, guess_max = 100000, show_col_types = FALSE) %>%
@@ -176,6 +173,7 @@ data <- maf_files_Deceased %>%
 # list with splitData
 splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
   saveRDS(file.path(scratch_dir, "splitData_dx_rec_dec.Rds"))
+
 
 ##########################################################################################
 # split maf data
