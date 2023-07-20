@@ -138,13 +138,14 @@ maf_Deceased <- genomic_assays_matched_time_points_list_merge %>%
   left_join(maf_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   filter(!is.na(VAF)) %>%
-  mutate(descriptors_type = case_when(grepl("Deceased, Progressive", descriptors) & grepl("Deceased, Progressive, Progressive", descriptors) ~ "Progressive",
-                                      grepl("Deceased, Diagnosis", descriptors) & grepl("Deceased, Diagnosis, Diagnosis", descriptors) & grepl("Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis", descriptors) ~ "Diagnosis", 
-                                      grepl("Deceased, Recurrence", descriptors) ~ 'Recurrence', 
-                                      grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec",
+  mutate(descriptors_type = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec",
                                       grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec",
-                                      grepl("Deceased, Progressive, Recurrence", descriptors) & grepl("Deceased, Progressive, Progressive, Recurrence", descriptors) ~ "pro_rec_dec",
-                                      grepl("Deceased, Diagnosis, Progressive, Recurrence", descriptors) ~ "dx_pro_rec_dec")) %>%
+                                      grepl("Deceased, Progressive, Recurrence", descriptors) | grepl("Deceased, Progressive, Progressive, Recurrence", descriptors) | grepl("Deceased, Progressive, Recurrence, Recurrence", descriptors) ~ "pro_rec_dec",
+                                      grepl("Deceased, Diagnosis, Progressive, Recurrence", descriptors) ~ "dx_pro_rec_dec",
+                                      grepl("Deceased, Diagnosis", descriptors) | grepl("Deceased, Diagnosis, Diagnosis", descriptors) | grepl("Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis", descriptors) ~ "Diagnosis", 
+                                      grepl("Deceased, Progressive", descriptors) | grepl("Deceased, Progressive, Progressive", descriptors) ~ "Progressive",
+                                      grepl("Deceased, Recurrence", descriptors) ~ "Recurrence"
+                                      )) %>%
   write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
 ```
 
