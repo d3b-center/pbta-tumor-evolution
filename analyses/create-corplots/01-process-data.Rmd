@@ -34,6 +34,7 @@ Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(data.table)
   library(plyr)
 })
 ```
@@ -77,12 +78,27 @@ pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
 
-## Read MAF file
-snv <- data.table::fread(maf, data.table = F) %>%
+# classification for coding gene mutations as listed in the Variant_Classification column in the maf file
+# we will use this to filter out non coding genes from the maf file
+
+maf_nonsynonymous <- c(
+  "Missense_Mutation",
+  "Frame_Shift_Del",
+  "In_Frame_Ins",
+  "Frame_Shift_Ins",
+  "Splice_Site",
+  "Nonsense_Mutation",
+  "In_Frame_Del",
+  "Nonstop_Mutation",
+  "Translation_Start_Site"
+)
+
+maf_subset <- data.table::fread(maf, data.table = F) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF 
   mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatatenate gene and protein information
+  filter(Variant_Classification %in% maf_nonsynonymous) %>%
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
 ## Read in genomic_assays_matched_time_points file and get the list of patients
@@ -118,10 +134,18 @@ We will do this for different pairs.
 
 ```{r maf_files_Deceased}
 #let us filter by Deceased samples
-maf_files_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
-  left_join(snv, by=c('Kids_First_Biospecimen_ID')) %>%
+maf_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
+  left_join(maf_subset, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
-  filter(!is.na(VAF))
+  filter(!is.na(VAF)) %>%
+  mutate(descriptors_type = case_when(grepl("Deceased, Progressive", descriptors) & grepl("Deceased, Progressive, Progressive", descriptors) ~ "Progressive",
+                                      grepl("Deceased, Diagnosis", descriptors) & grepl("Deceased, Diagnosis, Diagnosis", descriptors) & grepl("Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis", descriptors) ~ "Diagnosis", 
+                                      grepl("Deceased, Recurrence", descriptors) ~ 'Recurrence', 
+                                      grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec",
+                                      grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec",
+                                      grepl("Deceased, Progressive, Recurrence", descriptors) & grepl("Deceased, Progressive, Progressive, Recurrence", descriptors) ~ "pro_rec_dec",
+                                      grepl("Deceased, Diagnosis, Progressive, Recurrence", descriptors) ~ "dx_pro_rec_dec")) %>%
+  write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
 ```
 
 ## Let's split the maf files per each category and by the "Kids_First_Participant_ID" column
