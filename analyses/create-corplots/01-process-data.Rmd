@@ -154,8 +154,7 @@ maf_Deceased <- genomic_assays_matched_time_points_list_merge %>%
 ```{r split-maf-files}
 # split maf data
 data <- maf_Deceased %>% 
-  mutate(data = case_when(grepl("Deceased, Diagnosis", descriptors) ~ "dx_dec")) %>%
-  filter(data == "dx_dec")
+  filter(descriptors_type == "Diagnosis")
 
 # list with splitData
 splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
@@ -164,7 +163,7 @@ splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 ##########################################################################################
 # split maf data
 data <- maf_Deceased %>% 
-  filter(descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive"))
+  filter(descriptors_type == "Progressive")
 
 # list with splitData
 splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
@@ -173,7 +172,7 @@ splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 ##########################################################################################
 # split maf data
 data <- maf_Deceased %>% 
-  filter(descriptors == "Deceased, Recurrence")
+  filter(descriptors_type == "Recurrence")
 
 # list with splitData
 splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
@@ -182,8 +181,8 @@ splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 ##########################################################################################  
 # split maf data
 data <- maf_Deceased %>% 
-        mutate(data = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec")) %>%
- filter(data == "dx_pro_dec")
+  filter(descriptors_type == "dx_pro_dec")
+
 
 # list with splitData
 splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
@@ -192,8 +191,7 @@ splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 ##########################################################################################
 # split maf data
 data <- maf_Deceased %>% 
-  mutate(data = case_when(grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec")) %>%
-  filter(data == "dx_rec_dec")
+    filter(descriptors_type == "dx_rec_dec")
 
 # list with splitData
 splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
@@ -203,8 +201,7 @@ splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 ##########################################################################################
 # split maf data
 data <- maf_Deceased %>% 
- mutate(data = case_when(grepl("Deceased, Progressive, Recurrence", descriptors) ~ "pro_rec_dec")) %>%
-  filter(data == "pro_rec_dec")
+    filter(descriptors_type == "pro_rec_dec")
 
 # list with splitData
 splitData_pro_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
