@@ -132,7 +132,7 @@ We will focus on patient cases containing autopsy samples and save these maf fil
 We will do this for different pairs.
 
 
-```{r maf_files_Deceased}
+```{r maf_Deceased}
 #let us filter by Deceased samples
 maf_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
   left_join(maf_subset, by=c('Kids_First_Biospecimen_ID')) %>%
@@ -152,7 +152,7 @@ maf_Deceased <- genomic_assays_matched_time_points_list_merge %>%
 
 ```{r split-maf-files}
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
   mutate(data = case_when(grepl("Deceased, Diagnosis", descriptors) ~ "dx_dec")) %>%
   filter(data == "dx_dec")
 
@@ -162,7 +162,7 @@ splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 
 ##########################################################################################
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
   filter(descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive"))
 
 # list with splitData
@@ -171,7 +171,7 @@ splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 
 ##########################################################################################
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
   filter(descriptors == "Deceased, Recurrence")
 
 # list with splitData
@@ -180,7 +180,7 @@ splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 
 ##########################################################################################  
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
         mutate(data = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec")) %>%
  filter(data == "dx_pro_dec")
 
@@ -190,7 +190,7 @@ splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 
 ##########################################################################################
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
   mutate(data = case_when(grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec")) %>%
   filter(data == "dx_rec_dec")
 
@@ -201,7 +201,7 @@ splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
 
 ##########################################################################################
 # split maf data
-data <- maf_files_Deceased %>% 
+data <- maf_Deceased %>% 
  mutate(data = case_when(grepl("Deceased, Progressive, Recurrence", descriptors) ~ "pro_rec_dec")) %>%
   filter(data == "pro_rec_dec")
 
