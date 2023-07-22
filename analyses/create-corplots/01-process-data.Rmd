@@ -1,5 +1,5 @@
 ---
-title: "Estimation of VAFs of tumors across multiple timepoints for the PBTA Cohort"
+title: "Estimation of VAF of tumors across multiple timepoints for the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -18,11 +18,7 @@ We are investigating the change of VAFs across multiple timepoints in the PBTA c
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
 We use the output files from the "analyses/sample-distribution-analysis/results".
 
-### Method used 
-
-
 ### Usage
-
 This notebook is intended to be run via the command line from the directory of the module as follows:
 
 ```
@@ -42,44 +38,25 @@ suppressPackageStartupMessages({
 
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder -- this will be in the project root directory.
-# Use this as the root directory to ensure proper sourcing of functions no
-# matter where this is called from
+# Use this as the root directory to ensure proper sourcing of functions no matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 scratch_dir <- file.path(root_dir, "scratch")
 data_dir <- file.path(root_dir, "data")
+analysis_dir <- file.path(root_dir, "analyses", "create-corplots") # create analysis_dir
+input_dir <- file.path(analysis_dir, "input") # create input_dir
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results") # create files_dir
 
-# Inputs
-v12 <- file.path(data_dir, "histologies.tsv")
-maf <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-
-# create analysis_dir
-analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
-
-# File path to input directory
-input_dir <- file.path(analysis_dir, "input")
-
-# tmb file
-tmb <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
-
-# The following files were generated from the add-sample-distribution analysis
-files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
-genomic_assays_matched_time_points <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
+# Input files
+v12_file <- file.path(data_dir, "histologies.tsv")
+maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv") # tmb file
+genomic_assays_matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") #  generated from the add-sample-distribution analysis
 ```
 
-## Load and Process data
-We will also Calculate VAFs per each Kids_First_Biospecimen_ID.
+## Read in data and process
 
-```{r load-inputs-please-wait}
-# pbta cohort
-pbta <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis),
-         !composition %in% c("Derived Cell Line", "PDX"),
-         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) 
-
-# classification for coding gene mutations as listed in the Variant_Classification column in the maf file
-# we will use this to filter out non coding genes from the maf file
-
+```{r load-process-inputs-please-wait}
+# Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
   "Missense_Mutation",
   "Frame_Shift_Del",
@@ -92,7 +69,8 @@ maf_nonsynonymous <- c(
   "Translation_Start_Site"
 )
 
-maf_subset <- data.table::fread(maf, data.table = F) %>% 
+# Read in maf file, calculate VAF, and retain only coding gene mutations
+maf <- data.table::fread(maf_file, data.table = F) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF 
@@ -100,23 +78,27 @@ maf_subset <- data.table::fread(maf, data.table = F) %>%
   filter(Variant_Classification %in% maf_nonsynonymous) %>%
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
-## Read in genomic_assays_matched_time_points file and get the list of patients
-genomic_assays_matched_time_points_list <- readr::read_tsv(genomic_assays_matched_time_points, guess_max = 100000, show_col_types = FALSE) %>%
+# Read in tmb file
+tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
+
+# Read in histologies file and filter for the pbta cohort
+pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(cohort == "PBTA",
+         !is.na(pathology_diagnosis),
+         !composition %in% c("Derived Cell Line", "PDX"),
+         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy, tumor_descriptor, age_at_diagnosis_days, age_last_update_days, cancer_predispositions, broad_histology, short_histology, cancer_group) 
+
+# Read in genomic_assays_matched_time_points file and get the list of patients with matched time points
+patient_list <- readr::read_tsv(genomic_assays_matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
                                       subset(select = c("Kids_First_Participant_ID", "descriptors"))
-  
-# Read file with TMB information
-tmb <- readr::read_tsv(tmb, guess_max = 100000, show_col_types = FALSE)
-```
 
-# Select patients with genomic assays
+# How many patients have paired time samples?
+print(length(unique(patient_list$Kids_First_Participant_ID)))
 
-```{r echo=TRUE}
-# We will look only into samples with genomic assays
-# We will use the list fo the patients from the "genomic_assays_matched_time_points_list" and merge to the pbta table
-# We need to count how many tumor samples we have per patient/time point, if any
-# We need to create a column to do that: match_id_multiple_samples
-genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_points_list %>% 
-  left_join(pbta, by=c('Kids_First_Participant_ID')) %>%
+# Add metadata from pbta to patient list and keep only autopsy samples
+patient_list_metadata <- patient_list %>% 
+  left_join(pbta, by = "Kids_First_Participant_ID") %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
   mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
                                  grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
@@ -124,17 +106,16 @@ genomic_assays_matched_time_points_list_merge <- genomic_assays_matched_time_poi
                                  TRUE ~ tumor_descriptor)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
   filter(Deceased == "Deceased") 
+
+# How many patients have paired time samples with autopsy time point present?
+print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))
 ```
 
-# Autopsy samples 
-We will focus on patient cases containing autopsy samples and save these maf files separately.
-We will do this for different pairs.
+# Create maf file for autopsy samples
 
-
-```{r maf_Deceased}
-#let us filter by Deceased samples
-maf_Deceased <- genomic_assays_matched_time_points_list_merge %>% 
-  left_join(maf_subset, by=c('Kids_First_Biospecimen_ID')) %>%
+```{r maf_autopsy}
+maf_autopsy <- patient_list_metadata %>% 
+  left_join(maf, by=c('Kids_First_Biospecimen_ID')) %>%
   filter(!is.na(Kids_First_Participant_ID)) %>%
   filter(!is.na(VAF)) %>%
   mutate(descriptors_type = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec",
@@ -148,8 +129,6 @@ maf_Deceased <- genomic_assays_matched_time_points_list_merge %>%
   write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
 ```
 
-
 ```{r echo=TRUE}
 sessionInfo()
 ```
-  
