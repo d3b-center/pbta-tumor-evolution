@@ -23,7 +23,7 @@ We use the output files from the "analyses/sample-distribution-analysis/results"
 
 ### Usage
 
-This notebook is intended to be run via the command line from the top directory of the repository as follows:
+This notebook is intended to be run via the command line from the directory of the module as follows:
 
 ```
 Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
@@ -34,7 +34,6 @@ Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(data.table)
   library(plyr)
 })
 ```
@@ -97,7 +96,7 @@ maf_subset <- data.table::fread(maf, data.table = F) %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF 
-  mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatatenate gene and protein information
+  mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   filter(Variant_Classification %in% maf_nonsynonymous) %>%
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
