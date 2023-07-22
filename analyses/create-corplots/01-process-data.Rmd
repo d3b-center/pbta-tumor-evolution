@@ -114,18 +114,24 @@ print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))
 # Create maf file for autopsy samples
 
 ```{r maf_autopsy}
+# There are cases with more than two paired time points. 
+# We will need to create a column to distinguish for those cases (descriptors_new_number). 
+# This will allow us to filter and create multiple corplots per patient.
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf, by=c('Kids_First_Biospecimen_ID')) %>%
-  filter(!is.na(Kids_First_Participant_ID)) %>%
-  filter(!is.na(VAF)) %>%
-  mutate(descriptors_type = case_when(grepl("Deceased, Diagnosis, Diagnosis, Progressive, Progressive", descriptors) ~ "dx_pro_dec",
-                                      grepl("Deceased, Diagnosis, Recurrence", descriptors) ~ "dx_rec_dec",
-                                      grepl("Deceased, Progressive, Recurrence", descriptors) | grepl("Deceased, Progressive, Progressive, Recurrence", descriptors) | grepl("Deceased, Progressive, Recurrence, Recurrence", descriptors) ~ "pro_rec_dec",
-                                      grepl("Deceased, Diagnosis, Progressive, Recurrence", descriptors) ~ "dx_pro_rec_dec",
-                                      grepl("Deceased, Diagnosis", descriptors) | grepl("Deceased, Diagnosis, Diagnosis", descriptors) | grepl("Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis", descriptors) ~ "Diagnosis", 
-                                      grepl("Deceased, Progressive", descriptors) | grepl("Deceased, Progressive, Progressive", descriptors) ~ "Progressive",
-                                      grepl("Deceased, Recurrence", descriptors) ~ "Recurrence"
-                                      )) %>%
+  filter(!is.na(Kids_First_Participant_ID),
+         !is.na(VAF),
+         !VAF == 0) %>%
+  mutate(descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro",
+                                      descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec",
+                                      descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
+                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
+                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx", 
+                                      descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
+                                      descriptors == "Deceased, Recurrence" ~ "rec")) %>%
+  mutate(descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
+                                            descriptors_new == "dx_pro_rec" ~ "3",
+                                            descriptors_new %in% c("dx", "pro", "rec") ~ "1")) %>%
   write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
 ```
 
