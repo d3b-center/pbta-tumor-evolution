@@ -149,65 +149,6 @@ maf_Deceased <- genomic_assays_matched_time_points_list_merge %>%
   write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
 ```
 
-## Let's split the maf files per each category and by the "Kids_First_Participant_ID" column
-
-```{r split-maf-files}
-# split maf data
-data <- maf_Deceased %>% 
-  filter(descriptors_type == "Diagnosis")
-
-# list with splitData
-splitData_dx_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_dx_dec.Rds"))
-
-##########################################################################################
-# split maf data
-data <- maf_Deceased %>% 
-  filter(descriptors_type == "Progressive")
-
-# list with splitData
-splitData_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_pro_dec.Rds"))
-
-##########################################################################################
-# split maf data
-data <- maf_Deceased %>% 
-  filter(descriptors_type == "Recurrence")
-
-# list with splitData
-splitData_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_rec_dec.Rds"))
-
-##########################################################################################  
-# split maf data
-data <- maf_Deceased %>% 
-  filter(descriptors_type == "dx_pro_dec")
-
-
-# list with splitData
-splitData_dx_pro_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_dx_pro_dec.Rds"))
-
-##########################################################################################
-# split maf data
-data <- maf_Deceased %>% 
-    filter(descriptors_type == "dx_rec_dec")
-
-# list with splitData
-splitData_dx_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_dx_rec_dec.Rds"))
-
-
-##########################################################################################
-# split maf data
-data <- maf_Deceased %>% 
-    filter(descriptors_type == "pro_rec_dec")
-
-# list with splitData
-splitData_pro_rec_dec <-  split(data, data$Kids_First_Participant_ID) %>%
-  saveRDS(file.path(scratch_dir, "splitData_pro_rec_dec.Rds"))
-```
-
 
 ```{r echo=TRUE}
 sessionInfo()
