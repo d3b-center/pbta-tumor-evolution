@@ -132,7 +132,7 @@ maf_autopsy <- patient_list_metadata %>%
   mutate(descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
                                             descriptors_new == "dx_pro_rec" ~ "3",
                                             descriptors_new %in% c("dx", "pro", "rec") ~ "1")) %>%
-  write_tsv(file.path(scratch_dir, "maf_Deceased.tsv"))
+  write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 ```
 
 ```{r echo=TRUE}
