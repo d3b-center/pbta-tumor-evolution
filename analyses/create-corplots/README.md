@@ -17,7 +17,7 @@ This folder contains scripts tasked to investigate VAFs and TMB across matched s
 ## Summary 
 This pipeline investigates VAFs and TMB across matched samples. This pipeline produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
 
-`01-process-data.Rmd` is a script written to process and generate the data to use to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select patients with genomic assays and then focus on patienst with matched autopsy samples. This script stores all large files in the `scratch dir` located in the root directory.
+`01-process-data.Rmd` is a script written to process and generate the data to use to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select patients with genomic assays and then focus on patienst with matched autopsy samples. This script stores all large files in the `scratch` directory located in the root directory.
 
  
 ## Folder structure 
@@ -30,7 +30,5 @@ The structure of this folder is as follows:
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
-├── results
-│   └── genomic_assays_matched_time_points_list_merge.tsv
 └── run-create-corplots.sh
 ```
