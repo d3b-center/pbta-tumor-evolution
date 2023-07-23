@@ -139,44 +139,44 @@ maf_autopsy <- patient_list_metadata %>%
 # That we will allow us to will create a column to identify time points to use for the function for creating corplots (descriptors_new_type)
 
 # We will subset the cases with one time point 
-# CASES 1 TIME POINT
-cases_1 <- maf_autopsy %>%
+# Cases with 1 TIME POINT
+timepoint_1 <- maf_autopsy %>%
   mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & descriptors_new_number %in% c("2", "3"), "remove", "keep")) %>%
   filter(col_rm == "keep") %>%
   subset(select = -c(col_rm)) 
 
-# We will subset to the cases with only the Deceased samples to be used for both df cases_2 and cases_3
+# We will subset to the cases with only the Deceased samples to be used for both timepoint_2 and timepoint_3
 maf_autopsy_subset <- maf_autopsy %>%
   filter(tumor_descriptor == "Deceased")
 
-# CASES 2 TIME POINTS
+# Cases with 2 TIME POINTS
 # We will subset the cases with two more time points and duplicate these rows 
-cases_2 <- maf_autopsy_subset %>%
+timepoint_2 <- maf_autopsy_subset %>%
   filter(descriptors_new_number == "2")
-cases_2 <- cases_2[rep(seq_len(nrow(cases_2)), each = 2), ]  
+timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]  
 
 # rename duplicate rows to distinguish between duplicates
-cases_2 <- cases_2 %>% 
+timepoint_2 <- timepoint_2 %>% 
   group_by(match_id) %>%
   dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_"),
-         tumor_descriptor = case_when(tumor_descriptor == "Deceased_3" ~ "Deceased_1", # there is a bug producing Deceased_3, Deceased_3 instead of Deceased_1, Deceased_2: PT_HJMP6PH2, ADAMTS9_0.191176470588235
+         tumor_descriptor = case_when(tumor_descriptor == "Deceased_3" ~ "Deceased_1", # there is a bug producing Deceased_3, Deceased_3 instead of Deceased_1, Deceased_2 for: PT_HJMP6PH2, ADAMTS9_0.191176470588235
                                       tumor_descriptor == "Deceased_4" ~ "Deceased_2",
                                       TRUE ~ tumor_descriptor)) 
 
-# CASES 3 TIME POINTS
+# Cases with 3 TIME POINTS
 # We will subset the cases with three more time points and duplicate these rows 
-cases_3 <-maf_autopsy_subset %>%
+timepoint_3 <-maf_autopsy_subset %>%
   filter(descriptors_new_number == "3")
-cases_3 <- cases_3[rep(seq_len(nrow(cases_3)), each = 3), ]  
+timepoint_3 <- timepoint_3[rep(seq_len(nrow(timepoint_3)), each = 3), ]  
 
 # rename duplicate rows to distinguish between duplicates
-cases_3 <- cases_3 %>% 
+timepoint_3 <- timepoint_3 %>% 
   group_by(match_id) %>% 
   dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")
   )
 
 # we will bind each df with time points 1, 2, 3
-maf_autopsy <- rbind(cases_1, cases_2, cases_3) %>%
+maf_autopsy <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
   mutate(descriptors_new_type = case_when(descriptors_new == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
                                           descriptors_new == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
                                           descriptors_new == "rec" & tumor_descriptor %in% c("Recurrence", "Deceased") ~ "Recurrence",
