@@ -141,9 +141,9 @@ maf_autopsy <- patient_list_metadata %>%
 # We will subset the cases with one time point 
 # CASES 1 TIME POINT
 cases_1 <- maf_autopsy %>%
-  mutate(class = ifelse(tumor_descriptor == "Deceased" & descriptors_new_number %in% c("2", "3"), "remove", "keep")) %>%
-  filter(class == "keep") %>%
-  subset(select = -c(class)) 
+  mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & descriptors_new_number %in% c("2", "3"), "remove", "keep")) %>%
+  filter(col_rm == "keep") %>%
+  subset(select = -c(col_rm)) 
 
 # We will subset to the cases with only the Deceased samples to be used for both df cases_2 and cases_3
 maf_autopsy_subset <- maf_autopsy %>%
