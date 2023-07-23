@@ -2947,7 +2947,7 @@ genomic_assays_matched_time_points_file &lt;- file.path(files_dir, &quot;genomic
 <h2>Read in data and process</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIGhpc3RvbG9naWVzIGZpbGUgYW5kIGZpbHRlciBmb3IgdGhlIHBidGEgY29ob3J0XG5wYnRhIDwtIHJlYWRyOjpyZWFkX3Rzdih2MTJfZmlsZSwgZ3Vlc3NfbWF4ID0gMTAwMDAwLCBzaG93X2NvbF90eXBlcyA9IEZBTFNFKSAlPiVcbiAgZmlsdGVyKGNvaG9ydCA9PSBcIlBCVEFcIixcbiAgICAgICAgICFpcy5uYShwYXRob2xvZ3lfZGlhZ25vc2lzKSxcbiAgICAgICAgICFjb21wb3NpdGlvbiAlaW4lIGMoXCJEZXJpdmVkIENlbGwgTGluZVwiLCBcIlBEWFwiKSxcbiAgICAgICAgICFleHBlcmltZW50YWxfc3RyYXRlZ3kgJWluJSBjKFwiTWV0aHlsYXRpb25cIiwgXCJUYXJnZXRlZCBTZXF1ZW5jaW5nXCIpKSAlPiVcbiAgc2VsZWN0KEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQsIEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQsIGV4cGVyaW1lbnRhbF9zdHJhdGVneSwgdHVtb3JfZGVzY3JpcHRvciwgYWdlX2F0X2RpYWdub3Npc19kYXlzLCBhZ2VfbGFzdF91cGRhdGVfZGF5cywgY2FuY2VyX3ByZWRpc3Bvc2l0aW9ucywgYnJvYWRfaGlzdG9sb2d5LCBzaG9ydF9oaXN0b2xvZ3ksIGNhbmNlcl9ncm91cCkgXG5cbiMgTWFrZSBhIHZlY3RvciBvZiBjb2RpbmcgZ2VuZSBtdXRhdGlvbnNcbm1hZl9ub25zeW5vbnltb3VzIDwtIGMoXG4gIFwiTWlzc2Vuc2VfTXV0YXRpb25cIixcbiAgXCJGcmFtZV9TaGlmdF9EZWxcIixcbiAgXCJJbl9GcmFtZV9JbnNcIixcbiAgXCJGcmFtZV9TaGlmdF9JbnNcIixcbiAgXCJTcGxpY2VfU2l0ZVwiLFxuICBcIk5vbnNlbnNlX011dGF0aW9uXCIsXG4gIFwiSW5fRnJhbWVfRGVsXCIsXG4gIFwiTm9uc3RvcF9NdXRhdGlvblwiLFxuICBcIlRyYW5zbGF0aW9uX1N0YXJ0X1NpdGVcIlxuKVxuXG4jIFJlYWQgaW4gbWFmIGZpbGUsIGNhbGN1bGF0ZSBWQUYsIGFuZCByZXRhaW4gb25seSBjb2RpbmcgZ2VuZSBtdXRhdGlvbnNcbm1hZiA8LSBkYXRhLnRhYmxlOjpmcmVhZChtYWZfZmlsZSwgZGF0YS50YWJsZSA9IEYpICU+JSBcbiAgZmlsdGVyKFR1bW9yX1NhbXBsZV9CYXJjb2RlICVpbiUgcGJ0YSRLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEKSAlPiVcbiAgZHBseXI6OnJlbmFtZShLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEID0gVHVtb3JfU2FtcGxlX0JhcmNvZGUpICU+JSAjIGNoYW5nZSB0aGUgY29sdW1uIG5hbWUgb2YgdGhlIGJpb3NwZWNpbWVuIGNvbHVtbiB0byBtYXRjaCB0aGUgY29sdW1uIG5hbWUgZnJvbSB0aGUgaGlzdG9sb2dpZXMgZmlsZXNcbiAgZHBseXI6Om11dGF0ZShWQUYgPSB0X2FsdF9jb3VudCAvICh0X3JlZl9jb3VudCArIHRfYWx0X2NvdW50KSkgJT4lICMgY2FsY3VsYXRlIFZBRiBcbiAgbXV0YXRlKGdlbmVfcHJvdGVpbiA9IHBhc3RlKEh1Z29fU3ltYm9sLCBIR1ZTcF9TaG9ydCwgc2VwID0gXCJfXCIpKSAlPiUgICMgY29uY2F0ZW5hdGUgZ2VuZSBhbmQgcHJvdGVpbiBpbmZvcm1hdGlvblxuICBmaWx0ZXIoVmFyaWFudF9DbGFzc2lmaWNhdGlvbiAlaW4lIG1hZl9ub25zeW5vbnltb3VzKSAlPiVcbiAgc2VsZWN0KEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQsIEh1Z29fU3ltYm9sLCBDaHJvbW9zb21lLCBTdGFydF9Qb3NpdGlvbiwgVmFyaWFudF9DbGFzc2lmaWNhdGlvbiwgVkFGLCBIR1ZTYywgSEdWU3AsIEhHVlNwX1Nob3J0LCBnZW5lX3Byb3RlaW4pIFxuXG4jIFJlYWQgaW4gdG1iIGZpbGVcbnRtYiA8LSByZWFkcjo6cmVhZF90c3YodG1iX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSlcblxuIyBSZWFkIGluIGdlbm9taWNfYXNzYXlzX21hdGNoZWRfdGltZV9wb2ludHMgZmlsZSBhbmQgZ2V0IHRoZSBsaXN0IG9mIHBhdGllbnRzIHdpdGggbWF0Y2hlZCB0aW1lIHBvaW50c1xucGF0aWVudF9saXN0IDwtIHJlYWRyOjpyZWFkX3RzdihnZW5vbWljX2Fzc2F5c19tYXRjaGVkX3RpbWVfcG9pbnRzX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN1YnNldChzZWxlY3QgPSBjKFwiS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRFwiLCBcImRlc2NyaXB0b3JzXCIpKVxuXG4jIEhvdyBtYW55IHBhdGllbnRzIGhhdmUgcGFpcmVkIHRpbWUgc2FtcGxlcz9cbnByaW50KGxlbmd0aCh1bmlxdWUocGF0aWVudF9saXN0JEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQpKSlcblxuIyBBZGQgbWV0YWRhdGEgZnJvbSBwYnRhIHRvIHBhdGllbnQgbGlzdCBhbmQga2VlcCBvbmx5IGF1dG9wc3kgc2FtcGxlc1xucGF0aWVudF9saXN0X21ldGFkYXRhIDwtIHBhdGllbnRfbGlzdCAlPiUgXG4gIGxlZnRfam9pbihwYnRhLCBieSA9IFwiS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRFwiKSAlPiVcbiAgZmlsdGVyKCEoZXhwZXJpbWVudGFsX3N0cmF0ZWd5ID09IFwiUk5BLVNlcVwiKSkgJT4lXG4gIG11dGF0ZSh0dW1vcl9kZXNjcmlwdG9yID0gY2FzZV93aGVuKGdyZXBsKFwiUHJpbWFyeSBUdW1vclwiLCB0dW1vcl9kZXNjcmlwdG9yKSB+IFwiRGlhZ25vc2lzXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBncmVwbChcIkluaXRpYWwgQ05TIFR1bW9yXCIsIHR1bW9yX2Rlc2NyaXB0b3IpIH4gXCJEaWFnbm9zaXNcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdyZXBsKCdQcm9ncmVzc2l2ZSBEaXNlYXNlIFBvc3QtTW9ydGVtJywgdHVtb3JfZGVzY3JpcHRvcikgfiAnRGVjZWFzZWQnLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiB0dW1vcl9kZXNjcmlwdG9yKSkgJT4lXG4gIG11dGF0ZShEZWNlYXNlZCA9IGNhc2Vfd2hlbihncmVwbChcIkRlY2Vhc2VkXCIsIGRlc2NyaXB0b3JzKSB+IFwiRGVjZWFzZWRcIikpICU+JVxuICBmaWx0ZXIoRGVjZWFzZWQgPT0gXCJEZWNlYXNlZFwiKSBcblxuIyBIb3cgbWFueSBwYXRpZW50cyBoYXZlIHBhaXJlZCB0aW1lIHNhbXBsZXMgd2l0aCBhdXRvcHN5IHRpbWUgcG9pbnQgcHJlc2VudD9cbnByaW50KGxlbmd0aCh1bmlxdWUocGF0aWVudF9saXN0X21ldGFkYXRhJEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQpKSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIGhpc3RvbG9naWVzIGZpbGUgYW5kIGZpbHRlciBmb3IgdGhlIHBidGEgY29ob3J0XG5wYnRhIDwtIHJlYWRyOjpyZWFkX3Rzdih2MTJfZmlsZSwgZ3Vlc3NfbWF4ID0gMTAwMDAwLCBzaG93X2NvbF90eXBlcyA9IEZBTFNFKSAlPiVcbiAgZmlsdGVyKGNvaG9ydCA9PSBcIlBCVEFcIixcbiAgICAgICAgICFpcy5uYShwYXRob2xvZ3lfZGlhZ25vc2lzKSxcbiAgICAgICAgICFjb21wb3NpdGlvbiAlaW4lIGMoXCJEZXJpdmVkIENlbGwgTGluZVwiLCBcIlBEWFwiKSxcbiAgICAgICAgICFleHBlcmltZW50YWxfc3RyYXRlZ3kgJWluJSBjKFwiTWV0aHlsYXRpb25cIiwgXCJUYXJnZXRlZCBTZXF1ZW5jaW5nXCIpKSAlPiVcbiAgc2VsZWN0KEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQsIEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQsIGV4cGVyaW1lbnRhbF9zdHJhdGVneSwgdHVtb3JfZGVzY3JpcHRvciwgYWdlX2F0X2RpYWdub3Npc19kYXlzLCBhZ2VfbGFzdF91cGRhdGVfZGF5cywgY2FuY2VyX3ByZWRpc3Bvc2l0aW9ucywgYnJvYWRfaGlzdG9sb2d5LCBzaG9ydF9oaXN0b2xvZ3ksIGNhbmNlcl9ncm91cCkgXG5cbiMgTWFrZSBhIHZlY3RvciBvZiBjb2RpbmcgZ2VuZSBtdXRhdGlvbnNcbm1hZl9ub25zeW5vbnltb3VzIDwtIGMoXG4gIFwiTWlzc2Vuc2VfTXV0YXRpb25cIixcbiAgXCJGcmFtZV9TaGlmdF9EZWxcIixcbiAgXCJJbl9GcmFtZV9JbnNcIixcbiAgXCJGcmFtZV9TaGlmdF9JbnNcIixcbiAgXCJTcGxpY2VfU2l0ZVwiLFxuICBcIk5vbnNlbnNlX011dGF0aW9uXCIsXG4gIFwiSW5fRnJhbWVfRGVsXCIsXG4gIFwiTm9uc3RvcF9NdXRhdGlvblwiLFxuICBcIlRyYW5zbGF0aW9uX1N0YXJ0X1NpdGVcIlxuKVxuXG4jIFJlYWQgaW4gbWFmIGZpbGUsIGNhbGN1bGF0ZSBWQUYsIGFuZCByZXRhaW4gb25seSBjb2RpbmcgZ2VuZSBtdXRhdGlvbnNcbm1hZiA8LSBkYXRhLnRhYmxlOjpmcmVhZChtYWZfZmlsZSwgZGF0YS50YWJsZSA9IEYpICU+JSBcbiAgZmlsdGVyKFR1bW9yX1NhbXBsZV9CYXJjb2RlICVpbiUgcGJ0YSRLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEKSAlPiVcbiAgZHBseXI6OnJlbmFtZShLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEID0gVHVtb3JfU2FtcGxlX0JhcmNvZGUpICU+JSAjIGNoYW5nZSB0aGUgY29sdW1uIG5hbWUgb2YgdGhlIGJpb3NwZWNpbWVuIGNvbHVtbiB0byBtYXRjaCB0aGUgY29sdW1uIG5hbWUgZnJvbSB0aGUgaGlzdG9sb2dpZXMgZmlsZXNcbiAgZHBseXI6Om11dGF0ZShWQUYgPSB0X2FsdF9jb3VudCAvICh0X3JlZl9jb3VudCArIHRfYWx0X2NvdW50KSkgJT4lICMgY2FsY3VsYXRlIFZBRiBcbiAgbXV0YXRlKGdlbmVfcHJvdGVpbiA9IHBhc3RlKEh1Z29fU3ltYm9sLCBIR1ZTcF9TaG9ydCwgc2VwID0gXCJfXCIpKSAlPiUgICMgY29uY2F0ZW5hdGUgZ2VuZSBhbmQgcHJvdGVpbiBpbmZvcm1hdGlvblxuICBmaWx0ZXIoVmFyaWFudF9DbGFzc2lmaWNhdGlvbiAlaW4lIG1hZl9ub25zeW5vbnltb3VzKSAlPiVcbiAgc2VsZWN0KEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQsIEh1Z29fU3ltYm9sLCBDaHJvbW9zb21lLCBTdGFydF9Qb3NpdGlvbiwgVmFyaWFudF9DbGFzc2lmaWNhdGlvbiwgVkFGLCBIR1ZTYywgSEdWU3AsIEhHVlNwX1Nob3J0LCBnZW5lX3Byb3RlaW4pIFxuYGBgIn0= -->
 <pre class="r"><code># Read in histologies file and filter for the pbta cohort
 pbta &lt;- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %&gt;%
   filter(cohort == &quot;PBTA&quot;,
@@ -2976,9 +2976,16 @@ maf &lt;- data.table::fread(maf_file, data.table = F) %&gt;%
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %&gt;% # calculate VAF 
   mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = &quot;_&quot;)) %&gt;%  # concatenate gene and protein information
   filter(Variant_Classification %in% maf_nonsynonymous) %&gt;%
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
-
-# Read in tmb file
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoifC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfFxufD09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fFxufC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfFxufD09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fFxuIn0= -->
+<pre><code>|--------------------------------------------------|
+|==================================================|
+|--------------------------------------------------|
+|==================================================|</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIHRtYiBmaWxlXG50bWIgPC0gcmVhZHI6OnJlYWRfdHN2KHRtYl9maWxlLCBndWVzc19tYXggPSAxMDAwMDAsIHNob3dfY29sX3R5cGVzID0gRkFMU0UpXG5cbiMgUmVhZCBpbiBnZW5vbWljX2Fzc2F5c19tYXRjaGVkX3RpbWVfcG9pbnRzIGZpbGUgYW5kIGdldCB0aGUgbGlzdCBvZiBwYXRpZW50cyB3aXRoIG1hdGNoZWQgdGltZSBwb2ludHNcbnBhdGllbnRfbGlzdCA8LSByZWFkcjo6cmVhZF90c3YoZ2Vub21pY19hc3NheXNfbWF0Y2hlZF90aW1lX3BvaW50c19maWxlLCBndWVzc19tYXggPSAxMDAwMDAsIHNob3dfY29sX3R5cGVzID0gRkFMU0UpICU+JVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdWJzZXQoc2VsZWN0ID0gYyhcIktpZHNfRmlyc3RfUGFydGljaXBhbnRfSURcIiwgXCJkZXNjcmlwdG9yc1wiKSlcblxuIyBIb3cgbWFueSBwYXRpZW50cyBoYXZlIHBhaXJlZCB0aW1lIHNhbXBsZXM/XG5wcmludChsZW5ndGgodW5pcXVlKHBhdGllbnRfbGlzdCRLaWRzX0ZpcnN0X1BhcnRpY2lwYW50X0lEKSkpXG5gYGAifQ== -->
+<pre class="r"><code># Read in tmb file
 tmb &lt;- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
 # Read in genomic_assays_matched_time_points file and get the list of patients with matched time points
@@ -2986,9 +2993,13 @@ patient_list &lt;- readr::read_tsv(genomic_assays_matched_time_points_file, gues
                                       subset(select = c(&quot;Kids_First_Participant_ID&quot;, &quot;descriptors&quot;))
 
 # How many patients have paired time samples?
-print(length(unique(patient_list$Kids_First_Participant_ID)))
-
-# Add metadata from pbta to patient list and keep only autopsy samples
+print(length(unique(patient_list$Kids_First_Participant_ID)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEyNFxuIn0= -->
+<pre><code>[1] 124</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBZGQgbWV0YWRhdGEgZnJvbSBwYnRhIHRvIHBhdGllbnQgbGlzdCBhbmQga2VlcCBvbmx5IGF1dG9wc3kgc2FtcGxlc1xucGF0aWVudF9saXN0X21ldGFkYXRhIDwtIHBhdGllbnRfbGlzdCAlPiUgXG4gIGxlZnRfam9pbihwYnRhLCBieSA9IFwiS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRFwiKSAlPiVcbiAgZmlsdGVyKCEoZXhwZXJpbWVudGFsX3N0cmF0ZWd5ID09IFwiUk5BLVNlcVwiKSkgJT4lXG4gIG11dGF0ZSh0dW1vcl9kZXNjcmlwdG9yID0gY2FzZV93aGVuKGdyZXBsKFwiUHJpbWFyeSBUdW1vclwiLCB0dW1vcl9kZXNjcmlwdG9yKSB+IFwiRGlhZ25vc2lzXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBncmVwbChcIkluaXRpYWwgQ05TIFR1bW9yXCIsIHR1bW9yX2Rlc2NyaXB0b3IpIH4gXCJEaWFnbm9zaXNcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdyZXBsKCdQcm9ncmVzc2l2ZSBEaXNlYXNlIFBvc3QtTW9ydGVtJywgdHVtb3JfZGVzY3JpcHRvcikgfiAnRGVjZWFzZWQnLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiB0dW1vcl9kZXNjcmlwdG9yKSkgJT4lXG4gIG11dGF0ZShEZWNlYXNlZCA9IGNhc2Vfd2hlbihncmVwbChcIkRlY2Vhc2VkXCIsIGRlc2NyaXB0b3JzKSB+IFwiRGVjZWFzZWRcIikpICU+JVxuICBmaWx0ZXIoRGVjZWFzZWQgPT0gXCJEZWNlYXNlZFwiKSBcblxuIyBIb3cgbWFueSBwYXRpZW50cyBoYXZlIHBhaXJlZCB0aW1lIHNhbXBsZXMgd2l0aCBhdXRvcHN5IHRpbWUgcG9pbnQgcHJlc2VudD9cbnByaW50KGxlbmd0aCh1bmlxdWUocGF0aWVudF9saXN0X21ldGFkYXRhJEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQpKSlcbmBgYCJ9 -->
+<pre class="r"><code># Add metadata from pbta to patient list and keep only autopsy samples
 patient_list_metadata &lt;- patient_list %&gt;% 
   left_join(pbta, by = &quot;Kids_First_Participant_ID&quot;) %&gt;%
   filter(!(experimental_strategy == &quot;RNA-Seq&quot;)) %&gt;%
@@ -3002,6 +3013,9 @@ patient_list_metadata &lt;- patient_list %&gt;%
 # How many patients have paired time samples with autopsy time point present?
 print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI5XG4ifQ== -->
+<pre><code>[1] 29</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -3097,6 +3111,36 @@ maf_autopsy &lt;- rbind(cases_1, cases_2, cases_3) %&gt;%
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgIn0= -->
 <pre class="r"><code>sessionInfo()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUiB2ZXJzaW9uIDQuMi4zICgyMDIzLTAzLTE1KVxuUGxhdGZvcm06IGFhcmNoNjQtYXBwbGUtZGFyd2luMjAgKDY0LWJpdClcblJ1bm5pbmcgdW5kZXI6IG1hY09TIFZlbnR1cmEgMTMuNFxuXG5NYXRyaXggcHJvZHVjdHM6IGRlZmF1bHRcbkxBUEFDSzogL0xpYnJhcnkvRnJhbWV3b3Jrcy9SLmZyYW1ld29yay9WZXJzaW9ucy80LjItYXJtNjQvUmVzb3VyY2VzL2xpYi9saWJSbGFwYWNrLmR5bGliXG5cbmxvY2FsZTpcblsxXSBlbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9DL2VuX1VTLlVURi04L2VuX1VTLlVURi04XG5cbmF0dGFjaGVkIGJhc2UgcGFja2FnZXM6XG5bMV0gZ3JpZCAgICAgIHN0YXRzICAgICBncmFwaGljcyAgZ3JEZXZpY2VzIHV0aWxzICAgICBkYXRhc2V0cyAgbWV0aG9kcyAgIGJhc2UgICAgIFxuXG5vdGhlciBhdHRhY2hlZCBwYWNrYWdlczpcbiBbMV0gcGx5cl8xLjguOCAgICAgICAgZ2d0aGVtZXNfNC4yLjQgICAgZGF0YS50YWJsZV8xLjE0LjggZ2dyZXBlbF8wLjkuMyAgICAgbHVicmlkYXRlXzEuOS4yICAgZm9yY2F0c18xLjAuMCAgICAgc3RyaW5ncl8xLjUuMCAgICAgZHBseXJfMS4xLjIgICAgICBcbiBbOV0gcHVycnJfMS4wLjEgICAgICAgcmVhZHJfMi4xLjQgICAgICAgdGlkeXJfMS4zLjAgICAgICAgdGliYmxlXzMuMi4xICAgICAgZ2dwbG90Ml8zLjQuMiAgICAgdGlkeXZlcnNlXzIuMC4wICBcblxubG9hZGVkIHZpYSBhIG5hbWVzcGFjZSAoYW5kIG5vdCBhdHRhY2hlZCk6XG4gWzFdIHNhc3NfMC40LjYgICAgICAgIHBrZ2xvYWRfMS4zLjIgICAgIGpzb25saXRlXzEuOC41ICAgIGJpdDY0XzQuMC41ICAgICAgIHZyb29tXzEuNi4zICAgICAgIFIudXRpbHNfMi4xMi4yICAgIGJzbGliXzAuNS4wICAgICAgIHNoaW55XzEuNy40ICAgICAgXG4gWzldIHlhbWxfMi4zLjcgICAgICAgIHJlbW90ZXNfMi40LjIgICAgIHNlc3Npb25pbmZvXzEuMi4yIHBpbGxhcl8xLjkuMCAgICAgIGdsdWVfMS42LjIgICAgICAgIGRpZ2VzdF8wLjYuMzEgICAgIHByb21pc2VzXzEuMi4wLjEgIGNvbG9yc3BhY2VfMi4xLTAgXG5bMTddIFIub29fMS4yNS4wICAgICAgIGh0bWx0b29sc18wLjUuNSAgIGh0dHB1dl8xLjYuMTEgICAgIHBrZ2NvbmZpZ18yLjAuMyAgIGRldnRvb2xzXzIuNC41ICAgIHFkYXBSZWdleF8wLjcuNiAgIHh0YWJsZV8xLjgtNCAgICAgIHNjYWxlc18xLjIuMSAgICAgXG5bMjVdIHByb2Nlc3N4XzMuOC4xICAgIGxhdGVyXzEuMy4xICAgICAgIHR6ZGJfMC40LjAgICAgICAgIHRpbWVjaGFuZ2VfMC4yLjAgIGdlbmVyaWNzXzAuMS4zICAgIGZhcnZlcl8yLjEuMSAgICAgIHVzZXRoaXNfMi4yLjAgICAgIGVsbGlwc2lzXzAuMy4yICAgXG5bMzNdIGNhY2hlbV8xLjAuOCAgICAgIHdpdGhyXzIuNS4wICAgICAgIGNsaV8zLjYuMSAgICAgICAgIG1hZ3JpdHRyXzIuMC4zICAgIGNyYXlvbl8xLjUuMiAgICAgIG1pbWVfMC4xMiAgICAgICAgIG1lbW9pc2VfMi4wLjEgICAgIGV2YWx1YXRlXzAuMjEgICAgXG5bNDFdIHBzXzEuNy41ICAgICAgICAgIFIubWV0aG9kc1MzXzEuOC4yIGZzXzEuNi4yICAgICAgICAgIGZhbnNpXzEuMC40ICAgICAgIHBrZ2J1aWxkXzEuNC4wICAgIHByb2Z2aXNfMC4zLjggICAgIHRvb2xzXzQuMi4zICAgICAgIHByZXR0eXVuaXRzXzEuMS4xXG5bNDldIGhtc18xLjEuMyAgICAgICAgIGxpZmVjeWNsZV8xLjAuMyAgIG11bnNlbGxfMC41LjAgICAgIGNhbGxyXzMuNy4zICAgICAgIGNvbXBpbGVyXzQuMi4zICAgIGpxdWVyeWxpYl8wLjEuNCAgIHJsYW5nXzEuMS4xICAgICAgIHJzdHVkaW9hcGlfMC4xNCAgXG5bNTddIGh0bWx3aWRnZXRzXzEuNi4yIG1pbmlVSV8wLjEuMS4xICAgIGxhYmVsaW5nXzAuNC4yICAgIHJtYXJrZG93bl8yLjIyICAgIGd0YWJsZV8wLjMuMyAgICAgIFI2XzIuNS4xICAgICAgICAgIGtuaXRyXzEuNDMgICAgICAgIGZhc3RtYXBfMS4xLjEgICAgXG5bNjVdIGJpdF80LjAuNSAgICAgICAgIHV0ZjhfMS4yLjMgICAgICAgIHJwcm9qcm9vdF8yLjAuMyAgIHN0cmluZ2lfMS43LjEyICAgIHBhcmFsbGVsXzQuMi4zICAgIFJjcHBfMS4wLjEwICAgICAgIHZjdHJzXzAuNi4zICAgICAgIHRpZHlzZWxlY3RfMS4yLjAgXG5bNzNdIHhmdW5fMC4zOSAgICAgICAgIHVybGNoZWNrZXJfMS4wLjEgXG4ifQ== -->
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4
+
+Matrix products: default
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] plyr_1.8.8        ggthemes_4.2.4    data.table_1.14.8 ggrepel_0.9.3     lubridate_1.9.2   forcats_1.0.0     stringr_1.5.0     dplyr_1.1.2      
+ [9] purrr_1.0.1       readr_2.1.4       tidyr_1.3.0       tibble_3.2.1      ggplot2_3.4.2     tidyverse_2.0.0  
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.6        pkgload_1.3.2     jsonlite_1.8.5    bit64_4.0.5       vroom_1.6.3       R.utils_2.12.2    bslib_0.5.0       shiny_1.7.4      
+ [9] yaml_2.3.7        remotes_2.4.2     sessioninfo_1.2.2 pillar_1.9.0      glue_1.6.2        digest_0.6.31     promises_1.2.0.1  colorspace_2.1-0 
+[17] R.oo_1.25.0       htmltools_0.5.5   httpuv_1.6.11     pkgconfig_2.0.3   devtools_2.4.5    qdapRegex_0.7.6   xtable_1.8-4      scales_1.2.1     
+[25] processx_3.8.1    later_1.3.1       tzdb_0.4.0        timechange_0.2.0  generics_0.1.3    farver_2.1.1      usethis_2.2.0     ellipsis_0.3.2   
+[33] cachem_1.0.8      withr_2.5.0       cli_3.6.1         magrittr_2.0.3    crayon_1.5.2      mime_0.12         memoise_2.0.1     evaluate_0.21    
+[41] ps_1.7.5          R.methodsS3_1.8.2 fs_1.6.2          fansi_1.0.4       pkgbuild_1.4.0    profvis_0.3.8     tools_4.2.3       prettyunits_1.1.1
+[49] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3       compiler_4.2.3    jquerylib_0.1.4   rlang_1.1.1       rstudioapi_0.14  
+[57] htmlwidgets_1.6.2 miniUI_0.1.1.1    labeling_0.4.2    rmarkdown_2.22    gtable_0.3.3      R6_2.5.1          knitr_1.43        fastmap_1.1.1    
+[65] bit_4.0.5         utf8_1.2.3        rprojroot_2.0.3   stringi_1.7.12    parallel_4.2.3    Rcpp_1.0.10       vctrs_0.6.3       tidyselect_1.2.0 
+[73] xfun_0.39         urlchecker_1.0.1 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 </div>
 
