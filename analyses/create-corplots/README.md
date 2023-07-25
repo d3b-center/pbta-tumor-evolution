@@ -25,8 +25,8 @@ This pipeline investigates VAFs and TMB across matched samples. This pipeline pr
 The structure of this folder is as follows:
 
 ```
-├── 01-process-data.Rmd
-├── 01-process-data.nb.html
+├── 01-preprocess-data.Rmd
+├── 01-preprocess-data.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
