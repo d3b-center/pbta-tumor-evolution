@@ -70,12 +70,12 @@ maf_nonsynonymous <- c(
 )
 
 # Read in maf file, calculate VAF, and retain only coding gene mutations
-maf <- data.table::fread(maf_file, data.table = F) %>% 
-  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID) %>%
+maf <- data.table::fread(maf_file, data.table = FALSE) %>% 
+  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
+         Variant_Classification %in% maf_nonsynonymous) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
-  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count)) %>% # calculate VAF 
-  mutate(gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
-  filter(Variant_Classification %in% maf_nonsynonymous) %>%
+  dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
+                gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
 # Read in tmb file
@@ -83,7 +83,7 @@ tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
 # Read in genomic_assays_matched_time_points file and get the list of patients with matched time points
 patient_list <- readr::read_tsv(genomic_assays_matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
-                                      subset(select = c("Kids_First_Participant_ID", "descriptors"))
+  subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
 # How many patients have paired time samples?
 print(length(unique(patient_list$Kids_First_Participant_ID)))
@@ -92,10 +92,7 @@ print(length(unique(patient_list$Kids_First_Participant_ID)))
 patient_list_metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID") %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
-  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
-                                 grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
-                                 grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
-                                 TRUE ~ tumor_descriptor)) %>%
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis", grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", TRUE ~ tumor_descriptor)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
   filter(Deceased == "Deceased") 
 
@@ -110,24 +107,23 @@ print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))
 # We will create VAF corplots per each time point without considering Deceased.
 # First we will create "descriptors_new_number" based on "descriptors_new" to account for time points = 1, 2, 3
 maf_autopsy <- patient_list_metadata %>% 
-  left_join(maf, by=c('Kids_First_Biospecimen_ID')) %>%
+  left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
          !VAF == 0) %>%
-  mutate(descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro",
-                                      descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec",
-                                      descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
-                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
-                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx", 
-                                      descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
-                                      descriptors == "Deceased, Recurrence" ~ "rec")) %>%
-  mutate(descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
+  mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_"), # unique identifiers to use for any samples with multiple time points,
+         descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
+                                     descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec", descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
+                                     descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
+                                     descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
+                                     descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
+                                     descriptors == "Deceased, Recurrence" ~ "rec"),
+         descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
                                             descriptors_new == "dx_pro_rec" ~ "3",
                                             descriptors_new %in% c("dx", "pro", "rec") ~ "1")) %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, descriptors_new, descriptors_new_number, Hugo_Symbol, gene_protein, VAF) %>%
-  mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_")) # unique identifiers to use for any samples with multiple time points
+  select(Kids_First_Participant_ID, tumor_descriptor, descriptors_new, descriptors_new_number, Hugo_Symbol, gene_protein, VAF)
 
-# Next, we will create df for cases for time points = 1, 2, 3 
+# Next, we will create df for cases for timepoint = 1, 2, 3 
 # That we will allow us to will create a column to identify time points to use for the function for creating corplots (descriptors_new_type)
 
 # We will subset the cases with one time point 
@@ -151,13 +147,13 @@ timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]
 timepoint_2 <- timepoint_2 %>% 
   group_by(match_id) %>%
   dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_"),
-         tumor_descriptor = case_when(tumor_descriptor == "Deceased_3" ~ "Deceased_1", # there is a bug producing Deceased_3, Deceased_3 instead of Deceased_1, Deceased_2 for: PT_HJMP6PH2, ADAMTS9_0.191176470588235
-                                      tumor_descriptor == "Deceased_4" ~ "Deceased_2",
-                                      TRUE ~ tumor_descriptor)) 
+                tumor_descriptor = case_when(tumor_descriptor == "Deceased_3" ~ "Deceased_1", # there is a bug producing Deceased_3, Deceased_3 instead of Deceased_1, Deceased_2 for: PT_HJMP6PH2, ADAMTS9_0.191176470588235
+                                             tumor_descriptor == "Deceased_4" ~ "Deceased_2",
+                                             TRUE ~ tumor_descriptor)) 
 
 # Cases with 3 TIME POINTS
 # We will subset the cases with three more time points and duplicate these rows 
-timepoint_3 <-maf_autopsy_subset %>%
+timepoint_3 <- maf_autopsy_subset %>%
   filter(descriptors_new_number == "3")
 timepoint_3 <- timepoint_3[rep(seq_len(nrow(timepoint_3)), each = 3), ]  
 
