@@ -1,5 +1,5 @@
 ---
-title: "Estimation of VAF of tumors across multiple timepoints for the PBTA Cohort"
+title: "Estimation of VAF of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -12,11 +12,10 @@ output:
 #### Tumor evolution project 
 
 # Background
-We are investigating the change of VAFs across multiple timepoints in the PBTA cohort.
+We are investigating the change of VAFs across multiple timepoints for the autopsy samples in the PBTA cohort.
 
 ### Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
-We use the output files from the "analyses/sample-distribution-analysis/results".
 
 # Set up
 
@@ -34,15 +33,15 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 scratch_dir <- file.path(root_dir, "scratch")
 data_dir <- file.path(root_dir, "data")
-analysis_dir <- file.path(root_dir, "analyses", "create-corplots") # create analysis_dir
-input_dir <- file.path(analysis_dir, "input") # create input_dir
-files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results") # create files_dir
+analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
 # Input files
 v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv") # tmb file
-matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") #  generated from the add-sample-distribution analysis
+matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
 ```
 
 ## Read in data and process
@@ -73,7 +72,7 @@ maf_nonsynonymous <- c(
 maf <- data.table::fread(maf_file, data.table = FALSE) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous) %>%
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change the column name of the biospecimen column to match the column name from the histologies files
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
@@ -81,7 +80,7 @@ maf <- data.table::fread(maf_file, data.table = FALSE) %>%
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
-# Read in genomic_assays_matched_time_points file and get the list of patients with matched time points
+# Read in matched_time_points_file and get the list of patients with matched time points
 patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
   subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
@@ -104,7 +103,7 @@ print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))
 
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
-# We will create VAF corplots per each time point without considering Deceased.
+# We will create plots per each time point without considering Deceased.
 # First we will create "descriptors_new_number" based on "descriptors_new" to account for time points = 1, 2, 3
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
