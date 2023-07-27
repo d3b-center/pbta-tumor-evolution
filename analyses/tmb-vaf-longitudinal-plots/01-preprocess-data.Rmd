@@ -34,7 +34,7 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 scratch_dir <- file.path(root_dir, "scratch")
 data_dir <- file.path(root_dir, "data")
-analysis_dir <- file.path(root_dir, "analyses", "create-corplots")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal-plots")
 input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
@@ -71,13 +71,13 @@ maf_nonsynonymous <- c(
 
 
 # Read in maf file, calculate VAF, and retain only coding gene mutations
-maf <- data.table::fread(maf_file, data.table = FALSE) %>% 
+maf.all <- data.table::fread(maf_file, data.table = FALSE) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein, match_id) 
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
 
 # Read in tmb file
@@ -117,7 +117,7 @@ paired_time_samples_number_autopsy <- length(unique(patient_list_metadata$Kids_F
 # We will create plots per each time point as a variable while considering Deceased as constant.
 # First we will create "timepoints_all_number" based on "timepoints_all" to account for time points = 1, 2, 3.
 maf_autopsy <- patient_list_metadata %>% 
-  left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
+  left_join(maf.all, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
          !VAF == 0, 
@@ -189,6 +189,9 @@ maf_autopsy.bind <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
          tumor_descriptor = case_when(tumor_descriptor %in% c("Deceased_1", "Deceased_2", "Deceased_3") ~ "Deceased",
                                       TRUE ~ tumor_descriptor)) %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
+
+subset = subset(maf_autopsy.bind,duplicated(match_id)) %>%
+  write_tsv(file.path(scratch_dir, "subset.tsv"))
 ```
 
 ```{r echo=TRUE}
