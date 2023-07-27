@@ -77,7 +77,8 @@ maf <- data.table::fread(maf_file, data.table = FALSE) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein, match_id) 
+
 
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
@@ -87,7 +88,7 @@ patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, sh
   subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
 # How many patients have paired time samples?
-no_paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
+paired_time_samples_number <- length(unique(patient_list$Kids_First_Participant_ID))
 
 # Add metadata from pbta to patient list and keep only autopsy samples
 patient_list_metadata <- patient_list %>% 
@@ -101,19 +102,19 @@ patient_list_metadata <- patient_list %>%
   filter(Deceased == "Deceased") 
 
 # How many patients have paired time samples with autopsy time point present?
-no_paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
+paired_time_samples_number_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
 ```
 
 ## Number of patient cases with paired time and autopsy samples
 
-`r no_paired_time_samples` of patient cases have paired time samples in genomic assays and `r no_paired_time_samples_autopsy` have autopsy sample.
+`r paired_time_samples_number` of patient cases have paired time samples in genomic assays and `r paired_time_samples_number_autopsy` have autopsy sample.
 
 
 # Create maf file for autopsy samples
 
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
-# We will create plots per each time point without considering Deceased.
+# We will create plots per each time point as a variable while considering Deceased as constant.
 # First we will create "timepoints_all_number" based on "timepoints_all" to account for time points = 1, 2, 3.
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
@@ -131,7 +132,8 @@ maf_autopsy <- patient_list_metadata %>%
                                             timepoints_all == "dx_pro_rec" ~ "3",
                                             timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
   select(Kids_First_Participant_ID, tumor_descriptor, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
-  mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_"))   # unique identifiers to use for any samples with multiple time points 
+  mutate(match_id = paste(Kids_First_Participant_ID, tumor_descriptor, gene_protein, VAF, sep = "_")) %>%
+  unique ()
 
 # Next, we will create df for cases for timepoint = 1, 2, 3.
 # That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
@@ -156,10 +158,7 @@ timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]
 # Rename duplicate rows to distinguish between duplicates
 timepoint_2 <- timepoint_2 %>% 
   group_by(match_id) %>%
-  dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_"),
-                tumor_descriptor = case_when(tumor_descriptor == "Deceased_3" ~ "Deceased_1", # there is a bug producing Deceased_3, Deceased_3 instead of Deceased_1, Deceased_2 for: PT_HJMP6PH2, ADAMTS9_0.191176470588235
-                                             tumor_descriptor == "Deceased_4" ~ "Deceased_2",
-                                             TRUE ~ tumor_descriptor)) 
+  dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")) 
 
 # Cases with 3 TIME POINTS
 # Subset the cases with three more time points and duplicate these rows 
@@ -174,7 +173,7 @@ timepoint_3 <- timepoint_3 %>%
   )
 
 # Bind each df with time points 1, 2, 3
-maf_autopsy <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
+maf_autopsy.bind <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
   mutate(timepoints = case_when(timepoints_all == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
                                           timepoints_all == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
                                           timepoints_all == "rec" & tumor_descriptor %in% c("Recurrence", "Deceased") ~ "Recurrence",
