@@ -28,8 +28,9 @@ suppressPackageStartupMessages({
 ## Directories and File Inputs/Outputs
 
 ```{r set-dir-and-file-names}
-# Detect the ".git" folder -- this will be in the project root directory.
-# Use this as the root directory to ensure proper sourcing of functions no matter where this is called from
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 scratch_dir <- file.path(root_dir, "scratch")
 data_dir <- file.path(root_dir, "data")
@@ -85,33 +86,40 @@ patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, sh
   subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
 # How many patients have paired time samples?
-print(length(unique(patient_list$Kids_First_Participant_ID)))
+no_paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 
 # Add metadata from pbta to patient list and keep only autopsy samples
 patient_list_metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID") %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
-  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis", grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", TRUE ~ tumor_descriptor)) %>%
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis", 
+                                      grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
+                                      grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", 
+                                      TRUE ~ tumor_descriptor)) %>%
   mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
   filter(Deceased == "Deceased") 
 
 # How many patients have paired time samples with autopsy time point present?
-print(length(unique(patient_list_metadata$Kids_First_Participant_ID)))
+no_paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
 ```
+
+## Number of patient cases with paired time and autopsy samples
+
+`r no_paired_time_samples` of patient cases have paired time samples in genomic assays and `r no_paired_time_samples_autopsy` have autopsy sample.
+
 
 # Create maf file for autopsy samples
 
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # We will create plots per each time point without considering Deceased.
-# First we will create "descriptors_new_number" based on "descriptors_new" to account for time points = 1, 2, 3
+# First we will create "descriptors_new_number" based on "descriptors_new" to account for time points = 1, 2, 3.
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
          !VAF == 0) %>%
-  mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_"), # unique identifiers to use for any samples with multiple time points,
-         descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
+  mutate(descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
                                      descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec", descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
@@ -120,29 +128,30 @@ maf_autopsy <- patient_list_metadata %>%
          descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
                                             descriptors_new == "dx_pro_rec" ~ "3",
                                             descriptors_new %in% c("dx", "pro", "rec") ~ "1")) %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, descriptors_new, descriptors_new_number, Hugo_Symbol, gene_protein, VAF)
+  select(Kids_First_Participant_ID, tumor_descriptor, descriptors_new, descriptors_new_number, Hugo_Symbol, gene_protein, VAF) %>%
+  mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_"))   # unique identifiers to use for any samples with multiple time points 
 
-# Next, we will create df for cases for timepoint = 1, 2, 3 
-# That we will allow us to will create a column to identify time points to use for the function for creating corplots (descriptors_new_type)
+# Next, we will create df for cases for timepoint = 1, 2, 3.
+# That we will allow us to will create a column to identify time points to use for the plots functions (descriptors_new_type).
 
-# We will subset the cases with one time point 
+# Subset the cases with one time point 
 # Cases with 1 TIME POINT
 timepoint_1 <- maf_autopsy %>%
   mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & descriptors_new_number %in% c("2", "3"), "remove", "keep")) %>%
   filter(col_rm == "keep") %>%
   subset(select = -c(col_rm)) 
 
-# We will subset to the cases with only the Deceased samples to be used for both timepoint_2 and timepoint_3
+# Subset to the cases with only the Deceased samples to be used for both timepoint_2 and timepoint_3
 maf_autopsy_subset <- maf_autopsy %>%
   filter(tumor_descriptor == "Deceased")
 
 # Cases with 2 TIME POINTS
-# We will subset the cases with two more time points and duplicate these rows 
+# Subset the cases with two more time points and duplicate these rows 
 timepoint_2 <- maf_autopsy_subset %>%
   filter(descriptors_new_number == "2")
 timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]  
 
-# rename duplicate rows to distinguish between duplicates
+# Rename duplicate rows to distinguish between duplicates
 timepoint_2 <- timepoint_2 %>% 
   group_by(match_id) %>%
   dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_"),
@@ -151,18 +160,18 @@ timepoint_2 <- timepoint_2 %>%
                                              TRUE ~ tumor_descriptor)) 
 
 # Cases with 3 TIME POINTS
-# We will subset the cases with three more time points and duplicate these rows 
+# Subset the cases with three more time points and duplicate these rows 
 timepoint_3 <- maf_autopsy_subset %>%
   filter(descriptors_new_number == "3")
 timepoint_3 <- timepoint_3[rep(seq_len(nrow(timepoint_3)), each = 3), ]  
 
-# rename duplicate rows to distinguish between duplicates
+# Rename duplicate rows to distinguish between duplicates
 timepoint_3 <- timepoint_3 %>% 
   group_by(match_id) %>% 
   dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")
   )
 
-# we will bind each df with time points 1, 2, 3
+# Bind each df with time points 1, 2, 3
 maf_autopsy <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
   mutate(descriptors_new_type = case_when(descriptors_new == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
                                           descriptors_new == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
