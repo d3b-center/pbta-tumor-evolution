@@ -41,7 +41,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 # Input files
 v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv") # tmb file
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
 ```
 
