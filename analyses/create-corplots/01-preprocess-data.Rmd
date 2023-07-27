@@ -69,6 +69,7 @@ maf_nonsynonymous <- c(
   "Translation_Start_Site"
 )
 
+
 # Read in maf file, calculate VAF, and retain only coding gene mutations
 maf <- data.table::fread(maf_file, data.table = FALSE) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
@@ -118,7 +119,8 @@ maf_autopsy <- patient_list_metadata %>%
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
-         !VAF == 0) %>%
+         !VAF == 0, 
+         !gene_protein == "Unknown") %>%
   mutate(timepoints_all = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
                                      descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec", descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
