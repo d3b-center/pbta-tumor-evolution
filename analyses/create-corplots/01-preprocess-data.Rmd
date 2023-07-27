@@ -42,7 +42,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv") # tmb file
-genomic_assays_matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") #  generated from the add-sample-distribution analysis
+matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") #  generated from the add-sample-distribution analysis
 ```
 
 ## Read in data and process
@@ -82,7 +82,7 @@ maf <- data.table::fread(maf_file, data.table = FALSE) %>%
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
 # Read in genomic_assays_matched_time_points file and get the list of patients with matched time points
-patient_list <- readr::read_tsv(genomic_assays_matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
+patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
   subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
 # How many patients have paired time samples?
