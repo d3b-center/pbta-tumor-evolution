@@ -1,18 +1,18 @@
-# VAF Correlation Pipeline
+# Pipeline for creating VAF Correlation and TMB stacked barplots and violin plots
 
 ## Usage
 
 To run all of the Rscripts in this module from the command line sequentially, use:
 
 ```
-bash run-create-corplots.sh
+bash run-tmb-vaf-longitudinal-plots.sh
 ```
 
-`run-create-corplots.sh` is designed to be run as if it was called from this module directory even when called from outside of this directory.
+`run-tmb-vaf-longitudinal-plots.sh` is designed to be run as if it was called from this module directory even when called from outside of this directory.
 
 ## Folder content
 
-This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA dataset.
+This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA cohort.
 
 ## Summary 
 This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
@@ -30,5 +30,5 @@ The structure of this folder is as follows:
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
-└── run-create-corplots.sh
+└── run-tmb-vaf-longitudinal-plots.sh
 ```
