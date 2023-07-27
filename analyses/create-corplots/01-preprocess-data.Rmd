@@ -113,31 +113,31 @@ no_paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # We will create plots per each time point without considering Deceased.
-# First we will create "descriptors_new_number" based on "descriptors_new" to account for time points = 1, 2, 3.
+# First we will create "timepoints_all_number" based on "timepoints_all" to account for time points = 1, 2, 3.
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
          !VAF == 0) %>%
-  mutate(descriptors_new = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
+  mutate(timepoints_all = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
                                      descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec", descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
                                      descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
                                      descriptors == "Deceased, Recurrence" ~ "rec"),
-         descriptors_new_number = case_when(descriptors_new %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
-                                            descriptors_new == "dx_pro_rec" ~ "3",
-                                            descriptors_new %in% c("dx", "pro", "rec") ~ "1")) %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, descriptors_new, descriptors_new_number, Hugo_Symbol, gene_protein, VAF) %>%
+         timepoints_all_number = case_when(timepoints_all %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
+                                            timepoints_all == "dx_pro_rec" ~ "3",
+                                            timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
+  select(Kids_First_Participant_ID, tumor_descriptor, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
   mutate(match_id = paste(Hugo_Symbol, VAF, sep = "_"))   # unique identifiers to use for any samples with multiple time points 
 
 # Next, we will create df for cases for timepoint = 1, 2, 3.
-# That we will allow us to will create a column to identify time points to use for the plots functions (descriptors_new_type).
+# That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
 
 # Subset the cases with one time point 
 # Cases with 1 TIME POINT
 timepoint_1 <- maf_autopsy %>%
-  mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & descriptors_new_number %in% c("2", "3"), "remove", "keep")) %>%
+  mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & timepoints_all_number %in% c("2", "3"), "remove", "keep")) %>%
   filter(col_rm == "keep") %>%
   subset(select = -c(col_rm)) 
 
@@ -148,7 +148,7 @@ maf_autopsy_subset <- maf_autopsy %>%
 # Cases with 2 TIME POINTS
 # Subset the cases with two more time points and duplicate these rows 
 timepoint_2 <- maf_autopsy_subset %>%
-  filter(descriptors_new_number == "2")
+  filter(timepoints_all_number == "2")
 timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]  
 
 # Rename duplicate rows to distinguish between duplicates
@@ -162,7 +162,7 @@ timepoint_2 <- timepoint_2 %>%
 # Cases with 3 TIME POINTS
 # Subset the cases with three more time points and duplicate these rows 
 timepoint_3 <- maf_autopsy_subset %>%
-  filter(descriptors_new_number == "3")
+  filter(timepoints_all_number == "3")
 timepoint_3 <- timepoint_3[rep(seq_len(nrow(timepoint_3)), each = 3), ]  
 
 # Rename duplicate rows to distinguish between duplicates
@@ -173,18 +173,18 @@ timepoint_3 <- timepoint_3 %>%
 
 # Bind each df with time points 1, 2, 3
 maf_autopsy <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
-  mutate(descriptors_new_type = case_when(descriptors_new == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
-                                          descriptors_new == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
-                                          descriptors_new == "rec" & tumor_descriptor %in% c("Recurrence", "Deceased") ~ "Recurrence",
-                                          descriptors_new == "dx_pro" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
-                                          descriptors_new == "dx_pro" & tumor_descriptor %in% c("Progressive", "Deceased_2") ~ "Progressive",
-                                          descriptors_new == "dx_rec" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
-                                          descriptors_new == "dx_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_2") ~ "Recurrence",
-                                          descriptors_new == "pro_rec" & tumor_descriptor %in% c("Progressive", "Deceased_1") ~ "Progressive",
-                                          descriptors_new == "pro_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_2") ~ "Recurrence",
-                                          descriptors_new == "dx_pro_rec" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
-                                          descriptors_new == "dx_pro_rec" & tumor_descriptor %in% c("Progressive", "Deceased_2") ~ "Progressive",
-                                          descriptors_new == "dx_pro_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_3") ~ "Recurrence"),
+  mutate(timepoints = case_when(timepoints_all == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
+                                          timepoints_all == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
+                                          timepoints_all == "rec" & tumor_descriptor %in% c("Recurrence", "Deceased") ~ "Recurrence",
+                                          timepoints_all == "dx_pro" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
+                                          timepoints_all == "dx_pro" & tumor_descriptor %in% c("Progressive", "Deceased_2") ~ "Progressive",
+                                          timepoints_all == "dx_rec" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
+                                          timepoints_all == "dx_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_2") ~ "Recurrence",
+                                          timepoints_all == "pro_rec" & tumor_descriptor %in% c("Progressive", "Deceased_1") ~ "Progressive",
+                                          timepoints_all == "pro_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_2") ~ "Recurrence",
+                                          timepoints_all == "dx_pro_rec" & tumor_descriptor %in% c("Diagnosis", "Deceased_1") ~ "Diagnosis",
+                                          timepoints_all == "dx_pro_rec" & tumor_descriptor %in% c("Progressive", "Deceased_2") ~ "Progressive",
+                                          timepoints_all == "dx_pro_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_3") ~ "Recurrence"),
          tumor_descriptor = case_when(tumor_descriptor %in% c("Deceased_1", "Deceased_2", "Deceased_3") ~ "Deceased",
                                       TRUE ~ tumor_descriptor)) %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
