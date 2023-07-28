@@ -139,32 +139,145 @@ maf_autopsy <- patient_list_metadata %>%
 # Next, we will create df for cases for timepoint = 1, 2, 3.
 # That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
 
-# Subset the cases with one time point 
-# Cases with 1 TIME POINT
-timepoint_1 <- maf_autopsy %>%
+# Subset to cases with timepoint 1 
+timepoint_df_1 <- maf_autopsy %>%
   mutate(col_rm = ifelse(tumor_descriptor == "Deceased" & timepoints_all_number %in% c("2", "3"), "remove", "keep")) %>%
   filter(col_rm == "keep") %>%
   subset(select = -c(col_rm)) 
 
-# Subset to the cases with only the Deceased samples to be used for both timepoint_2 and timepoint_3
-maf_autopsy_subset <- maf_autopsy %>%
-  filter(tumor_descriptor == "Deceased")
+# Subset to Deceased and keep timepoint 2 and 3
+timepoint_df <- maf_autopsy %>%
+  filter(tumor_descriptor == "Deceased",
+         timepoints_all_number %in% c("2", "3"))
 
-# Exclude timepoint 1 and run `create_timepoint' function for timepoints 2 and 3
-df_exclude_timepoint1 <- maf_autopsy_subset %>%
-    filter(!timepoints_all_number == "1")
-timepoints <- unique(df_exclude_timepoint1$timepoints_all_number)
+timepoint_df_2 <- timepoint_df %>%
+  filter(timepoints_all_number == "2")
+
+
+
+df <- split(timepoint_df, timepoint_df$timepoints_all_number)
+
+timepoints <- unique(timepoint_df$timepoints_all_number)
 print(timepoints)
 
-for (j in seq_along(timepoints)){
-  timepoint_df_name <- paste0("timepoint_", timepoints[j])
-  print (timepoint_df_name)
-  create_timepoint(timepoint_df = df_exclude_timepoint1, timepoint = timepoints[j])
+create_timepoint <- function(timepoints) {
+  
+  # Duplicate rows
+  timepoint_df <- timepoint_df[rep(seq_len(nrow(timepoint_df)), each = timepoints), ]  
+  
+  # Rename duplicate rows to distinguish between duplicates
+  timepoint_df <- timepoint_df %>% 
+    group_by(match_id) %>%
+    dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")) 
+  
+}
+
+test <- lapply(df, create_timepoint, timepoints = timepoints[j])
+
+# Function applied to all columns
+lapply(1:ncol(df), function(i) df[, i] * i)
+
+
+timepoints = "2"
+# Run function
+
+
+
+
+
+
+
+create_timepoint <- function(timepoint_df, timepoint, timepoints_step1_id) {
+  
+  # Duplicate rows
+  timepoint_df <- timepoint_df[rep(seq_len(nrow(timepoint_df)), each = timepoints), ]  
+  
+  # Rename duplicate rows to distinguish between duplicates
+  timepoint_df <- timepoint_df %>% 
+    group_by(match_id) %>%
+    dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")) 
+  
+}
+
+timepoints_step1 <- unique(timepoint_df$timepoints_all_number)
+
+for (i in seq_along(timepoints_step1)) {
+  print(i)
+  maf.sub <- timepoint_df %>%
+    filter(timepoints_all_number == timepoints_step1[i])
+  timepoints <- unique(maf.sub$timepoints_all_number)
+  print(timepoints)
+  
+  for (j in seq_along(timepoints)){
+    timepoint_df_name <- paste0("timepoint_df_", timepoints[j])
+    print (timepoint_df_name)
+    p <- create_timepoint(timepoint_df = maf.sub, timepoint = timepoints[j], timepoints_step1_id = timepoints_step1[i])
+    print(p)
+  }
 }
 
 
-# Bind each df with time points 1, 2, 3
-maf_autopsy.bind <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
+ create corplot
+for (n in seq_along(timepoints_plots)){  
+  for (j in seq_along(timepoints)){
+    fname <- paste0(plots_dir, "/", samples[i], "-", timepoints[j], "-vs-Deceased-vaf-corplot.pdf")
+    print (fname)
+    p <- create_corplot(maf = maf.sub, timepoint = timepoints[j], timepoints_plot = timepoints_plots[n], sid = samples[i])
+    if(is.null(p)) {
+      print("No plot available")
+      next
+    }
+    pdf(file = fname, width = 10, height = 8)
+    print(p)
+    dev.off()
+  }
+  }
+  }
+
+
+
+
+create_timepoint <- function(timepoint_df, timepoint, df_id) {
+  # Duplicate rows
+  timepoint_df <- timepoint_df[rep(seq_len(nrow(timepoint_df)), each = timepoint), ]  
+  
+  # Rename duplicate rows to distinguish between duplicates
+  timepoint_df <- timepoint_df %>% 
+    group_by(match_id) %>%
+    dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")) 
+  
+}
+
+
+df <- unique(as.character(maf_autopsy.subset$timepoints_all_number))
+
+for (i in seq_along(df)) {
+  print(i)
+  data <- maf_autopsy.subset %>%
+    filter(timepoints_all_number == df[i])
+  timepoints <- unique(maf_autopsy.subset$timepoints_all_number)
+  print(timepoints)
+
+# Run function
+  for (j in seq_along(timepoints)){
+    timepoint_df_name <- paste0("timepoint_df_", timepoints[j])
+    print (timepoint_df_name)
+    p <- create_timepoint(timepoint_df = data, timepoint = timepoints[j], df_id = df[i])
+    print(p)
+  }
+  }
+
+
+
+
+
+
+
+
+
+
+# Bind each df with timepoint 1, 2 and 3
+maf_autopsy.bind <- rbind(timepoint_df_1, timepoint_df_2, timepoint_df_3) %>%
   mutate(timepoints = case_when(timepoints_all == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
                                           timepoints_all == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
                                           timepoints_all == "rec" & tumor_descriptor %in% c("Recurrence", "Deceased") ~ "Recurrence",
