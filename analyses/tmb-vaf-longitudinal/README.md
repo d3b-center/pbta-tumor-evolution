@@ -5,10 +5,10 @@
 To run all of the Rscripts in this module from the command line sequentially, use:
 
 ```
-bash run-tmb-vaf-longitudinal-plots.sh
+bash run-tmb-vaf-longitudinals.sh
 ```
 
-`run-tmb-vaf-longitudinal-plots.sh` is designed to be run as if it was called from this module directory even when called from outside of this directory.
+`run-tmb-vaf-longitudinal.sh` is designed to be run as if it was called from this module directory even when called from outside of this directory.
 
 ## Folder content
 
@@ -31,7 +31,7 @@ The structure of this folder is as follows:
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
-├── run-tmb-vaf-longitudinal-plots.sh
+├── run-tmb-vaf-longitudinal.sh
 └── util
     └── function-create-timepoint.R
 ```
