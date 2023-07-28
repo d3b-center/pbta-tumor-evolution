@@ -79,7 +79,6 @@ maf.all <- data.table::fread(maf_file, data.table = FALSE) %>%
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
 
-
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
@@ -131,9 +130,9 @@ maf_autopsy <- patient_list_metadata %>%
          timepoints_all_number = case_when(timepoints_all %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
                                             timepoints_all == "dx_pro_rec" ~ "3",
                                             timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
-  mutate(match_id = paste(Kids_First_Participant_ID, tumor_descriptor, gene_protein, VAF, sep = "_")) %>%
-  unique ()
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
+  mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_")) %>%
+  unique () 
 
 # Next, we will create df for cases for timepoint = 1, 2, 3.
 # That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
@@ -189,9 +188,6 @@ maf_autopsy.bind <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
          tumor_descriptor = case_when(tumor_descriptor %in% c("Deceased_1", "Deceased_2", "Deceased_3") ~ "Deceased",
                                       TRUE ~ tumor_descriptor)) %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
-
-subset = subset(maf_autopsy.bind,duplicated(match_id)) %>%
-  write_tsv(file.path(scratch_dir, "subset.tsv"))
 ```
 
 ```{r echo=TRUE}
