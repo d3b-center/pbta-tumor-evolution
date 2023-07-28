@@ -43,6 +43,8 @@ v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
+
+source(paste0(analysis_dir, "/util/function-create-timepoint.R"))
 ```
 
 ## Read in data and process
@@ -130,7 +132,7 @@ maf_autopsy <- patient_list_metadata %>%
          timepoints_all_number = case_when(timepoints_all %in% c("dx_pro", "dx_rec", "pro_rec") ~ "2",
                                             timepoints_all == "dx_pro_rec" ~ "3",
                                             timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_")) %>%
   unique () 
 
@@ -148,28 +150,18 @@ timepoint_1 <- maf_autopsy %>%
 maf_autopsy_subset <- maf_autopsy %>%
   filter(tumor_descriptor == "Deceased")
 
-# Cases with 2 TIME POINTS
-# Subset the cases with two more time points and duplicate these rows 
-timepoint_2 <- maf_autopsy_subset %>%
-  filter(timepoints_all_number == "2")
-timepoint_2 <- timepoint_2[rep(seq_len(nrow(timepoint_2)), each = 2), ]  
+# Exclude timepoint 1 and run `create_timepoint' function for timepoints 2 and 3
+df_exclude_timepoint1 <- maf_autopsy_subset %>%
+    filter(!timepoints_all_number == "1")
+timepoints <- unique(df_exclude_timepoint1$timepoints_all_number)
+print(timepoints)
 
-# Rename duplicate rows to distinguish between duplicates
-timepoint_2 <- timepoint_2 %>% 
-  group_by(match_id) %>%
-  dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")) 
+for (j in seq_along(timepoints)){
+  timepoint_df_name <- paste0("timepoint_", timepoints[j])
+  print (timepoint_df_name)
+  create_timepoint(timepoint_df = df_exclude_timepoint1, timepoint = timepoints[j])
+}
 
-# Cases with 3 TIME POINTS
-# Subset the cases with three more time points and duplicate these rows 
-timepoint_3 <- maf_autopsy_subset %>%
-  filter(timepoints_all_number == "3")
-timepoint_3 <- timepoint_3[rep(seq_len(nrow(timepoint_3)), each = 3), ]  
-
-# Rename duplicate rows to distinguish between duplicates
-timepoint_3 <- timepoint_3 %>% 
-  group_by(match_id) %>% 
-  dplyr::mutate(tumor_descriptor = paste("Deceased", row_number(), sep = "_")
-  )
 
 # Bind each df with time points 1, 2, 3
 maf_autopsy.bind <- rbind(timepoint_1, timepoint_2, timepoint_3) %>%
