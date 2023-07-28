@@ -19,6 +19,7 @@ This pipeline investigates VAFs and TMB across matched samples. It produces pdf 
 
 `01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3)  Add information of number of timepoints per each patient case. This script generates `maf_autopsy.tsv` file to be used in the next step and is placed in `../../scratch`.
 
+`function-create-timepoint.R` is a script written for the function to create timepoints column to be used for generating plots.
  
 ## Folder structure 
 
