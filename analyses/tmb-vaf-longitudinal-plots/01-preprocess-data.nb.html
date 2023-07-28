@@ -2969,21 +2969,54 @@ Backtrace:
 <h1>Create maf file for autopsy samples</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5cbmRmX2V4Y2x1ZGVfdGltZXBvaW50MSA8LSBtYWZfYXV0b3BzeV9zdWJzZXQgJT4lXG4gICAgZmlsdGVyKCF0aW1lcG9pbnRzX2FsbF9udW1iZXIgPT0gXCIxXCIpXG50aW1lcG9pbnRzIDwtIHVuaXF1ZShkZl9leGNsdWRlX3RpbWVwb2ludDEkdGltZXBvaW50c19hbGxfbnVtYmVyKVxucHJpbnQodGltZXBvaW50cylcblxuYGBgIn0= -->
-<pre class="r"><code>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBUaGVyZSBhcmUgcGF0aWVudCBjYXNlcyB3aXRoIG1vcmUgdGhhbiBvbmUgdGltZSBwb2ludHMgaW4gYWRkaXRpb24gdG8gRGVjZWFzZWQsIGUuZy4gRGlhZ25vc2lzIGFuZCBQcm9ncmVzc2l2ZS5cbiMgV2Ugd2lsbCBjcmVhdGUgcGxvdHMgcGVyIGVhY2ggdGltZSBwb2ludCBhcyBhIHZhcmlhYmxlIHdoaWxlIGNvbnNpZGVyaW5nIERlY2Vhc2VkIGFzIGNvbnN0YW50LlxuIyBGaXJzdCB3ZSB3aWxsIGNyZWF0ZSBcInRpbWVwb2ludHNfYWxsX251bWJlclwiIGJhc2VkIG9uIFwidGltZXBvaW50c19hbGxcIiB0byBhY2NvdW50IGZvciB0aW1lIHBvaW50cyA9IDEsIDIsIDMuXG5tYWZfYXV0b3BzeSA8LSBwYXRpZW50X2xpc3RfbWV0YWRhdGEgJT4lIFxuICBsZWZ0X2pvaW4obWFmLmFsbCwgYnkgPSBcIktpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSURcIikgJT4lXG4gIGZpbHRlcighaXMubmEoS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRCksXG4gICAgICAgICAhaXMubmEoVkFGKSxcbiAgICAgICAgICFWQUYgPT0gMCwgXG4gICAgICAgICAhZ2VuZV9wcm90ZWluID09IFwiVW5rbm93blwiKSAlPiVcbiAgbXV0YXRlKHRpbWVwb2ludHNfYWxsID0gY2FzZV93aGVuKGRlc2NyaXB0b3JzID09IFwiRGVjZWFzZWQsIERpYWdub3NpcywgRGlhZ25vc2lzLCBQcm9ncmVzc2l2ZSwgUHJvZ3Jlc3NpdmVcIiB+IFwiZHhfcHJvXCIsIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0b3JzID09IFwiRGVjZWFzZWQsIERpYWdub3NpcywgUmVjdXJyZW5jZVwiIH4gXCJkeF9yZWNcIiwgZGVzY3JpcHRvcnMgJWluJSBjKFwiRGVjZWFzZWQsIFByb2dyZXNzaXZlLCBSZWN1cnJlbmNlXCIsIFwiRGVjZWFzZWQsIFByb2dyZXNzaXZlLCBQcm9ncmVzc2l2ZSwgUmVjdXJyZW5jZVwiLCBcIkRlY2Vhc2VkLCBQcm9ncmVzc2l2ZSwgUmVjdXJyZW5jZSwgUmVjdXJyZW5jZVwiKSB+IFwicHJvX3JlY1wiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0b3JzID09IFwiRGVjZWFzZWQsIERpYWdub3NpcywgUHJvZ3Jlc3NpdmUsIFJlY3VycmVuY2VcIiB+IFwiZHhfcHJvX3JlY1wiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0b3JzICVpbiUgYyhcIkRlY2Vhc2VkLCBEaWFnbm9zaXNcIiwgXCJEZWNlYXNlZCwgRGlhZ25vc2lzLCBEaWFnbm9zaXNcIiwgXCJEZWNlYXNlZCwgRGlhZ25vc2lzLCBEaWFnbm9zaXMsIERpYWdub3NpcywgRGlhZ25vc2lzXCIpIH4gXCJkeFwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0b3JzICVpbiUgYyhcIkRlY2Vhc2VkLCBQcm9ncmVzc2l2ZVwiLCBcIkRlY2Vhc2VkLCBQcm9ncmVzc2l2ZSwgUHJvZ3Jlc3NpdmVcIikgfiBcInByb1wiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0b3JzID09IFwiRGVjZWFzZWQsIFJlY3VycmVuY2VcIiB+IFwicmVjXCIpLFxuICAgICAgICAgdGltZXBvaW50c19hbGxfbnVtYmVyID0gY2FzZV93aGVuKHRpbWVwb2ludHNfYWxsICVpbiUgYyhcImR4X3Byb1wiLCBcImR4X3JlY1wiLCBcInByb19yZWNcIikgfiBcIjJcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJkeF9wcm9fcmVjXCIgfiBcIjNcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgJWluJSBjKFwiZHhcIiwgXCJwcm9cIiwgXCJyZWNcIikgfiBcIjFcIikpICU+JVxuICBzZWxlY3QoS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRCwgS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCwgdHVtb3JfZGVzY3JpcHRvciwgZXhwZXJpbWVudGFsX3N0cmF0ZWd5LCB0aW1lcG9pbnRzX2FsbCwgdGltZXBvaW50c19hbGxfbnVtYmVyLCBIdWdvX1N5bWJvbCwgZ2VuZV9wcm90ZWluLCBWQUYpICU+JVxuICBtdXRhdGUobWF0Y2hfaWQgPSBwYXN0ZShLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lELCB0dW1vcl9kZXNjcmlwdG9yLCBnZW5lX3Byb3RlaW4sIFZBRiwgc2VwID0gXCJfXCIpKSAlPiVcbiAgdW5pcXVlICgpIFxuXG4jIE5leHQsIHdlIHdpbGwgY3JlYXRlIGRmIGZvciBjYXNlcyBmb3IgdGltZXBvaW50ID0gMSwgMiwgMy5cbiMgVGhhdCB3ZSB3aWxsIGFsbG93IHVzIHRvIHdpbGwgY3JlYXRlIGEgY29sdW1uIHRvIGlkZW50aWZ5IHRpbWUgcG9pbnRzIHRvIHVzZSBmb3IgdGhlIHBsb3RzIGZ1bmN0aW9ucyAodGltZXBvaW50cykuXG5cbiMgU3Vic2V0IHRoZSBjYXNlcyB3aXRoIG9uZSB0aW1lIHBvaW50IFxuIyBDYXNlcyB3aXRoIDEgVElNRSBQT0lOVFxudGltZXBvaW50XzEgPC0gbWFmX2F1dG9wc3kgJT4lXG4gIG11dGF0ZShjb2xfcm0gPSBpZmVsc2UodHVtb3JfZGVzY3JpcHRvciA9PSBcIkRlY2Vhc2VkXCIgJiB0aW1lcG9pbnRzX2FsbF9udW1iZXIgJWluJSBjKFwiMlwiLCBcIjNcIiksIFwicmVtb3ZlXCIsIFwia2VlcFwiKSkgJT4lXG4gIGZpbHRlcihjb2xfcm0gPT0gXCJrZWVwXCIpICU+JVxuICBzdWJzZXQoc2VsZWN0ID0gLWMoY29sX3JtKSkgXG5cbiMgU3Vic2V0IHRvIHRoZSBjYXNlcyB3aXRoIG9ubHkgdGhlIERlY2Vhc2VkIHNhbXBsZXMgdG8gYmUgdXNlZCBmb3IgYm90aCB0aW1lcG9pbnRfMiBhbmQgdGltZXBvaW50XzNcbm1hZl9hdXRvcHN5X3N1YnNldCA8LSBtYWZfYXV0b3BzeSAlPiVcbiAgZmlsdGVyKHR1bW9yX2Rlc2NyaXB0b3IgPT0gXCJEZWNlYXNlZFwiKVxuXG4jIEV4Y2x1ZGUgdGltZXBvaW50IDEgYW5kIHJ1biBgY3JlYXRlX3RpbWVwb2ludCcgZnVuY3Rpb24gZm9yIHRpbWVwb2ludHMgMiBhbmQgM1xuZGZfZXhjbHVkZV90aW1lcG9pbnQxIDwtIG1hZl9hdXRvcHN5X3N1YnNldCAlPiVcbiAgICBmaWx0ZXIoIXRpbWVwb2ludHNfYWxsX251bWJlciA9PSBcIjFcIilcbnRpbWVwb2ludHMgPC0gdW5pcXVlKGRmX2V4Y2x1ZGVfdGltZXBvaW50MSR0aW1lcG9pbnRzX2FsbF9udW1iZXIpXG5wcmludCh0aW1lcG9pbnRzKVxuYGBgIn0= -->
+<pre class="r"><code># There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
+# We will create plots per each time point as a variable while considering Deceased as constant.
+# First we will create &quot;timepoints_all_number&quot; based on &quot;timepoints_all&quot; to account for time points = 1, 2, 3.
+maf_autopsy &lt;- patient_list_metadata %&gt;% 
+  left_join(maf.all, by = &quot;Kids_First_Biospecimen_ID&quot;) %&gt;%
+  filter(!is.na(Kids_First_Participant_ID),
+         !is.na(VAF),
+         !VAF == 0, 
+         !gene_protein == &quot;Unknown&quot;) %&gt;%
+  mutate(timepoints_all = case_when(descriptors == &quot;Deceased, Diagnosis, Diagnosis, Progressive, Progressive&quot; ~ &quot;dx_pro&quot;, 
+                                     descriptors == &quot;Deceased, Diagnosis, Recurrence&quot; ~ &quot;dx_rec&quot;, descriptors %in% c(&quot;Deceased, Progressive, Recurrence&quot;, &quot;Deceased, Progressive, Progressive, Recurrence&quot;, &quot;Deceased, Progressive, Recurrence, Recurrence&quot;) ~ &quot;pro_rec&quot;,
+                                     descriptors == &quot;Deceased, Diagnosis, Progressive, Recurrence&quot; ~ &quot;dx_pro_rec&quot;,
+                                     descriptors %in% c(&quot;Deceased, Diagnosis&quot;, &quot;Deceased, Diagnosis, Diagnosis&quot;, &quot;Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis&quot;) ~ &quot;dx&quot;,
+                                     descriptors %in% c(&quot;Deceased, Progressive&quot;, &quot;Deceased, Progressive, Progressive&quot;) ~ &quot;pro&quot;,
+                                     descriptors == &quot;Deceased, Recurrence&quot; ~ &quot;rec&quot;),
+         timepoints_all_number = case_when(timepoints_all %in% c(&quot;dx_pro&quot;, &quot;dx_rec&quot;, &quot;pro_rec&quot;) ~ &quot;2&quot;,
+                                            timepoints_all == &quot;dx_pro_rec&quot; ~ &quot;3&quot;,
+                                            timepoints_all %in% c(&quot;dx&quot;, &quot;pro&quot;, &quot;rec&quot;) ~ &quot;1&quot;)) %&gt;%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %&gt;%
+  mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = &quot;_&quot;)) %&gt;%
+  unique () 
 
+# Next, we will create df for cases for timepoint = 1, 2, 3.
+# That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
+
+# Subset the cases with one time point 
+# Cases with 1 TIME POINT
+timepoint_1 &lt;- maf_autopsy %&gt;%
+  mutate(col_rm = ifelse(tumor_descriptor == &quot;Deceased&quot; &amp; timepoints_all_number %in% c(&quot;2&quot;, &quot;3&quot;), &quot;remove&quot;, &quot;keep&quot;)) %&gt;%
+  filter(col_rm == &quot;keep&quot;) %&gt;%
+  subset(select = -c(col_rm)) 
+
+# Subset to the cases with only the Deceased samples to be used for both timepoint_2 and timepoint_3
+maf_autopsy_subset &lt;- maf_autopsy %&gt;%
+  filter(tumor_descriptor == &quot;Deceased&quot;)
+
+# Exclude timepoint 1 and run `create_timepoint&#39; function for timepoints 2 and 3
 df_exclude_timepoint1 &lt;- maf_autopsy_subset %&gt;%
     filter(!timepoints_all_number == &quot;1&quot;)
 timepoints &lt;- unique(df_exclude_timepoint1$timepoints_all_number)
-print(timepoints)
-</code></pre>
+print(timepoints)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMlwiIFwiM1wiXG4ifQ== -->
 <pre><code>[1] &quot;2&quot; &quot;3&quot;</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIFxuZm9yIChqIGluIHNlcV9hbG9uZyh0aW1lcG9pbnRzKSl7XG4gIHRpbWVwb2ludF9kZl9uYW1lIDwtIHBhc3RlMChcInRpbWVwb2ludF9cIiwgdGltZXBvaW50c1tqXSlcbiAgcHJpbnQgKHRpbWVwb2ludF9kZl9uYW1lKVxuICBjcmVhdGVfdGltZXBvaW50KHRpbWVwb2ludF9kZiA9IGRmX2V4Y2x1ZGVfdGltZXBvaW50MSwgdGltZXBvaW50ID0gdGltZXBvaW50c1tqXSlcbn1cbmBgYCJ9 -->
-<pre class="r"><code> 
-for (j in seq_along(timepoints)){
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZm9yIChqIGluIHNlcV9hbG9uZyh0aW1lcG9pbnRzKSl7XG4gIHRpbWVwb2ludF9kZl9uYW1lIDwtIHBhc3RlMChcInRpbWVwb2ludF9cIiwgdGltZXBvaW50c1tqXSlcbiAgcHJpbnQgKHRpbWVwb2ludF9kZl9uYW1lKVxuICBjcmVhdGVfdGltZXBvaW50KHRpbWVwb2ludF9kZiA9IGRmX2V4Y2x1ZGVfdGltZXBvaW50MSwgdGltZXBvaW50ID0gdGltZXBvaW50c1tqXSlcbn1cbmBgYCJ9 -->
+<pre class="r"><code>for (j in seq_along(timepoints)){
   timepoint_df_name &lt;- paste0(&quot;timepoint_&quot;, timepoints[j])
   print (timepoint_df_name)
   create_timepoint(timepoint_df = df_exclude_timepoint1, timepoint = timepoints[j])
@@ -2993,6 +3026,25 @@ for (j in seq_along(timepoints)){
 <pre><code>[1] &quot;timepoint_2&quot;
 [1] &quot;timepoint_3&quot;</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBCaW5kIGVhY2ggZGYgd2l0aCB0aW1lIHBvaW50cyAxLCAyLCAzXG5tYWZfYXV0b3BzeS5iaW5kIDwtIHJiaW5kKHRpbWVwb2ludF8xLCB0aW1lcG9pbnRfMiwgdGltZXBvaW50XzMpICU+JVxuICBtdXRhdGUodGltZXBvaW50cyA9IGNhc2Vfd2hlbih0aW1lcG9pbnRzX2FsbCA9PSBcImR4XCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIkRpYWdub3Npc1wiLCBcIkRlY2Vhc2VkXCIpIH4gXCJEaWFnbm9zaXNcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVwb2ludHNfYWxsID09IFwicHJvXCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIlByb2dyZXNzaXZlXCIsIFwiRGVjZWFzZWRcIikgfiBcIlByb2dyZXNzaXZlXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0aW1lcG9pbnRzX2FsbCA9PSBcInJlY1wiICYgdHVtb3JfZGVzY3JpcHRvciAlaW4lIGMoXCJSZWN1cnJlbmNlXCIsIFwiRGVjZWFzZWRcIikgfiBcIlJlY3VycmVuY2VcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVwb2ludHNfYWxsID09IFwiZHhfcHJvXCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIkRpYWdub3Npc1wiLCBcIkRlY2Vhc2VkXzFcIikgfiBcIkRpYWdub3Npc1wiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJkeF9wcm9cIiAmIHR1bW9yX2Rlc2NyaXB0b3IgJWluJSBjKFwiUHJvZ3Jlc3NpdmVcIiwgXCJEZWNlYXNlZF8yXCIpIH4gXCJQcm9ncmVzc2l2ZVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJkeF9yZWNcIiAmIHR1bW9yX2Rlc2NyaXB0b3IgJWluJSBjKFwiRGlhZ25vc2lzXCIsIFwiRGVjZWFzZWRfMVwiKSB+IFwiRGlhZ25vc2lzXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0aW1lcG9pbnRzX2FsbCA9PSBcImR4X3JlY1wiICYgdHVtb3JfZGVzY3JpcHRvciAlaW4lIGMoXCJSZWN1cnJlbmNlXCIsIFwiRGVjZWFzZWRfMlwiKSB+IFwiUmVjdXJyZW5jZVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJwcm9fcmVjXCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIlByb2dyZXNzaXZlXCIsIFwiRGVjZWFzZWRfMVwiKSB+IFwiUHJvZ3Jlc3NpdmVcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVwb2ludHNfYWxsID09IFwicHJvX3JlY1wiICYgdHVtb3JfZGVzY3JpcHRvciAlaW4lIGMoXCJSZWN1cnJlbmNlXCIsIFwiRGVjZWFzZWRfMlwiKSB+IFwiUmVjdXJyZW5jZVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJkeF9wcm9fcmVjXCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIkRpYWdub3Npc1wiLCBcIkRlY2Vhc2VkXzFcIikgfiBcIkRpYWdub3Npc1wiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltZXBvaW50c19hbGwgPT0gXCJkeF9wcm9fcmVjXCIgJiB0dW1vcl9kZXNjcmlwdG9yICVpbiUgYyhcIlByb2dyZXNzaXZlXCIsIFwiRGVjZWFzZWRfMlwiKSB+IFwiUHJvZ3Jlc3NpdmVcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVwb2ludHNfYWxsID09IFwiZHhfcHJvX3JlY1wiICYgdHVtb3JfZGVzY3JpcHRvciAlaW4lIGMoXCJSZWN1cnJlbmNlXCIsIFwiRGVjZWFzZWRfM1wiKSB+IFwiUmVjdXJyZW5jZVwiKSxcbiAgICAgICAgIHR1bW9yX2Rlc2NyaXB0b3IgPSBjYXNlX3doZW4odHVtb3JfZGVzY3JpcHRvciAlaW4lIGMoXCJEZWNlYXNlZF8xXCIsIFwiRGVjZWFzZWRfMlwiLCBcIkRlY2Vhc2VkXzNcIikgfiBcIkRlY2Vhc2VkXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiB0dW1vcl9kZXNjcmlwdG9yKSkgJT4lXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgoc2NyYXRjaF9kaXIsIFwibWFmX2F1dG9wc3kudHN2XCIpKVxuYGBgIn0= -->
+<pre class="r"><code># Bind each df with time points 1, 2, 3
+maf_autopsy.bind &lt;- rbind(timepoint_1, timepoint_2, timepoint_3) %&gt;%
+  mutate(timepoints = case_when(timepoints_all == &quot;dx&quot; &amp; tumor_descriptor %in% c(&quot;Diagnosis&quot;, &quot;Deceased&quot;) ~ &quot;Diagnosis&quot;,
+                                          timepoints_all == &quot;pro&quot; &amp; tumor_descriptor %in% c(&quot;Progressive&quot;, &quot;Deceased&quot;) ~ &quot;Progressive&quot;,
+                                          timepoints_all == &quot;rec&quot; &amp; tumor_descriptor %in% c(&quot;Recurrence&quot;, &quot;Deceased&quot;) ~ &quot;Recurrence&quot;,
+                                          timepoints_all == &quot;dx_pro&quot; &amp; tumor_descriptor %in% c(&quot;Diagnosis&quot;, &quot;Deceased_1&quot;) ~ &quot;Diagnosis&quot;,
+                                          timepoints_all == &quot;dx_pro&quot; &amp; tumor_descriptor %in% c(&quot;Progressive&quot;, &quot;Deceased_2&quot;) ~ &quot;Progressive&quot;,
+                                          timepoints_all == &quot;dx_rec&quot; &amp; tumor_descriptor %in% c(&quot;Diagnosis&quot;, &quot;Deceased_1&quot;) ~ &quot;Diagnosis&quot;,
+                                          timepoints_all == &quot;dx_rec&quot; &amp; tumor_descriptor %in% c(&quot;Recurrence&quot;, &quot;Deceased_2&quot;) ~ &quot;Recurrence&quot;,
+                                          timepoints_all == &quot;pro_rec&quot; &amp; tumor_descriptor %in% c(&quot;Progressive&quot;, &quot;Deceased_1&quot;) ~ &quot;Progressive&quot;,
+                                          timepoints_all == &quot;pro_rec&quot; &amp; tumor_descriptor %in% c(&quot;Recurrence&quot;, &quot;Deceased_2&quot;) ~ &quot;Recurrence&quot;,
+                                          timepoints_all == &quot;dx_pro_rec&quot; &amp; tumor_descriptor %in% c(&quot;Diagnosis&quot;, &quot;Deceased_1&quot;) ~ &quot;Diagnosis&quot;,
+                                          timepoints_all == &quot;dx_pro_rec&quot; &amp; tumor_descriptor %in% c(&quot;Progressive&quot;, &quot;Deceased_2&quot;) ~ &quot;Progressive&quot;,
+                                          timepoints_all == &quot;dx_pro_rec&quot; &amp; tumor_descriptor %in% c(&quot;Recurrence&quot;, &quot;Deceased_3&quot;) ~ &quot;Recurrence&quot;),
+         tumor_descriptor = case_when(tumor_descriptor %in% c(&quot;Deceased_1&quot;, &quot;Deceased_2&quot;, &quot;Deceased_3&quot;) ~ &quot;Deceased&quot;,
+                                      TRUE ~ tumor_descriptor)) %&gt;%
+  write_tsv(file.path(scratch_dir, &quot;maf_autopsy.tsv&quot;))</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
