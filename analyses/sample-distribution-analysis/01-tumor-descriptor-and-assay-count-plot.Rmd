@@ -58,43 +58,15 @@ if (!dir.exists(results_dir)) {
 }
 ```
 
-
-## Load data
-```{r load-inputs-please-wait}
-# Inputs
-## Read in metadata
-v12 <- readr::read_tsv(v12, guess_max = 100000, show_col_types = FALSE)
-```
-
-# Process Data
-
-All tumor samples have matched normal samples. 
-We need to filter normal samples out for further analysis. 
-We are using "pathology_diagnosis" instead of "sample_type". This way we discard normal samples (as shown in "sample_type") in addition to undiagnosed tumor samples.
-Also, we will discard Derived Cell Line, PDX from "composition".
-
+# Read in data and process Data
 
 ```{r cohort PBTA, echo=TRUE}
-# Note
-# The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
-# Jo Lynne found the following status for 2/3 in the data warehouse:
-# C4106355-Tumor = Recurrence
-# C4113612-Tumor = Initial CNS Tumor
-# 7316UP-3705 = Not Reported
-# manually annotate them here and these will be updated in the v13 - then discard that part of the code
-
-# I also added the cancer_group into the match_id to use this later in the script
-# Also added the experimental_strategy to create unique events tagged to each assay 
-# so we won't miss samples with paired assays across multiple time points
-# if you remove this, print(length(unique(pbta$match_id))) will result to 2258, instead of 4293 thatis now
-# hope this makes and it is correct rational...
-
-pbta <- v12 %>%
+# Read in histologies file and filter for the pbta cohort
+pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis),
+         !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-           # !is.na(cancer_group) # Discard NAs in cancer type
   mutate(match_id = paste(cancer_group, sample_id, composition, tumor_descriptor, sep = "_")) %>% 
   mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
                                             grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
@@ -104,6 +76,16 @@ pbta <- v12 %>%
                                             TRUE ~ tumor_descriptor)) 
 
 print(pbta %>% count(tumor_descriptor_final))
+
+#---------------------------------------------------------------------------------------------------------
+# Notes - to remove this part when run for v13
+# The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
+# Jo Lynne found the following status for 2/3 in the data warehouse:
+# C4106355-Tumor = Recurrence
+# C4113612-Tumor = Initial CNS Tumor
+# 7316UP-3705 = Not Reported
+# manually annotate them here and these will be updated in the v13 - then discard that part of the code
+#---------------------------------------------------------------------------------------------------------
 ```
 
 
