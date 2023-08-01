@@ -12,22 +12,16 @@ output:
 #### Tumor evolution project 
 
 # Background
-This is an exploratory analysis of longitudinal data in the PBTA cohort.
-We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays.
+This is an exploratory analysis of longitudinal data in the PBTA cohort. We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays.
 We are also looking at the number of patient samples available per histology with paired genomic and transcriptomic assays for (1) each time point (disease_stage) and (2) when Diagnosis is present and paired with another point in time.
 
 ### Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
 We use tumor_descriptor and focus on time points recorded.
 
-### Note
-The colors in the plots do not match the ones of the PBTA cohort yet. ---TO DO---
-
-
 ### Usage
 
-This notebook is intended to be run via the command line from the top directory
-of the repository as follows:
+This notebook is intended to be run via the command line from the module directory of the repository as follows:
 
 ```
 Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
@@ -38,7 +32,6 @@ Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', cl
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(ggplot2)
   library(flextable)
 })
 ```
@@ -49,21 +42,13 @@ suppressPackageStartupMessages({
 # Detect the ".git" folder -- this will be in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
-
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-setwd(root_dir)
-
-analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
-
 data_dir <- file.path(root_dir, "data")
-
-# File path to input directory
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
 input_dir <- file.path(analysis_dir, "input")
 
 # Inputs
-v12 <- file.path(data_dir, "histologies.tsv")
-input_cols <- file.path(input_dir, "PBTA-germline-histology-groups-plot-mapping.tsv")
-
+v12_file <- file.path(data_dir, "histologies.tsv")
 
 # File path to results directory
 results_dir <-
