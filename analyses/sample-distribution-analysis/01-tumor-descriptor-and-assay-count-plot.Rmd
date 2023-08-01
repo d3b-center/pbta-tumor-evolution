@@ -61,22 +61,6 @@ if (!dir.exists(results_dir)) {
 # Read in data and process Data
 
 ```{r cohort PBTA, echo=TRUE}
-# Read in histologies file and filter for the pbta cohort
-pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis), # to remove matched normal samples
-         !composition %in% c("Derived Cell Line", "PDX"),
-         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  mutate(match_id = paste(cancer_group, sample_id, composition, tumor_descriptor, sep = "_")) %>% 
-  mutate(tumor_descriptor_final = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
-                                            grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
-                                            grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
-                                            grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
-                                            grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
-                                            TRUE ~ tumor_descriptor)) 
-
-print(pbta %>% count(tumor_descriptor_final))
-
 #---------------------------------------------------------------------------------------------------------
 # Notes - to remove this part when run for v13
 # The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
@@ -86,18 +70,41 @@ print(pbta %>% count(tumor_descriptor_final))
 # 7316UP-3705 = Not Reported
 # manually annotate them here and these will be updated in the v13 - then discard that part of the code
 #---------------------------------------------------------------------------------------------------------
+# Read in histologies file and filter for the pbta cohort
+pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(cohort == "PBTA",
+         !is.na(pathology_diagnosis), # to remove matched normal samples
+         !composition %in% c("Derived Cell Line", "PDX"),
+         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
+  mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
+                                            grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
+                                            grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                            grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
+                                            TRUE ~ tumor_descriptor),
+         match_id = paste(tumor_descriptor, sample_id, sep = "_")) %>% # unique identifiers per timepoint and sample related to assay
+  write_tsv(file.path(results_dir, "pbta.tsv"))
+
+print(pbta %>% count(tumor_descriptor))
+
+kids_pbta_samples <- print(length(unique(pbta$Kids_First_Participant_ID)))
+kids_pbta_samples_timepoint <- print(length(unique(pbta$match_id)))
+
 ```
+
+## Number of patient cases
+
+`cohort PBTA kids_pbta_samples` of patient cases in the PBTA cohort and `cohort kids_pbta_samples_timepoint` of patient cases in the PBTA cohort with multiple samples per assay.
+
 
 
 ## Filter based on both genomic and transcriptomic assays
 Let's select all patient samples containing both genomic and transcriptomic assays.
 
 ```{r assays, echo=TRUE}
-print(length(unique(pbta$Kids_First_Participant_ID)))
-print(length(unique(pbta$match_id)))
 
 assays <- pbta %>%
-  select(Kids_First_Participant_ID, tumor_descriptor_final, match_id, experimental_strategy, cancer_group) %>%
+  select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group) %>%
   unique() %>%
   arrange(Kids_First_Participant_ID, experimental_strategy)
 
