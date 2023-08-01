@@ -116,7 +116,8 @@ paired_time_samples_number_autopsy <- length(unique(patient_list_metadata$Kids_F
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # We will create plots per each time point as a variable while considering Deceased as constant.
-# First we will create "timepoints_all_number" based on "timepoints_all" to account for time points = 1, 2, 3.
+# First we will create identifiers to code for multiple timepoints, 
+# i.e., "timepoints_all_number" based on "timepoints_all" to account for time points = 1, 2, 3.
 maf_autopsy <- patient_list_metadata %>% 
   left_join(maf.all, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
@@ -133,10 +134,11 @@ maf_autopsy <- patient_list_metadata %>%
                                             timepoints_all == "dx_pro_rec" ~ "3",
                                             timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
-  mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
+  mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
+         match_id_bs = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
   unique () 
 
-# Next, we will create df for cases for timepoint = 1, 2, 3.
+# Next, we will create df when timepoint = 1, 2, 3.
 # That we will allow us to will create a column to identify time points to use for the plots functions (timepoints).
 
 # Subset to cases with timepoint 1 
@@ -168,7 +170,7 @@ for (i in seq_along(df)) {
   }
 }
 
-# Bind each df with timepoint 1, 2 and 3
+# Bind df 
 maf_autopsy.bind <- rbind(timepoint_df_1, timepoint_df_2, timepoint_df_3) %>%
   mutate(timepoints = case_when(timepoints_all == "dx" & tumor_descriptor %in% c("Diagnosis", "Deceased") ~ "Diagnosis",
                                           timepoints_all == "pro" & tumor_descriptor %in% c("Progressive", "Deceased") ~ "Progressive",
@@ -187,31 +189,27 @@ maf_autopsy.bind <- rbind(timepoint_df_1, timepoint_df_2, timepoint_df_3) %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 
 
+# We have also multiple biospecimen samples per tumor descriptor and per Kids_First_Participant_ID
+# We will follow similar logic from above with timepoints to create different df for each biospecimen/tumor_descriptor.
 
-
-
-# Count number of bs samples per sample and tumor descriptor
-count_bs <- maf_autopsy %>% 
-  mutate(match_id = paste(Kids_First_Participant_ID, tumor_descriptor, sep = "_")) %>%
-  select(match_id, Kids_First_Biospecimen_ID) %>%
-   unique() %>%
-  group_by(match_id) %>%
+# First, let's count number of bs samples per sample and tumor descriptor
+count_bs <- maf_autopsy.bind %>% 
+  mutate(match_id_kids = paste(Kids_First_Participant_ID, tumor_descriptor, sep = "_")) %>%
+  select(match_id_kids, Kids_First_Biospecimen_ID) %>%
+  unique() %>%
+  group_by(match_id_kids) %>%
   count() %>%
-  dplyr::rename("count" = "count_biospecimen")
+  dplyr::rename("count_biospecimen" = "n")
 
 # Add count information in the maf df
-maf_autopsy_new <- maf_autopsy %>% 
-  mutate(match_id = paste(Kids_First_Participant_ID, tumor_descriptor, sep = "_"),
-         match_id2 = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_"))  %>%
-  left_join(count_bs, by = "match_id") 
-
-
-maf_autopsy_new$count_description <- ifelse(maf_autopsy_new$count > 1,"multiple", "single")
-  
-maf_autopsy_new <- maf_autopsy_new %>%
-  write_tsv(file.path(scratch_dir, "maf_autopsy_new2.tsv"))
-
-
+maf_autopsy_bs <-maf_autopsy.bind %>% 
+  mutate(match_id_kids = paste(Kids_First_Participant_ID, tumor_descriptor, sep = "_"),
+         match_id_bs = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_"))  %>%
+  left_join(count_bs, by = "match_id_kids") %>%
+  group_by(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID) %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, everything()) %>%
+  arrange(Kids_First_Participant_ID) %>%
+  write_tsv(file.path(scratch_dir, "maf_autopsy_bs.tsv"))
 ```
 
 ```{r echo=TRUE}
