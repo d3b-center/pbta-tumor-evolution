@@ -135,7 +135,8 @@ maf_autopsy <- patient_list_metadata %>%
                                             timepoints_all %in% c("dx", "pro", "rec") ~ "1")) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, timepoints_all, timepoints_all_number, Hugo_Symbol, gene_protein, VAF) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
-         match_id_bs = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_")) %>%
+         match_id_kids = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_")) %>%
   unique () 
 
 # Next, we will create df when timepoint = 1, 2, 3.
@@ -186,12 +187,11 @@ maf_autopsy.bind <- rbind(timepoint_df_1, timepoint_df_2, timepoint_df_3) %>%
                                           timepoints_all == "dx_pro_rec" & tumor_descriptor %in% c("Recurrence", "Deceased_3") ~ "Recurrence"),
          tumor_descriptor = case_when(tumor_descriptor %in% c("Deceased_1", "Deceased_2", "Deceased_3") ~ "Deceased",
                                       TRUE ~ tumor_descriptor),
-         match_id_kids = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
-         match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
-         timepoints_dec = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
+         timepoints_deceased = match_id_bs,
+         timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
                                      grepl("Recurrence", match_id_bs) ~ "2", 
-                                     grepl("Progressive", match_id_bs) ~ "3", 
-                                           TRUE~ timepoints_dec)) %>%
+                                     grepl("Progressive", match_id_bs) ~ "3",
+                                     TRUE~ timepoints_deceased)) %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 
 
