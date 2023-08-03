@@ -136,9 +136,19 @@ maf_autopsy <- patient_list_metadata %>%
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # There are also multiple biospecimen samples per timepoint and patient case.
 # We will create unique identifiers for each case that will enable to create one plot for each case.
-tmb_autopsy <- maf_autopsy %>% 
+tmb_autopsy <- patient_list_metadata %>% 
   left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
-  filter(!is.na(tmb)) %>%
+  filter(!is.na(Kids_First_Participant_ID),
+         !is.na(tmb)) %>%
+   mutate(match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
+         timepoints_deceased = match_id_bs,
+         timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
+                                         grepl("Recurrence", match_id_bs) ~ "2",
+                                         grepl("Progressive", match_id_bs) ~ "3",
+                                         TRUE ~ timepoints_deceased),
+         timepoints_other = match_id_bs,
+         timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
+                                     TRUE ~ timepoints_other)) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
 
 # How many patients have tmb data for the paired time samples with autopsy time point present?
