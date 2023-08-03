@@ -1,0 +1,108 @@
+---
+title: "Create VAF corplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `maf_autopsy.tsv` file generated from the `01-preprocess-data.Rmd` script.
+We will also use the oncoprint goi list from OpenPedCan `oncoprint-goi-lists-OpenPedCan-gencode-v39.csv`.
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggrepel)
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+maf_autopsy_file <- file.path(scratch_dir, "maf_autopsy.tsv")
+oncoprint_goi_file <- file.path(input_dir, "oncoprint-goi-lists-OpenPedCan-gencode-v39.csv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-corplot.R"))
+source(paste0(root_dir, "/figures/theme.R"))
+```
+
+## Read in data and process
+```{r read_input_files}
+# Read maf_autopsy file generated from step `01-process-data.Rmd`
+maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE)
+
+# Read oncoprint_goi_file
+# We will use the following list of genes and then we will create a label to select the ones for the corplots.
+oncoprint_goi <- read.csv(oncoprint_goi_file, stringsAsFactor = FALSE) %>%
+  select(LGAT, Embryonal.tumor, HGAT, Other) 
+
+# let's create a list with the genes to be used for the corplots
+oncoprint_goi <- data.frame(goi_list = unlist(oncoprint_goi)) 
+
+# remove empty rows
+oncoprint_goi <- oncoprint_goi[!apply(oncoprint_goi == "", 1, all), ] 
+oncoprint_goi <- data.frame(oncoprint_goi)
+```
+
+## Corplots across all Matched Samples 
+
+```{r create_corplot}
+# We will define samples based on the "Kids_First_Participant_ID" column 
+samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
+print(samples)
+
+for (i in seq_along(samples)) {
+  print(i)
+  maf_sub <- maf_autopsy %>%
+    filter(Kids_First_Participant_ID == samples[i])
+  timepoints_other_plots <- unique(maf_sub$timepoints_other)
+  timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
+  print(timepoints_other_plots)
+  timepoints_deceased_plots <- unique(maf_sub$timepoints_deceased)
+  timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
+  print(timepoints_deceased_plots)
+  
+# Run corplot
+  for (t in seq_along(timepoints_deceased_plots)){
+    for (k in seq_along(timepoints_other_plots)){
+      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+      print(fname)
+      p <- create_corplot(maf = maf_sub,
+                          timepoints_other_plot = timepoints_other_plots[k],
+                          timepoints_deceased_plot = timepoints_deceased_plots[t],
+                          sid = samples[i])
+      pdf(file = fname, width = 10, height = 8)
+      print(p)
+      dev.off()
+    }
+  }
+  }  
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
+
