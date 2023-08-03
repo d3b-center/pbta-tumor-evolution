@@ -43,8 +43,8 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   # Plot corplot 
   p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
-               scale_colour_manual(values = c("firebrick3", "dodgerblue3", "gray34")) + 
-               labs(title = paste(sid, "VAF Corplot of", timepoint, "vs Deceased", sep = " ")) + 
+               scale_colour_manual(values = c("dodgerblue3", "firebrick3", "gray34")) + 
+               labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " ")) + 
                geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
                geom_hline(yintercept = 0.1, linetype = "dashed") + # Add horizontal intercept line
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
