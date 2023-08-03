@@ -132,10 +132,12 @@ maf_autopsy <- patient_list_metadata %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 ```
+
+# Create tmb file for autopsy samples
+
 ```{r tmb_autopsy}
-# There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
-# There are also multiple biospecimen samples per timepoint and patient case.
-# We will create unique identifiers for each case that will enable to create one plot for each case.
+# We will create similat unique identifiers as we did for the maf file.
+# We will add timepoint_model column.
 tmb_autopsy <- patient_list_metadata %>% 
   left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
@@ -148,7 +150,13 @@ tmb_autopsy <- patient_list_metadata %>%
                                          TRUE ~ timepoints_deceased),
          timepoints_other = match_id_bs,
          timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
-                                     TRUE ~ timepoints_other)) %>%
+                                     TRUE ~ timepoints_other),
+         timepoints_model = case_when(descriptors == "Deceased, Diagnosis, Diagnosis, Progressive, Progressive" ~ "dx_pro", 
+                                     descriptors == "Deceased, Diagnosis, Recurrence" ~ "dx_rec", descriptors %in% c("Deceased, Progressive, Recurrence", "Deceased, Progressive, Progressive, Recurrence", "Deceased, Progressive, Recurrence, Recurrence") ~ "pro_rec",
+                                     descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
+                                     descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
+                                     descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
+                                     descriptors == "Deceased, Recurrence" ~ "rec")) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
 
 # How many patients have tmb data for the paired time samples with autopsy time point present?
