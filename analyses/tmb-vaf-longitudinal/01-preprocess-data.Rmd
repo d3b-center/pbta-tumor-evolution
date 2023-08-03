@@ -52,6 +52,10 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy, tumor_descriptor, age_at_diagnosis_days, age_last_update_days, cancer_predispositions, broad_histology, short_histology, cancer_group) 
 
+# Read in tmb file
+tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
+
 # Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
   "Missense_Mutation",
@@ -74,9 +78,6 @@ maf <- data.table::fread(maf_file, data.table = FALSE) %>%
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
-
-# Read in tmb file
-tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 
 # Read in matched_time_points_file and get the list of patients 
 # with matched time points for the genomic assays
@@ -130,6 +131,16 @@ maf_autopsy <- patient_list_metadata %>%
                                      TRUE ~ timepoints_other)) %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
+```
+
+```{r tmb_autopsy}
+# There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
+# There are also multiple biospecimen samples per timepoint and patient case.
+# We will create unique identifiers for each case that will enable to create one plot for each case.
+tmb_autopsy <- maf_autopsy %>% 
+  left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
+  filter(!is.na(tmb)) %>%
+  write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
 ```
 
 ```{r echo=TRUE}
