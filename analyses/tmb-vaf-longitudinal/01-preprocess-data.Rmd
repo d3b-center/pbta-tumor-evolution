@@ -8,11 +8,7 @@ output:
     toc_float: TRUE
 ---
 
-
 #### Tumor evolution project 
-
-# Background
-We are investigating the change of VAFs across multiple timepoints for the autopsy samples in the PBTA cohort.
 
 ### Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
@@ -108,7 +104,6 @@ paired_time_samples_number_autopsy <- length(unique(patient_list_metadata$Kids_F
 
 `r paired_time_samples_number` of patient cases have paired time samples in genomic assays and `r paired_time_samples_number_autopsy` have autopsy sample.
 
-
 # Create maf file for autopsy samples
 
 ```{r maf_autopsy}
@@ -123,7 +118,6 @@ maf_autopsy <- patient_list_metadata %>%
          !gene_protein == "Unknown") %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
-         match_id_kids = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
          timepoints_deceased = match_id_bs,
          timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
