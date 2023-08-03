@@ -132,7 +132,6 @@ maf_autopsy <- patient_list_metadata %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 ```
-
 ```{r tmb_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # There are also multiple biospecimen samples per timepoint and patient case.
@@ -141,7 +140,15 @@ tmb_autopsy <- maf_autopsy %>%
   left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(tmb)) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
+
+# How many patients have tmb data for the paired time samples with autopsy time point present?
+paired_time_samples_autopsy_tmb <- length(unique(tmb_autopsy$Kids_First_Participant_ID))
 ```
+
+## Number of patient cases with paired time and autopsy samples and TMB data
+
+There are `r paired_time_samples_autopsy_tmb` patient cases with TMB information.
+Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
 sessionInfo()
