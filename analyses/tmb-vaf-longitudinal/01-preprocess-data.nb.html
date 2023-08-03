@@ -3038,28 +3038,15 @@ maf_autopsy &lt;- patient_list_metadata %&gt;%
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudG1iX2F1dG9wc3kgPC0gcGF0aWVudF9saXN0X21ldGFkYXRhICU+JSBcbiAgbGVmdF9qb2luKHRtYiwgYnkgPSBcIktpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSURcIikgJT4lXG4gIGZpbHRlcighaXMubmEoS2lkc19GaXJzdF9QYXJ0aWNpcGFudF9JRCksXG4gICAgICAgICAhaXMubmEoVkFGKSxcbiAgICAgICAgICFWQUYgPT0gMCwgXG4gICAgICAgICAhZ2VuZV9wcm90ZWluID09IFwiVW5rbm93blwiKVxuXG5gYGAifQ== -->
-<pre class="r"><code>tmb_autopsy &lt;- patient_list_metadata %&gt;% 
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBUaGVyZSBhcmUgcGF0aWVudCBjYXNlcyB3aXRoIG1vcmUgdGhhbiBvbmUgdGltZSBwb2ludHMgaW4gYWRkaXRpb24gdG8gRGVjZWFzZWQsIGUuZy4gRGlhZ25vc2lzIGFuZCBQcm9ncmVzc2l2ZS5cbiMgVGhlcmUgYXJlIGFsc28gbXVsdGlwbGUgYmlvc3BlY2ltZW4gc2FtcGxlcyBwZXIgdGltZXBvaW50IGFuZCBwYXRpZW50IGNhc2UuXG4jIFdlIHdpbGwgY3JlYXRlIHVuaXF1ZSBpZGVudGlmaWVycyBmb3IgZWFjaCBjYXNlIHRoYXQgd2lsbCBlbmFibGUgdG8gY3JlYXRlIG9uZSBwbG90IGZvciBlYWNoIGNhc2UuXG50bWJfYXV0b3BzeSA8LSBtYWZfYXV0b3BzeSAlPiUgXG4gIGxlZnRfam9pbih0bWIsIGJ5ID0gXCJLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEXCIpICU+JVxuICBmaWx0ZXIoIWlzLm5hKHRtYikpICU+JVxuICB3cml0ZV90c3YoZmlsZS5wYXRoKHNjcmF0Y2hfZGlyLCBcInRtYl9hdXRvcHN5LnRzdlwiKSlcbmBgYCJ9 -->
+<pre class="r"><code># There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
+# There are also multiple biospecimen samples per timepoint and patient case.
+# We will create unique identifiers for each case that will enable to create one plot for each case.
+tmb_autopsy &lt;- maf_autopsy %&gt;% 
   left_join(tmb, by = &quot;Kids_First_Biospecimen_ID&quot;) %&gt;%
-  filter(!is.na(Kids_First_Participant_ID),
-         !is.na(VAF),
-         !VAF == 0, 
-         !gene_protein == &quot;Unknown&quot;)
-</code></pre>
+  filter(!is.na(tmb)) %&gt;%
+  write_tsv(file.path(scratch_dir, &quot;tmb_autopsy.tsv&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gYGZpbHRlcigpYDpcbuKEuSBJbiBhcmd1bWVudDogYCFpcy5uYShWQUYpYC5cbkNhdXNlZCBieSBlcnJvcjpcbiEgb2JqZWN0ICdWQUYnIG5vdCBmb3VuZFxuQmFja3RyYWNlOlxuIDEuIC4uLiAlPiUgLi4uXG4gMy4gZHBseXI6OjpmaWx0ZXIuZGF0YS5mcmFtZSguLi4pXG4gNC4gZHBseXI6OjpmaWx0ZXJfcm93cyguZGF0YSwgZG90cywgYnkpXG4gNS4gZHBseXI6OjpmaWx0ZXJfZXZhbCguLi4pXG4gNy4gbWFzayRldmFsX2FsbF9maWx0ZXIoZG90cywgZW52X2ZpbHRlcilcbiA4LiBkcGx5ciAobG9jYWwpIGV2YWwoKVxuIn0= -->
-<pre><code>Error in `filter()`:
-ℹ In argument: `!is.na(VAF)`.
-Caused by error:
-! object &#39;VAF&#39; not found
-Backtrace:
- 1. ... %&gt;% ...
- 3. dplyr:::filter.data.frame(...)
- 4. dplyr:::filter_rows(.data, dots, by)
- 5. dplyr:::filter_eval(...)
- 7. mask$eval_all_filter(dots, env_filter)
- 8. dplyr (local) eval()</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
