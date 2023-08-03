@@ -67,7 +67,7 @@ oncoprint_goi <- oncoprint_goi[!apply(oncoprint_goi == "", 1, all), ]
 oncoprint_goi <- data.frame(oncoprint_goi)
 ```
 
-## Corplots across all Matched Samples 
+## Corplots for each Patient case and per biospecimen_id and timepoint
 
 ```{r create_corplot}
 # We will define samples based on the "Kids_First_Participant_ID" column 
