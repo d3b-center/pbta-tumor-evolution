@@ -17,10 +17,8 @@ This folder contains scripts tasked to investigate VAFs and TMB across paired lo
 ## Summary 
 This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
 
-`01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3)  Add information of number of timepoints per each patient case. This script generates `maf_autopsy.tsv` file to be used in the next step and is placed in `../../scratch`.
+`01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3)  Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` file to be used in the next step and is placed in `../../scratch`.
 
-`function-create-timepoint.R` is a script written for the function to create timepoints column to be used for generating plots.
- 
 ## Folder structure 
 
 The structure of this folder is as follows:
@@ -31,7 +29,5 @@ The structure of this folder is as follows:
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── README.md
-├── run-tmb-vaf-longitudinal.sh
-└── util
-    └── function-create-timepoint.R
+└── run-tmb-vaf-longitudinal.sh
 ```
