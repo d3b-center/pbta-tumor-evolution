@@ -149,7 +149,7 @@ paired_assays_all %>%
 ```
 
 # Diagnosis vs. any other point in time (recurrence, progressive etc)
-We’ll look at the breakdown of the tumor_descriptor column, separating the genomic assays from transcriptomic assays.
+We’ll look at the breakdown of the tumor_descriptor column, separating the genomic from transcriptomic assays.
 
 ```{r}
 tumor_descriptor_df <- paired_assays_all %>%
@@ -163,7 +163,7 @@ tumor_descriptor_df %>%
   fontsize(size = 12, part = "all")
 ```
 
-The following table is to provide matched different time points and summarize the information under the "tumor_descriptor_sum" column.
+The following table is to provide matched assays under different time points and summarize the information under the "tumor_descriptor_sum" column.
 
 ```{r}
 tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
@@ -198,7 +198,7 @@ genomic_assays <- tumor_descriptor_df %>%
             cancer_group = paste(sort(cancer_group),
                                           collapse = ", ")) 
 
-kids_pbta_samples_DNA <- print(length(unique(genomic_assays$Kids_First_Participant_ID)))
+kids_pbta_samples_DNA <- length(unique(genomic_assays$Kids_First_Participant_ID))
 ```
 
 ## Number of patient cases
