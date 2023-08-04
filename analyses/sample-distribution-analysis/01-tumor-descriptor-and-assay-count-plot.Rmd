@@ -88,7 +88,6 @@ There are `r kids_pbta_samples` patient cases with timepoint information.
 
 ## Filter based on both genomic and transcriptomic assays
 Let's select all patient samples containing both genomic and transcriptomic assays.
-
 ```{r assays, echo=TRUE}
 assays <- pbta %>%
   select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group, DNA, match_id_DNA) %>%
@@ -104,9 +103,8 @@ paired_assays_all <- assays %>%
                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"))
 ```
 
-# Number of each assay
+# Number of samples for each assay
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
-
 ```{r}
 paired_assays_all %>%
   group_by(experimental_strategy) %>%
@@ -125,7 +123,6 @@ paired_assays_all %>%
 
 # Diagnosis vs. any other timepoint (Recurrence, Progressive etc)
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic from transcriptomic assays.
-
 ```{r}
 tumor_descriptor_df <- paired_assays_all %>%
   arrange(Kids_First_Participant_ID)
@@ -160,7 +157,6 @@ tumor_descriptor_df_diagnosis %>%
 
 # Genomic assays
 Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain genomic assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
-
 ```{r}
 genomic_assays <- tumor_descriptor_df %>%
   filter(!(experimental_strategy_sum == "RNA")) %>%
@@ -279,8 +275,8 @@ paired_assays <- tumor_descriptor_df %>%
 
 kids_pbta_samples_paired <- length(unique(paired_assays$Kids_First_Participant_ID))
 ```
-## How many samples have paired assays?
-There are `r kids_pbta_samples_paired` of patient cases have paired genomic and transcriptomic assays.
+## How many samples have paired genomic and transcriptomic assays?
+There are `r kids_pbta_samples_paired` patient cases with paired genomic and transcriptomic assays.
 
 ## All time points
 ```{r}
@@ -318,7 +314,7 @@ paired_assays_matched %>%
 
 matched_samples_paired <- length(unique(paired_assays_matched$Kids_First_Participant_ID))
 ```
-## How many samples have paired assays and matched longitudinal information?
+## How many samples have paired genomic and transcriptomic assays and matched longitudinal information?
 There are `r matched_samples_paired` patient cases with matched longitudinal samples for genomic and transcriptomic assays.
 
 # Genomic assays and cancer_group
@@ -329,6 +325,7 @@ list <- genomic_assays %>%
   arrange(desc(n))
 print(list, dplyr.print_min = Inf)
 ```
+
 We will look into the first five cancer groups with the highest number of tumor samples: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma. There are cases that the second time point has a different cancer type. Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.We will only do this for the first five histologies for now.
 
 ```{r}
@@ -342,7 +339,7 @@ genomic_assays_matched <- genomic_assays_matched %>%
 
 ## Low-grade glioma
 ```{r}
-cohort <- genomic_assays_matched %>% 
+genomic_assays_matched %>% 
   filter(cancer_group_broad == "Low-grade glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -350,7 +347,7 @@ cohort <- genomic_assays_matched %>%
 
 ## Medulloblastoma
 ```{r}
-cohort <- genomic_assays_matched %>% 
+genomic_assays_matched %>% 
   filter(cancer_group_broad == "Medulloblastoma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -358,7 +355,7 @@ cohort <- genomic_assays_matched %>%
 
 ## High-grade glioma
 ```{r}
-cohort <- genomic_assays_matched %>% 
+genomic_assays_matched %>% 
   filter(cancer_group_broad == "High-grade glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -366,7 +363,7 @@ cohort <- genomic_assays_matched %>%
 
 ## Diffuse midline glioma
 ```{r}
-cohort <- genomic_assays_matched %>% 
+genomic_assays_matched %>% 
   filter(cancer_group_broad == "Diffuse midline glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -374,7 +371,7 @@ cohort <- genomic_assays_matched %>%
 
 ## Ependymoma
 ```{r}
-cohort <- genomic_assays_matched %>% 
+genomic_assays_matched %>% 
   filter(cancer_group_broad == "Ependymoma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
