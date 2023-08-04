@@ -1,0 +1,119 @@
+---
+title: "Create TMB stacked barplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `tmb_autopsy.tsv` file generated from the `01-preprocess-data.Rmd` script.
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(reshape2) 
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+tmb_autopsy_file <- file.path(scratch_dir, "tmb_autopsy.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot-sample.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot-exclude.R"))
+source(paste0(root_dir, "/figures/theme.R"))
+```
+
+## Read in data and process
+```{r read_input_files}
+# Read tmb_autopsy file generated from step `01-process-data.Rmd`
+tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_types = FALSE)
+```
+
+## Stacked barplots for each Patient case and per biospecimen_id and timepoint
+
+```{r create_barplot}
+# Create one stacked barplot with all models together
+# Run function
+fname <- paste0(plots_dir, "/", "Tmb-stacked-barplot.pdf")
+print(fname)
+p <- create_barplot(tmb = tmb_autopsy)
+pdf(file = fname, width = 10, height = 8)
+print(p)
+dev.off()
+```
+      
+    
+```{r create_barplot_exclude}      
+# Exclude 2 samples with high number of mutations to make plot more readable
+fname_exclude <- paste0(plots_dir, "/", "Tmb-stacked-barplot-exclude.pdf")
+print(fname_exclude)
+p <- create_barplot_exclude(tmb = tmb_autopsy)
+pdf(file = fname_exclude, width = 10, height = 8)
+print(p)
+dev.off()
+```
+
+# But we have multiple biospecimen samples per timepoint per patient case
+# Let's create stacked-barplots per patient sample and split by biospecimen sample
+
+```{r create_barplot_sample}   
+samples <- unique(as.character(tmb_autopsy$Kids_First_Participant_ID))
+print(samples)
+
+for (i in seq_along(samples)) {
+  print(i)
+  tmb_sub <- tmb_autopsy %>%
+    filter(Kids_First_Participant_ID == samples[i])
+  timepoints_other_plots <- unique(tmb_sub$timepoints_other)
+  timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
+  print(timepoints_other_plots)
+  timepoints_deceased_plots <- unique(tmb_sub$timepoints_deceased)
+  timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
+  print(timepoints_deceased_plots)
+  
+# Run function
+  for (t in seq_along(timepoints_deceased_plots)){
+    for (k in seq_along(timepoints_other_plots)){
+      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-Tmb-stacked-barplot.pdf")
+      print(fname)
+      p <- create_barplot_sample(tmb = tmb_sub,
+                          timepoints_other_plot = timepoints_other_plots[k],
+                          timepoints_deceased_plot = timepoints_deceased_plots[t],
+                          sid = samples[i])
+      pdf(file = fname, width = 5, height = 4)
+      print(p)
+      dev.off()
+    }
+  }
+  }  
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```

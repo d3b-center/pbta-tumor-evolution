@@ -19,6 +19,8 @@ This pipeline investigates VAFs and TMB across matched samples. It produces pdf 
 
 `01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_autopsy.tsv` files for the next steps and are placed in `../../scratch`.
 
+`04-create-violin-plots.Rmd` is a script written to create violin plots for TMB per patient case and per biospecimen sample and timepoint.
+
 ## Folder structure 
 
 The structure of this folder is as follows:
@@ -26,8 +28,14 @@ The structure of this folder is as follows:
 ```
 ├── 01-preprocess-data.Rmd
 ├── 01-preprocess-data.nb.html
+├── 04-create-violin-plots.Rmd
+├── 04-create-violin-plots.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
+├── plots
 ├── README.md
-└── run-tmb-vaf-longitudinal.sh
+├── run-tmb-vaf-longitudinal.sh
+├── util
+    ├── function-create-violin-plot.R
+    └── function-create-violin-plot-sample.R
 ```
