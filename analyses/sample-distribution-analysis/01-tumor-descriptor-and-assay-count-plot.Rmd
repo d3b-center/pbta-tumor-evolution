@@ -13,11 +13,10 @@ output:
 # Background
 This is an exploratory analysis of longitudinal data in the PBTA cohort. We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays. We are also looking at the number of patient samples available per histology with paired genomic and transcriptomic assays for (1) each time point (disease_stage) and (2) when Diagnosis is present and paired with another point in time.
 
-### Data used 
+# Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
 
 # Set up
-
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
@@ -26,7 +25,6 @@ suppressPackageStartupMessages({
 ```
 
 ## Directories and File Inputs/Outputs
-
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder -- this will be in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions no
@@ -48,7 +46,6 @@ if (!dir.exists(results_dir)) {
 ```
 
 # Read in data and process Data
-
 ```{r cohort PBTA, echo=TRUE}
 #---------------------------------------------------------------------------------------------------------
 # Notes - to remove this part when run for v13
@@ -86,8 +83,8 @@ print(pbta %>% count(tumor_descriptor))
 
 kids_pbta_samples <- length(unique(pbta$Kids_First_Participant_ID))
 ```
-
-There are `r kids_pbta_samples` patient cases in the PBTA cohort with timepoint information. 
+## How many samples have timepoint information?
+There are `r kids_pbta_samples` patient cases with timepoint information. 
 
 ## Filter based on both genomic and transcriptomic assays
 Let's select all patient samples containing both genomic and transcriptomic assays.
@@ -107,7 +104,7 @@ paired_assays_all <- assays %>%
                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"))
 ```
 
-## Number of each assay
+# Number of each assay
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
 
 ```{r}
@@ -175,10 +172,9 @@ genomic_assays <- tumor_descriptor_df %>%
 kids_pbta_samples_dna <- length(unique(genomic_assays$Kids_First_Participant_ID))
 ```
 ## How many samples have genomic assays?
-There are `r kids_pbta_samples_dna` patient cases in the PBTA cohort with genomic assays.
+There are `r kids_pbta_samples_dna` patient cases with genomic assays.
 
-### All time points with genomic assays
-
+## All time points
 ```{r}
 genomic_assays %>%
   group_by(descriptors) %>%
@@ -217,11 +213,10 @@ genomic_assays_matched %>%
 matched_samples_genomic <- length(unique(genomic_assays_matched$Kids_First_Participant_ID))
 ```
 ## How many samples have genomic assays and matched longitudinal information?
-There are `r matched_samples_genomic` patient cases in the PBTA cohort with matched longitudinal samples for genomic assays.
+There are `r matched_samples_genomic` patient cases with matched longitudinal samples for genomic assays.
 
 # Transcriptomic assays
 We will look only at RNA-seq samples and perform the same collapsing of the tumor_descriptor column.
-
 ```{r}
 transcriptomic_assays <- tumor_descriptor_df %>%
   filter(experimental_strategy_sum %in% c("Both", "RNA")) %>%
@@ -233,8 +228,9 @@ transcriptomic_assays <- tumor_descriptor_df %>%
 kids_pbta_samples_rna <- length(unique(transcriptomic_assays$Kids_First_Participant_ID))
 ```
 ## How many samples have transcriptomic assays?
-There are `r kids_pbta_samples_rna` patient cases in the PBTA cohort with transcriptomic assays.
+There are `r kids_pbta_samples_rna` patient cases with transcriptomic assays.
 
+## All time points
 ```{r}
 transcriptomic_assays %>%
   group_by(descriptors) %>%
@@ -269,11 +265,10 @@ transcriptomic_assays_matched %>%
 matched_samples_rna <- length(unique(transcriptomic_assays_matched$Kids_First_Participant_ID))
 ```
 ## How many samples have transcriptomic assays and matched longitudinal information?
-There are `r matched_samples_rna` patient cases in the PBTA cohort with matched longitudinal samples for transcriptomic assays.
+There are `r matched_samples_rna` patient cases with matched longitudinal samples for transcriptomic assays.
 
 # Paired genomic and transcriptomic assays
 We will look only into paired assays now.
-
 ```{r}
 paired_assays <- tumor_descriptor_df %>%
   filter(experimental_strategy_sum == "Both") %>%
@@ -285,10 +280,9 @@ paired_assays <- tumor_descriptor_df %>%
 kids_pbta_samples_paired <- length(unique(paired_assays$Kids_First_Participant_ID))
 ```
 ## How many samples have paired assays?
-There are `r kids_pbta_samples_paired` of patient cases in the PBTA cohort have paired genomic and transcriptomic assays.
+There are `r kids_pbta_samples_paired` of patient cases have paired genomic and transcriptomic assays.
 
-### All time points 
-
+## All time points
 ```{r}
 paired_assays %>%
   group_by(descriptors) %>%
@@ -325,11 +319,10 @@ paired_assays_matched %>%
 matched_samples_paired <- length(unique(paired_assays_matched$Kids_First_Participant_ID))
 ```
 ## How many samples have paired assays and matched longitudinal information?
-There are `r matched_samples_paired` patient cases in the PBTA cohort with matched longitudinal samples for genomic and transcriptomic assays.
+There are `r matched_samples_paired` patient cases with matched longitudinal samples for genomic and transcriptomic assays.
 
 # Genomic assays and cancer_group
 Let us investigate the number of tumor samples with genomic assays per cancer_group.
-
 ```{r}
 list <- genomic_assays %>%
   count(cancer_group) %>%
