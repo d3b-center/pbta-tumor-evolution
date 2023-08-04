@@ -335,8 +335,7 @@ paired_assays %>%
 
 
 ## Identify duplicate events - paired assays
-We will identify duplicate events.
-We may want to discard them from further analysis.
+We will identify duplicate events. We may want to discard them from further analysis.
 This identifies paired assays as well.
 
 ```{r paired_assays_mult_events, echo=TRUE}
@@ -364,7 +363,7 @@ list <- genomic_assays %>%
 print (list, dplyr.print_min = Inf)
 ```
 We will look into the first five cancer groups with the highest number of tumor samples.
-These are: Low-grade glioma, Medulloblastoma, High-grade glioma, Ependymoma, and Diffuse midline glioma.
+These are: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma.
 
 BUT there are cases that the second time point has a different cancer_group. 
 This creates combinations of the same subtype, but they will not show up in the following.
