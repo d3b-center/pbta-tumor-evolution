@@ -2953,15 +2953,24 @@ tmb_autopsy &lt;- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col
 timepoint</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSdW4gZnVuY3Rpb25cbmZuYW1lIDwtIHBhc3RlMChwbG90c19kaXIsIFwiL1wiLCBcIlRtYi12aW9saW4tcGxvdC1BbGwtc2FtcGxlcy5wZGZcIilcbnByaW50KGZuYW1lKVxucCA8LSBjcmVhdGVfdmlvbGluX3Bsb3QodG1iID0gdG1iX2F1dG9wc3kpXG5wZGYoZmlsZSA9IGZuYW1lLCB3aWR0aCA9IDEwLCBoZWlnaHQgPSA4KVxucHJpbnQocClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSdW4gZnVuY3Rpb25cbmZuYW1lIDwtIHBhc3RlMChwbG90c19kaXIsIFwiL1wiLCBcIlRtYi12aW9saW4tcGxvdC1BbGwtc2FtcGxlcy5wZGZcIilcbnByaW50KGZuYW1lKVxuYGBgIn0= -->
 <pre class="r"><code># Run function
 fname &lt;- paste0(plots_dir, &quot;/&quot;, &quot;Tmb-violin-plot-All-samples.pdf&quot;)
-print(fname)
-p &lt;- create_violin_plot(tmb = tmb_autopsy)
+print(fname)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiL1VzZXJzL2Nocm9uaWEvQ0hPUC9HaXRIdWIvcGJ0YS10dW1vci1ldm9sdXRpb24vYW5hbHlzZXMvdG1iLXZhZi1sb25naXR1ZGluYWwvcGxvdHMvVG1iLXZpb2xpbi1wbG90LUFsbC1zYW1wbGVzLnBkZlwiXG4ifQ== -->
+<pre><code>[1] &quot;/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tmb-vaf-longitudinal/plots/Tmb-violin-plot-All-samples.pdf&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucCA8LSBjcmVhdGVfdmlvbGluX3Bsb3QodG1iID0gdG1iX2F1dG9wc3kpXG5wZGYoZmlsZSA9IGZuYW1lLCB3aWR0aCA9IDEwLCBoZWlnaHQgPSA4KVxucHJpbnQocClcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>p &lt;- create_violin_plot(tmb = tmb_autopsy)
 pdf(file = fname, width = 10, height = 8)
 print(p)
 dev.off()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
+<pre><code>null device 
+          1 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->

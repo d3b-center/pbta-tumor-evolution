@@ -18,7 +18,7 @@ create_violin_plot <- function(tmb) {
                # facet_grid(~facet) +##global p
                theme_Publication() + 
                xlab("") + ylab('log2[Total Mutations]')+
-               scale_y_continuous(limits = c(0, 6))
+               scale_y_continuous(limits = c(0, 15))
   return(p)
   
   }

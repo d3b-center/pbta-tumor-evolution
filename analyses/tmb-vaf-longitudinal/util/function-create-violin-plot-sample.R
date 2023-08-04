@@ -8,7 +8,7 @@ create_violin_plot_sample <- function(tmb, sid) {
  tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased"))
 
   # Plot violin plot
-  p <- ggplot(tmb, aes(x = tumor_descriptor, y = log_tmb, fill = tumor_descriptor),
+  p <- ggplot(tmb, aes(x = tumor_descriptor, y = log2_mutation_count, fill = tumor_descriptor),
               palette = dxrelcol, alpha = 0.8,add = "boxplot",
               add.params = list(fill = "white")) +
                geom_violin(trim=TRUE) +
@@ -17,7 +17,7 @@ create_violin_plot_sample <- function(tmb, sid) {
                #ggpubr::stat_compare_means(label.y.npc = "top") + ##global p
                # facet_grid(~facet) +##global p
                theme_Publication() + 
-               xlab("Timepoint") + ylab('log_tmb')+
-               scale_y_continuous(limits = c(0, 6))
+               xlab("") + ylab('log2[Total Mutations]')+
+               scale_y_continuous(limits = c(0, 15))
        return(p)              
   }
