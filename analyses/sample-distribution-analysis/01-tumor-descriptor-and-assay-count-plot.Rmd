@@ -375,25 +375,6 @@ matched_samples_paired <- length(unique(paired_assays_matched_time_points$Kids_F
 
 There are `r matched_samples_paired` of patient cases in the PBTA cohort have matched genomic and transcriptomic assays.
 
-## Identify duplicate events - paired assays
-We will identify duplicate events. We may want to discard them from further analysis.
-This identifies paired assays as well.
-
-```{r paired_assays_mult_events, echo=TRUE}
-# identify multiple events per patient sample
-paired_assays_mult_events <- paired_assays_all %>%
-  group_by(Kids_First_Participant_ID) %>%
-  summarise(match_id = str_c(match_id, collapse = "~"),
-            experimental_strategy = str_c(experimental_strategy, collapse = "~"),
-            experimental_strategy_sum = str_c(experimental_strategy_sum, collapse = "~")) %>%
-  mutate(has_mult_events = case_when(grepl("~", match_id) ~ "yes", 
-                               TRUE ~ "no"))
-
-table(paired_assays_mult_events$has_mult_events)
-```
-
-
-
 ### Genomic assays and cancer_group
 Let us investigate the number of tumor samples with genomic assays per cancer_group.
 
