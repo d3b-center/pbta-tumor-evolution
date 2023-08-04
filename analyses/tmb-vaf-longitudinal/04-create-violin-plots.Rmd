@@ -1,5 +1,5 @@
 ---
-title: "Create TMB stacked barplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+title: "Create TMB violin plots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -43,9 +43,8 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-source(paste0(analysis_dir, "/util/function-create-barplot.R"))
-source(paste0(analysis_dir, "/util/function-create-barplot-sample.R"))
-source(paste0(analysis_dir, "/util/function-create-barplot-exclude.R"))
+source(paste0(analysis_dir, "/util/function-create-violin-plot.R"))
+source(paste0(analysis_dir, "/util/function-create-violin-plot-sample.R"))
 source(paste0(root_dir, "/figures/theme.R"))
 ```
 
