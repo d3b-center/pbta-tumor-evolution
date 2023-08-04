@@ -54,7 +54,7 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
 
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
 # Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
@@ -156,7 +156,8 @@ tmb_autopsy <- patient_list_metadata %>%
                                      descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "dx_pro_rec",
                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
                                      descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
-                                     descriptors == "Deceased, Recurrence" ~ "rec")) %>%
+                                     descriptors == "Deceased, Recurrence" ~ "rec"),
+         log_tmb = abs(log(tmb_autopsy$tmb))) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
 
 # How many patients have tmb data for the paired time samples with autopsy time point present?
