@@ -331,7 +331,7 @@ paired_assays %>%
 ## Let's see how many patient cases have matched time points.
 
 ```{r}
-paired_assays_matched_ <- paired_assays %>%
+paired_assays_matched <- paired_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis", 
                             "Recurrence, Second Malignancy", "Progressive, Recurrence", "Second Malignancy", 
                             "Diagnosis, Second Malignancy", "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
