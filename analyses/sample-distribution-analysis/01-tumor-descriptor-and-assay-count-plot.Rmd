@@ -293,6 +293,26 @@ transcriptomic_assays  %>%
   fontsize(size = 12, part = "all")
 ```
 
+## Let's see how many patient cases have matched time points.
+
+```{r}
+transcriptomic_assays_matched_time_points <- transcriptomic_assays %>%
+  filter(descriptors %in% c("Diagnosis, Recurrence", "Deceased, Diagnosis", "Diagnosis, Progressive",
+                            "Deceased, Recurrence", "Progressive, Recurrence", "Deceased, Progressive", "Deceased, Diagnosis, Progressive")) %>%
+  write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
+
+transcriptomic_assays_matched_time_points %>%
+  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+matched_samples_transcriptomic <- length(unique(transcriptomic_assays_matched_time_points$Kids_First_Participant_ID))
+```
+
+There are `r matched_samples_transcriptomic` of patient cases in the PBTA cohort have matched transcriptomic assays.
+
 ## Paired genomic and transcriptomic assays
 We will look only into paired assays now.
 
@@ -333,6 +353,27 @@ paired_assays %>%
   fontsize(size = 12, part = "all")
 ```
 
+## Let's see how many patient cases have matched time points.
+
+```{r}
+paired_assays_matched_time_points <- paired_assays %>%
+  filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis", 
+                            "Recurrence, Second Malignancy", "Progressive, Recurrence", "Second Malignancy", 
+                            "Diagnosis, Second Malignancy" , "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
+                            "Deceased, Recurrence", "Deceased, Diagnosis, Recurrence", "Diagnosis, Unavailable")) %>%
+  write_tsv(file.path(results_dir, "paired_assays_matched_time_points.tsv"))
+
+paired_assays_matched_time_points %>%
+  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+matched_samples_paired <- length(unique(paired_assays_matched_time_points$Kids_First_Participant_ID))
+```
+
+There are `r matched_samples_paired` of patient cases in the PBTA cohort have matched genomic and transcriptomic assays.
 
 ## Identify duplicate events - paired assays
 We will identify duplicate events. We may want to discard them from further analysis.
