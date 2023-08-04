@@ -54,18 +54,33 @@ source(paste0(root_dir, "/figures/theme.R"))
 tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
-## Stacked barplots for each Patient case and per biospecimen_id and timepoint
+## Violin plots for each Patient case and per biospecimen_id and timepoint
 
 ```{r create-violin-plot}
-# Create one stacked barplot with all models together
+
+tmb_autopsy$log_tmb= abs(log(tmb_autopsy$tmb))
+
+
 # Run function
-fname <- paste0(plots_dir, "/", "Tmb-violin-plot.pdf")
+fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples.pdf")
 print(fname)
-p <- create_barplot(tmb = tmb_autopsy)
+p <- create_violin_plot(tmb = tmb_autopsy)
 pdf(file = fname, width = 10, height = 8)
 print(p)
 dev.off()
 ```
+    
+```{r create-violin-plot-exclude}
+tmb_autopsy_filter <- tmb_autopsy %>%
+    filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
+# Run function
+fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples-exclude.pdf")
+print(fname)
+p <- create_violin_plot(tmb = tmb_autopsy_filter)
+pdf(file = fname, width = 10, height = 8)
+print(p)
+dev.off()
+```    
       
 
 # But we have multiple biospecimen samples per timepoint per patient case
@@ -91,7 +106,7 @@ for (i in seq_along(samples)) {
     for (k in seq_along(timepoints_other_plots)){
       fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-Tmb-violin-plot.pdf")
       print(fname)
-      p <- create_barplot_sample(tmb = tmb_sub,
+      p <- create_violin_plot_sample(tmb = tmb_sub,
                           timepoints_other_plot = timepoints_other_plots[k],
                           timepoints_deceased_plot = timepoints_deceased_plots[t],
                           sid = samples[i])
