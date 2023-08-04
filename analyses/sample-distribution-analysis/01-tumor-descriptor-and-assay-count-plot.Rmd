@@ -65,9 +65,7 @@ if (!dir.exists(results_dir)) {
 # Notes - to remove this part when run for v13
 # The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
 # Jo Lynne found the following status for 2/3 in the data warehouse:
-# C4106355-Tumor = Recurrence
-# C4113612-Tumor = Initial CNS Tumor
-# 7316UP-3705 = Not Reported
+# C4106355-Tumor = Recurrence, C4113612-Tumor = Initial CNS Tumor, 7316UP-3705 = Not Reported
 # manually annotate them here and these will be updated in the v13 - then discard that part of the code
 #---------------------------------------------------------------------------------------------------------
 # The file contains duplicates because some samples might have: 
@@ -83,19 +81,18 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
          !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence", # to be updated in v13 as "Recurrence"
-                                            grepl("C4113612-Tumor", sample_id) ~ "Diagnosis", # to be updated in v13 as "Initial CNS Tumor"
-                                            grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
-                                            grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
-                                            grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
-                                            TRUE ~ tumor_descriptor),
-         match_id = paste(tumor_descriptor, sample_id, sep = "_"), # unique identifier per timepoint and sample
+  mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence",
+                                      grepl("C4113612-Tumor", sample_id) ~ "Diagnosis",
+                                      grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
+                                      grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                      grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased",
+                                      TRUE ~ tumor_descriptor),
+         match_id = paste(tumor_descriptor, sample_id, sep = "_"),
          DNA = case_when(grepl("WGS", experimental_strategy) ~ "DNA",
                          grepl("WXS", experimental_strategy) ~ "DNA", 
                          grepl("RNA-Seq", experimental_strategy) ~ "no"),
-         match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_")) %>% # unique identifier
+         match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_")) %>%
   distinct(match_id_DNA, .keep_all = TRUE) # filter out
-
 
 print(pbta %>% count(tumor_descriptor))
 
@@ -118,13 +115,12 @@ paired_assays_all <- assays %>%
   group_by(Kids_First_Participant_ID, match_id, tumor_descriptor, cancer_group) %>%
   summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>% 
   mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "Both",
-                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
-                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"
-                                                ))
+                                               grepl("WXS|WGS", experimental_strategy) ~ "DNA",
+                                               grepl("RNA-Seq", experimental_strategy) ~ "RNA"))
 ```
 
 # Summary
-In the following section, we will provide summary table across different disease stages, histologies, and patients samples.
+In the following section, we will provide summary tables across different disease stages, histologies, and patients samples.
 
 ## Number of each assay
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
@@ -163,7 +159,7 @@ tumor_descriptor_df %>%
 The following table is to provide matched assays under different time points and summarize the information under the "tumor_descriptor_sum" column.
 
 ```{r}
-tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
+tumor_descriptor_df_diagnosis <- tumor_descriptor_df %>%
   group_by(Kids_First_Participant_ID) %>%
   arrange(tumor_descriptor) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) %>%
@@ -172,7 +168,7 @@ tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
     TRUE ~ "Unmatched"
   ))
 
-tumor_descriptor_df_Diagnosis %>%
+tumor_descriptor_df_diagnosis %>%
   group_by(tumor_descriptor_sum) %>%
   tally() %>%
   arrange(desc(n)) %>% 
@@ -186,19 +182,16 @@ Setting aside the RNA-Seq for the moment and only looking at the patient samples
 
 ```{r}
 genomic_assays <- tumor_descriptor_df %>%
-  filter(!(experimental_strategy_sum == "RNA")) %>%   # filter(!grepl("RNA", experimental_strategy_sum))
+  filter(!(experimental_strategy_sum == "RNA")) %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(tumor_descriptor),  
-                                collapse = ", "),
-            experimental_strategy = paste(sort(experimental_strategy),
-                                          collapse = ", "),
-            cancer_group = paste(sort(cancer_group),
-                                          collapse = ", ")) 
+  summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),
+            experimental_strategy = paste(sort(experimental_strategy), collapse = ", "),
+            cancer_group = paste(sort(cancer_group), collapse = ", ")) 
 
-kids_pbta_samples_DNA <- length(unique(genomic_assays$Kids_First_Participant_ID))
+kids_pbta_samples_dna <- length(unique(genomic_assays$Kids_First_Participant_ID))
 ```
 
-There are `r kids_pbta_samples_DNA` of patient cases in the PBTA cohort with genomic assays.
+There are `r kids_pbta_samples_dna` of patient cases in the PBTA cohort with genomic assays.
 
 ### All time points with genomic assays
 
@@ -225,7 +218,7 @@ genomic_assays %>%
 ## Let's see how many patient cases have matched time points.
 
 ```{r}
-genomic_assays_matched_time_points <- genomic_assays %>%
+genomic_assays_matched <- genomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis",
                             "Deceased, Progressive", "Recurrence, Second Malignancy", "Progressive, Recurrence", 
                             "Diagnosis, Second Malignancy", "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
@@ -233,14 +226,14 @@ genomic_assays_matched_time_points <- genomic_assays %>%
                             "Deceased, Diagnosis, Progressive", "Diagnosis, Unavailable")) %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
-genomic_assays_matched_time_points %>%
+genomic_assays_matched %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
-matched_samples_genomic <- length(unique(genomic_assays_matched_time_points$Kids_First_Participant_ID))
+matched_samples_genomic <- length(unique(genomic_assays_matched$Kids_First_Participant_ID))
 ```
 
 There are `r matched_samples_genomic` of patient cases in the PBTA cohort with matched longitudinal genomic assays.
@@ -250,18 +243,16 @@ We will look only at RNA-seq samples and perform the same collapsing of the tumo
 
 ```{r}
 transcriptomic_assays <- tumor_descriptor_df %>%
-  filter(experimental_strategy_sum %in% c("DNA,RNA", "RNA")) %>%
+  filter(experimental_strategy_sum %in% c("Both", "RNA")) %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(unique(tumor_descriptor)),  
-                                collapse = ", "),
+  summarize(descriptors = paste(sort(unique(tumor_descriptor)), collapse = ", "),
             experimental_strategy = unique(experimental_strategy),
-            cancer_group = paste(sort(unique(cancer_group)),
-                                          collapse = ", "))
+            cancer_group = paste(sort(unique(cancer_group)), collapse = ", "))
 
-kids_pbta_samples_RNA <- length(unique(transcriptomic_assays$Kids_First_Participant_ID))
+kids_pbta_samples_rna <- length(unique(transcriptomic_assays$Kids_First_Participant_ID))
 ```
 
-There are `r kids_pbta_samples_RNA` of patient cases in the PBTA cohort with transcriptomic assays.
+There are `r kids_pbta_samples_rna` of patient cases in the PBTA cohort with transcriptomic assays.
 
 ```{r}
 transcriptomic_assays %>%
@@ -284,22 +275,22 @@ transcriptomic_assays  %>%
 ## Let's see how many patient cases have matched time points.
 
 ```{r}
-transcriptomic_assays_matched_time_points <- transcriptomic_assays %>%
+transcriptomic_assays_matched <- transcriptomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Deceased, Diagnosis", "Diagnosis, Progressive",
                             "Deceased, Recurrence", "Progressive, Recurrence", "Deceased, Progressive", "Deceased, Diagnosis, Progressive")) %>%
   write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
 
-transcriptomic_assays_matched_time_points %>%
+transcriptomic_assays_matched %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
-matched_samples_transcriptomic <- length(unique(transcriptomic_assays_matched_time_points$Kids_First_Participant_ID))
+matched_samples_rna <- length(unique(transcriptomic_assays_matched$Kids_First_Participant_ID))
 ```
 
-There are `r matched_samples_transcriptomic` of patient cases in the PBTA cohort with matched longitudinal transcriptomic assays.
+There are `r matched_samples_rna` of patient cases in the PBTA cohort with matched longitudinal transcriptomic assays.
 
 ## Paired genomic and transcriptomic assays
 We will look only into paired assays now.
@@ -308,12 +299,9 @@ We will look only into paired assays now.
 paired_assays <- tumor_descriptor_df %>%
   filter(experimental_strategy_sum == "Both") %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(tumor_descriptor),  
-                                collapse = ", "),
-            experimental_strategy = paste(sort(experimental_strategy),
-                                          collapse = ", "),
-            cancer_group = paste(sort(cancer_group),
-                                          collapse = ", "))
+  summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),
+            experimental_strategy = paste(sort(experimental_strategy), collapse = ", "),
+            cancer_group = paste(sort(cancer_group), collapse = ", "))
 
 kids_pbta_samples_paired <- length(unique(paired_assays$Kids_First_Participant_ID))
 ```
@@ -343,21 +331,21 @@ paired_assays %>%
 ## Let's see how many patient cases have matched time points.
 
 ```{r}
-paired_assays_matched_time_points <- paired_assays %>%
+paired_assays_matched_ <- paired_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis", 
                             "Recurrence, Second Malignancy", "Progressive, Recurrence", "Second Malignancy", 
-                            "Diagnosis, Second Malignancy" , "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
+                            "Diagnosis, Second Malignancy", "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
                             "Deceased, Recurrence", "Deceased, Diagnosis, Recurrence", "Diagnosis, Unavailable")) %>%
   write_tsv(file.path(results_dir, "paired_assays_matched_time_points.tsv"))
 
-paired_assays_matched_time_points %>%
+paired_assays_matched %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
-matched_samples_paired <- length(unique(paired_assays_matched_time_points$Kids_First_Participant_ID))
+matched_samples_paired <- length(unique(paired_assays_matched$Kids_First_Participant_ID))
 ```
 
 There are `r matched_samples_paired` of patient cases in the PBTA cohort have with matched longitudinal genomic and transcriptomic assays.
@@ -366,10 +354,10 @@ There are `r matched_samples_paired` of patient cases in the PBTA cohort have wi
 Let us investigate the number of tumor samples with genomic assays per cancer_group.
 
 ```{r}
-list <- genomic_assays %>% 
-      count(cancer_group) %>% 
-      arrange(desc(n)) 
-print (list, dplyr.print_min = Inf)
+list <- genomic_assays %>%
+  count(cancer_group) %>%
+  arrange(desc(n))
+print(list, dplyr.print_min = Inf)
 ```
 We will look into the first five cancer groups with the highest number of tumor samples.
 These are: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma.
@@ -380,7 +368,7 @@ Let us summarize this to ensure we capture all tumor samples regardless of diagn
 We will only do this for the first five histologies for now.
 
 ```{r}
-genomic_assays_matched_time_points<- genomic_assays_matched_time_points %>% 
+genomic_assays_matched <- genomic_assays_matched %>% 
   mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
                                         grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma", 
                                         grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
@@ -393,7 +381,7 @@ genomic_assays_matched_time_points<- genomic_assays_matched_time_points %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_assays_matched_time_points %>% 
+cohort <- genomic_assays_matched %>% 
   filter(cancer_group_broad == "Low-grade glioma") 
 
 cohort %>% 
@@ -405,7 +393,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_assays_matched_time_points %>% 
+cohort <- genomic_assays_matched %>% 
   filter(cancer_group_broad == "Medulloblastoma") 
 
 cohort %>% 
@@ -418,7 +406,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_assays_matched_time_points %>% 
+cohort <- genomic_assays_matched %>% 
   filter(cancer_group_broad == "High-grade glioma") 
 
 cohort %>% 
@@ -430,7 +418,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_assays_matched_time_points %>% 
+cohort <- genomic_assays_matched %>% 
   filter(cancer_group_broad == "Diffuse midline glioma") 
 
 cohort %>% 
@@ -442,7 +430,7 @@ cohort %>%
 Per patient sample
 
 ```{r}
-cohort <- genomic_assays_matched_time_points %>% 
+cohort <- genomic_assays_matched %>% 
   filter(cancer_group_broad == "Ependymoma") 
 
 cohort %>% 
@@ -453,4 +441,5 @@ cohort %>%
 ```{r}
 sessionInfo()
 ```
+  
   
