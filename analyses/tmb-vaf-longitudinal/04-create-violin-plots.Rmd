@@ -56,10 +56,10 @@ tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_ty
 
 ## Stacked barplots for each Patient case and per biospecimen_id and timepoint
 
-```{r create_barplot}
+```{r create-violin-plot}
 # Create one stacked barplot with all models together
 # Run function
-fname <- paste0(plots_dir, "/", "Tmb-stacked-barplot.pdf")
+fname <- paste0(plots_dir, "/", "Tmb-violin-plot.pdf")
 print(fname)
 p <- create_barplot(tmb = tmb_autopsy)
 pdf(file = fname, width = 10, height = 8)
@@ -67,21 +67,11 @@ print(p)
 dev.off()
 ```
       
-    
-```{r create_barplot_exclude}      
-# Exclude 2 samples with high number of mutations to make plot more readable
-fname_exclude <- paste0(plots_dir, "/", "Tmb-stacked-barplot-exclude.pdf")
-print(fname_exclude)
-p <- create_barplot_exclude(tmb = tmb_autopsy)
-pdf(file = fname_exclude, width = 10, height = 8)
-print(p)
-dev.off()
-```
 
 # But we have multiple biospecimen samples per timepoint per patient case
 # Let's create stacked-barplots per patient sample and split by biospecimen sample
 
-```{r create_barplot_sample}   
+```{r create-violin-plot-sample}   
 samples <- unique(as.character(tmb_autopsy$Kids_First_Participant_ID))
 print(samples)
 
@@ -99,7 +89,7 @@ for (i in seq_along(samples)) {
 # Run function
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
-      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-Tmb-stacked-barplot.pdf")
+      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-Tmb-violin-plot.pdf")
       print(fname)
       p <- create_barplot_sample(tmb = tmb_sub,
                           timepoints_other_plot = timepoints_other_plots[k],
