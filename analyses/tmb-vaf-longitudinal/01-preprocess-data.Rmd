@@ -1,5 +1,5 @@
 ---
-title: "Estimation of VAF of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
+title: "VAF estimation of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -100,7 +100,7 @@ paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Pa
 ```
 
 ## How many patient cases with autopsy samples in the paired longitudinal data?
-There are `r paired_time_samples_autopsy` patient cases with autopsy sample out of the total `r paired_time_samples`.
+There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
 
 # Create maf file for autopsy samples
 ```{r maf_autopsy}
