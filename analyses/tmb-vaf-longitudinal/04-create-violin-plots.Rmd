@@ -57,10 +57,6 @@ tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_ty
 ## Violin plots for each Patient case and per biospecimen_id and timepoint
 
 ```{r create-violin-plot}
-
-tmb_autopsy$log_tmb= abs(log(tmb_autopsy$tmb))
-
-
 # Run function
 fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples.pdf")
 print(fname)
@@ -84,38 +80,26 @@ dev.off()
       
 
 # But we have multiple biospecimen samples per timepoint per patient case
-# Let's create stacked-barplots per patient sample and split by biospecimen sample
+# Let's create violin plots per timepoint model and split by biospecimen sample
 
 ```{r create-violin-plot-sample}   
-samples <- unique(as.character(tmb_autopsy$Kids_First_Participant_ID))
-print(samples)
+timepoints_models <- unique(as.character(tmb_autopsy$timepoints_model))
+print(timepoints_models)
 
-for (i in seq_along(samples)) {
+for (i in seq_along(timepoints_models)) {
   print(i)
   tmb_sub <- tmb_autopsy %>%
-    filter(Kids_First_Participant_ID == samples[i])
-  timepoints_other_plots <- unique(tmb_sub$timepoints_other)
-  timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
-  print(timepoints_other_plots)
-  timepoints_deceased_plots <- unique(tmb_sub$timepoints_deceased)
-  timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
-  print(timepoints_deceased_plots)
+    filter(timepoints_model == timepoints_models[i])
   
 # Run function
-  for (t in seq_along(timepoints_deceased_plots)){
-    for (k in seq_along(timepoints_other_plots)){
-      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-Tmb-violin-plot.pdf")
+      fname <- paste0(plots_dir, "/", timepoints_models[i], "-Tmb-violin-plot.pdf")
       print(fname)
       p <- create_violin_plot_sample(tmb = tmb_sub,
-                          timepoints_other_plot = timepoints_other_plots[k],
-                          timepoints_deceased_plot = timepoints_deceased_plots[t],
-                          sid = samples[i])
-      pdf(file = fname, width = 5, height = 4)
+                          sid = timepoints_models[i])
+      pdf(file = fname, width = 6, height = 5)
       print(p)
       dev.off()
     }
-  }
-  }  
 ```
 
 ```{r echo=TRUE}

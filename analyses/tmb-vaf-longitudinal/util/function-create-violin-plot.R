@@ -7,14 +7,11 @@ create_violin_plot <- function(tmb) {
  # Reorder time points
   tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased"))
 
-# Reorder timepoints model
-  tmb$timepoints_model <- factor(x = tmb$timepoints_model, levels = c("dx", "pro", "rec", "dx_pro", "dx_rec", "pro_rec"))
-
   # Plot violin plot
-  p <- ggplot(tmb, aes(x = timepoints_model, y = log_tmb, fill = tumor_descriptor),
+  p <- ggplot(tmb, aes(x = tumor_descriptor, y = log_tmb, fill = tumor_descriptor),
               palette = dxrelcol, alpha = 0.8,add = "boxplot",
               add.params = list(fill = "white")) +
-               geom_violin() +
+               geom_violin(trim=TRUE) +
     scale_fill_manual(values = c("Diagnosis" = "dodgerblue3", "Progressive" = "gray", "Recurrence" = "#800080", "Deceased" = "firebrick3")) +
                stat_compare_means(comparisons = list(c("Diagnosis", "Relapse")), label.y = c(15), label = "p.format")+ # Add significance levels
                #ggpubr::stat_compare_means(label.y.npc = "top") + ##global p
@@ -22,5 +19,6 @@ create_violin_plot <- function(tmb) {
                theme_Publication() + 
                xlab("timepoints_model") + ylab('log_tmb')+
                scale_y_continuous(limits = c(0, 6))
+  return(p)
   
   }
