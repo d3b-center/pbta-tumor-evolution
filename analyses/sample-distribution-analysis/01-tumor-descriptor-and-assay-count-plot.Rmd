@@ -70,7 +70,15 @@ if (!dir.exists(results_dir)) {
 # 7316UP-3705 = Not Reported
 # manually annotate them here and these will be updated in the v13 - then discard that part of the code
 #---------------------------------------------------------------------------------------------------------
+# The file contains duplicates because some samples might have: 
+# (1) both WGS and WXS, and/or (2) multiple biospecimen samples. 
+# We will address these issues by creating a unique identifier per each sample and assay (match_id_DNA).
+
+# make this code reproducible
+set.seed(2023)
+
 # Read in histologies file and filter for the pbta cohort
+v12 <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE)
 pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(cohort == "PBTA",
          !is.na(pathology_diagnosis), # to remove matched normal samples
@@ -82,53 +90,46 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
                                             grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
                                             grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
                                             TRUE ~ tumor_descriptor),
-         match_id = paste(tumor_descriptor, sample_id, sep = "_")) %>% # unique identifiers per timepoint and sample related to assay
-  write_tsv(file.path(results_dir, "pbta.tsv"))
+         match_id = paste(tumor_descriptor, sample_id, sep = "_"), # unique identifier per timepoint and sample
+         experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
+                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
+                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"
+                                                ),
+         DNA = case_when(grepl("WGS", experimental_strategy) ~ "DNA",
+                         grepl("WXS", experimental_strategy) ~ "DNA", 
+                         grepl("RNA-Seq", experimental_strategy) ~ "no"),
+         match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_")) %>% # unique identifier
+  distinct(match_id_DNA, .keep_all = TRUE) # filter out
+
 
 print(pbta %>% count(tumor_descriptor))
 
-kids_pbta_samples <- print(length(unique(pbta$Kids_First_Participant_ID)))
-kids_pbta_samples_timepoint <- print(length(unique(pbta$match_id)))
-
+kids_pbta_samples <- length(unique(pbta$Kids_First_Participant_ID))
+kids_pbta_samples_timepoint <- length(unique(pbta$match_id_DNA))
 ```
 
 ## Number of patient cases
-
-`cohort PBTA kids_pbta_samples` of patient cases in the PBTA cohort and `cohort kids_pbta_samples_timepoint` of patient cases in the PBTA cohort with multiple samples per assay.
-
-
+There are `r kids_pbta_samples` of patient cases in the PBTA cohort and `r kids_pbta_samples_timepoint` of patient cases in the PBTA cohort with multiple samples per assay. 
 
 ## Filter based on both genomic and transcriptomic assays
 Let's select all patient samples containing both genomic and transcriptomic assays.
 
 ```{r assays, echo=TRUE}
-
 assays <- pbta %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group) %>%
+  select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group, experimental_strategy_sum, DNA, match_id_DNA) %>%
   unique() %>%
   arrange(Kids_First_Participant_ID, experimental_strategy)
 
-
 # we perform join here using the Kids_First_Participant_ID and match_id
 paired_assays_all <- assays %>%
-  group_by(Kids_First_Participant_ID, match_id) %>%
-  summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>%
-  mutate(experimental_strategy_sum = case_when(grepl("RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "DNA,RNA",
-                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA", 
-                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"
-                                                ))  %>%
-  mutate(DNA = case_when(grepl("WGS", experimental_strategy) ~ "yes",
-                         grepl("WXS", experimental_strategy) ~ "yes", 
-                         grepl("RNA-Seq", experimental_strategy) ~ "no"))
+  group_by(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group, experimental_strategy_sum, DNA, match_id_DNA) %>%
+  summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";"))
 ```
 
-
 # Summary
-
 In the following section, we will provide summary table across different disease stages, histologies, and patients samples.
 
 ## Number of each assay
-
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
 
 ```{r}
@@ -147,24 +148,12 @@ paired_assays_all %>%
   fontsize(size = 12, part = "all")
 ```
 
-
 # Diagnosis vs. any other point in time (recurrence, progressive etc)
-
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic assays from transcriptomic assays.
 
 ```{r}
 tumor_descriptor_df <- paired_assays_all %>%
-    select(Kids_First_Participant_ID, match_id, experimental_strategy, experimental_strategy_sum) %>%
-    mutate(cancer_group = match_id) %>%
-    mutate(cancer_group =gsub("_..*", "", cancer_group)) %>% 
-    mutate(tumor_descriptor = match_id) %>% 
-    mutate(tumor_descriptor =gsub("..*_", "", tumor_descriptor)) %>% 
-    mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis",
-                                 grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
-                                 grepl('Progressive Disease Post-Mortem', tumor_descriptor) ~ 'Deceased', 
-                                 TRUE ~ tumor_descriptor)) %>%
   arrange(Kids_First_Participant_ID)
-
 
 tumor_descriptor_df %>%
   group_by(tumor_descriptor, experimental_strategy_sum, ) %>%
@@ -186,7 +175,6 @@ tumor_descriptor_df_Diagnosis <- tumor_descriptor_df %>%
     TRUE ~ "Unmatched"
   ))
 
-
 tumor_descriptor_df_Diagnosis %>%
   group_by(tumor_descriptor_sum) %>%
   tally() %>%
@@ -199,7 +187,6 @@ tumor_descriptor_df_Diagnosis %>%
 ## Genomic assays
 Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain WXS and WGS assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
 
-
 ```{r}
 genomic_assays <- tumor_descriptor_df %>%
   filter(!(experimental_strategy_sum == "RNA")) %>%   # filter(!grepl("RNA", experimental_strategy_sum))
@@ -209,8 +196,13 @@ genomic_assays <- tumor_descriptor_df %>%
             experimental_strategy = paste(sort(experimental_strategy),
                                           collapse = ", "),
             cancer_group = paste(sort(cancer_group),
-                                          collapse = ", "))
+                                          collapse = ", ")) 
+
+kids_pbta_samples_DNA <- print(length(unique(genomic_assays$Kids_First_Participant_ID)))
 ```
+
+## Number of patient cases
+`r kids_pbta_samples_DNA` of patient cases in the PBTA cohort have genomic assays.
 
 
 ### All time points with genomic assays
@@ -227,6 +219,7 @@ genomic_assays %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
+genomic_assays
 ```
 
 
