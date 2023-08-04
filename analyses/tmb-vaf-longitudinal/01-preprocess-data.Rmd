@@ -157,7 +157,7 @@ tmb_autopsy <- patient_list_metadata %>%
                                      descriptors %in% c("Deceased, Diagnosis", "Deceased, Diagnosis, Diagnosis", "Deceased, Diagnosis, Diagnosis, Diagnosis, Diagnosis") ~ "dx",
                                      descriptors %in% c("Deceased, Progressive", "Deceased, Progressive, Progressive") ~ "pro",
                                      descriptors == "Deceased, Recurrence" ~ "rec"),
-         log2_tmb = log2(tmb_autopsy$mutation_count)) %>%
+         log2_mutation_count = log2(tmb_autopsy$mutation_count)) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
 
 # How many patients have tmb data for the paired time samples with autopsy time point present?
