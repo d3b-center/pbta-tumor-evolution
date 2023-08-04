@@ -7,6 +7,9 @@ create_violin_plot_sample <- function(tmb, sid) {
  # Reorder time points
  tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased"))
 
+ my_comparisons <- list( c("Diagnosis", "Progressive"), c("Diagnosis", "Recurrence"), c("Diagnosis", "Deceased"),
+                        c("Progressive", "Recurrence"), c("Progressive", "Deceased"),
+                        c("Recurrence", "Deceased"))
   # Plot violin plot
   p <- ggplot(tmb, aes(x = tumor_descriptor, y = log2_mutation_count, fill = tumor_descriptor),
               palette = dxrelcol, alpha = 0.8,add = "boxplot",

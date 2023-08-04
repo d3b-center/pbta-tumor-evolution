@@ -1,11 +1,13 @@
 ---
 title: "Create TMB violin plots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
-author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+author: "Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B"
 date: "2023"
 output:
   html_notebook:
-    toc: TRUE
-    toc_float: TRUE
+    toc: yes
+    toc_float: yes
+editor_options: 
+  chunk_output_type: inline
 ---
 
 #### Tumor evolution project 
@@ -18,7 +20,6 @@ In this notebook, we are using the `tmb_autopsy.tsv` file generated from the `01
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(reshape2) 
 })
 ```
 
@@ -44,7 +45,6 @@ if (!dir.exists(plots_dir)) {
 }
 
 source(paste0(analysis_dir, "/util/function-create-violin-plot.R"))
-source(paste0(analysis_dir, "/util/function-create-violin-plot-sample.R"))
 source(paste0(root_dir, "/figures/theme.R"))
 ```
 
@@ -94,8 +94,7 @@ for (i in seq_along(timepoints_models)) {
 # Run function
       fname <- paste0(plots_dir, "/", timepoints_models[i], "-Tmb-violin-plot.pdf")
       print(fname)
-      p <- create_violin_plot_sample(tmb = tmb_sub,
-                          sid = timepoints_models[i])
+      p <- create_violin_plot(tmb = tmb_sub)
       pdf(file = fname, width = 6, height = 5)
       print(p)
       dev.off()
