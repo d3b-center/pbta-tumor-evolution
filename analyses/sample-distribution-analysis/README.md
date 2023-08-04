@@ -1,5 +1,13 @@
 # PBTA sample-distribution-analysis
 
+## Usage
+
+To run all the Rscript in this module from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
+```
+
 ## Folder content
 
 This folder contains a script tasked to analyze the distribution of samples across cancer types and patients in the PBTA dataset.

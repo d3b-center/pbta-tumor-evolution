@@ -8,24 +8,13 @@ output:
     toc_float: TRUE
 ---
 
-
 #### Tumor evolution project 
 
 # Background
-This is an exploratory analysis of longitudinal data in the PBTA cohort. We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays.
-We are also looking at the number of patient samples available per histology with paired genomic and transcriptomic assays for (1) each time point (disease_stage) and (2) when Diagnosis is present and paired with another point in time.
+This is an exploratory analysis of longitudinal data in the PBTA cohort. We are investigating the number of histologies (cancer_type column): (1) per assay (experimental_strategy) and (2) pairs of genomic and transcriptomic assays. We are also looking at the number of patient samples available per histology with paired genomic and transcriptomic assays for (1) each time point (disease_stage) and (2) when Diagnosis is present and paired with another point in time.
 
 ### Data used 
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
-We use tumor_descriptor and focus on time points recorded.
-
-### Usage
-
-This notebook is intended to be run via the command line from the module directory of the repository as follows:
-
-```
-Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
-```
 
 # Set up
 
@@ -63,7 +52,6 @@ if (!dir.exists(results_dir)) {
 ```{r cohort PBTA, echo=TRUE}
 #---------------------------------------------------------------------------------------------------------
 # Notes - to remove this part when run for v13
-# The following samples (sample_id) are marked as Not Reported tumor_descriptor: 7316UP-3705, C4106355-Tumor, and C4113612-Tumor
 # Jo Lynne found the following status for 2/3 in the data warehouse:
 # C4106355-Tumor = Recurrence, C4113612-Tumor = Initial CNS Tumor, 7316UP-3705 = Not Reported
 # manually annotate them here and these will be updated in the v13 - then discard that part of the code
@@ -99,7 +87,7 @@ print(pbta %>% count(tumor_descriptor))
 kids_pbta_samples <- length(unique(pbta$Kids_First_Participant_ID))
 ```
 
-There are `r kids_pbta_samples` of patient cases in the PBTA cohort with timepoint information. 
+There are `r kids_pbta_samples` patient cases in the PBTA cohort with timepoint information. 
 
 ## Filter based on both genomic and transcriptomic assays
 Let's select all patient samples containing both genomic and transcriptomic assays.
@@ -118,9 +106,6 @@ paired_assays_all <- assays %>%
                                                grepl("WXS|WGS", experimental_strategy) ~ "DNA",
                                                grepl("RNA-Seq", experimental_strategy) ~ "RNA"))
 ```
-
-# Summary
-In the following section, we will provide summary tables across different disease stages, histologies, and patients samples.
 
 ## Number of each assay
 First, we’ll examine how many of each type of assay we have (tumors only). This information is stored in the experimental_strategy column.
@@ -141,7 +126,7 @@ paired_assays_all %>%
   fontsize(size = 12, part = "all")
 ```
 
-# Diagnosis vs. any other point in time (Recurrence, Progressive etc)
+# Diagnosis vs. any other timepoint (Recurrence, Progressive etc)
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic from transcriptomic assays.
 
 ```{r}
@@ -176,9 +161,8 @@ tumor_descriptor_df_diagnosis %>%
   fontsize(size = 12, part = "all")
 ``` 
 
-
-## Genomic assays
-Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain WXS and WGS assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
+# Genomic assays
+Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain genomic assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
 
 ```{r}
 genomic_assays <- tumor_descriptor_df %>%
@@ -190,8 +174,8 @@ genomic_assays <- tumor_descriptor_df %>%
 
 kids_pbta_samples_dna <- length(unique(genomic_assays$Kids_First_Participant_ID))
 ```
-
-There are `r kids_pbta_samples_dna` of patient cases in the PBTA cohort with genomic assays.
+## How many samples have genomic assays?
+There are `r kids_pbta_samples_dna` patient cases in the PBTA cohort with genomic assays.
 
 ### All time points with genomic assays
 
@@ -214,9 +198,6 @@ genomic_assays %>%
   fontsize(size = 12, part = "all")
 ```
 
-
-## Let's see how many patient cases have matched time points.
-
 ```{r}
 genomic_assays_matched <- genomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis",
@@ -235,10 +216,10 @@ genomic_assays_matched %>%
 
 matched_samples_genomic <- length(unique(genomic_assays_matched$Kids_First_Participant_ID))
 ```
+## How many samples have genomic assays and matched longitudinal information?
+There are `r matched_samples_genomic` patient cases in the PBTA cohort with matched longitudinal samples for genomic assays.
 
-There are `r matched_samples_genomic` of patient cases in the PBTA cohort with matched longitudinal genomic assays.
-
-## Transcriptomic assays
+# Transcriptomic assays
 We will look only at RNA-seq samples and perform the same collapsing of the tumor_descriptor column.
 
 ```{r}
@@ -251,8 +232,8 @@ transcriptomic_assays <- tumor_descriptor_df %>%
 
 kids_pbta_samples_rna <- length(unique(transcriptomic_assays$Kids_First_Participant_ID))
 ```
-
-There are `r kids_pbta_samples_rna` of patient cases in the PBTA cohort with transcriptomic assays.
+## How many samples have transcriptomic assays?
+There are `r kids_pbta_samples_rna` patient cases in the PBTA cohort with transcriptomic assays.
 
 ```{r}
 transcriptomic_assays %>%
@@ -272,8 +253,6 @@ transcriptomic_assays  %>%
   fontsize(size = 12, part = "all")
 ```
 
-## Let's see how many patient cases have matched time points.
-
 ```{r}
 transcriptomic_assays_matched <- transcriptomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Deceased, Diagnosis", "Diagnosis, Progressive",
@@ -289,10 +268,10 @@ transcriptomic_assays_matched %>%
 
 matched_samples_rna <- length(unique(transcriptomic_assays_matched$Kids_First_Participant_ID))
 ```
+## How many samples have transcriptomic assays and matched longitudinal information?
+There are `r matched_samples_rna` patient cases in the PBTA cohort with matched longitudinal samples for transcriptomic assays.
 
-There are `r matched_samples_rna` of patient cases in the PBTA cohort with matched longitudinal transcriptomic assays.
-
-## Paired genomic and transcriptomic assays
+# Paired genomic and transcriptomic assays
 We will look only into paired assays now.
 
 ```{r}
@@ -305,10 +284,10 @@ paired_assays <- tumor_descriptor_df %>%
 
 kids_pbta_samples_paired <- length(unique(paired_assays$Kids_First_Participant_ID))
 ```
+## How many samples have paired assays?
 There are `r kids_pbta_samples_paired` of patient cases in the PBTA cohort have paired genomic and transcriptomic assays.
 
-### All time points with paired genomic and transcriptomic assays
-We will look at samples with both assays.
+### All time points 
 
 ```{r}
 paired_assays %>%
@@ -328,8 +307,6 @@ paired_assays %>%
   fontsize(size = 12, part = "all")
 ```
 
-## Let's see how many patient cases have matched time points.
-
 ```{r}
 paired_assays_matched <- paired_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis", 
@@ -347,10 +324,10 @@ paired_assays_matched %>%
 
 matched_samples_paired <- length(unique(paired_assays_matched$Kids_First_Participant_ID))
 ```
+## How many samples have paired assays and matched longitudinal information?
+There are `r matched_samples_paired` patient cases in the PBTA cohort with matched longitudinal samples for genomic and transcriptomic assays.
 
-There are `r matched_samples_paired` of patient cases in the PBTA cohort have with matched longitudinal genomic and transcriptomic assays.
-
-### Genomic assays and cancer_group
+# Genomic assays and cancer_group
 Let us investigate the number of tumor samples with genomic assays per cancer_group.
 
 ```{r}
@@ -359,13 +336,7 @@ list <- genomic_assays %>%
   arrange(desc(n))
 print(list, dplyr.print_min = Inf)
 ```
-We will look into the first five cancer groups with the highest number of tumor samples.
-These are: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma.
-
-BUT there are cases that the second time point has a different cancer_group. 
-This creates combinations of the same subtype, but they will not show up in the following.
-Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.
-We will only do this for the first five histologies for now.
+We will look into the first five cancer groups with the highest number of tumor samples: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma. There are cases that the second time point has a different cancer type. Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.We will only do this for the first five histologies for now.
 
 ```{r}
 genomic_assays_matched <- genomic_assays_matched %>% 
@@ -376,64 +347,42 @@ genomic_assays_matched <- genomic_assays_matched %>%
                                         grepl("Diffuse midline glioma", cancer_group) ~ "Diffuse midline glioma"))
 ```
 
-
-#### Low-grade glioma
-Per patient sample
-
+## Low-grade glioma
 ```{r}
 cohort <- genomic_assays_matched %>% 
-  filter(cancer_group_broad == "Low-grade glioma") 
-
-cohort %>% 
+  filter(cancer_group_broad == "Low-grade glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
-#### Medulloblastoma
-Per patient sample
-
+## Medulloblastoma
 ```{r}
 cohort <- genomic_assays_matched %>% 
-  filter(cancer_group_broad == "Medulloblastoma") 
-
-cohort %>% 
+  filter(cancer_group_broad == "Medulloblastoma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
-
-#### High-grade glioma
-Per patient sample
-
+## High-grade glioma
 ```{r}
 cohort <- genomic_assays_matched %>% 
-  filter(cancer_group_broad == "High-grade glioma") 
-
-cohort %>% 
+  filter(cancer_group_broad == "High-grade glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
-#### Diffuse midline glioma
-Per patient sample
-
+## Diffuse midline glioma
 ```{r}
 cohort <- genomic_assays_matched %>% 
-  filter(cancer_group_broad == "Diffuse midline glioma") 
-
-cohort %>% 
+  filter(cancer_group_broad == "Diffuse midline glioma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
 
-#### Ependymoma
-Per patient sample
-
+## Ependymoma
 ```{r}
 cohort <- genomic_assays_matched %>% 
-  filter(cancer_group_broad == "Ependymoma") 
-
-cohort %>% 
+  filter(cancer_group_broad == "Ependymoma") %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 ```
