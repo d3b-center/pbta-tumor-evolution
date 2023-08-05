@@ -23,6 +23,12 @@ This pipeline produces pdf files containing the correlation of VAFs (with label 
 
 `function-create-corplot.R` is a script written for the function to create corplots.
 
+## Results
+
+There are 29 autopsy samples out of the total 119 patient cases with maf information. There are 19 autopsy samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
+
+
+
 ## Folder structure 
 
 The structure of this folder is as follows:
