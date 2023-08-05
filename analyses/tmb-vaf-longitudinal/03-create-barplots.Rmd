@@ -80,6 +80,29 @@ print(p)
 dev.off()
 ```
 
+# Stacked barplots for each Patient case and cancer type
+```{r create-stacked-barplot}
+# Create one stacked barplot with all samples together
+ylim <- 13000
+fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-cancer-type.pdf")
+print(fname)
+p <- create_stacked_barplot_cancer_type(tmb = tmb_autopsy, ylim = ylim)
+pdf(file = fname, width = 15, height = 10)
+print(p)
+dev.off()
+```
+
+```{r create-stacked-barplot}
+# Create one stacked barplot with all samples together
+ylim <- 400
+fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude-cancer-type.pdf")
+print(fname)
+p <- create_stacked_barplot_cancer_type(tmb = tmb_autopsy, ylim = ylim)
+pdf(file = fname, width = 15, height = 10)
+print(p)
+dev.off()
+```
+
 Since we have multiple biospecimen samples per timepoint and patient case, let's plot these separetely.
 
 # Let's create stacked-barplots per patient sample and split by biospecimen sample
