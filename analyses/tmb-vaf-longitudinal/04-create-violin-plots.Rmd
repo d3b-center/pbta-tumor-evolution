@@ -68,7 +68,7 @@ dev.off()
     
 ```{r create-violin-plot-exclude}
 tmb_autopsy_filter <- tmb_autopsy %>%
-    filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
+  filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
 # Run function
 fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples-exclude.pdf")
 print(fname)
@@ -91,14 +91,14 @@ for (i in seq_along(timepoints_models)) {
   tmb_sub <- tmb_autopsy %>%
     filter(timepoints_model == timepoints_models[i])
   
-# Run function
-      fname <- paste0(plots_dir, "/", timepoints_models[i], "-Tmb-violin-plot.pdf")
-      print(fname)
-      p <- create_violin_plot(tmb = tmb_sub)
-      pdf(file = fname, width = 6, height = 5)
-      print(p)
-      dev.off()
-    }
+  # Run function
+  fname <- paste0(plots_dir, "/", timepoints_models[i], "-Tmb-violin-plot.pdf")
+  print(fname)
+  p <- create_violin_plot(tmb = tmb_sub)
+  pdf(file = fname, width = 6, height = 5)
+  print(p)
+  dev.off()
+}
 ```
 
 ```{r echo=TRUE}
