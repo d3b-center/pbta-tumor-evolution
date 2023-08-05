@@ -1,0 +1,133 @@
+---
+title: "Create TMB stacked barplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+author: "Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+title: "Create TMB stacked barplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(reshape2) 
+})
+```
+
+# Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+tmb_autopsy_file <- file.path(scratch_dir, "tmb_autopsy.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-stacked-barplot.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
+source(paste0(root_dir, "/figures/theme.R"))
+```
+
+# Read in data and process
+```{r read_input_files}
+# Read tmb_autopsy file generated from step `01-process-data.Rmd`
+tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_types = FALSE)
+```
+
+# Stacked barplots for each Patient case
+```{r create-stacked-barplot}
+# Create one stacked barplot with all samples together
+ylim <- 13000
+fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples.pdf")
+print(fname)
+p <- create_stacked_barplot(tmb = tmb_autopsy, ylim = ylim)
+pdf(file = fname, width = 10, height = 8)
+print(p)
+dev.off()
+```
+
+```{r create-stacked-barplot-exclude}
+# Exclude 2 samples with high number of mutations to make plot more readable
+# We will exclude PT_3CHB9PK5 - Diagnosis model AND PT_6N825561 - Progessive model
+  # This is because the samples contain > 13000 and >2000 mutations, respectively
+  # making it hard to adjust y axis and read the plot
+ylim <- 400
+tmb_autopsy_filter <- tmb_autopsy %>%
+  filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
+fname_exclude <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude.pdf")
+print(fname_exclude)
+p <- create_stacked_barplot(tmb = tmb_autopsy, ylim)
+pdf(file = fname_exclude, width = 10, height = 8)
+print(p)
+dev.off()
+```
+
+Since we have multiple biospecimen samples per timepoint and patient case, let's plot these separetely.
+
+# Let's create stacked-barplots per patient sample and split by biospecimen sample
+```{r create-stacked-barplot-sample}
+samples <- unique(as.character(tmb_autopsy$Kids_First_Participant_ID))
+print(samples)
+
+samples_include <- samples[!samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
+
+for (i in seq_along(samples_include)) {
+  print(i)
+  tmb_sub <- tmb_autopsy %>%
+    filter(Kids_First_Participant_ID == samples_include[i])
+  ylim <- 100 # to scale yaxis
+  
+  # Run function
+  fname <- paste0(plots_dir, "/", samples_include[i], "-TMB-barplot.pdf")
+  print(fname)
+  p <- create_barplot_sample(tmb = tmb_sub,
+                             sid = samples_include[i],
+                             ylim = ylim)
+  pdf(file = fname, width = 5, height = 4)
+  print(p)
+  dev.off()
+}
+
+samples_exclude <- samples[samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
+
+for (i in seq_along(samples_exclude)) {
+  print(i)
+  tmb_sub <- tmb_autopsy %>%
+    filter(Kids_First_Participant_ID == samples_exclude[i])
+  ylim <- 13000 # to scale yaxis
+  
+  # Run function
+  fname <- paste0(plots_dir, "/", samples_exclude[i], "-TMB-barplot.pdf")
+  print(fname)
+  p <- create_barplot_sample(tmb = tmb_sub,
+                             sid = samples_exclude[i],
+                             ylim = ylim)
+  pdf(file = fname, width = 5, height = 4)
+  print(p)
+  dev.off() 
+}
+```
+
+
+```{r echo=TRUE}
+sessionInfo()
+```
+
