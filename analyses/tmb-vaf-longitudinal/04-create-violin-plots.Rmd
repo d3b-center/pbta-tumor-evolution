@@ -16,15 +16,13 @@ editor_options:
 In this notebook, we are using the `tmb_autopsy.tsv` file generated from the `01-preprocess-data.Rmd` script.
 
 # Set up
-
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
 })
 ```
 
-## Directories and File Inputs/Outputs
-
+# Directories and File Inputs/Outputs
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder. This will be in the project root directory.
 # Use this as the root directory to ensure proper sourcing of functions
@@ -48,17 +46,16 @@ source(paste0(analysis_dir, "/util/function-create-violin-plot.R"))
 source(paste0(root_dir, "/figures/theme.R"))
 ```
 
-## Read in data and process
+# Read in data and process
 ```{r read_input_files}
 # Read tmb_autopsy file generated from step `01-process-data.Rmd`
 tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
-## Violin plots for each Patient case and per biospecimen_id and timepoint
-
+# Violin plots for each Patient case and per biospecimen_id and timepoint
 ```{r create-violin-plot}
 # Run function
-fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples.pdf")
+fname <- paste0(plots_dir, "/", "TMB-violin-plot-All-samples.pdf")
 print(fname)
 p <- create_violin_plot(tmb = tmb_autopsy)
 pdf(file = fname, width = 10, height = 8)
@@ -70,7 +67,7 @@ dev.off()
 tmb_autopsy_filter <- tmb_autopsy %>%
   filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
 # Run function
-fname <- paste0(plots_dir, "/", "Tmb-violin-plot-All-samples-exclude.pdf")
+fname <- paste0(plots_dir, "/", "TMB-violin-plot-All-samples-exclude.pdf")
 print(fname)
 p <- create_violin_plot(tmb = tmb_autopsy_filter)
 pdf(file = fname, width = 10, height = 8)
@@ -78,18 +75,17 @@ print(p)
 dev.off()
 ```    
       
-
-# But we have multiple biospecimen samples per timepoint per patient case
-# Let's create violin plots per timepoint model and split by biospecimen sample
+# Vloin Plots based on timepoint models
+There are different timepoint models, e.g., Diagnosis-Deceased or Progressive-Deceased.
 
 ```{r create-violin-plot-sample}   
-timepoints_models <- unique(as.character(tmb_autopsy$timepoints_model))
+timepoints_models <- unique(as.character(tmb_autopsy$descriptors))
 print(timepoints_models)
 
 for (i in seq_along(timepoints_models)) {
   print(i)
   tmb_sub <- tmb_autopsy %>%
-    filter(timepoints_model == timepoints_models[i])
+    filter(descriptors == timepoints_models[i])
   
   # Run function
   fname <- paste0(plots_dir, "/", timepoints_models[i], "-Tmb-violin-plot.pdf")
