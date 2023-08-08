@@ -5,7 +5,7 @@
 To run all the Rscript in this module from the command line sequentially, use:
 
 ```
-Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count-plot.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count.Rmd', clean = TRUE)"
 ```
 
 ## Folder content
