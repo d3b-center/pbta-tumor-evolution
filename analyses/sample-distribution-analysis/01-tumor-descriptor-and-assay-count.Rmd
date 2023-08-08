@@ -1,6 +1,6 @@
 ---
 title: "Longitudinal analysis for the PBTA Cohort (pbta-tumor-evolution project)"
-author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
   html_notebook:
@@ -197,6 +197,7 @@ genomic_assays_matched <- genomic_assays %>%
                             "Diagnosis, Second Malignancy", "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
                             "Deceased, Recurrence", "Deceased, Diagnosis, Progressive, Recurrence", "Deceased, Diagnosis, Recurrence",
                             "Deceased, Diagnosis, Progressive", "Diagnosis, Unavailable")) %>%
+  mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy)) %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
 genomic_assays_matched %>%
@@ -249,6 +250,7 @@ transcriptomic_assays  %>%
 transcriptomic_assays_matched <- transcriptomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Deceased, Diagnosis", "Diagnosis, Progressive",
                             "Deceased, Recurrence", "Progressive, Recurrence", "Deceased, Progressive", "Deceased, Diagnosis, Progressive")) %>%
+  mutate(experimental_strategy = gsub(";WGS|WXS","", experimental_strategy)) %>%
   write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
 
 transcriptomic_assays_matched %>%
