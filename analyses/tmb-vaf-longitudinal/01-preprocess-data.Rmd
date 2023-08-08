@@ -1,5 +1,5 @@
 ---
-title: "Estimation of VAF of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
+title: "VAF estimation of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -14,7 +14,6 @@ output:
 In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
 
 # Set up
-
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
@@ -22,7 +21,6 @@ suppressPackageStartupMessages({
 ```
 
 ## Directories and File Inputs/Outputs
-
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder -- this will be in the project root directory
 # Use this as the root directory to ensure proper sourcing of functions 
@@ -42,7 +40,6 @@ matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_po
 ```
 
 ## Read in data and process
-
 ```{r load-process-inputs-please-wait}
 # Read in histologies file and filter for the pbta cohort
 pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
@@ -54,7 +51,7 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
 
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
 # Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
@@ -102,12 +99,10 @@ patient_list_metadata <- patient_list %>%
 paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
 ```
 
-## Number of patient cases with paired time and autopsy samples
-
-`r paired_time_samples` of patient cases have paired time samples in genomic assays and `r paired_time_samples_autopsy` have autopsy sample.
+## How many patient cases with autopsy samples in the paired longitudinal data?
+There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
 
 # Create maf file for autopsy samples
-
 ```{r maf_autopsy}
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # There are also multiple biospecimen samples per timepoint and patient case.
@@ -118,7 +113,7 @@ maf_autopsy <- patient_list_metadata %>%
          !is.na(VAF),
          !VAF == 0, 
          !gene_protein == "Unknown") %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
          match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
          timepoints_deceased = match_id_bs,
@@ -128,20 +123,37 @@ maf_autopsy <- patient_list_metadata %>%
                                          TRUE ~ timepoints_deceased),
          timepoints_other = match_id_bs,
          timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
-                                     TRUE ~ timepoints_other)) %>%
+                                      TRUE ~ timepoints_other)) %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 ```
 
+# Create tmb file for autopsy samples
 ```{r tmb_autopsy}
-# There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
-# There are also multiple biospecimen samples per timepoint and patient case.
-# We will create unique identifiers for each case that will enable to create one plot for each case.
-tmb_autopsy <- maf_autopsy %>% 
+# We will create similar unique identifiers as we did for the maf file.
+# We will also create identifiers for each timepoint (timepoints_deceased and timepoints_other).
+tmb_autopsy <- patient_list_metadata %>% 
   left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
-  filter(!is.na(tmb)) %>%
+  filter(!is.na(Kids_First_Participant_ID),
+         !is.na(tmb)) %>%
+   mutate(match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
+          timepoints_deceased = match_id_bs,
+          timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
+                                          grepl("Recurrence", match_id_bs) ~ "2",
+                                          grepl("Progressive", match_id_bs) ~ "3",
+                                          TRUE ~ timepoints_deceased),
+          timepoints_other = match_id_bs,
+          timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
+                                       TRUE ~ timepoints_other),
+          log2_mutation_count = log2(mutation_count)) %>%
   write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
+
+paired_time_samples_autopsy_tmb <- length(unique(tmb_autopsy$Kids_First_Participant_ID))
 ```
+
+## How many patient cases with paired time and autopsy samples and TMB data
+There are `r paired_time_samples_autopsy_tmb` patient cases with TMB information.
+Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
 sessionInfo()
