@@ -54,6 +54,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                theme_Publication() +
                xlim(0, 1) +
                ylim(0, 1))
+  p + theme(plot.title = element_text(size=12))
   return(p)
 
 }
