@@ -26,15 +26,15 @@ This pipeline produces pdf files containing the correlation of VAFs (with label 
 
 ## Results
 
-There are 29 autopsy samples out of the total 119 patient cases with maf information. There are 19 autopsy samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
+There are 29 autopsy samples out of the total 119 patient cases with maf information. There are 19 autopsy samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused by an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 - Genes shown in the plots are based on the oncoprint goi list from OpenPedCan.
 - Multiple plots are generated based on the number of biospecimen samples per tumor descriptor.
-- Be aware of differences between plots with same biospecimen samples. These might show in one as tumor descriptor-specific and in other as common.
-- Multiple biospecimen samples/tumor descriptor capture a variety of heterogeneity. We should include all biospecimen samples/tumor descriptor and merge that information into one.
+- Be aware of differences between plots with the same biospecimen samples. These might show in one as tumor descriptor-specific and in another as common.
+- Multiple biospecimen samples/tumor descriptor capture a variety of heterogeneity. We should consider including all biospecimen samples/tumor descriptor and merge that information into one.
 - Deceased samples have higher VAFs overall compared to their counterparts in other timepoints.
-- Biospecimen samples are from different tumor locations. We might be able to obtain that information soon (primary_site column in histologies). If so, that would allow us to perform spatial heterogeneity analysis (Add ticket #).
-- "PT_3CHB9PK5", "PT_6N825561": These have high TMB and high number of mutations (VAF corplot) compared to the rest of the samples.
+- Biospecimen samples are from different tumor locations. We will obtain that information after the Nautilus harmonization (primary_site column in histologies). If so, that would allow us to perform spatial heterogeneity analysis ([ticket #19](https://github.com/d3b-center/pbta-tumor-evolution/issues/19)).
+- "PT_3CHB9PK5", "PT_6N825561": These samples are hyper-mutant compared to the rest of the samples (VAF corplot).
 
 
 ## Folder structure 
