@@ -28,13 +28,13 @@ This pipeline produces pdf files containing the correlation of VAFs (with label 
 
 There are 29 autopsy samples out of the total 119 patient cases with maf information. There are 19 autopsy samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
-- Gene labels in the plots ARE based on the oncoprint goi list from OpenPedCan
+- Genes shown in the plots are based on the oncoprint goi list from OpenPedCan.
 - Multiple plots are generated based on the number of biospecimen samples per tumor descriptor.
 - Be aware of differences between plots with same biospecimen samples. These might show in one as tumor descriptor-specific and in other as common.
 - Multiple biospecimen samples/tumor descriptor capture a variety of heterogeneity. We should include all biospecimen samples/tumor descriptor and merge that information into one.
 - Deceased samples have higher VAFs overall compared to their counterparts in other timepoints.
 - Biospecimen samples are from different tumor locations. We might be able to obtain that information soon (primary_site column in histologies). If so, that would allow us to perform spatial heterogeneity analysis (Add ticket #).
-- "PT_3CHB9PK5", "PT_6N825561": These have high TMB and high number of mutations (VAF corplot) compared to the rest of the samples. Should we consider these outliers and exclude them from further analysis?
+- "PT_3CHB9PK5", "PT_6N825561": These have high TMB and high number of mutations (VAF corplot) compared to the rest of the samples.
 
 
 ## Folder structure 
