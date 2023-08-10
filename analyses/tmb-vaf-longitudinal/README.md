@@ -21,6 +21,8 @@ This pipeline investigates VAFs and TMB across matched samples. It produces pdf 
 
 `03-create-barplots.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
 
+`function-create-barplot.R` is a script containing the functions to (1) create barplot by sample, (2) create stacked barplots for all samples, and (3) create stacked barplots for all samples and by broad_histology.
+
 ## Results
 
 There are 29 autopsy samples out of the total 119 patient cases with maf information. There are 19 autopsy samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
@@ -42,7 +44,5 @@ The structure of this folder is as follows:
 ├── README.md
 ├── run-tmb-vaf-longitudinal.sh
 ├── util
-    ├── function-create-barplot.R
-    ├── function-create-barplot-exclude.R
-    └── function-create-barplot-sample.R
+    └── function-create-barplot.R
 ```
