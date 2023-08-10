@@ -42,18 +42,18 @@ tumor_descriptor_df <- data.frame(color_names = tumor_descriptor_col_names,
 
 ###-----------------------------------------
 ### A color scale for tumor_descriptor data for creating corplots
-# timepoint stands for any of the following: "Diagnosis", "Progressive", "Recurrence"
-tumor_descriptor_col_palette <- c("dodgerblue3", 
+# `timepoint' stands for any of the following: "Diagnosis", "Progressive", "Recurrence"
+timepoint_col_palette <- c("dodgerblue3", 
                                   "firebrick3",
                                   "gray34",
                                   "#DFC27D")
 
-tumor_descriptor_col_names <- c("timepoint",
+timepoint_col_names <- c("timepoint",
                                 "Deceased",
                                 "Common",
                                 "Uncommon")
 
 # Format as data.frame
-tumor_descriptor_df <- data.frame(color_names = tumor_descriptor_col_names,
-                                  hex_codes = tumor_descriptor_col_palette) %>%
-  readr::write_tsv(file.path(output_dir, "tumor_descriptor_color_palette.tsv"))
+timepoint_df <- data.frame(color_names = timepoint_col_names,
+                                  hex_codes = timepoint_col_palette) %>%
+  readr::write_tsv(file.path(output_dir, "timepoint_color_palette.tsv"))
