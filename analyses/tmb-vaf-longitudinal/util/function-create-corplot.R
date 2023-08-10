@@ -52,14 +52,13 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = timepoint_color_palette$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " ")) + 
-               theme(plot.title = element_text(size = 10)) +
                geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
                geom_hline(yintercept = 0.1, linetype = "dashed") + # Add horizontal intercept line
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
                                size = 3.5, hjust = 0, vjust = 0, nudge_x = 0.005, 
                                point.padding = NA, segment.color = NA, show.legend = FALSE, 
                                xlim = c(0.02, NA), ylim = c(0.025, 0.96)) +
-               theme_Publication() +
+               theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
   return(p)
