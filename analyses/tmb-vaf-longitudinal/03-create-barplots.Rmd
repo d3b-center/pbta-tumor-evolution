@@ -11,7 +11,7 @@ output:
 #### Tumor evolution project 
 
 ### Data used 
-In this notebook, we are using the `tmb_autopsy.tsv` file generated from the `01-preprocess-data.Rmd` script.
+In this notebook, we are using the `tmb_genomic.tsv` file generated from the `01-preprocess-data.Rmd` script.
 
 # Set up
 ```{r load-library}
@@ -31,7 +31,8 @@ analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal")
 input_dir <- file.path(analysis_dir, "input")
 
 # Input files
-tmb_autopsy_file <- file.path(scratch_dir, "tmb_autopsy.tsv")
+tmb_genomic_file <- file.path(scratch_dir, "tmb_genomic.tsv")
+tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 
 # File path to plots directory
 plots_dir <-
@@ -47,8 +48,10 @@ source(paste0(root_dir, "/figures/theme.R"))
 
 # Read in data and process
 ```{r read_input_files}
-# Read tmb_autopsy file generated from step `01-process-data.Rmd`
-tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_types = FALSE)
+# Read tmb_genomic file generated from step `01-process-data.Rmd`
+tmb_genomic <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE)
+tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+
 ```
 
 # Stacked barplots for each Patient case
@@ -57,7 +60,7 @@ tmb_autopsy <- readr::read_tsv(tmb_autopsy_file, guess_max = 100000, show_col_ty
 ylim <- 13000
 fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb = tmb_autopsy, ylim = ylim)
+p <- create_stacked_barplot(tmb = tmb_genomic, ylim = ylim)
 pdf(file = fname, width = 10, height = 8)
 print(p)
 dev.off()
@@ -69,11 +72,11 @@ dev.off()
   # This is because the samples contain > 13000 and >2000 mutations, respectively
   # making it hard to adjust y axis and read the plot
 ylim <- 400
-tmb_autopsy_filter <- tmb_autopsy %>%
+tmb_genomic_filter <- tmb_genomic %>%
   filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
 fname_exclude <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude.pdf")
 print(fname_exclude)
-p <- create_stacked_barplot(tmb = tmb_autopsy, ylim)
+p <- create_stacked_barplot(tmb = tmb_genomic, ylim)
 pdf(file = fname_exclude, width = 10, height = 8)
 print(p)
 dev.off()
@@ -84,7 +87,7 @@ dev.off()
 ylim <- 400
 fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude-broad-histology.pdf")
 print(fname)
-p <- create_stacked_barplot_broad_histology(tmb = tmb_autopsy, ylim = ylim)
+p <- create_stacked_barplot_broad_histology(tmb = tmb_genomic, ylim = ylim)
 pdf(file = fname, width = 15, height = 10)
 print(p)
 dev.off()
@@ -94,14 +97,14 @@ Since we have multiple biospecimen samples per timepoint and patient case, let's
 
 # Let's create stacked-barplots per patient sample and split by biospecimen sample
 ```{r create-stacked-barplot-sample}
-samples <- unique(as.character(tmb_autopsy$Kids_First_Participant_ID))
+samples <- unique(as.character(tmb_genomic$Kids_First_Participant_ID))
 print(samples)
 
 samples_include <- samples[!samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
 
 for (i in seq_along(samples_include)) {
   print(i)
-  tmb_sub <- tmb_autopsy %>%
+  tmb_sub <- tmb_genomic %>%
     filter(Kids_First_Participant_ID == samples_include[i])
   ylim <- 100 # to scale yaxis
   
@@ -120,7 +123,7 @@ samples_exclude <- samples[samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
 
 for (i in seq_along(samples_exclude)) {
   print(i)
-  tmb_sub <- tmb_autopsy %>%
+  tmb_sub <- tmb_genomic %>%
     filter(Kids_First_Participant_ID == samples_exclude[i])
   ylim <- 13000 # to scale yaxis
   
