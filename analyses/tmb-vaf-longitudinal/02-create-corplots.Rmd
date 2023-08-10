@@ -51,7 +51,7 @@ source(paste0(root_dir, "/figures/theme.R"))
 ```
 
 ## Read in data and process
-```{r read_input_files}
+```{r read-input-files}
 # Read maf_autopsy file generated from step `01-process-data.Rmd`
 maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE)
 
@@ -73,7 +73,7 @@ timepoint_color_palette <- readr::read_tsv(timepoint_color_palette_file, guess_m
 
 ## Corplots for each Patient case and per biospecimen_id and timepoint
 
-```{r create_corplot}
+```{r create-corplot-please-wait}
 # We will define samples based on the "Kids_First_Participant_ID" column 
 samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
 print(samples)

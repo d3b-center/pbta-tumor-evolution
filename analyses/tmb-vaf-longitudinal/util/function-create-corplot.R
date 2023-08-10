@@ -1,7 +1,14 @@
-# Create corplots 
-# This is a function to create correlation plots using VAFs 
-# between "Deceased" time point and any other "timepoint" (variable)
-# while considering multiple bs_id samples per each timepoint
+#' Create corplots 
+#'
+#' @param maf 
+#' @param timepoints_other_plot 
+#' @param timepoints_deceased_plot 
+#' @param sid 
+#'
+#' @return A data frame with each possible combination of timepoints and create VAF corplot
+#' @export
+#'
+#' @examples
 create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot, sid) {
 
   # Split maf, create df, and rename VAF column based on time point
@@ -45,6 +52,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = timepoint_color_palette$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " ")) + 
+               theme(plot.title = element_text(size = 10)) +
                geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
                geom_hline(yintercept = 0.1, linetype = "dashed") + # Add horizontal intercept line
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
@@ -54,7 +62,6 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                theme_Publication() +
                xlim(0, 1) +
                ylim(0, 1))
-  p + theme(plot.title = element_text(size=12))
   return(p)
 
 }
