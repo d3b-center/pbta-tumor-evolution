@@ -23,12 +23,16 @@ if (!dir.exists(output_dir)) {
 tumor_descriptor_col_palette <- c("dodgerblue3", 
                                   "gray", 
                                   "#800080", 
-                                  "firebrick3")
+                                  "firebrick3",
+                                  "#FDB863",
+                                  "#A6611A")
 
-tumor_descriptor_col_names <- c("Diagnosis", 
-                                  "Progressive", 
-                                  "Recurrence", 
-                                  "Deceased")
+tumor_descriptor_col_names <- c("Diagnosis",
+                                "Progressive",
+                                "Recurrence",
+                                "Deceased",
+                                "Second Malignancy",
+                                "Unavailable")
 
 # Format as data.frame
 tumor_descriptor_df <- data.frame(color_names = tumor_descriptor_col_names,
