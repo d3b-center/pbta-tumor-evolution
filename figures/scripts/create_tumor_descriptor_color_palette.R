@@ -2,8 +2,8 @@
 # Antonia Chroni <chronia@chop.edu> for D3B
 #
 # Usage:
-#  Anywhere a plot is being made, source these TSV file and use the color palette for
-#  each appropriate data type.
+# Anywhere a plot is being made, source these TSV file and use the color palette for
+# each appropriate data type.
 #
 # Magrittr pipe
 `%>%` <- dplyr::`%>%`
@@ -36,5 +36,5 @@ tumor_descriptor_col_names <- c("Diagnosis",
 
 # Format as data.frame
 tumor_descriptor_df <- data.frame(color_names = tumor_descriptor_col_names,
-                           hex_codes = tumor_descriptor_col_palette) %>%
+                                  hex_codes = tumor_descriptor_col_palette) %>%
   readr::write_tsv(file.path(output_dir, "tumor_descriptor_color_palette.tsv"))
