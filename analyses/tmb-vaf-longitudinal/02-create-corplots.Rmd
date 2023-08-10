@@ -37,6 +37,7 @@ input_dir <- file.path(analysis_dir, "input")
 # Input files
 maf_autopsy_file <- file.path(scratch_dir, "maf_autopsy.tsv")
 oncoprint_goi_file <- file.path(input_dir, "oncoprint-goi-lists-OpenPedCan-gencode-v39.csv")
+timepoint_color_palette_file <- file.path(root_dir, "figures", "palettes", "timepoint_color_palette.tsv")
 
 # File path to plots directory
 plots_dir <-
@@ -65,6 +66,9 @@ oncoprint_goi <- data.frame(goi_list = unlist(oncoprint_goi))
 # remove empty rows
 oncoprint_goi <- oncoprint_goi[!apply(oncoprint_goi == "", 1, all), ] 
 oncoprint_goi <- data.frame(oncoprint_goi)
+
+# Read timepoint_color_palette file
+timepoint_color_palette <- readr::read_tsv(timepoint_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
 ## Corplots for each Patient case and per biospecimen_id and timepoint
