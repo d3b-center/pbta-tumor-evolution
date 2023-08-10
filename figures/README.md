@@ -19,6 +19,7 @@ The structure of this folder is as follows:
 
 ```
 ├── palettes
+    ├── timepoint_color_palette.tsv
     └── tumor_descriptor_color_palette.tsv
 ├── README.md
 ├── scripts
