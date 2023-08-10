@@ -41,7 +41,6 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-source(paste0(analysis_dir, "/util/function-create-stacked-barplot.R"))
 source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 source(paste0(root_dir, "/figures/theme.R"))
 ```
