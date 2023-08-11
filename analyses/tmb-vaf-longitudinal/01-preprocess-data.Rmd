@@ -92,13 +92,7 @@ patient_list_metadata <- patient_list %>%
                                       grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
                                       grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", 
                                       TRUE ~ tumor_descriptor)) 
-
-# How many patients have paired time samples with autopsy time point present?
-paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
 ```
-
-## How many patient cases with autopsy samples in the paired longitudinal data?
-There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
 
 # Create maf file for autopsy samples
 ```{r maf_autopsy}
@@ -127,7 +121,12 @@ maf_autopsy <- patient_list_metadata %>%
                                       TRUE ~ timepoints_other)) %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
+
+# How many patients have paired time samples with autopsy time point present?
+paired_time_samples_autopsy <- length(unique(maf_autopsy$Kids_First_Participant_ID))
 ```
+## How many patient cases with autopsy samples in the paired longitudinal data?
+There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
 
 # Create tmb file for all patient samples with genomic assays
 ```{r tmb_all}
@@ -168,7 +167,7 @@ paired_time_samples_tmb_genomic_filter <- length(unique(tmb_genomic_filter$Kids_
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data
-There are `r paired_time_samples_tmb_genomic_filter` patient cases with TMB information (out of the `r paired_time_samples_tmb_genomic`).
+There are `r paired_time_samples_tmb_genomic_filter` (out of the `r paired_time_samples_tmb_genomic`) patient cases with TMB information.
 Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
