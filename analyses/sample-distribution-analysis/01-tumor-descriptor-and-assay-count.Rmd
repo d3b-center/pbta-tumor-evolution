@@ -73,8 +73,7 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
                                       grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased",
                                       TRUE ~ tumor_descriptor),
          match_id = paste(tumor_descriptor, sample_id, sep = "_"),
-         DNA = case_when(grepl("WGS", experimental_strategy) ~ "DNA",
-                         grepl("WXS", experimental_strategy) ~ "DNA", 
+         DNA = case_when(grepl("WGS|WXS", experimental_strategy) ~ "DNA",
                          grepl("RNA-Seq", experimental_strategy) ~ "no"),
          match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_")) %>%
   distinct(match_id_DNA, .keep_all = TRUE) # filter out
