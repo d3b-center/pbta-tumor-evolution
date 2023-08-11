@@ -1,4 +1,13 @@
-# Create barplot by sample
+#' Create barplot by sample
+#'
+#' @param tmb 
+#' @param sid 
+#' @param ylim 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 create_barplot_sample <- function(tmb, sid, ylim) {
 
   tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
@@ -15,7 +24,16 @@ create_barplot_sample <- function(tmb, sid, ylim) {
   return(p)
 }
 
-# Create stacked barplots for all samples
+###--------------------------------------------------------------
+#' Create stacked barplots for all samples
+#'
+#' @param tmb 
+#' @param ylim 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 create_stacked_barplot <- function(tmb, ylim) {
 
   # Reorder time points
@@ -34,7 +52,16 @@ create_stacked_barplot <- function(tmb, ylim) {
   return(p)
 }
 
-# Create stacked barplots for all samples and by broad_histology
+###--------------------------------------------------------------
+#' Create stacked barplots for all samples and by broad_histology
+#'
+#' @param tmb 
+#' @param ylim 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 create_stacked_barplot_broad_histology <- function(tmb, ylim) {
 
   # Reorder time points
@@ -53,3 +80,4 @@ create_stacked_barplot_broad_histology <- function(tmb, ylim) {
                ylim(0, ylim))
   return(p)
 }
+
