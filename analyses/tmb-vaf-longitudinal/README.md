@@ -21,7 +21,7 @@ This pipeline produces pdf files containing the correlation of VAFs (with label 
 
 ## Results
 
-There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 67 patient samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
+There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ## Folder structure 
 
