@@ -146,14 +146,29 @@ tmb_genomic <- patient_list_metadata %>%
           timepoints_other = match_id_bs,
           timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
                                        TRUE ~ timepoints_other),
-          log2_mutation_count = log2(mutation_count)) %>%
-  write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
+          log2_mutation_count = log2(mutation_count)) 
 
 paired_time_samples_tmb_genomic <- length(unique(tmb_genomic$Kids_First_Participant_ID))
+
+# There might be missign tmb information for some `Kids_First_Biospecimen_ID`
+# This will reuslt into cases with no paired `tumor_descriptor` per `Kids_First_Participant_ID`
+# Let's account for this and exclude thse samples
+paired_tumor_descriptor_list <- tmb_genomic %>%
+  unique() %>% 
+  arrange(Kids_First_Participant_ID,tumor_descriptor)  %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
+
+tmb_genomic_filter <- paired_tumor_descriptor_list %>% 
+  left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
+  write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
+
+paired_time_samples_tmb_genomic_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data
-There are `r paired_time_samples_tmb_genomic` patient cases with TMB information.
+There are `r paired_time_samples_tmb_genomic_filter` patient cases with TMB information (out of the `r paired_time_samples_tmb_genomic`).
 Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
