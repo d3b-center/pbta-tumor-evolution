@@ -88,7 +88,7 @@ There are `r kids_pbta_samples` patient cases with timepoint information.
 Let's select all patient samples containing both genomic and transcriptomic assays.
 ```{r assays, echo=TRUE}
 assays <- pbta %>%
-  select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group, DNA, match_id_DNA) %>%
+  dplyr::select(Kids_First_Participant_ID, tumor_descriptor, match_id, experimental_strategy, cancer_group, DNA, match_id_DNA) %>%
   unique() %>%
   arrange(Kids_First_Participant_ID, experimental_strategy)
 
