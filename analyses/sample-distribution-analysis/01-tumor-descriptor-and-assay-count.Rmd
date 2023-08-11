@@ -122,10 +122,8 @@ paired_assays_all %>%
 # Diagnosis vs. any other timepoint (Recurrence, Progressive etc)
 We’ll look at the breakdown of the tumor_descriptor column, separating the genomic from transcriptomic assays.
 ```{r}
-tumor_descriptor_df <- paired_assays_all %>%
-  arrange(Kids_First_Participant_ID)
-
-tumor_descriptor_df %>%
+paired_assays_all %>%
+  arrange(Kids_First_Participant_ID) %>%
   group_by(tumor_descriptor, experimental_strategy_sum) %>%
   tally() %>%
   arrange(desc(n)) %>% 
@@ -136,7 +134,7 @@ tumor_descriptor_df %>%
 The following table is to provide matched assays under different time points and summarize the information under the "tumor_descriptor_sum" column.
 
 ```{r}
-tumor_descriptor_df_diagnosis <- tumor_descriptor_df %>%
+paired_assays_all_diagnosis <- paired_assays_all %>%
   group_by(Kids_First_Participant_ID) %>%
   arrange(tumor_descriptor) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) %>%
@@ -145,7 +143,7 @@ tumor_descriptor_df_diagnosis <- tumor_descriptor_df %>%
     TRUE ~ "Unmatched"
   ))
 
-tumor_descriptor_df_diagnosis %>%
+paired_assays_all_diagnosis %>%
   group_by(tumor_descriptor_sum) %>%
   tally() %>%
   arrange(desc(n)) %>% 
@@ -156,7 +154,7 @@ tumor_descriptor_df_diagnosis %>%
 # Genomic assays
 Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain genomic assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
 ```{r}
-genomic_assays <- tumor_descriptor_df %>%
+genomic_assays <- paired_assays_all %>%
   filter(!(experimental_strategy_sum == "RNA")) %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),
@@ -213,7 +211,7 @@ There are `r matched_samples_genomic` patient cases with matched longitudinal sa
 # Transcriptomic assays
 We will look only at RNA-seq samples and perform the same collapsing of the tumor_descriptor column.
 ```{r}
-transcriptomic_assays <- tumor_descriptor_df %>%
+transcriptomic_assays <- paired_assays_all %>%
   filter(experimental_strategy_sum %in% c("Both", "RNA")) %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(unique(tumor_descriptor)), collapse = ", "),
@@ -266,7 +264,7 @@ There are `r matched_samples_rna` patient cases with matched longitudinal sample
 # Paired genomic and transcriptomic assays
 We will look only into paired assays now.
 ```{r}
-paired_assays <- tumor_descriptor_df %>%
+paired_assays <- paired_assays_all %>%
   filter(experimental_strategy_sum == "Both") %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),
