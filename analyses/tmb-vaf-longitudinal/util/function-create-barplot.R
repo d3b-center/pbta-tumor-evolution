@@ -43,7 +43,7 @@ create_stacked_barplot_broad_histology <- function(tmb, ylim) {
   # Plot stacked barplot 
   p <- print(ggplot(tmb, aes(x = Kids_First_Participant_ID, y = mutation_count, fill = tumor_descriptor)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
-               scale_fill_manual(values = tvalues = tumor_descriptor_color_palette$hex_codes) +
+               scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
                geom_bar(stat ="identity", width = 0.9) + 
                theme_Publication() + 
                theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust = 1)) + 
