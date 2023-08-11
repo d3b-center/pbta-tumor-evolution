@@ -84,7 +84,7 @@ patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, sh
 # How many patients have paired time samples?
 paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 
-# Add metadata from pbta to patient list and keep only autopsy samples
+# Add metadata from pbta to patient list
 patient_list_metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID") %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
@@ -102,6 +102,7 @@ There are `r paired_time_samples_autopsy` autopsy samples out of the total `r pa
 
 # Create maf file for autopsy samples
 ```{r maf_autopsy}
+# We will filter the df to keep paired smaples with Deceased timepoint (autopsy samples).
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # There are also multiple biospecimen samples per timepoint and patient case.
 # We will create unique identifiers for each case that will enable to create one plot for each case.
