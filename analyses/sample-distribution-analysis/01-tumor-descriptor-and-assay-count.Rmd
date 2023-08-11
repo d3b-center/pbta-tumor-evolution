@@ -186,6 +186,8 @@ genomic_assays %>%
   fontsize(size = 12, part = "all")
 ```
 
+We will look now into patient samples with genomic assays that have matched longitudinal samples.
+
 ```{r}
 genomic_assays_matched <- genomic_assays %>%
   filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis",
