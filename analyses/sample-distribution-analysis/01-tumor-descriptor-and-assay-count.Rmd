@@ -196,13 +196,6 @@ genomic_assays_matched <- genomic_assays %>%
   mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy)) %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
-genomic_assays_matched %>%
-  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
-  tally() %>%
-  arrange(desc(n)) %>%
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-
 matched_samples_genomic <- length(unique(genomic_assays_matched$Kids_First_Participant_ID))
 ```
 ## How many samples have genomic assays and matched longitudinal information?
