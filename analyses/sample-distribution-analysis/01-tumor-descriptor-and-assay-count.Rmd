@@ -291,10 +291,9 @@ paired_assays %>%
 
 ```{r}
 paired_assays_matched <- paired_assays %>%
-  filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis", 
-                            "Recurrence, Second Malignancy", "Progressive, Recurrence", "Diagnosis, Second Malignancy", 
-                            "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence", "Deceased, Recurrence", "Deceased, Diagnosis, Recurrence",
-                            "Diagnosis, Unavailable")) %>%
+  filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
+                             "Second Malignancy", "Deceased", "Not Reported",
+                             "Unavailable", "Metastatic", "Residual", "")) %>%
   write_tsv(file.path(results_dir, "paired_assays_matched_time_points.tsv"))
 
 paired_assays_matched %>%
