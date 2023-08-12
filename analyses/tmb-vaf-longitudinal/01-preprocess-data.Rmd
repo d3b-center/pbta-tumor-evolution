@@ -143,7 +143,7 @@ There are `r paired_time_samples_autopsy` autopsy samples out of the total `r pa
 # We will create similar unique identifiers as we did for the maf file.
 # We will also create identifiers for each timepoint (timepoints_deceased and timepoints_other).
 tmb_genomic <- patient_list_metadata %>% 
-  left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
+  left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(tmb)) %>%
    mutate(match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
