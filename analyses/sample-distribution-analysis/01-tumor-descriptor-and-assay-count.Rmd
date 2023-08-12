@@ -320,10 +320,10 @@ print(list, dplyr.print_min = Inf)
 We will look into the first five cancer groups with the highest number of tumor samples: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma. There are cases that the second time point has a different cancer type. Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.We will only do this for the first five histologies for now.
 
 ```{r}
-genomic_assays_matched <- genomic_assays_matched %>% 
-  mutate(cancer_group_broad = case_when(grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
+genomic_assays_matched1 <- genomic_assays_matched %>% 
+  mutate(cancer_group_broad = case_when(grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
+                                        grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
                                         grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma", 
-                                        grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
                                         grepl("Ependymoma", cancer_group) ~ "Ependymoma", 
                                         grepl("Diffuse midline glioma", cancer_group) ~ "Diffuse midline glioma"))
 ```
