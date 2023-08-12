@@ -95,7 +95,7 @@ patient_list_metadata <- patient_list %>%
 
 # Create maf file for autopsy samples
 ```{r maf_autopsy}
-# We will filter the df to keep paired smaples with Deceased timepoint (autopsy samples).
+# We will filter the df to keep paired samples with Deceased timepoint (autopsy samples).
 # There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
 # There are also multiple biospecimen samples per timepoint and patient case.
 # We will create unique identifiers for each case that will enable to create one plot for each case.
