@@ -190,11 +190,9 @@ We will look now into patient samples with genomic assays that have matched long
 
 ```{r}
 genomic_assays_matched <- genomic_assays %>%
-  filter(descriptors %in% c("Diagnosis, Recurrence", "Diagnosis, Progressive", "Deceased, Diagnosis",
-                            "Deceased, Progressive", "Recurrence, Second Malignancy", "Progressive, Recurrence", 
-                            "Diagnosis, Second Malignancy", "Deceased, Progressive, Recurrence", "Diagnosis, Progressive, Recurrence",
-                            "Deceased, Recurrence", "Deceased, Diagnosis, Progressive, Recurrence", "Deceased, Diagnosis, Recurrence",
-                            "Deceased, Diagnosis, Progressive", "Diagnosis, Unavailable")) %>%
+  filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
+                             "Second Malignancy", "Deceased", "Not Reported",
+                             "Unavailable", "Metastatic", "Residual", "")) %>%
   mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy)) %>%
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
