@@ -88,8 +88,7 @@ paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 patient_list_metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID") %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>%
-  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis", 
-                                      grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
                                       grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", 
                                       TRUE ~ tumor_descriptor)) 
 ```
