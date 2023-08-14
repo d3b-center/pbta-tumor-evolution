@@ -159,9 +159,9 @@ tmb_genomic <- patient_list_metadata %>%
 
 paired_time_samples_tmb_genomic <- length(unique(tmb_genomic$Kids_First_Participant_ID))
 
-# There might be missign tmb information for some `Kids_First_Biospecimen_ID`
-# This will reuslt into cases with no paired `tumor_descriptor` per `Kids_First_Participant_ID`
-# Let's account for this and exclude thse samples
+# There might be missing tmb information for some `Kids_First_Biospecimen_ID`
+# This will result into cases with no paired `tumor_descriptor` per `Kids_First_Participant_ID`
+# Let's account for this and exclude those samples
 paired_tumor_descriptor_list <- tmb_genomic %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID,tumor_descriptor)  %>%
