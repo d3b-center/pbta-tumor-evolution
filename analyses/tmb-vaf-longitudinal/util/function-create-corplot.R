@@ -26,11 +26,9 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   
   maf_join[is.na(maf_join)] <- 0
 
-  # Create timepoint to use for labeling group column 
+  # Create timepoint label to use for group column 
   # only for timepoints = Diagnosis, Progressive, Recurrence
-  timepoint <- colnames(timepoint_df)
-  timepoint <- timepoint[!timepoint %in% c("gene_protein", "Hugo_Symbol")]
-  timepoint <- str_extract(timepoint, "[^_]+")
+  timepoint <- str_extract(timepoints_other_plot, "[^_]+")
 
   # Create group column
   maf_join$group <-  ifelse(maf_join[, timepoints_other_plot] > 0 & maf_join[, timepoints_deceased_plot] > 0, "Common",
