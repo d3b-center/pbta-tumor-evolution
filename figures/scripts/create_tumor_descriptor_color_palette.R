@@ -55,5 +55,5 @@ timepoint_col_names <- c("timepoint",
 
 # Format as data.frame
 timepoint_df <- data.frame(color_names = timepoint_col_names,
-                                  hex_codes = timepoint_col_palette) %>%
+                           hex_codes = timepoint_col_palette) %>%
   readr::write_tsv(file.path(output_dir, "timepoint_color_palette.tsv"))
