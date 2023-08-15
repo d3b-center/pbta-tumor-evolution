@@ -35,5 +35,6 @@ The structure of this folder is as follows:
 ├── results
     ├── genomic_assays_matched_time_points.tsv
     ├── paired_assays_matched_time_points.tsv
+    ├── pbta.tsv
     └── transcriptomic_assays_matched_time_points.tsv
 ```
