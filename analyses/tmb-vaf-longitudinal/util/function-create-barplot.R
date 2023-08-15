@@ -67,7 +67,7 @@ create_stacked_barplot_broad_histology <- function(tmb, ylim) {
 #' @export
 #'
 #' @examples
-create_stacked_barplot_cancer_group_update <- function(tmb, ylim, ct_id) {
+create_stacked_barplot_cancer_group_sum <- function(tmb, ylim, ct_id) {
   
   # Reorder time points
   tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
@@ -87,7 +87,7 @@ create_stacked_barplot_cancer_group_update <- function(tmb, ylim, ct_id) {
 
 
 ###--------------------------------------------------------------
-#' Create barplot for all samples in the df
+#' Create barplot for each sample and per Kids_First_Biospecimen_ID in the df
 #'
 #' @param tmb 
 #' @param ylim 

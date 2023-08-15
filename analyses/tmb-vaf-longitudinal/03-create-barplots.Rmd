@@ -80,9 +80,9 @@ tmb_genomic_filter <- tmb_genomic %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
   left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
-  mutate(cancer_group_update = ifelse(cancer_group == "High-grade glioma", "High-grade glioma",
+  mutate(cancer_group_sum = ifelse(cancer_group == "High-grade glioma", "High-grade glioma",
                                       ifelse(cancer_group == "Low-grade glioma", "Low-grade glioma", "Other")),
-         cancer_group_update = replace_na(cancer_group_update, "Other"))
+         cancer_group_sum = replace_na(cancer_group_sum, "Other"))
 
 # Define parameters for function
 ylim <- 450
@@ -98,7 +98,7 @@ dev.off()
 ```
 
 # Stacked barplots for each Patient case and broad histology
-```{r create-stacked-barplot-broad-histology-filter}
+```{r create-stacked-barplot-filter-broad-histology}
 # Define parameters for function
 ylim <- 450
 tmb <- tmb_genomic_filter
@@ -112,24 +112,28 @@ print(p)
 dev.off()
 ```
 
-# Stacked barplots for each Patient case and cancer_group_update
+# Stacked barplots for each Patient case and cancer_group_sum
 We will create one graph for the major two cancer types (High-and Low-grade gliomas) and any other cancer type present.
 
-```{r create-stacked-barplot-cancer-group-update-filter}
-cancer_types <- unique(as.character(tmb_genomic_filter$cancer_group_update))
+```{r create-stacked-barplot-filter-cancer-group-sum}
+cancer_types <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
 print(cancer_types)
 
 for (i in seq_along(cancer_types)) {
   print(i)
   tmb_genomic_filter_sub <- tmb_genomic_filter %>%
-    filter(cancer_group_update == cancer_types [i])
-ylim <- 450
-fname <- paste0(plots_dir, "/", cancer_types[i], "-", "Stacked-barplot-tmb-genomic-filter-cancer-group-update.pdf")
-print(fname)
-p <- create_stacked_barplot_cancer_group_update(tmb = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_types[i])
-pdf(file = fname, width = 15, height = 10)
-print(p)
-dev.off()
+    filter(cancer_group_sum == cancer_types [i])
+
+  # Define parameters for function
+  ylim <- 450
+
+  # Run function
+  fname <- paste0(plots_dir, "/", cancer_types[i], "-", "Stacked-barplot-tmb-genomic-filter.pdf")
+  print(fname)
+  p <- create_stacked_barplot_cancer_group_sum(tmb = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_types[i])
+  pdf(file = fname, width = 15, height = 10)
+  print(p)
+  dev.off()
 }
 ```
 
@@ -137,45 +141,25 @@ Since we have multiple biospecimen samples per timepoint and patient case, let's
 
 # Let's create stacked-barplots per patient sample and split by biospecimen sample
 ```{r create-stacked-barplot-sample}
-samples <- unique(as.character(tmb_genomic$Kids_First_Participant_ID))
+samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
 
-samples_include <- samples[!samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
-
-for (i in seq_along(samples_include)) {
+for (i in seq_along(samples)) {
   print(i)
-  tmb_sub <- tmb_genomic %>%
-    filter(Kids_First_Participant_ID == samples_include[i])
-  ylim <- 100 # to scale yaxis
+  tmb_sub <- tmb_genomic_filter %>%
+    filter(Kids_First_Participant_ID == samples[i])
+  # Define parameters for function
+  ylim <- 450
   
   # Run function
-  fname <- paste0(plots_dir, "/", samples_include[i], "-TMB-barplot.pdf")
+  fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
   print(fname)
   p <- create_barplot_sample(tmb = tmb_sub,
-                             sid = samples_include[i],
+                             sid = samples[i],
                              ylim = ylim)
   pdf(file = fname, width = 5, height = 4)
   print(p)
   dev.off()
-}
-
-samples_exclude <- samples[samples %in% c("PT_3CHB9PK5", "PT_6N825561")]
-
-for (i in seq_along(samples_exclude)) {
-  print(i)
-  tmb_sub <- tmb_genomic %>%
-    filter(Kids_First_Participant_ID == samples_exclude[i])
-  ylim <- 13000 # to scale yaxis
-  
-  # Run function
-  fname <- paste0(plots_dir, "/", samples_exclude[i], "-TMB-barplot.pdf")
-  print(fname)
-  p <- create_barplot_sample(tmb = tmb_sub,
-                             sid = samples_exclude[i],
-                             ylim = ylim)
-  pdf(file = fname, width = 5, height = 4)
-  print(p)
-  dev.off() 
 }
 ```
 
