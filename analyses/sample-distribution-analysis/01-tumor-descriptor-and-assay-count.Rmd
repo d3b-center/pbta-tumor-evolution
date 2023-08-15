@@ -224,7 +224,7 @@ transcriptomic_assays_matched <- transcriptomic_assays %>%
   filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
                              "Second Malignancy", "Deceased", "Not Reported",
                              "Unavailable", "Metastatic", "Residual", "")) %>%
-  mutate(experimental_strategy = gsub(";WGS|WXS","", experimental_strategy)) %>%
+  mutate(experimental_strategy = gsub(";WGS|;WXS","", experimental_strategy)) %>%
   write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
 
 transcriptomic_assays_matched
