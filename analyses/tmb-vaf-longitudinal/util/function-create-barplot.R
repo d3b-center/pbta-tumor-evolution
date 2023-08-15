@@ -103,12 +103,13 @@ create_barplot_sample <- function(tmb, ylim, sid) {
   
   # Plot stacked barplot 
   p <- print(ggplot(tmb, aes(x = Kids_First_Biospecimen_ID, y = mutation_count, fill = tumor_descriptor)) +  
+               geom_col(position = position_stack(reverse = TRUE)) +
                scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
-               geom_bar(stat = "identity") + 
+               geom_bar(stat ="identity", width = 0.9) + 
                theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85, hjust = 0.25, vjust = 0.25)) + 
+               theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust = 1)) + 
                labs(title = paste(sid, "Barplot", sep = " ")) + 
-               labs(x = "Biospecimen sample", y = "Total Mutations") +
+               labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
                ylim(0, ylim))
   return(p)
 }
