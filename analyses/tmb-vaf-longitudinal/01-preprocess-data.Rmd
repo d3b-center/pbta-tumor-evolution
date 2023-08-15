@@ -84,10 +84,8 @@ paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 # Add metadata from pbta to patient list
 patient_list_metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID") %>%
-  filter(!(experimental_strategy == "RNA-Seq")) %>%
-  mutate(tumor_descriptor = case_when(grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
-                                      grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", 
-                                      TRUE ~ tumor_descriptor)) 
+  filter(!(experimental_strategy == "RNA-Seq"))
+
 ```
 
 We are interested in how VAF values change over the time and specifically for the autopsy samples.
@@ -180,3 +178,12 @@ Any discrepancy in patient numbers between maf and tmb data might be caused from
 ```{r echo=TRUE}
 sessionInfo()
 ```
+
+
+
+
+
+tmb_join <- tmb %>% 
+  left_join(pbta, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) 
+  
+  
