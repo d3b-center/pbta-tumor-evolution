@@ -257,16 +257,10 @@ paired_assays %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
+
+paired_assays
 ```
 
-```{r}
-print(paired_assays %>%
-  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
-  tally() %>%
-  arrange(desc(n)) %>%
-  regulartable() %>%
-  fontsize(size = 12, part = "all"))
-```
 
 ```{r}
 paired_assays_matched <- paired_assays %>%
