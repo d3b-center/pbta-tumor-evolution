@@ -177,15 +177,6 @@ genomic_assays %>%
 genomic_assays
 ```
 
-```{r}
-genomic_assays %>%
-  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
-  tally() %>%
-  arrange(desc(n)) %>%
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-```
-
 We will look now into patient samples with genomic assays that have matched longitudinal samples.
 
 ```{r}
@@ -227,12 +218,12 @@ transcriptomic_assays %>%
 ```
 
 ```{r}
-transcriptomic_assays  %>%
+print(transcriptomic_assays  %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
-  fontsize(size = 12, part = "all")
+  fontsize(size = 12, part = "all"))
 ```
 
 ```{r}
@@ -281,12 +272,12 @@ paired_assays %>%
 ```
 
 ```{r}
-paired_assays %>%
+print(paired_assays %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
   regulartable() %>%
-  fontsize(size = 12, part = "all")
+  fontsize(size = 12, part = "all"))
 ```
 
 ```{r}
@@ -296,12 +287,12 @@ paired_assays_matched <- paired_assays %>%
                              "Unavailable", "Metastatic", "Residual", "")) %>%
   write_tsv(file.path(results_dir, "paired_assays_matched_time_points.tsv"))
 
-paired_assays_matched %>%
+print(paired_assays_matched %>%
   group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
   tally() %>%
   arrange(desc(n)) %>%
   regulartable() %>%
-  fontsize(size = 12, part = "all")
+  fontsize(size = 12, part = "all"))
 
 matched_samples_paired <- length(unique(paired_assays_matched$Kids_First_Participant_ID))
 ```
@@ -320,7 +311,7 @@ print(list, dplyr.print_min = Inf)
 We will look into the first five cancer groups with the highest number of tumor samples: Low-grade glioma, Medulloblastoma, Diffuse midline glioma, High-grade glioma, and Ependymoma. There are cases that the second time point has a different cancer type. Let us summarize this to ensure we capture all tumor samples regardless of diagnosis changes at a later stage of the disease.We will only do this for the first five histologies for now.
 
 ```{r}
-genomic_assays_matched1 <- genomic_assays_matched %>% 
+genomic_assays_matched <- genomic_assays_matched %>% 
   mutate(cancer_group_broad = case_when(grepl("High-grade glioma", cancer_group) ~ "High-grade glioma",
                                         grepl("Low-grade glioma", cancer_group) ~ "Low-grade glioma",
                                         grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma", 
