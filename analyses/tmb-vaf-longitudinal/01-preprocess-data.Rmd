@@ -33,6 +33,7 @@ input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
 # Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
@@ -42,11 +43,7 @@ matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_po
 ## Read in data and process
 ```{r load-process-inputs-please-wait}
 # Read in histologies file and filter for the pbta cohort
-pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis),
-         !composition %in% c("Derived Cell Line", "PDX"),
-         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
+pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy, tumor_descriptor, age_at_diagnosis_days, age_last_update_days, cancer_predispositions, broad_histology, short_histology, cancer_group) 
 
 # Read in tmb file
