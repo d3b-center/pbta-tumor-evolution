@@ -24,8 +24,8 @@ tumor_descriptor_col_palette <- c("#1e90ff",
                                   "#808080", 
                                   "#800080", 
                                   "#cd2626",
-                                  "#FDB863",
-                                  "#A6611A")
+                                  "#fdb863",
+                                  "#a6611a")
 
 tumor_descriptor_col_names <- c("Diagnosis",
                                 "Progressive",
@@ -46,7 +46,7 @@ tumor_descriptor_df <- data.frame(color_names = tumor_descriptor_col_names,
 timepoint_col_palette <- c("#1e90ff",
                            "#cd2626",
                            "#575757",
-                           "#DFC27D")
+                           "#dfc27d")
 
 timepoint_col_names <- c("timepoint",
                          "Deceased",
