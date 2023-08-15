@@ -59,6 +59,7 @@ tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette
 ylim <- 13000
 tmb <- tmb_genomic
 
+# Run function
 fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic.pdf")
 print(fname)
 p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
@@ -70,6 +71,7 @@ dev.off()
 We will exclude any samples with more than 1,000 mutations (hypermutant samples) for all of their `tumor_descriptor` from further analysis in this notebook. There are patient cases with high number of mutations in one timepoint. This m ight result to single timepoints per patient so we will also remove those.
 
 ```{r create-stacked-barplot-filter}
+# Filter df
 tmb_genomic_filter <- tmb_genomic %>%
   filter(!mutation_count >= 1000)  %>%
   unique() %>% 
@@ -82,10 +84,14 @@ tmb_genomic_filter <- tmb_genomic %>%
                                       ifelse(cancer_group == "Low-grade glioma", "Low-grade glioma", "Other")),
          cancer_group_update = replace_na(cancer_group_update, "Other"))
 
+# Define parameters for function
 ylim <- 450
+tmb <- tmb_genomic_filter
+
+# Run function
 fname_exclude <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
 print(fname_exclude)
-p <- create_stacked_barplot(tmb = tmb_genomic_filter, ylim)
+p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
 pdf(file = fname_exclude, width = 15, height = 8)
 print(p)
 dev.off()
@@ -93,10 +99,14 @@ dev.off()
 
 # Stacked barplots for each Patient case and broad histology
 ```{r create-stacked-barplot-broad-histology-filter}
+# Define parameters for function
 ylim <- 450
+tmb <- tmb_genomic_filter
+
+# Run function
 fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter-broad-histology.pdf")
 print(fname)
-p <- create_stacked_barplot_broad_histology(tmb = tmb_genomic_filter, ylim = ylim)
+p <- create_stacked_barplot_broad_histology(tmb = tmb, ylim = ylim)
 pdf(file = fname, width = 15, height = 10)
 print(p)
 dev.off()
