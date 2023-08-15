@@ -43,8 +43,7 @@ matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_po
 ## Read in data and process
 ```{r load-process-inputs-please-wait}
 # Read in histologies file and filter for the pbta cohort
-pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy, tumor_descriptor, age_at_diagnosis_days, age_last_update_days, cancer_predispositions, broad_histology, short_histology, cancer_group) 
+pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
