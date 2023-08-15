@@ -53,7 +53,7 @@ tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette
 
 ```
 
-# Stacked barplots for each Patient case
+# Create stacked barplots per `Kids_First_Participant_ID`
 ```{r create-stacked-barplot}
 # Define parameters for function
 ylim <- 13000
@@ -89,15 +89,15 @@ ylim <- 450
 tmb <- tmb_genomic_filter
 
 # Run function
-fname_exclude <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
+fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
 print(fname_exclude)
 p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
-pdf(file = fname_exclude, width = 15, height = 8)
+pdf(file = fname, width = 15, height = 8)
 print(p)
 dev.off()
 ```
 
-# Stacked barplots for each Patient case and broad histology
+# Create stacked barplots per `Kids_First_Participant_ID` and `broad_histology`
 ```{r create-stacked-barplot-filter-broad-histology}
 # Define parameters for function
 ylim <- 450
@@ -112,7 +112,7 @@ print(p)
 dev.off()
 ```
 
-# Stacked barplots for each Patient case and cancer_group_sum
+# Create stacked barplots per `Kids_First_Participant_ID` and `cancer_group_sum`
 We will create one graph for the major two cancer types (High-and Low-grade gliomas) and any other cancer type present.
 
 ```{r create-stacked-barplot-filter-cancer-group-sum}
@@ -137,9 +137,10 @@ for (i in seq_along(cancer_types)) {
 }
 ```
 
-Since we have multiple biospecimen samples per timepoint and patient case, let's plot these separetely.
+# Create stacked-barplots per `Kids_First_Participant_ID` and `Kids_First_Biospecimen_ID`
 
-# Let's create stacked-barplots per patient sample and split by biospecimen sample
+We have multiple `Kids_First_Biospecimen_ID` per `tumor_descriptor` and `Kids_First_Participant_ID`, so let's plot these separately.
+
 ```{r create-stacked-barplot-sample}
 samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
