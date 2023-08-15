@@ -55,41 +55,72 @@ tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette
 
 # Stacked barplots for each Patient case
 ```{r create-stacked-barplot}
-# Create one stacked barplot with all samples together
+# Define parameters for function
 ylim <- 13000
-fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples.pdf")
+tmb <- tmb_genomic
+
+fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb = tmb_genomic, ylim = ylim)
-pdf(file = fname, width = 10, height = 8)
+p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
+pdf(file = fname, width = 18, height = 8)
 print(p)
 dev.off()
 ```
 
-```{r create-stacked-barplot-exclude}
-# Exclude 2 samples with high number of mutations to make plot more readable
-# We will exclude PT_3CHB9PK5 - Diagnosis model AND PT_6N825561 - Progessive model
-  # This is because the samples contain > 13000 and >2000 mutations, respectively
-  # making it hard to adjust y axis and read the plot
-ylim <- 400
+We will exclude any samples with more than 1,000 mutations (hypermutant samples) for all of their `tumor_descriptor` from further analysis in this notebook. There are patient cases with high number of mutations in one timepoint. This m ight result to single timepoints per patient so we will also remove those.
+
+```{r create-stacked-barplot-filter}
 tmb_genomic_filter <- tmb_genomic %>%
-  filter(!Kids_First_Participant_ID %in% c("PT_3CHB9PK5", "PT_6N825561"))
-fname_exclude <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude.pdf")
+  filter(!mutation_count >= 1000)  %>%
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
+  left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  mutate(cancer_group_update = ifelse(cancer_group == "High-grade glioma", "High-grade glioma",
+                                      ifelse(cancer_group == "Low-grade glioma", "Low-grade glioma", "Other")),
+         cancer_group_update = replace_na(cancer_group_update, "Other"))
+
+ylim <- 450
+fname_exclude <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
 print(fname_exclude)
-p <- create_stacked_barplot(tmb = tmb_genomic, ylim)
-pdf(file = fname_exclude, width = 10, height = 8)
+p <- create_stacked_barplot(tmb = tmb_genomic_filter, ylim)
+pdf(file = fname_exclude, width = 15, height = 8)
 print(p)
 dev.off()
 ```
 
 # Stacked barplots for each Patient case and broad histology
-```{r create-stacked-barplot-broad-histology-exclude}
-ylim <- 400
-fname <- paste0(plots_dir, "/", "TMB-stacked-barplot-All-Samples-exclude-broad-histology.pdf")
+```{r create-stacked-barplot-broad-histology-filter}
+ylim <- 450
+fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter-broad-histology.pdf")
 print(fname)
-p <- create_stacked_barplot_broad_histology(tmb = tmb_genomic, ylim = ylim)
+p <- create_stacked_barplot_broad_histology(tmb = tmb_genomic_filter, ylim = ylim)
 pdf(file = fname, width = 15, height = 10)
 print(p)
 dev.off()
+```
+
+# Stacked barplots for each Patient case and cancer_group_update
+We will create one graph for the major two cancer types (High-and Low-grade gliomas) and any other cancer type present.
+
+```{r create-stacked-barplot-cancer-group-update-filter}
+cancer_types <- unique(as.character(tmb_genomic_filter$cancer_group_update))
+print(cancer_types)
+
+for (i in seq_along(cancer_types)) {
+  print(i)
+  tmb_genomic_filter_sub <- tmb_genomic_filter %>%
+    filter(cancer_group_update == cancer_types [i])
+ylim <- 450
+fname <- paste0(plots_dir, "/", cancer_types[i], "-", "Stacked-barplot-tmb-genomic-filter-cancer-group-update.pdf")
+print(fname)
+p <- create_stacked_barplot_cancer_group_update(tmb = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_types[i])
+pdf(file = fname, width = 15, height = 10)
+print(p)
+dev.off()
+}
 ```
 
 Since we have multiple biospecimen samples per timepoint and patient case, let's plot these separetely.
