@@ -215,15 +215,8 @@ transcriptomic_assays %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
-```
 
-```{r}
-print(transcriptomic_assays  %>%
-  group_by(Kids_First_Participant_ID, descriptors, experimental_strategy) %>%
-  tally() %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all"))
+transcriptomic_assays
 ```
 
 ```{r}
