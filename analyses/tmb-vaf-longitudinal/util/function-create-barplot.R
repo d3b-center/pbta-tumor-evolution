@@ -56,7 +56,7 @@ create_stacked_barplot_broad_histology <- function(tmb, ylim) {
 
 
 ###--------------------------------------------------------------
-#' Create stacked barplots for all samples and by cancer_group_update
+#' Create stacked barplots for all samples and by cancer_group_sum
 #'
 #' @param tmb 
 #' @param ylim 
@@ -87,7 +87,7 @@ create_stacked_barplot_cancer_group_sum <- function(tmb, ylim, ct_id) {
 
 
 ###--------------------------------------------------------------
-#' Create barplot for each sample and per Kids_First_Biospecimen_ID in the df
+#' Create barplot for each `Kids_First_Participant_ID` and per `Kids_First_Biospecimen_ID` in the df
 #'
 #' @param tmb 
 #' @param ylim 
