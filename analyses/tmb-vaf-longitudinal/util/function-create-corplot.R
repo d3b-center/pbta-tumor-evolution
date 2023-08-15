@@ -44,7 +44,11 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   
   # Reorder time points
   maf_join$group <- factor(x = maf_join$group, levels = c(timepoint, "Deceased", "Common"))
-                    
+ 
+  # make corplot reproducible
+  # add this to ensure that we plot the same data points when using the geom_text_repel function
+  set.seed(2023)
+  
   # Plot corplot 
   p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
