@@ -82,7 +82,7 @@ tmb_genomic_filter <- tmb_genomic %>%
   mutate(cancer_group_sum = ifelse(cancer_group == "High-grade glioma", "High-grade glioma",
                                    ifelse(cancer_group == "Low-grade glioma", "Low-grade glioma", "Other")),
          cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-         patient_id = paste(cancer_group, Kids_First_Participant_ID, sep = "_"))
+         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
 
 # Define parameters for function
 ylim <- 450

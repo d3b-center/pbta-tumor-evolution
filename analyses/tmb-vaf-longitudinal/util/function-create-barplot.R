@@ -44,7 +44,7 @@ create_stacked_barplot_cancer_group_sum <- function(tmb, ylim, ct_id) {
   tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb, aes(x = Kids_First_Participant_ID, y = mutation_count, fill = tumor_descriptor)) +  
+  p <- print(ggplot(tmb, aes(x = patient_id, y = mutation_count, fill = tumor_descriptor)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
                geom_bar(stat ="identity", width = 0.9) + 
