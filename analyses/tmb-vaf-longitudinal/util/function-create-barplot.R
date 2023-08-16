@@ -25,35 +25,6 @@ create_stacked_barplot <- function(tmb, ylim) {
   return(p)
 }
 
-###--------------------------------------------------------------
-#' Create stacked barplots for all samples in the df and by broad_histology
-#'
-#' @param tmb 
-#' @param ylim 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_stacked_barplot_broad_histology <- function(tmb, ylim) {
-
-  # Reorder time points
-  tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
-
-  # Plot stacked barplot 
-  p <- print(ggplot(tmb, aes(x = Kids_First_Participant_ID, y = mutation_count, fill = tumor_descriptor)) +  
-               geom_col(position = position_stack(reverse = TRUE)) +
-               scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
-               geom_bar(stat ="identity", width = 0.9) + 
-               theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust = 1)) + 
-               facet_wrap(~broad_histology, ncol = 3) +
-               labs(title = paste("Stacked barplot", sep = " ")) + 
-               labs(x = "Kids_First_Participant_ID", y = "Total Mutations") +
-               ylim(0, ylim))
-  return(p)
-}
-
 
 ###--------------------------------------------------------------
 #' Create stacked barplots for all samples and by cancer_group_sum

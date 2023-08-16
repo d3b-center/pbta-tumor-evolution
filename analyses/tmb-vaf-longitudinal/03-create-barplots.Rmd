@@ -42,7 +42,7 @@ if (!dir.exists(plots_dir)) {
 }
 
 source(paste0(analysis_dir, "/util/function-create-barplot.R"))
-source(paste0(root_dir, "/figures/theme.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
 # Read in data and process
@@ -50,7 +50,6 @@ source(paste0(root_dir, "/figures/theme.R"))
 # Read tmb_genomic file generated from step `01-process-data.Rmd`
 tmb_genomic <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE)
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
-
 ```
 
 # Create stacked barplots per `Kids_First_Participant_ID`
@@ -82,7 +81,8 @@ tmb_genomic_filter <- tmb_genomic %>%
   left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(cancer_group == "High-grade glioma", "High-grade glioma",
                                    ifelse(cancer_group == "Low-grade glioma", "Low-grade glioma", "Other")),
-         cancer_group_sum = replace_na(cancer_group_sum, "Other"))
+         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
+         patient_id = paste(cancer_group, Kids_First_Participant_ID, sep = "_"))
 
 # Define parameters for function
 ylim <- 450
@@ -90,29 +90,14 @@ tmb <- tmb_genomic_filter
 
 # Run function
 fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
-print(fname_exclude)
+print(fname)
 p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
 pdf(file = fname, width = 15, height = 8)
 print(p)
 dev.off()
 ```
 
-# Create stacked barplots per `Kids_First_Participant_ID` and `broad_histology`
-```{r create-stacked-barplot-filter-broad-histology}
-# Define parameters for function
-ylim <- 450
-tmb <- tmb_genomic_filter
-
-# Run function
-fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter-broad-histology.pdf")
-print(fname)
-p <- create_stacked_barplot_broad_histology(tmb = tmb, ylim = ylim)
-pdf(file = fname, width = 15, height = 10)
-print(p)
-dev.off()
-```
-
-# Create stacked barplots per `Kids_First_Participant_ID` and `cancer_group_sum`
+# Create stacked barplots per `patient_id` and `cancer_group_sum`
 We will create one graph for the major two cancer types (High-and Low-grade gliomas) and any other cancer type present.
 
 ```{r create-stacked-barplot-filter-cancer-group-sum}
@@ -151,7 +136,7 @@ for (i in seq_along(samples)) {
     filter(Kids_First_Participant_ID == samples[i])
   
   # Define parameters for function
-  ylim <- 450
+  ylim <- 260
   
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
