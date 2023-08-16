@@ -56,13 +56,13 @@ create_stacked_barplot_cancer_group_sum <- function(tmb, ylim, ct_id) {
   return(p)
 }
 
-
 ###--------------------------------------------------------------
 #' Create barplot for each `Kids_First_Participant_ID` and per `Kids_First_Biospecimen_ID` in the df
 #'
 #' @param tmb 
 #' @param ylim 
-#' @param sid
+#' @param sid 
+
 #'
 #' @return
 #' @export
@@ -70,6 +70,7 @@ create_stacked_barplot_cancer_group_sum <- function(tmb, ylim, ct_id) {
 #' @examples
 create_barplot_sample <- function(tmb, ylim, sid) {
   
+  # Reorder time points
   tmb$tumor_descriptor <- factor(x = tmb$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
   
   # Plot stacked barplot 
@@ -84,3 +85,5 @@ create_barplot_sample <- function(tmb, ylim, sid) {
                ylim(0, ylim))
   return(p)
 }
+
+
