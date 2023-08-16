@@ -100,7 +100,7 @@ maf_autopsy <- patient_list_metadata %>%
          !is.na(VAF),
          !VAF == 0, 
          !gene_protein == "Unknown") %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF, broad_histology, cancer_group) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
          match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
          timepoints_deceased = match_id_bs,
