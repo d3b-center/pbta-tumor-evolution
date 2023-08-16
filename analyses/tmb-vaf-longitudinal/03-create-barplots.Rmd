@@ -1,5 +1,5 @@
 ---
-title: "Create TMB barplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+title: "Create TMB barplots of tumors across multiple timepoints of the PBTA Cohort"
 author: "Antonia Chroni <chronia@chop.edu> for D3B"
 date: "2023"
 output:
@@ -47,12 +47,13 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 # Read in data and process
 ```{r read_input_files}
-# Read tmb_genomic file generated from step `01-process-data.Rmd`
 tmb_genomic <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE)
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
-# Create stacked barplots per `Kids_First_Participant_ID`
+# TMB per `Kids_First_Participant_ID`
+We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
+
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim <- 360
@@ -66,8 +67,7 @@ pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
 ```
-
-We will exclude any samples with more than 1,000 mutations (hypermutant samples) for all of their `tumor_descriptor` from further analysis in this notebook. There are patient cases with high number of mutations in one timepoint. This m ight result to single timepoints per patient so we will also remove those.
+We notice that there are samples with high TMB (hypermutant samples). Next, we will exclude these samples (threshold >= 1,000 mutations) from further analysis in this notebook. Attention is needed in cases with high number of mutations in only one timepoint. We will also remove those so we always have matched longitudinal samples.
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
@@ -97,8 +97,8 @@ print(p)
 dev.off()
 ```
 
-# Create stacked barplots per `patient_id` and `cancer_group_sum`
-We will create one graph for the major two cancer types (High-and Low-grade gliomas) and any other cancer type present.
+# TMB per `patient_id` and `cancer_group_sum`
+We will explore TMB per cancer group over time by creating stacked barplots. We will plot based on cancer groups presenting with the highest number of samples (High- and Low-grade gliomas) vesrus any other cancer groups.
 
 ```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
 cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
@@ -133,27 +133,47 @@ for (i in seq_along(cancer_groups)) {
 }
 ```
 
-# Create stacked-barplots per `Kids_First_Participant_ID` and `Kids_First_Biospecimen_ID`
+# Number of mutations per `Kids_First_Participant_ID` and `Kids_First_Biospecimen_ID`
+Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
 
-We have multiple `Kids_First_Biospecimen_ID` per `tumor_descriptor` and `Kids_First_Participant_ID`, so let's plot these separately.
-
-```{r create-stacked-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
 samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
+
+
 
 for (i in seq_along(samples)) {
   print(i)
   tmb_sub <- tmb_genomic_filter %>%
     filter(Kids_First_Participant_ID == samples[i])
   
-  # Define parameters for function
+yvalue = unique(as.character(tmb_sub$experimental_strategy))
+print(yvalue)
+
+# Define parameters for function
   ylim <- 7.5
+  
+  if(i == 1) {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 8
+  } else if (i == 2) {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 4.5
+    } else {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 12.5
+    }
+  
   
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
   print(fname)
   p <- create_barplot_sample(tmb_df = tmb_sub,
                              ylim = ylim,
+                             yvalue = yvalue,
                              sid = samples[i])
   pdf(file = fname, width = 5, height = 4)
   print(p)
