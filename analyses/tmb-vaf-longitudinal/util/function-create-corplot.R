@@ -13,15 +13,15 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
 
   # Split maf, create df, and rename VAF column based on time point
   timepoint_df <- maf[which(maf$timepoints_other == timepoints_other_plot), ] %>%
-    select(gene_protein, Hugo_Symbol, VAF) 
+    select(cancer_group, gene_protein, Hugo_Symbol, VAF) 
   colnames(timepoint_df)[colnames(timepoint_df) == "VAF"] <- timepoints_other_plot
   
   deceased_df <- maf[which(maf$timepoints_deceased == timepoints_deceased_plot), ] %>%
-    select(gene_protein, Hugo_Symbol, VAF)
+    select(cancer_group, gene_protein, Hugo_Symbol, VAF)
   colnames(deceased_df)[colnames(deceased_df) == "VAF"] <- timepoints_deceased_plot
   
   maf_join <- deceased_df %>%
-    full_join(timepoint_df, by = c("gene_protein", "Hugo_Symbol"), relationship = "many-to-many") %>%
+    full_join(timepoint_df, by = c("gene_protein", "Hugo_Symbol", "cancer_group"), relationship = "many-to-many") %>%
     mutate(sym = ifelse(Hugo_Symbol %in% oncoprint_goi$oncoprint_goi, TRUE, FALSE)) 
   
   maf_join[is.na(maf_join)] <- 0
@@ -45,6 +45,9 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   # Reorder time points
   maf_join$group <- factor(x = maf_join$group, levels = c(timepoint, "Deceased", "Common"))
  
+  # Add cancer_group information
+  cancer_group <- maf_join$cancer_group
+  
   # make corplot reproducible
   # add this to ensure that we plot the same data points when using the geom_text_repel function
   set.seed(2023)
@@ -53,7 +56,8 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = timepoint_color_palette$hex_codes) + 
-               labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " ")) + 
+               labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
+                    subtitle = cancer_group) + 
                geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
                geom_hline(yintercept = 0.1, linetype = "dashed") + # Add horizontal intercept line
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
@@ -66,3 +70,5 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   return(p)
 
 }
+
+
