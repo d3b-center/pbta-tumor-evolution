@@ -47,7 +47,7 @@ if (!dir.exists(plots_dir)) {
 }
 
 source(paste0(analysis_dir, "/util/function-create-corplot.R"))
-source(paste0(root_dir, "/figures/theme.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
 ## Read in data and process
