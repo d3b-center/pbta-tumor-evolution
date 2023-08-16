@@ -33,6 +33,7 @@ input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
 # Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
@@ -42,12 +43,8 @@ matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_po
 ## Read in data and process
 ```{r load-process-inputs-please-wait}
 # Read in histologies file and filter for the pbta cohort
-pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(cohort == "PBTA",
-         !is.na(pathology_diagnosis),
-         !composition %in% c("Derived Cell Line", "PDX"),
-         !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy, tumor_descriptor, age_at_diagnosis_days, age_last_update_days, cancer_predispositions, broad_histology, short_histology, cancer_group) 
+pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!(experimental_strategy == "RNA-Seq"))
 
 # Read in tmb file
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
@@ -84,40 +81,30 @@ patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, sh
 # How many patients have paired time samples?
 paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 
-# Add metadata from pbta to patient list and keep only autopsy samples
+# Add metadata from pbta to patient list
 patient_list_metadata <- patient_list %>% 
-  left_join(pbta, by = "Kids_First_Participant_ID") %>%
-  filter(!(experimental_strategy == "RNA-Seq")) %>%
-  mutate(tumor_descriptor = case_when(grepl("Primary Tumor", tumor_descriptor) ~ "Diagnosis", 
-                                      grepl("Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis", 
-                                      grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased", 
-                                      TRUE ~ tumor_descriptor)) %>%
-  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
-  filter(Deceased == "Deceased") 
-
-# How many patients have paired time samples with autopsy time point present?
-paired_time_samples_autopsy <- length(unique(patient_list_metadata$Kids_First_Participant_ID))
+  left_join(pbta, by = "Kids_First_Participant_ID")
 ```
 
-## How many patient cases with autopsy samples in the paired longitudinal data?
-There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
+We are interested in how VAF values change over the time and specifically for the autopsy samples.
+We will create corplots by keeping Deceased timepoint as constant and any other timepoint paired with it will be the variable. For more details about building the timepoints models, please see `README file`.
 
 # Create maf file for autopsy samples
 ```{r maf_autopsy}
-# There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive.
-# There are also multiple biospecimen samples per timepoint and patient case.
-# We will create unique identifiers for each case that will enable to create one plot for each case.
-maf_autopsy <- patient_list_metadata %>% 
+# Filter df to keep paired samples with Deceased timepoint (autopsy samples)
+maf_autopsy <- patient_list_metadata %>%
+  mutate(Deceased = case_when(grepl("Deceased", descriptors) ~ "Deceased")) %>%
+  filter(Deceased == "Deceased") %>% 
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(VAF),
          !VAF == 0, 
          !gene_protein == "Unknown") %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, descriptors, tumor_descriptor, experimental_strategy, Hugo_Symbol, gene_protein, VAF, broad_histology, cancer_group) %>%
   mutate(match_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, gene_protein, VAF, sep = "_"),
          match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
          timepoints_deceased = match_id_bs,
-         timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1",
+         timepoints_deceased = case_when(grepl("Diagnosis", match_id_bs) ~ "1", 
                                          grepl("Recurrence", match_id_bs) ~ "2",
                                          grepl("Progressive", match_id_bs) ~ "3",
                                          TRUE ~ timepoints_deceased),
@@ -126,14 +113,19 @@ maf_autopsy <- patient_list_metadata %>%
                                       TRUE ~ timepoints_other)) %>%
   unique() %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
-```
 
-# Create tmb file for autopsy samples
-```{r tmb_autopsy}
+# How many patients have paired time samples with autopsy time point present?
+paired_time_samples_autopsy <- length(unique(maf_autopsy$Kids_First_Participant_ID))
+```
+## How many patient cases with autopsy samples in the paired longitudinal data?
+There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
+
+# Create tmb file for all patient samples with genomic assays
+```{r tmb_all}
 # We will create similar unique identifiers as we did for the maf file.
 # We will also create identifiers for each timepoint (timepoints_deceased and timepoints_other).
-tmb_autopsy <- patient_list_metadata %>% 
-  left_join(tmb, by = "Kids_First_Biospecimen_ID") %>%
+tmb_genomic <- patient_list_metadata %>% 
+  left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
   filter(!is.na(Kids_First_Participant_ID),
          !is.na(tmb)) %>%
    mutate(match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
@@ -145,14 +137,36 @@ tmb_autopsy <- patient_list_metadata %>%
           timepoints_other = match_id_bs,
           timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
                                        TRUE ~ timepoints_other),
-          log2_mutation_count = log2(mutation_count)) %>%
-  write_tsv(file.path(scratch_dir, "tmb_autopsy.tsv"))
+          log2_mutation_count = log2(mutation_count)) 
 
-paired_time_samples_autopsy_tmb <- length(unique(tmb_autopsy$Kids_First_Participant_ID))
+paired_time_samples_tmb_genomic <- length(unique(tmb_genomic$Kids_First_Participant_ID))
+
+# There are missing tmb information for some `Kids_First_Biospecimen_ID` in the pbta cohort.
+# This will result into cases with no matched longitudinal samples (`tumor_descriptor`) per `Kids_First_Participant_ID`.
+# First, let's find out which `Kids_First_Biospecimen_ID` samples are missing from the tmb table.
+tmb_missing_bs <- pbta %>% 
+  left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>% 
+  filter(is.na(tmb)) %>%
+  write_tsv(file.path(scratch_dir, "tmb_missing_bs.tsv"))
+
+# Now let's account for any missing tmb in the `tmb_genomic` and 
+# exclude those samples (`Kids_First_Participant_ID` and `tumor_descriptor`) from further analysis
+paired_tumor_descriptor_list <- tmb_genomic %>%
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, tumor_descriptor)  %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
+
+tmb_genomic_filter <- paired_tumor_descriptor_list %>% 
+  left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
+  write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
+
+paired_time_samples_tmb_genomic_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data
-There are `r paired_time_samples_autopsy_tmb` patient cases with TMB information.
+There are `r paired_time_samples_tmb_genomic_filter` (out of the `r paired_time_samples_tmb_genomic`) patient cases with TMB information.
 Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
