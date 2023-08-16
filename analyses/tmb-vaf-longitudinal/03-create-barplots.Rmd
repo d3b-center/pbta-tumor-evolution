@@ -56,12 +56,12 @@ tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim <- 13000
-tmb <- tmb_genomic
+tmb_df <- tmb_genomic
 
 # Run function
 fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
@@ -86,12 +86,12 @@ tmb_genomic_filter <- tmb_genomic %>%
 
 # Define parameters for function
 ylim <- 450
-tmb <- tmb_genomic_filter
+tmb_df <- tmb_genomic_filter
 
 # Run function
 fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb = tmb, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 8)
 print(p)
 dev.off()
@@ -115,7 +115,7 @@ for (i in seq_along(cancer_types)) {
   # Run function
   fname <- paste0(plots_dir, "/", cancer_types[i], "-", "Stacked-barplot-tmb-genomic-filter.pdf")
   print(fname)
-  p <- create_stacked_barplot_cancer_group_sum(tmb = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_types[i])
+  p <- create_stacked_barplot_cancer_group_sum(tmb_df = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_types[i])
   pdf(file = fname, width = 12, height = 8)
   print(p)
   dev.off()
@@ -141,7 +141,7 @@ for (i in seq_along(samples)) {
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
   print(fname)
-  p <- create_barplot_sample(tmb = tmb_sub,
+  p <- create_barplot_sample(tmb_df = tmb_sub,
                              ylim = ylim,
                              sid = samples[i])
   pdf(file = fname, width = 5, height = 4)
