@@ -63,7 +63,8 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
                                size = 3.5, hjust = 0, vjust = 0, nudge_x = 0.005, 
                                point.padding = NA, segment.color = NA, show.legend = FALSE, 
-                               xlim = c(0.02, NA), ylim = c(0.025, 0.96)) +
+                               xlim = c(0.02, NA), ylim = c(0.025, 0.96),
+                               max.overlaps=Inf) +
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
