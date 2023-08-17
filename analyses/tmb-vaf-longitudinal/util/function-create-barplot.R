@@ -36,7 +36,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 
 
 ###--------------------------------------------------------------
-#' Create stacked barplots for all samples and by cancer_group_sum
+#' Create stacked barplots for all samples and by cancer type
 #'
 #' @param tmb_df 
 #' @param ylim 
@@ -75,7 +75,7 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
 }
 
 ###--------------------------------------------------------------
-#' Create barplot for each `Kids_First_Biospecimen_ID` in the df
+#' Create barplot for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID` in the df
 #'
 #' @param tmb_df 
 #' @param ylim
