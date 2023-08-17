@@ -36,12 +36,12 @@ tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes"
 
 # File path to plots directory
 plots_dir <-
-  file.path(analysis_dir, "plots-v2")
+  file.path(analysis_dir, "plots")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-source(paste0(analysis_dir, "/util/function-create-barplot-v2.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
@@ -65,7 +65,7 @@ tmb_genomic <- tmb_genomic_all %>%
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
-# TMB per Kids_First_Participant_ID
+# TMB per Patient case
 We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
 
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
@@ -83,12 +83,12 @@ dev.off()
 ```
 Attention: Low TMB defined as ≤5 mutations/Mb, intermediate TMB defined as >5 and ≤20/Mb, high TMB defined as >20 and ≤50 Mb, and very high TMB defined as >50 mutations/Mb.
 
-Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 20) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
+Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 50) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
 tmb_genomic_filter <- tmb_genomic %>%
-  filter(!tmb >= 20)  %>%
+  filter(!tmb >= 50)  %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
@@ -114,7 +114,7 @@ print(p)
 dev.off()
 ```
 
-# TMB per patient_id and cancer_group_sum
+# TMB per Patient case and Cancer type
 We will explore TMB per cancer group over time by creating stacked barplots. We will plot based on cancer groups presenting with the highest number of samples (High- and Low-grade gliomas) vesrus any other cancer groups.
 
 ```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.align='center', fig.show='hold'}
@@ -152,7 +152,7 @@ for (i in seq_along(cancer_groups)) {
 }
 ```
 
-# Number of mutations per Kids_First_Participant_I and Kids_First_Biospecimen_ID
+# Number of mutations per Patient case and biospecimen sample
 Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%"}
