@@ -1,0 +1,176 @@
+---
+title: "Create TMB barplots of tumors across multiple timepoints of the PBTA Cohort"
+author: "Antonia Chroni <chronia@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `tmb_genomic.tsv` file generated from the `01-preprocess-data.Rmd` script.
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+# Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+tmb_genomic_file <- file.path(scratch_dir, "tmb_genomic.tsv")
+tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-barplot-v1.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+# Read in data and process
+```{r read_input_files}
+# Read and process tmb_genomic file
+tmb_genomic_all <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
+
+# Are there any samples with both WGS and WXS? 
+tmb_genomic_all %>% 
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, experimental_strategy)  %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
+
+# Yes, they are, so let's remove these from downstream analyses.
+tmb_genomic <- tmb_genomic_all %>% 
+  filter(!experimental_strategy == "WXS")
+
+# Read color palette
+tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+```
+
+# TMB per Kids_First_Participant_ID
+We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
+
+```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
+# Define parameters for function
+ylim <- 360
+tmb_df <- tmb_genomic
+
+# Run function
+fname <- paste0(plots_dir, "/", "TMB-genomic.pdf")
+print(fname)
+p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
+pdf(file = fname, width = 15, height = 6)
+print(p)
+dev.off()
+```
+Note that samples with Low TMB defined as ≤5 mutations/Mb, intermediate TMB defined as >5 and ≤20/Mb, high TMB defined as >20 and ≤50 Mb, and very high TMB defined as >50 mutations/Mb.
+
+We notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 20) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
+
+```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
+# Filter df
+tmb_genomic_filter <- tmb_genomic %>%
+  filter(!tmb >= 20)  %>%
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
+  left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
+                                   ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
+         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
+         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"),
+         patient_bs_id = paste(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, sep = "_")) %>% 
+  drop_na(tmb)
+
+# Define parameters for function
+ylim <- 12.5
+tmb_df <- tmb_genomic_filter
+
+# Run function
+fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
+print(fname)
+p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
+pdf(file = fname, width = 15, height = 8)
+print(p)
+dev.off()
+```
+
+# TMB per patient_id and cancer_group_sum
+We will explore TMB per cancer group over time by creating stacked barplots. We will plot based on cancer groups presenting with the highest number of samples (High- and Low-grade gliomas) vesrus any other cancer groups.
+
+```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.align='center', fig.show='hold'}
+cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
+print(cancer_groups)
+
+for (i in seq_along(cancer_groups)) {
+  print(i)
+  tmb_genomic_filter_sub <- tmb_genomic_filter %>%
+    filter(cancer_group_sum == cancer_groups [i])
+  
+  if(i == 1) {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 8
+
+  } else if (i == 2) {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 4.5
+    } else {
+    print (cancer_groups [i])
+    # Define parameters for function
+    ylim <- 12.5
+    }
+
+  # Run function
+  fname <- paste0(plots_dir, "/", "TMB-genomic", "-", cancer_groups[i], ".pdf")
+  print(fname)
+  p <- create_stacked_barplot_cancer_group_sum(tmb_df = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_groups[i])
+  pdf(file = fname, width = 12, height = 8)
+  print(p)
+  dev.off()
+}
+```
+
+# Number of mutations per patient_bs_id
+Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
+
+```{r create-barplot-sample, fig.width = 25, fig.height = 10, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%"}
+
+# Define parameters for function
+ylim <- 260
+tmb_df = tmb_genomic_filter
+
+# Run function
+fname <- paste0(plots_dir, "/", "Total-Mutations-patient_bs_id.pdf")
+print(fname)
+p <- create_barplot_sample(tmb_df = tmb_df,
+                           ylim = ylim)
+pdf(file = fname, width = 25, height = 10)
+print(p)
+dev.off()
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```

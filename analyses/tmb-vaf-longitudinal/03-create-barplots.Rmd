@@ -36,12 +36,12 @@ tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes"
 
 # File path to plots directory
 plots_dir <-
-  file.path(analysis_dir, "plots")
+  file.path(analysis_dir, "plots-v2")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-source(paste0(analysis_dir, "/util/function-create-barplot.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot-v2.R"))
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
@@ -65,7 +65,7 @@ tmb_genomic <- tmb_genomic_all %>%
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
-# TMB per `Kids_First_Participant_ID`
+# TMB per Kids_First_Participant_ID
 We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
 
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
@@ -74,7 +74,7 @@ ylim <- 360
 tmb_df <- tmb_genomic
 
 # Run function
-fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic.pdf")
+fname <- paste0(plots_dir, "/", "TMB-genomic.pdf")
 print(fname)
 p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 6)
@@ -106,7 +106,7 @@ ylim <- 12.5
 tmb_df <- tmb_genomic_filter
 
 # Run function
-fname <- paste0(plots_dir, "/", "Stacked-barplot-tmb-genomic-filter.pdf")
+fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
 print(fname)
 p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 8)
@@ -114,10 +114,10 @@ print(p)
 dev.off()
 ```
 
-# TMB per `patient_id` and `cancer_group_sum`
+# TMB per patient_id and cancer_group_sum
 We will explore TMB per cancer group over time by creating stacked barplots. We will plot based on cancer groups presenting with the highest number of samples (High- and Low-grade gliomas) vesrus any other cancer groups.
 
-```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.align='center', fig.show='hold', fig.cap="Number of mutations per patient & biospecimen"}
+```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.align='center', fig.show='hold'}
 cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
 print(cancer_groups)
 
@@ -142,19 +142,20 @@ for (i in seq_along(cancer_groups)) {
     }
 
   # Run function
-  fname <- paste0(plots_dir, "/", cancer_groups[i], "-", "Stacked-barplot-tmb-genomic-filter.pdf")
+  fname <- paste0(plots_dir, "/", "TMB-genomic", "-", cancer_groups[i], ".pdf")
   print(fname)
-  p <- create_stacked_barplot_cancer_group_sum(tmb_df = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_groups[i])
-  pdf(file = fname, width = 12, height = 8)
+  p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_groups[i])
+  pdf(file = fname, width = 12, height = 6)
   print(p)
   dev.off()
 }
 ```
 
-# Number of mutations per `Kids_First_Participant_ID` and `Kids_First_Biospecimen_ID`
+# Number of mutations per Kids_First_Participant_I and Kids_First_Biospecimen_ID
 Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
 
-```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%", fig.cap="Number of mutations per patient & biospecimen"}
+```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%"}
+
 samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
 
@@ -176,7 +177,6 @@ for (i in seq_along(samples)) {
   dev.off()
 }
 ```
-
 
 ```{r echo=TRUE}
 sessionInfo()
