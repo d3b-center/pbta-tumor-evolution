@@ -81,9 +81,9 @@ pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
 ```
-Note that samples with Low TMB defined as ≤5 mutations/Mb, intermediate TMB defined as >5 and ≤20/Mb, high TMB defined as >20 and ≤50 Mb, and very high TMB defined as >50 mutations/Mb.
+Attention: Low TMB defined as ≤5 mutations/Mb, intermediate TMB defined as >5 and ≤20/Mb, high TMB defined as >20 and ≤50 Mb, and very high TMB defined as >50 mutations/Mb.
 
-We notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 20) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
+Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 20) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
@@ -126,25 +126,26 @@ for (i in seq_along(cancer_groups)) {
   tmb_genomic_filter_sub <- tmb_genomic_filter %>%
     filter(cancer_group_sum == cancer_groups [i])
   
-  if(i == 1) {
-    print (cancer_groups [i])
+  if (i == 1) {
+    print(cancer_groups [i])
     # Define parameters for function
     ylim <- 8
-
-  } else if (i == 2) {
-    print (cancer_groups [i])
-    # Define parameters for function
-    ylim <- 4.5
-    } else {
-    print (cancer_groups [i])
-    # Define parameters for function
-    ylim <- 12.5
-    }
-
+    } else if (i == 2) {
+      print(cancer_groups [i])
+      # Define parameters for function
+      ylim <- 4.5
+      } else {
+        print(cancer_groups [i])
+        # Define parameters for function
+        ylim <- 12.5
+      }
+  
   # Run function
   fname <- paste0(plots_dir, "/", "TMB-genomic", "-", cancer_groups[i], ".pdf")
   print(fname)
-  p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, ylim = ylim, ct_id = cancer_groups[i])
+  p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, 
+                                 ylim = ylim, 
+                                 ct_id = cancer_groups[i])
   pdf(file = fname, width = 12, height = 6)
   print(p)
   dev.off()
