@@ -61,7 +61,6 @@ create_stacked_barplot_cancer_group_sum <- function(tmb_df, ylim, ct_id) {
 #'
 #' @param tmb_df 
 #' @param ylim
-#' @param yvalue
 #' @param sid 
 
 #'
@@ -69,22 +68,20 @@ create_stacked_barplot_cancer_group_sum <- function(tmb_df, ylim, ct_id) {
 #' @export
 #'
 #' @examples
-create_barplot_sample <- function(tmb_df, ylim, yvalue, sid) {
+create_barplot_sample <- function(tmb_df, ylim, sid) {
   
   # Reorder time points
   tmb_df$tumor_descriptor <- factor(x = tmb_df$tumor_descriptor, levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, y = yvalue, fill = tumor_descriptor)) +  
+  p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, y = mutation_count)) +  
+               geom_bar(stat ="identity", width = 0.9, color = tumor_descriptor_color_palette$hex_codes, fill = tumor_descriptor) + 
                geom_col(position = position_stack(reverse = TRUE)) +
-               scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
-               geom_bar(stat ="identity", width = 0.9) + 
+               #scale_fill_manual(values = tumor_descriptor_color_palette$hex_codes) +
                theme_Publication() + 
                theme(axis.text.x = element_text(angle = 85, hjust = 1, vjust = 1)) + 
                labs(title = paste(sid, "Barplot", sep = " ")) + 
-               labs(x = "Kids_First_Biospecimen_ID", y = "TMB") +
+               labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
                ylim(0, ylim))
   return(p)
 }
-
-
