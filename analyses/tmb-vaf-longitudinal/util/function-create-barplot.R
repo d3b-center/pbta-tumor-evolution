@@ -80,6 +80,7 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
 #'
 #' @param tmb_df 
 #' @param ylim
+#' @param sid
 #'
 #' @return
 #' @export
@@ -98,7 +99,7 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, 
                                 y = mutation_count, 
-                                fill = tumor_descriptor)) +  
+                                fill = timepoint_group)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                geom_bar(stat = "identity", width = 0.5) + 
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
@@ -108,5 +109,5 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
                                                 vjust = 1)) + 
                labs(title = paste(sid)) + 
                labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
-               ylim(0, ylim))
+               ylim(0, ylim)) 
 }

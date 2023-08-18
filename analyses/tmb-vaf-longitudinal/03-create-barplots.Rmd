@@ -172,17 +172,34 @@ for (i in seq_along(cancer_groups)) {
 # Number of mutations per Patient case and biospecimen sample
 Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
 
-```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%"}
-samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
+```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+tmb_genomic_filter_samples <- tmb_genomic_filter %>% 
+  arrange(tumor_descriptor_order, Kids_First_Biospecimen_ID) %>% 
+ # create plot order 
+  mutate(plot_order = row_number())
+
+samples <- unique(as.character(tmb_genomic_filter_samples$Kids_First_Participant_ID))
 print(samples)
 
 for (i in seq_along(samples)) {
   print(i)
-  tmb_sub <- tmb_genomic_filter %>%
+  tmb_sub <- tmb_genomic_filter_samples %>%
     filter(Kids_First_Participant_ID == samples[i])
-  # Define parameters for function
-  ylim <- 260
   
+  if (i %in% c(42, 37, 16, 1, 38, 52)) { # "PT_9S6WMQ92", "PT_ESHACWF6", "PT_JNEV57VK", "PT_TKWTTRQ7",  "PT_N8W26H19", "PT_2YT37G8P"
+    print(samples[i])
+    # Define parameters for function
+    ylim <- 260
+    } else if (i %in% c(27, 31, 30, 6, 38, 28,  15, 49, 47, 46, 50, 54)) { 
+      print(samples[i])
+      # Define parameters for function
+      ylim <- 100 # "PT_37B5JRP1", "PT_CXT81GRM", "PT_JSFBMK5V", "PT_XA98HG1C", "PT_N8W26H19",  "PT_89XRZBSG","PT_99S5BPE3", "PT_8GN3TQRM", "PT_HFQNKP5X", "PT_MDWPRDBT",  "PT_9PJR0ZK7", "PT_1H2REHT2"
+      } else {
+        print(samples[i])
+        # Define parameters for function
+        ylim <- 50
+      } 
+ 
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
   print(fname)
