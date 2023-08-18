@@ -162,7 +162,6 @@ for (i in seq_along(cancer_groups)) {
     p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, 
                                  ylim = ylim, 
                                  ct_id = cancer_groups[i])
-    plot_lst[[i]] <- p  # add each plot into plot list
     pdf(file = fname, width = 12, height = 6)
     print(p)
     dev.off()
