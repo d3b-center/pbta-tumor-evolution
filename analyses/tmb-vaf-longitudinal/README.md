@@ -30,7 +30,7 @@ Then, we will leverage this information to create one column for the constant va
 
 `03-create-barplots.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
 
-`function-create-barplot.R` is a script containing the functions to (1) create barplot by sample, (2) create stacked barplots for all samples, and (3) create stacked barplots for all samples and by broad_histology.
+`function-create-barplot.R` is a script containing the functions to create (1) stacked barplots for all samples, (2) stacked barplots for all samples and by cancer type, and (3) barplot for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID`
 
 ## Results
 

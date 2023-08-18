@@ -10,17 +10,17 @@
 create_stacked_barplot <- function(tmb_df, ylim) {
 
   # Reorder time points
-  tmb_df$tumor_descriptor <- factor(x = tmb_df$tumor_descriptor, 
-                                    levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
-
+  timepoint_group <- factor(tmb_df$tumor_descriptor, 
+                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
+  
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb_df, aes(x = Kids_First_Participant_ID, 
+  p <- print(ggplot(tmb_df, aes(x = reorder(Kids_First_Participant_ID, plot_order), 
                                 y = tmb, 
-                                fill = tumor_descriptor)) +  
+                                fill = timepoint_group)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                geom_bar(stat = "identity", width = 0.9) + 
@@ -30,7 +30,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
                                                 vjust = 1)) + 
                labs(title = paste("TMB in PBTA cohort", sep = " ")) + 
                labs(x = "Kids_First_Participant_ID", y = "TMB") +
-               ylim(0, ylim))
+               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
   return(p)
 }
 
@@ -50,17 +50,17 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
   
   # Reorder time points
-  tmb_df$tumor_descriptor <- factor(x = tmb_df$tumor_descriptor, 
-                                    levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
+  timepoint_group <- factor(x = tmb_df$tumor_descriptor, 
+                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb_df, aes(x = patient_id, 
+  p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), 
                                 y = tmb, 
-                                fill = tumor_descriptor)) +  
+                                fill = timepoint_group)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                geom_bar(stat = "identity", width = 0.9) + 
@@ -70,7 +70,9 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
                                                 vjust = 1)) + 
                labs(title = paste(ct_id)) + 
                labs(x = "Kids_First_Participant_ID", y = "TMB") +
-               ylim(0, ylim))
+               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
+                                  
+                                 
   return(p)
 }
 
@@ -87,8 +89,8 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
 create_barplot_sample <- function(tmb_df, ylim, sid) {
   
   # Reorder time points
-  tmb_df$tumor_descriptor <- factor(x = tmb_df$tumor_descriptor, 
-                                    levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))
+  timepoint_group <- factor(x = tmb_df$tumor_descriptor, 
+                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
@@ -107,5 +109,5 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
                                                 vjust = 1)) + 
                labs(title = paste(sid)) + 
                labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
-               ylim(0, ylim))
+               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
 }

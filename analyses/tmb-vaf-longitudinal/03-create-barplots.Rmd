@@ -55,7 +55,7 @@ tmb_genomic_all %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, experimental_strategy)  %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
+  dplyr::summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
 
 # Yes, they are, so let's remove these from downstream analyses.
 tmb_genomic <- tmb_genomic_all %>% 
@@ -92,14 +92,24 @@ tmb_genomic_filter <- tmb_genomic %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
-  left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  dplyr::left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
          cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
-  drop_na(tmb)
+         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"),
+         tumor_descriptor_order = case_when(grepl("Diagnosis", tumor_descriptor) ~ "1",
+                                          grepl("Recurrence", tumor_descriptor) ~ "2",
+                                          grepl("Progressive", tumor_descriptor) ~ "3",
+                                          grepl("Deceased", tumor_descriptor) ~ "4",
+                                          grepl("Second Malignancy", tumor_descriptor) ~ "5",
+                                          grepl("Unavailable", tumor_descriptor) ~ "6")) %>% 
+  drop_na(tmb) %>% 
+  arrange(tumor_descriptor_order, descriptors) %>% 
+ # create plot order by tumor_descriptor and descriptors
+  mutate(plot_order = row_number())
+
 
 # Define parameters for function
 ylim <- 12.5
@@ -117,11 +127,14 @@ dev.off()
 # TMB per Patient case and Cancer type
 We will explore TMB per cancer group over time by creating stacked barplots. We will plot based on cancer groups presenting with the highest number of samples (High- and Low-grade gliomas) vesrus any other cancer groups.
 
-```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.align='center', fig.show='hold'}
+```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
 cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
 print(cancer_groups)
 
-for (i in seq_along(cancer_groups)) {
+Howmany <- length(unique(tmb_genomic_filter$cancer_group_sum))
+plot_lst <- vector(mode='list', length = Howmany) #' an empty list
+
+for (i in 1:Howmany) {
   print(i)
   tmb_genomic_filter_sub <- tmb_genomic_filter %>%
     filter(cancer_group_sum == cancer_groups [i])
@@ -139,17 +152,32 @@ for (i in seq_along(cancer_groups)) {
         # Define parameters for function
         ylim <- 12.5
       }
-  
-  # Run function
-  fname <- paste0(plots_dir, "/", "TMB-genomic", "-", cancer_groups[i], ".pdf")
-  print(fname)
-  p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, 
+    
+    # Name plots
+    fname <- paste0(plots_dir, "/", "TMB-genomic", "-", cancer_groups[i], ".pdf")
+    print(fname)
+    
+    # Run function
+    p <- create_stacked_barplot_ct(tmb_df = tmb_genomic_filter_sub, 
                                  ylim = ylim, 
                                  ct_id = cancer_groups[i])
-  pdf(file = fname, width = 12, height = 6)
-  print(p)
-  dev.off()
+    plot_lst[[i]] <- p  # add each plot into plot list
+    pdf(file = fname, width = 12, height = 6)
+    print(p)
+    dev.off()
+
 }
+
+
+# Set plot layout
+layout.matrix <- matrix(c(2, 1, 0, 3), ncol = 3)
+
+layout(mat = layout.matrix,
+       heights = c(1, 2), # Heights of the two rows
+       widths = c(2, 2)) # Widths of the two columns
+
+layout.show(3)
+plots_panel <- multiplot(plotlist = plot_lst, ncol = 3, widths = c(1.5,2))
 ```
 
 # Number of mutations per Patient case and biospecimen sample
