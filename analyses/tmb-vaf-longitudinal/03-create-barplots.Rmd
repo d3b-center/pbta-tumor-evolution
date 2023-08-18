@@ -59,7 +59,16 @@ tmb_genomic_all %>%
 
 # Yes, they are, so let's remove these from downstream analyses.
 tmb_genomic <- tmb_genomic_all %>% 
-  filter(!experimental_strategy == "WXS")
+  filter(!experimental_strategy == "WXS") %>% 
+  mutate(tumor_descriptor_order = case_when(grepl("Diagnosis", tumor_descriptor) ~ "1",
+                                          grepl("Recurrence", tumor_descriptor) ~ "2",
+                                          grepl("Progressive", tumor_descriptor) ~ "3",
+                                          grepl("Deceased", tumor_descriptor) ~ "4",
+                                          grepl("Second Malignancy", tumor_descriptor) ~ "5",
+                                          grepl("Unavailable", tumor_descriptor) ~ "6")) %>% 
+  arrange(tumor_descriptor_order, descriptors) %>% 
+ # create plot order by tumor_descriptor and descriptors
+  mutate(plot_order = row_number())
 
 # Read color palette
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
@@ -98,13 +107,7 @@ tmb_genomic_filter <- tmb_genomic %>%
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
          cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"),
-         tumor_descriptor_order = case_when(grepl("Diagnosis", tumor_descriptor) ~ "1",
-                                          grepl("Recurrence", tumor_descriptor) ~ "2",
-                                          grepl("Progressive", tumor_descriptor) ~ "3",
-                                          grepl("Deceased", tumor_descriptor) ~ "4",
-                                          grepl("Second Malignancy", tumor_descriptor) ~ "5",
-                                          grepl("Unavailable", tumor_descriptor) ~ "6")) %>% 
+         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
   drop_na(tmb) %>% 
   arrange(tumor_descriptor_order, descriptors) %>% 
  # create plot order by tumor_descriptor and descriptors
@@ -129,12 +132,10 @@ We will explore TMB per cancer group over time by creating stacked barplots. We 
 
 ```{r create-stacked-barplot-filter-cancer-group-sum, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
 cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
+cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
-Howmany <- length(unique(tmb_genomic_filter$cancer_group_sum))
-plot_lst <- vector(mode='list', length = Howmany) #' an empty list
-
-for (i in 1:Howmany) {
+for (i in seq_along(cancer_groups)) {
   print(i)
   tmb_genomic_filter_sub <- tmb_genomic_filter %>%
     filter(cancer_group_sum == cancer_groups [i])
@@ -142,7 +143,7 @@ for (i in 1:Howmany) {
   if (i == 1) {
     print(cancer_groups [i])
     # Define parameters for function
-    ylim <- 8
+    ylim <- 12.5
     } else if (i == 2) {
       print(cancer_groups [i])
       # Define parameters for function
@@ -150,7 +151,7 @@ for (i in 1:Howmany) {
       } else {
         print(cancer_groups [i])
         # Define parameters for function
-        ylim <- 12.5
+        ylim <- 8
       }
     
     # Name plots
@@ -167,24 +168,12 @@ for (i in 1:Howmany) {
     dev.off()
 
 }
-
-
-# Set plot layout
-layout.matrix <- matrix(c(2, 1, 0, 3), ncol = 3)
-
-layout(mat = layout.matrix,
-       heights = c(1, 2), # Heights of the two rows
-       widths = c(2, 2)) # Widths of the two columns
-
-layout.show(3)
-plots_panel <- multiplot(plotlist = plot_lst, ncol = 3, widths = c(1.5,2))
 ```
 
 # Number of mutations per Patient case and biospecimen sample
 Here, we want to explore the number of mutations (`mutation_count` column) per timepoint and biospecimen sample per patient case by creating barplots.
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE, fig.show='hold', fig.align='center', out.width  =  "50%"}
-
 samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
 

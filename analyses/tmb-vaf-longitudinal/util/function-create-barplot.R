@@ -21,7 +21,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
   p <- print(ggplot(tmb_df, aes(x = reorder(Kids_First_Participant_ID, plot_order), 
                                 y = tmb, 
                                 fill = timepoint_group)) +  
-               geom_col(position = position_stack(reverse = TRUE)) +
+               geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                geom_bar(stat = "identity", width = 0.9) + 
                theme_Publication() + 
@@ -30,7 +30,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
                                                 vjust = 1)) + 
                labs(title = paste("TMB in PBTA cohort", sep = " ")) + 
                labs(x = "Kids_First_Participant_ID", y = "TMB") +
-               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
+               ylim(0, ylim))
   return(p)
 }
 
@@ -41,7 +41,6 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 #' @param tmb_df 
 #' @param ylim 
 #' @param ct_id 
-
 #'
 #' @return
 #' @export
@@ -61,7 +60,7 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
   p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), 
                                 y = tmb, 
                                 fill = timepoint_group)) +  
-               geom_col(position = position_stack(reverse = TRUE)) +
+               geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                geom_bar(stat = "identity", width = 0.9) + 
                theme_Publication() + 
@@ -70,7 +69,7 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
                                                 vjust = 1)) + 
                labs(title = paste(ct_id)) + 
                labs(x = "Kids_First_Participant_ID", y = "TMB") +
-               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
+               ylim(0, ylim))
                                   
                                  
   return(p)
@@ -101,7 +100,7 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
                                 y = mutation_count, 
                                 fill = tumor_descriptor)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
-               geom_bar(stat = "identity", width = 0.9) + 
+               geom_bar(stat = "identity", width = 0.5) + 
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                theme_Publication() + 
                theme(axis.text.x = element_text(angle = 85, 
@@ -109,5 +108,5 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
                                                 vjust = 1)) + 
                labs(title = paste(sid)) + 
                labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
-               scale_y_continuous( breaks = seq(from = 0, to = ylim, by = 0.2)))
+               ylim(0, ylim))
 }
