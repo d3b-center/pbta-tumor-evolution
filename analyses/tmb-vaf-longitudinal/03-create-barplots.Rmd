@@ -60,13 +60,8 @@ tmb_genomic_all %>%
 # Yes, they are, so let's remove these from downstream analyses.
 tmb_genomic <- tmb_genomic_all %>% 
   filter(!experimental_strategy == "WXS") %>% 
-  mutate(tumor_descriptor_order = case_when(grepl("Diagnosis", tumor_descriptor) ~ "1",
-                                          grepl("Recurrence", tumor_descriptor) ~ "2",
-                                          grepl("Progressive", tumor_descriptor) ~ "3",
-                                          grepl("Deceased", tumor_descriptor) ~ "4",
-                                          grepl("Second Malignancy", tumor_descriptor) ~ "5",
-                                          grepl("Unavailable", tumor_descriptor) ~ "6")) %>% 
-  arrange(tumor_descriptor_order, descriptors) %>% 
+  mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
+  arrange(tumor_descriptor, descriptors) %>% 
  # create plot order by tumor_descriptor and descriptors
   mutate(plot_order = row_number())
 
@@ -106,10 +101,9 @@ tmb_genomic_filter <- tmb_genomic %>%
   dplyr::left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
-         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-         patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
+         cancer_group_sum = replace_na(cancer_group_sum, "Other")) %>% 
   drop_na(tmb) %>% 
-  arrange(tumor_descriptor_order, descriptors) %>% 
+  arrange(tumor_descriptor, descriptors) %>% 
  # create plot order by tumor_descriptor and descriptors
   mutate(plot_order = row_number())
 
@@ -174,7 +168,7 @@ Here, we want to explore the number of mutations (`mutation_count` column) per t
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
 tmb_genomic_filter_samples <- tmb_genomic_filter %>% 
-  arrange(tumor_descriptor_order, Kids_First_Biospecimen_ID) %>% 
+  arrange(tumor_descriptor, Kids_First_Biospecimen_ID) %>% 
  # create plot order 
   mutate(plot_order = row_number())
 

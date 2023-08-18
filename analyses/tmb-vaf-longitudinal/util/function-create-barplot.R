@@ -18,7 +18,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb_df, aes(x = reorder(Kids_First_Participant_ID, plot_order), 
+  p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), 
                                 y = tmb, 
                                 fill = timepoint_group)) +  
                geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
@@ -29,7 +29,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
                                                 hjust = 1, 
                                                 vjust = 1)) + 
                labs(title = paste("TMB in PBTA cohort", sep = " ")) + 
-               labs(x = "Kids_First_Participant_ID", y = "TMB") +
+               labs(x = "Patient case", y = "TMB") +
                ylim(0, ylim))
   return(p)
 }
@@ -68,7 +68,7 @@ create_stacked_barplot_ct <- function(tmb_df, ylim, ct_id) {
                                                 hjust = 1, 
                                                 vjust = 1)) + 
                labs(title = paste(ct_id)) + 
-               labs(x = "Kids_First_Participant_ID", y = "TMB") +
+               labs(x = "Patient case", y = "TMB") +
                ylim(0, ylim))
                                   
                                  
