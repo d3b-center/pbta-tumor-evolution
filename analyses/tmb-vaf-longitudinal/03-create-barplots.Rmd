@@ -192,7 +192,6 @@ for (i in seq_along(cancer_groups)) {
     pdf(file = fname, width = 18, height = 10)
     print(p)
     dev.off()
-
 }
 ```
 
@@ -200,17 +199,12 @@ for (i in seq_along(cancer_groups)) {
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
-tmb_genomic_filter_samples <- tmb_genomic_filter %>% 
-  arrange(tumor_descriptor_order, Kids_First_Biospecimen_ID) %>% 
- # create plot order 
-  mutate(plot_order = row_number())
-
-samples <- unique(as.character(tmb_genomic_filter_samples$Kids_First_Participant_ID))
+samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
 print(samples)
 
 for (i in seq_along(samples)) {
   print(i)
-  tmb_sub <- tmb_genomic_filter_samples %>%
+  tmb_sub <- tmb_genomic_filter %>%
     filter(Kids_First_Participant_ID == samples[i])
   
   if (i %in% c(42, 37, 16, 1, 38, 52)) { # "PT_9S6WMQ92", "PT_ESHACWF6", "PT_JNEV57VK", "PT_TKWTTRQ7",  "PT_N8W26H19", "PT_2YT37G8P"
