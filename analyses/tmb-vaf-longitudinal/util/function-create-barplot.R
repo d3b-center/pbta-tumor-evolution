@@ -10,7 +10,7 @@
 create_stacked_barplot <- function(tmb_df, ylim) {
 
   # Rename legend for timepoints
-  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  Timepoints <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
@@ -19,7 +19,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Participant_ID, 
                                 y = tmb, 
-                                fill = timepoint_group)) +  
+                                fill = Timepoints)) +  
                geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
                geom_bar(stat = "identity", width = 0.9) + 
@@ -48,17 +48,17 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
   
   # Rename legend for timepoints
-  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  Timepoints <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot  
-  p <- print(ggplot(tmb_df, aes(x = patient_id, y = tmb. fill = timepoint_group)) +
+  p <- print(ggplot(tmb_df, aes(x = patient_id, y = tmb)) +
                coord_flip() +
                geom_line() +
-               geom_point(aes(color = tumor_descriptor), size = 3) +
+               geom_point(aes(color = Timepoints), size = 3) +
                scale_color_manual(values = palette, breaks = sort(names(palette)), labels = sort(names(palette))) +
                theme(legend.position = "bottom") +
                theme_Publication() + 
@@ -86,17 +86,17 @@ create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
 create_dumbbell_ct_mut <- function(tmb_df, ylim, ct_id) {
   
   # Rename legend for timepoints
-  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  Timepoints <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot 
-  p <- print(ggplot(tmb_df, aes(x = patient_id, y = mutation_count, fill = timepoint_group)) +
+  p <- print(ggplot(tmb_df, aes(x = patient_id, y = mutation_count)) +
                coord_flip() +
                geom_line() +
-               geom_point(aes(color = tumor_descriptor), size = 3) +
+               geom_point(aes(color = Timepoints), size = 3) +
                scale_color_manual(values = palette, breaks = sort(names(palette)), labels = sort(names(palette))) +
                theme(legend.position = "bottom") +
                theme_Publication() + 
@@ -125,7 +125,7 @@ create_dumbbell_ct_mut <- function(tmb_df, ylim, ct_id) {
 create_barplot_sample <- function(tmb_df, ylim, sid) {
   
   # Rename legend for timepoints
-  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  Timepoints <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
@@ -134,7 +134,7 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, 
                                 y = mutation_count, 
-                                fill = timepoint_group)) +  
+                                fill = Timepoints)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                geom_bar(stat = "identity", width = 0.5) + 
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
