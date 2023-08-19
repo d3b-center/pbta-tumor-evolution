@@ -48,23 +48,20 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 # Read in data and process
 ```{r read_input_files}
 # Read and process tmb_genomic file
-tmb_genomic_all <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
+tmb_genomic_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Are there any samples with both WGS and WXS? 
-tmb_genomic_all %>% 
+tmb_genomic_total %>% 
   unique() %>% 
   arrange(Kids_First_Participant_ID, experimental_strategy)  %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
 
-# Create a factor to order timepoints
-f <- factor(c(tmb_genomic_all$tumor_descriptor), levels = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Unavailable", "Second Malignancy"))
-
 # Yes, they are, so let's remove these from downstream analyses.
-tmb_genomic <- tmb_genomic_all %>% 
+tmb_df_filter <- tmb_genomic_total %>% 
   filter(!experimental_strategy == "WXS") %>% 
-  mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
-
+  dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
+  
 # Read color palette
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
@@ -75,12 +72,24 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim <- 360
-tmb_df <- tmb_genomic
 
+f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
+plot_df <- tmb_df_filter %>% 
+  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                 tumor_descriptor = fct_relevel(tumor_descriptor, f),
+                 tumor_descriptor = fct_reorder(tumor_descriptor, descriptors)) 
+
+
+ mutate(eye_color = fct_reorder(eye_color, mean_mass)) %>%
+   
+mutate(tumor_descriptor = fct_reorder(tumor_descriptor, descriptors))
+  mutate(Source = fct_relevel(Source, "Modified InterVar", "ClinVar"))
+  
+  
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = plot_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
@@ -91,7 +100,7 @@ Here, we notice that there are samples with high TMB (hyper-mutant samples). Nex
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
-tmb_genomic_filter <- tmb_genomic %>%
+plot_df_filter <- tmb_df_filter %>%
   filter(!tmb >= 10)  %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
@@ -101,18 +110,20 @@ tmb_genomic_filter <- tmb_genomic %>%
   dplyr::left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
-         cancer_group_sum = replace_na(cancer_group_sum, "Other")) %>% 
+         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
+                 tumor_descriptor = factor(tumor_descriptor),
+                 tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
   drop_na(tmb) 
 
 
 # Define parameters for function
 ylim <- 12.5
-tmb_df <- tmb_genomic_filter
+plot_df_filter <- plot_df_filter
 
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = tmb_df, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = plot_df_filter, ylim = ylim)
 pdf(file = fname, width = 25, height = 8)
 print(p)
 dev.off()
@@ -122,13 +133,13 @@ dev.off()
 We will explore TMB per cancer group over time by creating dumbbell plots. We classified by using cancer types with the highest number of samples (High- and Low-grade gliomas) versus any other cancer groups.
 
 ```{r create-dumbbell-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
-cancer_groups <- unique(as.character(tmb_genomic_filter$cancer_group_sum))
+cancer_groups <- unique(as.character(plot_df_filter$cancer_group_sum))
 cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
 for (i in seq_along(cancer_groups)) {
   print(i)
-  df_ct_sub <- tmb_genomic_filter %>% 
+  df_ct_sub <- plot_df_filter %>% 
     filter(cancer_group_sum == cancer_groups [i])
   
   if (i == 1) {
@@ -164,7 +175,7 @@ for (i in seq_along(cancer_groups)) {
 ```{r create-dumbbell-ct-mut, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
 for (i in seq_along(cancer_groups)) {
   print(i)
-  df_ct_sub <- tmb_genomic_filter %>% 
+  df_ct_sub <- plot_df_filter %>% 
     filter(cancer_group_sum == cancer_groups [i])
   
   if (i == 1) {
@@ -199,12 +210,12 @@ for (i in seq_along(cancer_groups)) {
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
-samples <- unique(as.character(tmb_genomic_filter$Kids_First_Participant_ID))
+samples <- unique(as.character(plot_df_filter$Kids_First_Participant_ID))
 print(samples)
 
 for (i in seq_along(samples)) {
   print(i)
-  tmb_sub <- tmb_genomic_filter %>%
+  tmb_sub <- plot_df_filter %>%
     filter(Kids_First_Participant_ID == samples[i])
   
   if (i %in% c(42, 37, 16, 1, 38, 52)) { # "PT_9S6WMQ92", "PT_ESHACWF6", "PT_JNEV57VK", "PT_TKWTTRQ7",  "PT_N8W26H19", "PT_2YT37G8P"
