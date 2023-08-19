@@ -145,4 +145,5 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
                labs(title = paste(sid)) + 
                labs(x = "Kids_First_Biospecimen_ID", y = "Total Mutations") +
                ylim(0, ylim)) 
+  return(p)
 }

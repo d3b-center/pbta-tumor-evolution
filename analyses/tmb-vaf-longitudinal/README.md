@@ -36,11 +36,11 @@ Then, we will leverage this information to create one column for the constant va
 
 There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
-Moreover, we explored TMB across longitudinal samples with genomic assays. 
+Moreover, we explored TMB and number of mutations across longitudinal samples with genomic assays. 
 
-Generally, low TMB is defined as ≤5 mutations/Mb, intermediate TMB defined as >5 and ≤20/Mb, high TMB defined as >20 and ≤50 Mb, and very high TMB defined as >50 mutations/Mb. There are hyper mutant samples in the PBTA cohort. We excluded samples with >= 50 from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We also remove those so we always have matched longitudinal samples.
+Generally, Hypermutant TMB defined as ≤10 Mb, and Ultrahypermutant TMB defined as >100 mutations/Mb (https://pubmed.ncbi.nlm.nih.gov/29056344/). There are hyper mutant samples in the PBTA cohort. We excluded samples with >= 10 from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We also remove those so we always have matched longitudinal samples.
 
-Overall, we observe low TMB across samples (≤5 mutations/Mb). TMB patterns across timepoints seem to be idiosyncratic, but we notice a higher overall TMB for Progressive and Recurrence compared to other timepoints (still in most of the cases it could be classified as low TMB). We don’t see any patterns driven by cancer type.
+Overall, TMB patterns across timepoints seem to be idiosyncratic, but we notice a higher overall TMB for Progressive and Recurrence compared to other timepoints. We don’t see any patterns driven by cancer type.
 
 We also explored the total number of mutations per biospecimen sample and per timepoint in each patient case. This is to showcase the importance of number of samples per timepoint and how each biopsy might be capturing a different number of mutations (and potentially of driver genes). 
 

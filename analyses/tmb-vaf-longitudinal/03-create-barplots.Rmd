@@ -57,11 +57,11 @@ tmb_genomic_total %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
 
-# Yes, they are, so let's remove these from downstream analyses.
+# There are, so let's remove these from downstream analyses.
 tmb_df_filter <- tmb_genomic_total %>% 
   filter(!experimental_strategy == "WXS") %>% 
   dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
-  
+    
 # Read color palette
 tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
@@ -73,21 +73,14 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 # Define parameters for function
 ylim <- 360
 
+# df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
 plot_df <- tmb_df_filter %>% 
   dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
-                 tumor_descriptor = fct_relevel(tumor_descriptor, f),
-                 tumor_descriptor = fct_reorder(tumor_descriptor, descriptors)) 
+                 tumor_descriptor = fct_relevel(tumor_descriptor, f)) 
 
-
- mutate(eye_color = fct_reorder(eye_color, mean_mass)) %>%
-   
-mutate(tumor_descriptor = fct_reorder(tumor_descriptor, descriptors))
-  mutate(Source = fct_relevel(Source, "Modified InterVar", "ClinVar"))
-  
-  
 # Run function
-fname <- paste0(plots_dir, "/", "TMB-genomic.pdf")
+fname <- paste0(plots_dir, "/", "TMB-genomic-total.pdf")
 print(fname)
 p <- create_stacked_barplot(tmb_df = plot_df, ylim = ylim)
 pdf(file = fname, width = 15, height = 6)
@@ -107,12 +100,12 @@ plot_df_filter <- tmb_df_filter %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
-  dplyr::left_join(tmb_genomic, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  dplyr::left_join(tmb_df_filter, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
          cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-                 tumor_descriptor = factor(tumor_descriptor),
-                 tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
   drop_na(tmb) 
 
 
@@ -218,19 +211,8 @@ for (i in seq_along(samples)) {
   tmb_sub <- plot_df_filter %>%
     filter(Kids_First_Participant_ID == samples[i])
   
-  if (i %in% c(42, 37, 16, 1, 38, 52)) { # "PT_9S6WMQ92", "PT_ESHACWF6", "PT_JNEV57VK", "PT_TKWTTRQ7",  "PT_N8W26H19", "PT_2YT37G8P"
-    print(samples[i])
-    # Define parameters for function
-    ylim <- 260
-    } else if (i %in% c(27, 31, 30, 6, 38, 28,  15, 49, 47, 46, 50, 54)) { 
-      print(samples[i])
-      # Define parameters for function
-      ylim <- 100 # "PT_37B5JRP1", "PT_CXT81GRM", "PT_JSFBMK5V", "PT_XA98HG1C", "PT_N8W26H19",  "PT_89XRZBSG","PT_99S5BPE3", "PT_8GN3TQRM", "PT_HFQNKP5X", "PT_MDWPRDBT",  "PT_9PJR0ZK7", "PT_1H2REHT2"
-      } else {
-        print(samples[i])
-        # Define parameters for function
-        ylim <- 50
-      } 
+  # Define parameters for function
+  ylim <- 260
  
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
@@ -242,6 +224,67 @@ for (i in seq_along(samples)) {
   print(p)
   dev.off()
 }
+```
+
+# DRAFT
+```{r DRAFT-create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRU, eval = FALSE}
+samples <- unique(as.character(plot_df_filter$Kids_First_Participant_ID))
+print(samples)
+
+# Empty list
+dat_list <- list()
+
+for (i in seq_along(samples)) {
+  dat <- plot_df_filter %>%
+    filter(Kids_First_Participant_ID == samples[i])     # Generate dataframe
+    dat_list <- append(dat_list, list(dat)) # Add to list
+    name <- paste(samples[i])
+    dat_list <- assign(paste0(name, i), dat_list)
+}
+
+#df = plot_df_filter %>% filter (mutation_count <= 50)
+# unique(df$Kids_First_Participant_ID)
+#df = plot_df_filter %>% filter (between(mutation_count, 51, 100))
+#unique(df$Kids_First_Participant_ID)
+#df = plot_df_filter %>% filter (between(mutation_count, 101, 150))
+#unique(df$Kids_First_Participant_ID)
+#df = plot_df_filter %>% filter (between(mutation_count, 151, 200))
+#unique(df$Kids_First_Participant_ID)
+#df = plot_df_filter %>% filter (between(mutation_count, 201, 260))
+#unique(df$Kids_First_Participant_ID)
+
+for (dat in names(dat_list)) {
+    if (dat == "PT_JNEV57VK"){
+    # Define parameters for function
+    ylim <- 260
+    print(dat)
+  }
+  if (dat %in% c("PT_2YT37G8P", "PT_9S6WMQ92", "PT_ESHACWF6", "PT_N8W26H19")){
+    # Define parameters for function
+    ylim <- 150
+    print(dat)
+  }
+  
+  if (dat %in% c("PT_1H2REHT2", "PT_37B5JRP1", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_9S6WMQ92", "PT_CXT81GRM", "PT_HFQNKP5X", "PT_JSFBMK5V", "PT_MDWPRDBT", "PT_TKWTTRQ7", "PT_XA98HG1C")){
+    # Define parameters for function
+    ylim <- 100
+    print(dat)
+    }
+   if (dat %in% c("PT_00G007DM", "PT_02J5CWN5", "PT_1H2REHT2", "PT_1ZAWNGWT", "PT_25Z2NX27", "PT_2ECVKTTQ", "PT_2FVTD0WR", "PT_2YT37G8P", "PT_37B5JRP1", "PT_3R0P995B", "PT_3T3VGWC6", "PT_3VCS1PPF", "PT_7M2PGCBV", "PT_82MX6J77", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_962TCBVR", "PT_98QMQZY7", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_AQWDQW27", "PT_CXT81GRM", "PT_DFQAH7RS", "PT_ESHACWF6", "PT_FN4GEEFR", "PT_HFQNKP5X", "PT_HJMP6PH2", "PT_JP1FDKN9", "PT_JSFBMK5V", "PT_K8ZV7APT", "PT_KMHGNCNR", "PT_MDWPRDBT", "PT_MNSEJCDM", "PT_N8W26H19", "PT_NPETR8RY", "PT_PFA762TK", "PT_PR4YBBH3", "PT_QH9H491G", "PT_RJ1TJ2KH", "PT_S2SQJVGK", "PT_S4YNE17X", "PT_T2M1338J", "PT_TKWTTRQ7", "PT_W6AWJJK7", "PT_WP871F5S", "PT_XA98HG1C", "PT_XHYBZKCX", "PT_XTVQB9S4", "PT_YGN06RPZ", "PT_Z4GS3ZQQ", "PT_ZMKMKCFQ", "PT_ZZRBX5JT")) {
+     # Define parameters for function
+    ylim <- 50
+    print(dat)
+    
+  # Run function
+  fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
+  print(fname)
+  p <- create_barplot_sample(tmb_df = tmb_sub,
+                             ylim = ylim,
+                             sid = samples[i])
+  pdf(file = fname, width = 5, height = 4)
+  print(p)
+  dev.off()
+}}
 ```
 
 ```{r echo=TRUE}
