@@ -136,8 +136,7 @@ tmb_genomic <- patient_list_metadata %>%
                                           TRUE ~ timepoints_deceased),
           timepoints_other = match_id_bs,
           timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
-                                       TRUE ~ timepoints_other),
-          log2_mutation_count = log2(mutation_count)) 
+                                       TRUE ~ timepoints_other)) 
 
 paired_time_samples_tmb_genomic <- length(unique(tmb_genomic$Kids_First_Participant_ID))
 
