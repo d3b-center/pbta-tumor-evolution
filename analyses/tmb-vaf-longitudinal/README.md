@@ -28,7 +28,7 @@ Then, we will leverage this information to create one column for the constant va
 
 `01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_genomic.tsv` files for the next steps and are placed in `../../scratch`.
 
-`03-create-barplots.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
+`03-explore-TMB-mut.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
 
 `function-create-barplot.R` is a script containing the functions to create (1) stacked barplots for all samples, (2) barplots for all samples and by cancer type, and (3) barplot for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID`
 
@@ -52,13 +52,14 @@ The structure of this folder is as follows:
 ```
 ├── 01-preprocess-data.Rmd
 ├── 01-preprocess-data.nb.html
-├── 03-create-barplots.Rmd
-├── 03-create-barplots.nb.html
+├── 03-explore-TMB-mut.Rmd
+├── 03-explore-TMB-mut.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
 ├── plots
 ├── README.md
 ├── run-tmb-vaf-longitudinal.sh
 ├── util
-    └── function-create-barplot.R
+    ├── function-create-barplot.R
+    └── function-create-dumbbell-plot.R
 ```
