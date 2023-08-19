@@ -9,9 +9,8 @@
 #' @examples
 create_stacked_barplot <- function(tmb_df, ylim) {
 
-  # Reorder time points
-  timepoint_group <- factor(tmb_df$tumor_descriptor, 
-                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
+  # Rename legend for timepoints
+  timepoint_group <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
@@ -48,12 +47,15 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 #' @examples
 create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
   
+  # Rename legend for timepoints
+  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot  
-  p <- print(ggplot(tmb_df, aes(x = patient_id, y = tmb)) +
+  p <- print(ggplot(tmb_df, aes(x = patient_id, y = tmb. fill = timepoint_group)) +
                coord_flip() +
                geom_line() +
                geom_point(aes(color = tumor_descriptor), size = 3) +
@@ -83,12 +85,15 @@ create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
 #' @examples
 create_dumbbell_ct_mut <- function(tmb_df, ylim, ct_id) {
   
+  # Rename legend for timepoints
+  timepoint_group <- factor(tmb_df$tumor_descriptor)
+  
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
   names(palette) <- tumor_descriptor_color_palette$color_names
   
   # Plot 
-  p <- print(ggplot(tmb_df, aes(x = patient_id, y = mutation_count)) +
+  p <- print(ggplot(tmb_df, aes(x = patient_id, y = mutation_count, fill = timepoint_group)) +
                coord_flip() +
                geom_line() +
                geom_point(aes(color = tumor_descriptor), size = 3) +
@@ -119,9 +124,8 @@ create_dumbbell_ct_mut <- function(tmb_df, ylim, ct_id) {
 #' @examples
 create_barplot_sample <- function(tmb_df, ylim, sid) {
   
-  # Reorder time points
-  timepoint_group <- factor(x = tmb_df$tumor_descriptor, 
-                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
+  # Rename legend for timepoints
+  timepoint_group <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
   palette <- tumor_descriptor_color_palette$hex_codes
