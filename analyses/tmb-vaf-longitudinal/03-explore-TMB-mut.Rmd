@@ -20,10 +20,6 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
-
 # Directories and File Inputs/Outputs
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder. This will be in the project root directory.
@@ -229,67 +225,6 @@ for (i in seq_along(samples)) {
   print(p)
   dev.off()
 }
-```
-
-# DRAFT
-```{r DRAFT-create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRU, eval = FALSE}
-samples <- unique(as.character(plot_df_filter$Kids_First_Participant_ID))
-print(samples)
-
-# Empty list
-dat_list <- list()
-
-for (i in seq_along(samples)) {
-  dat <- plot_df_filter %>%
-    filter(Kids_First_Participant_ID == samples[i])     # Generate dataframe
-    dat_list <- append(dat_list, list(dat)) # Add to list
-    name <- paste(samples[i])
-    dat_list <- assign(paste0(name, i), dat_list)
-}
-
-#df = plot_df_filter %>% filter (mutation_count <= 50)
-# unique(df$Kids_First_Participant_ID)
-#df = plot_df_filter %>% filter (between(mutation_count, 51, 100))
-#unique(df$Kids_First_Participant_ID)
-#df = plot_df_filter %>% filter (between(mutation_count, 101, 150))
-#unique(df$Kids_First_Participant_ID)
-#df = plot_df_filter %>% filter (between(mutation_count, 151, 200))
-#unique(df$Kids_First_Participant_ID)
-#df = plot_df_filter %>% filter (between(mutation_count, 201, 260))
-#unique(df$Kids_First_Participant_ID)
-
-for (dat in names(dat_list)) {
-    if (dat == "PT_JNEV57VK"){
-    # Define parameters for function
-    ylim <- 260
-    print(dat)
-  }
-  if (dat %in% c("PT_2YT37G8P", "PT_9S6WMQ92", "PT_ESHACWF6", "PT_N8W26H19")){
-    # Define parameters for function
-    ylim <- 150
-    print(dat)
-  }
-  
-  if (dat %in% c("PT_1H2REHT2", "PT_37B5JRP1", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_9S6WMQ92", "PT_CXT81GRM", "PT_HFQNKP5X", "PT_JSFBMK5V", "PT_MDWPRDBT", "PT_TKWTTRQ7", "PT_XA98HG1C")){
-    # Define parameters for function
-    ylim <- 100
-    print(dat)
-    }
-   if (dat %in% c("PT_00G007DM", "PT_02J5CWN5", "PT_1H2REHT2", "PT_1ZAWNGWT", "PT_25Z2NX27", "PT_2ECVKTTQ", "PT_2FVTD0WR", "PT_2YT37G8P", "PT_37B5JRP1", "PT_3R0P995B", "PT_3T3VGWC6", "PT_3VCS1PPF", "PT_7M2PGCBV", "PT_82MX6J77", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_962TCBVR", "PT_98QMQZY7", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_AQWDQW27", "PT_CXT81GRM", "PT_DFQAH7RS", "PT_ESHACWF6", "PT_FN4GEEFR", "PT_HFQNKP5X", "PT_HJMP6PH2", "PT_JP1FDKN9", "PT_JSFBMK5V", "PT_K8ZV7APT", "PT_KMHGNCNR", "PT_MDWPRDBT", "PT_MNSEJCDM", "PT_N8W26H19", "PT_NPETR8RY", "PT_PFA762TK", "PT_PR4YBBH3", "PT_QH9H491G", "PT_RJ1TJ2KH", "PT_S2SQJVGK", "PT_S4YNE17X", "PT_T2M1338J", "PT_TKWTTRQ7", "PT_W6AWJJK7", "PT_WP871F5S", "PT_XA98HG1C", "PT_XHYBZKCX", "PT_XTVQB9S4", "PT_YGN06RPZ", "PT_Z4GS3ZQQ", "PT_ZMKMKCFQ", "PT_ZZRBX5JT")) {
-     # Define parameters for function
-    ylim <- 50
-    print(dat)
-    
-  # Run function
-  fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
-  print(fname)
-  p <- create_barplot_sample(tmb_df = tmb_sub,
-                             ylim = ylim,
-                             sid = samples[i])
-  pdf(file = fname, width = 5, height = 4)
-  print(p)
-  dev.off()
-}}
 ```
 
 ```{r echo=TRUE}
