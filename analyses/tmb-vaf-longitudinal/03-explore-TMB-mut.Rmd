@@ -1,0 +1,232 @@
+---
+title: "Explore TMB and number of mutations across multiple timepoints of the PBTA Cohort"
+author: "Antonia Chroni <chronia@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `tmb_genomic.tsv` file generated from the `01-preprocess-data.Rmd` script.
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+# Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+tmb_genomic_file <- file.path(scratch_dir, "tmb_genomic.tsv")
+tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
+source(paste0(analysis_dir, "/util/function-create-dumbbell-plot.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+# Read in data and process
+```{r read_input_files}
+# Read and process tmb_genomic file
+tmb_genomic_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
+
+# Are there any samples with both WGS and WXS? 
+tmb_genomic_total %>% 
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, experimental_strategy)  %>%
+  group_by(Kids_First_Participant_ID) %>%
+  dplyr::summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
+
+# There are, so let's remove these from downstream analyses.
+tmb_df_filter <- tmb_genomic_total %>% 
+  filter(!experimental_strategy == "WXS") %>% 
+  dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
+    
+# Read color palette
+tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+```
+
+# TMB per Patient case
+We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
+
+```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
+# Define parameters for function
+ylim <- 360
+
+# df
+f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
+plot_df <- tmb_df_filter %>% 
+  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                 tumor_descriptor = fct_relevel(tumor_descriptor, f)) 
+
+# Run function
+fname <- paste0(plots_dir, "/", "TMB-genomic-total.pdf")
+print(fname)
+p <- create_stacked_barplot(tmb_df = plot_df, ylim = ylim)
+pdf(file = fname, width = 15, height = 6)
+print(p)
+dev.off()
+```
+Attention: Hypermutant TMB defined as ≥10 Mb, and Ultrahypermutant TMB defined as ≥100 mutations/Mb (https://pubmed.ncbi.nlm.nih.gov/29056344/).
+
+Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 10) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
+
+```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
+# Filter df
+plot_df_filter <- tmb_df_filter %>%
+  filter(!tmb >= 10)  %>%
+  unique() %>% 
+  arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
+  group_by(Kids_First_Participant_ID) %>%
+  dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
+  dplyr::left_join(tmb_df_filter, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
+                                   ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
+         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  drop_na(tmb) 
+
+
+# Define parameters for function
+ylim <- 12.5
+plot_df_filter <- plot_df_filter
+
+# Run function
+fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
+print(fname)
+p <- create_stacked_barplot(tmb_df = plot_df_filter, ylim = ylim)
+pdf(file = fname, width = 25, height = 8)
+print(p)
+dev.off()
+```
+
+# TMB across timepoints and cancer types per Patient case
+We will explore TMB per cancer group over time by creating dumbbell plots. We classified by using cancer types with the highest number of samples (High- and Low-grade gliomas) versus any other cancer groups.
+
+```{r create-dumbbell-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
+cancer_groups <- unique(as.character(plot_df_filter$cancer_group_sum))
+cancer_groups <- sort(cancer_groups, decreasing = FALSE)
+print(cancer_groups)
+
+for (i in seq_along(cancer_groups)) {
+  print(i)
+  df_ct_sub <- plot_df_filter %>% 
+    filter(cancer_group_sum == cancer_groups [i])
+  
+  if (i == 1) {
+    print(cancer_groups [i])
+    # Define parameters for function
+    ylim <- 8
+    } else if (i == 2) {
+      print(cancer_groups [i])
+      # Define parameters for function
+      ylim <- 4
+      } else {
+        print(cancer_groups [i])
+        # Define parameters for function
+        ylim <- 4
+      }
+    
+    # Name plots
+    fname <- paste0(plots_dir, "/", "TMB-genomic-dumbbell", "-", cancer_groups[i], ".pdf")
+    print(fname)
+    
+    # Run function
+    p <- create_dumbbell_ct(tmb_df = df_ct_sub, 
+                                 ylim = ylim, 
+                                 ct_id = cancer_groups[i])
+    pdf(file = fname, width = 18, height = 10)
+    print(p)
+    dev.off()
+}
+```
+
+# Total number of mutations across timepoints and cancer types per Patient case
+
+```{r create-dumbbell-ct-mut, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
+for (i in seq_along(cancer_groups)) {
+  print(i)
+  df_ct_sub <- plot_df_filter %>% 
+    filter(cancer_group_sum == cancer_groups [i])
+  
+  if (i == 1) {
+    print(cancer_groups [i])
+    # Define parameters for function
+    ylim <- 260
+    } else if (i == 2) {
+      print(cancer_groups [i])
+      # Define parameters for function
+      ylim <- 150
+      } else {
+        print(cancer_groups [i])
+        # Define parameters for function
+        ylim <- 150
+      }
+    
+    # Name plots
+    fname <- paste0(plots_dir, "/", "Mutations-genomic-dumbbell", "-", cancer_groups[i], ".pdf")
+    print(fname)
+    
+    # Run function
+    p <- create_dumbbell_ct_mut(tmb_df = df_ct_sub, 
+                                 ylim = ylim, 
+                                 ct_id = cancer_groups[i])
+    pdf(file = fname, width = 18, height = 10)
+    print(p)
+    dev.off()
+}
+```
+
+# Total number of mutations across timepoints and biospecimen sample per Patient case
+Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
+
+```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+samples <- unique(as.character(plot_df_filter$Kids_First_Participant_ID))
+print(samples)
+
+for (i in seq_along(samples)) {
+  print(i)
+  tmb_sub <- plot_df_filter %>%
+    filter(Kids_First_Participant_ID == samples[i])
+  
+  # Define parameters for function
+  ylim <- 260
+ 
+  # Run function
+  fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
+  print(fname)
+  p <- create_barplot_sample(tmb_df = tmb_sub,
+                             ylim = ylim,
+                             sid = samples[i])
+  pdf(file = fname, width = 5, height = 4)
+  print(p)
+  dev.off()
+}
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
