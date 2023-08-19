@@ -30,7 +30,10 @@ Then, we will leverage this information to create one column for the constant va
 
 `03-explore-TMB-mut.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
 
-`function-create-barplot.R` is a script containing the functions to create (1) stacked barplots for all samples, (2) barplots for all samples and by cancer type, and (3) barplot for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID`
+`function-create-barplot.R` is a script containing the functions to create (1) stacked barplots for all samples, and (2) barplots for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID`
+
+`function-create-dumbbell-plot.R` is a script containing the functions to create dumbbell plots for TMB and total number of mutations across timepoints and cancer types per patient case.
+
 
 ## Results
 
