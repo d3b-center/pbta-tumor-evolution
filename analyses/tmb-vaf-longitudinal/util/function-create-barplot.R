@@ -36,83 +36,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 
 
 ###--------------------------------------------------------------
-#' Create barplots for all samples and by cancer type
-#'
-#' @param tmb_df 
-#' @param ylim 
-#' @param ct_id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_barplot_ct <- function(tmb_df, ylim, ct_id) {
-  
-  # Reorder time points
-  timepoint_group <- factor(tmb_df$tumor_descriptor, 
-                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
-  
-  # Define and order palette
-  palette <- tumor_descriptor_color_palette$hex_codes
-  names(palette) <- tumor_descriptor_color_palette$color_names
-  
-  # Plot barplot 
-  p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), 
-                                y = tmb,
-                                fill = timepoint_group)) +  
-               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
-               geom_bar(stat="identity", position = "dodge", width = 0.75) + 
-               theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85, 
-                                                hjust = 1, 
-                                                vjust = 1)) + 
-               labs(title = paste(ct_id)) + 
-               labs(x = "Patient case", y = "TMB") +
-               ylim(0, ylim))
-  
-  return(p)
-}
-
-###--------------------------------------------------------------
-#' Create barplots for all samples and by cancer type - log2_tmb
-#'
-#' @param tmb_df 
-#' @param ylim 
-#' @param ct_id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_barplot_ct_log2_tmb <- function(tmb_df, ylim, ct_id) {
-  
-  # Reorder time points
-  timepoint_group <- factor(x = tmb_df$tumor_descriptor, 
-                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
-  
-  # Define and order palette
-  palette <- tumor_descriptor_color_palette$hex_codes
-  names(palette) <- tumor_descriptor_color_palette$color_names
-  
-  # Plot barplot 
-  p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), 
-                                y = abs(log2_tmb),
-                                fill = timepoint_group)) +  
-               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
-               geom_bar(stat="identity", position = "dodge", width = 0.9) + 
-               theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85, 
-                                                hjust = 1, 
-                                                vjust = 1)) + 
-               labs(title = paste(ct_id)) + 
-               labs(x = "Patient case", y = "TMB") +
-               ylim(0, ylim))
-  
-  return(p)
-}
-
-###--------------------------------------------------------------
-#' Create TMB Dumbbell plot for all samples and by cancer type
+#' Create Dumbbell plot for TMB across timepoints and cancer types per Patient case
 #'
 #' @param tmb_df 
 #' @param ylim 
@@ -151,7 +75,7 @@ create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
 }
 
 ###--------------------------------------------------------------
-#' Create mutation_count Dumbbell plot for all samples and by cancer type
+#' Create Dumbbell plot for Total number of mutations across timepoints and cancer types per Patient case
 #'
 #' @param tmb_df 
 #' @param ylim 
@@ -189,44 +113,6 @@ create_dumbbell_ct_mut <- function(tmb_df, ylim, ct_id) {
   return(p)
 }
 
-###--------------------------------------------------------------
-#' Create log2_mutation_count Dumbbell plot for all samples and by cancer type
-#'
-#' @param tmb_df 
-#' @param ylim 
-#' @param ct_id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_dumbbell_ct_log2mut <- function(tmb_df, ylim, ct_id) {
-  
-  # Reorder time points
-  timepoint_group <- factor(x = tmb_df$tumor_descriptor, 
-                            levels = c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis"))
-  
-  # Define and order palette
-  palette <- tumor_descriptor_color_palette$hex_codes
-  names(palette) <- tumor_descriptor_color_palette$color_names
-  
-  # Plot barplot 
-  p <- print(ggplot(tmb_df, aes(x = reorder(patient_id, plot_order), y = log2_mutation_count)) +
-               coord_flip() +
-               geom_line() +
-               geom_point(aes(color = timepoint_group), size = 3) +
-               scale_color_manual(values = palette, breaks = sort(names(palette)), labels = sort(names(palette))) +
-               theme(legend.position = "bottom") +
-               theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85, 
-                                                hjust = 1, 
-                                                vjust = 1)) + 
-               labs(title = paste(ct_id)) + 
-               labs(x = "Patient case", y = "Total mutations") +
-               ylim(0, ylim))
-  
-  return(p)
-}
 
 ###--------------------------------------------------------------
 #' Create barplot for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID` in the df
