@@ -72,7 +72,7 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 
 ```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
-ylim <- 360
+ylim = max(df$tmb)
 
 # df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
@@ -111,7 +111,7 @@ df_plot_filter <- df %>%
 
 
 # Define parameters for function
-ylim <- 12.5
+ylim = max(df_plot_filter$tmb)
 df_plot_filter <- df_plot_filter
 
 # Run function
