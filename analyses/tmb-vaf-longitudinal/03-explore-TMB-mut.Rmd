@@ -244,6 +244,39 @@ print(p)
 dev.off()
 ``` 
 
+# DRAFT ADJUSTING ylim
+```{r create-barplot-sample-panel-draft, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+samples <- unique(as.character(df_plot_filter$Kids_First_Participant_ID))
+print(samples)
+
+for (each in names(samples)){
+  
+  # add titles to print
+  if (each == "PT_JNEV57VK"){
+    ylim <- 260 # Define parameters for function
+  }
+  if (each %in% c("PT_2YT37G8P", "PT_9S6WMQ92", "PT_ESHACWF6", "PT_N8W26H19")){
+    ylim <- 150 # Define parameters for function
+  }  
+  if (each %in% c("PT_1H2REHT2", "PT_37B5JRP1", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_9S6WMQ92", "PT_CXT81GRM", "PT_HFQNKP5X", "PT_JSFBMK5V", "PT_MDWPRDBT", "PT_TKWTTRQ7", "PT_XA98HG1C")){
+    ylim <- 100 # Define parameters for function
+  }
+   if (each %in% c("PT_00G007DM", "PT_02J5CWN5", "PT_1H2REHT2", "PT_1ZAWNGWT", "PT_25Z2NX27", "PT_2ECVKTTQ", "PT_2FVTD0WR", "PT_2YT37G8P", "PT_37B5JRP1", "PT_3R0P995B", "PT_3T3VGWC6", "PT_3VCS1PPF", "PT_7M2PGCBV", "PT_82MX6J77", "PT_89XRZBSG", "PT_8GN3TQRM", "PT_962TCBVR", "PT_98QMQZY7", "PT_99S5BPE3", "PT_9PJR0ZK7", "PT_AQWDQW27", "PT_CXT81GRM", "PT_DFQAH7RS", "PT_ESHACWF6", "PT_FN4GEEFR", "PT_HFQNKP5X", "PT_HJMP6PH2", "PT_JP1FDKN9", "PT_JSFBMK5V", "PT_K8ZV7APT", "PT_KMHGNCNR", "PT_MDWPRDBT", "PT_MNSEJCDM", "PT_N8W26H19", "PT_NPETR8RY", "PT_PFA762TK", "PT_PR4YBBH3", "PT_QH9H491G", "PT_RJ1TJ2KH", "PT_S2SQJVGK", "PT_S4YNE17X", "PT_T2M1338J", "PT_TKWTTRQ7", "PT_W6AWJJK7", "PT_WP871F5S", "PT_XA98HG1C", "PT_XHYBZKCX", "PT_XTVQB9S4", "PT_YGN06RPZ", "PT_Z4GS3ZQQ", "PT_ZMKMKCFQ", "PT_ZZRBX5JT")){
+    ylim <- 50 # Define parameters for function
+  }
+}
+  
+ 
+# Run function
+fname <- paste0(plots_dir, "/", samples[i], "TMB-barplot.pdf")
+print(fname)
+p <- create_barplot_sample_panel(tmb_df = df_plot_filter,
+                             ylim = ylim)
+pdf(file = fname, width = 25, height = 20)
+print(p)
+dev.off()
+``` 
+
 
 ```{r echo=TRUE}
 sessionInfo()
