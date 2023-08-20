@@ -78,6 +78,9 @@ names(palette) <- palette_df$color_names
 
 # Define label for plots
 Timepoint <- df_plot$tumor_descriptor
+
+# Define ylim
+ylim = max(df_plot$tmb)
 ```
 
 ## How many patient samples in the unpaired longitudinal data?
@@ -100,7 +103,8 @@ print(df_plot %>%
         ggplot2::stat_summary(color = "black", size = 0.3) + 
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
-        theme_Publication())
+        theme_Publication() +
+        scale_y_continuous(limits=c(0, ylim)))
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats = FALSE)
@@ -125,7 +129,8 @@ print(df_plot %>%
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
         theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)))
+        theme(axis.text.x = element_text(angle = 90))+
+        scale_y_continuous(limits=c(0, ylim)))
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", path = plots_dir, width = 25, height = 20, device = "pdf", useDingbats = FALSE)
@@ -154,7 +159,8 @@ print(df_plot %>%
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
         theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)))
+        theme(axis.text.x = element_text(angle = 90))+
+        scale_y_continuous(limits=c(0, ylim)))
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats = FALSE)
