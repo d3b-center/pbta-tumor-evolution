@@ -47,9 +47,9 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ## Read in data and process
 ```{r load-process-inputs}
-# Read in tmb file
+# Read in tmb file and remove hypermutant samples
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(!tmb >= 10)  %>%  # remove hypermutant samples
+  filter(!tmb >= 10) %>% 
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
 # Read in pbta file and create df_plot
