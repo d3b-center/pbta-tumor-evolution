@@ -33,7 +33,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
-tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 
 # File path to plot directory
 plots_dir <-
@@ -70,11 +70,11 @@ print(df_plot %>% count(tumor_descriptor))
 no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
 
 # Read color palette
-tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 
 # Define and order palette
-palette <- tumor_descriptor_color_palette$hex_codes
-names(palette) <- tumor_descriptor_color_palette$color_names
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$color_names
 
 # Define label for plots
 Timepoint <- df_plot$tumor_descriptor
@@ -88,49 +88,47 @@ We are interested in how TMB changes over the time in all PBTA samples (unpaired
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
 print(df_plot %>% 
-  ggplot2::ggplot() + 
-  ggplot2::aes(x = tumor_descriptor, 
-               y = tmb,
-               color = Timepoint) + 
-    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-    # light guiding line representing 0 exposure
-    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
-    ggplot2::stat_summary(color = "black", size = 0.3) + 
-    ggplot2::labs(
-      x = "Tumor descriptor",
-      y = "TMB"
-    ) +
-    theme_Publication())
+        ggplot2::ggplot() + 
+        ggplot2::aes(x = tumor_descriptor, 
+                     y = tmb,
+                     color = Timepoint) + 
+        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+        ggplot2::scale_color_manual(values = palette, 
+                                    breaks = sort(names(palette))) +
+        ggplot2::stat_summary(color = "black", size = 0.3) + 
+        ggplot2::labs(x = "Tumor descriptor",
+                      y = "TMB") +
+        theme_Publication())
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats=F)
+ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats = FALSE)
 ```
 
 # All unpaired samples across cancer types
 We will use the `short_histology` column to display TMB differences across cancer types.
 
 ```{r plot-cancer-group, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
-print(df_plot %>% 
-  ggplot2::ggplot() + 
-  ggplot2::aes(x = tumor_descriptor, 
-               y = tmb,
-               color = Timepoint) + 
-    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-    # light guiding line representing 0 exposure
-    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
-    ggplot2::stat_summary(color = "black", size = 0.3) + 
-    ggplot2::facet_wrap(~short_histology, nrow = 8) +
-    ggplot2::labs(
-      x = "Tumor descriptor",
-      y = "TMB"
-    ) +
-    theme_Publication() + 
-  theme(axis.text.x = element_text(angle = 90)))
+print(df_plot %>%
+        ggplot2::ggplot() + 
+        ggplot2::aes(x = tumor_descriptor, 
+                     y = tmb,
+                     color = Timepoint) + 
+        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+        ggplot2::scale_color_manual(values = palette, 
+                                    breaks = sort(names(palette))) +
+        ggplot2::stat_summary(color = "black", size = 0.3) + 
+        ggplot2::facet_wrap(~short_histology, nrow = 8) +
+        ggplot2::labs(x = "Tumor descriptor",
+                      y = "TMB") +
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", path = plots_dir, width = 25, height = 20, device = "pdf", useDingbats=F)
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", path = plots_dir, width = 25, height = 20, device = "pdf", useDingbats = FALSE)
 ```
 
 We observe that majority of samples are High- and Low-grade gliomas, so we will classify accordingly (versus any other cancer types).
@@ -142,25 +140,24 @@ print(df_plot %>%
         mutate(short_histology_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                             ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
                short_histology_sum = replace_na(short_histology_sum, "Other")) %>% 
-  ggplot2::ggplot() + 
-  ggplot2::aes(x = tumor_descriptor, 
-               y = tmb,
-               color = Timepoint) + 
-    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-    # light guiding line representing 0 exposure
-    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
-    ggplot2::stat_summary(color = "black", size = 0.3) + 
-    ggplot2::facet_wrap(~short_histology_sum, nrow = 1) +
-    ggplot2::labs(
-      x = "Tumor descriptor",
-      y = "TMB"
-    ) +
-    theme_Publication() + 
-  theme(axis.text.x = element_text(angle = 90)))
+        ggplot2::ggplot() + 
+        ggplot2::aes(x = tumor_descriptor, 
+                     y = tmb,
+                     color = Timepoint) + 
+        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+        ggplot2::scale_color_manual(values = palette, 
+                                    breaks = sort(names(palette))) +
+        ggplot2::stat_summary(color = "black", size = 0.3) + 
+        ggplot2::facet_wrap(~short_histology_sum, nrow = 1) +
+        ggplot2::labs(x = "Tumor descriptor",
+                      y = "TMB") +
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats=F)
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats = FALSE)
 ```
 
 ```{r echo=TRUE}
