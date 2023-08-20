@@ -1,0 +1,168 @@
+---
+title: "TMB of tumors across unpaired longitudinal samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `pbta.tsv` file geenrated by the `sample-distribution-analysis` module.
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+## Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+
+# Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
+tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+# File path to plot directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+## Read in data and process
+```{r load-process-inputs}
+# Read in tmb file
+tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!tmb >= 10)  %>%  # remove hypermutant samples
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
+
+# Read in pbta file and create df_plot
+df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!(experimental_strategy == "RNA-Seq"),
+         !(tumor_descriptor == "Unavailable")) %>% # these are 2 samples
+  left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
+         broad_histology, match_id_DNA, experimental_strategy, 
+         cancer_group, short_histology, tmb, mutation_count, DNA) %>%
+  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                 tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
+  distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
+  filter(!is.na(tmb)) 
+
+print(df_plot %>% count(tumor_descriptor))
+
+no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
+
+# Read color palette
+tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+
+# Define and order palette
+palette <- tumor_descriptor_color_palette$hex_codes
+names(palette) <- tumor_descriptor_color_palette$color_names
+
+# Define label for plots
+Timepoint <- df_plot$tumor_descriptor
+```
+
+## How many patient samples in the unpaired longitudinal data?
+There are `r no_samples` samples in total.
+
+# All unpaired samples
+We are interested in how TMB changes over the time in all PBTA samples (unpaired samples).
+
+```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
+print(df_plot %>% 
+  ggplot2::ggplot() + 
+  ggplot2::aes(x = tumor_descriptor, 
+               y = tmb,
+               color = Timepoint) + 
+    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+    # light guiding line representing 0 exposure
+    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
+    ggplot2::stat_summary(color = "black", size = 0.3) + 
+    ggplot2::labs(
+      x = "Tumor descriptor",
+      y = "TMB"
+    ) +
+    theme_Publication())
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats=F)
+```
+
+# All unpaired samples across cancer types
+We will use the `short_histology` column to display TMB differences across cancer types.
+
+```{r plot-cancer-group, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
+print(df_plot %>% 
+  ggplot2::ggplot() + 
+  ggplot2::aes(x = tumor_descriptor, 
+               y = tmb,
+               color = Timepoint) + 
+    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+    # light guiding line representing 0 exposure
+    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
+    ggplot2::stat_summary(color = "black", size = 0.3) + 
+    ggplot2::facet_wrap(~short_histology, nrow = 8) +
+    ggplot2::labs(
+      x = "Tumor descriptor",
+      y = "TMB"
+    ) +
+    theme_Publication() + 
+  theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", path = plots_dir, width = 25, height = 20, device = "pdf", useDingbats=F)
+```
+
+We observe that majority of samples are High- and Low-grade gliomas, so we will classify accordingly (versus any other cancer types).
+
+# All unpaired samples across cancer types summarized
+
+```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+print(df_plot %>%
+        mutate(short_histology_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
+                                            ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
+               short_histology_sum = replace_na(short_histology_sum, "Other")) %>% 
+  ggplot2::ggplot() + 
+  ggplot2::aes(x = tumor_descriptor, 
+               y = tmb,
+               color = Timepoint) + 
+    ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+    # light guiding line representing 0 exposure
+    ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+    ggplot2::scale_color_manual(values = palette, breaks = sort(names(palette))) +
+    ggplot2::stat_summary(color = "black", size = 0.3) + 
+    ggplot2::facet_wrap(~short_histology_sum, nrow = 1) +
+    ggplot2::labs(
+      x = "Tumor descriptor",
+      y = "TMB"
+    ) +
+    theme_Publication() + 
+  theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats=F)
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
