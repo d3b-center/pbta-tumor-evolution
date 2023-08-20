@@ -49,17 +49,17 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 # Read in data and process
 ```{r read_input_files}
 # Read and process tmb_genomic file
-tmb_genomic_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
+df_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Are there any samples with both WGS and WXS? 
-tmb_genomic_total %>% 
+df_total %>% 
   unique() %>% 
   arrange(Kids_First_Participant_ID, experimental_strategy)  %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(experimental_strategy_sum = str_c(experimental_strategy, collapse = ";")) 
 
 # There are, so let's remove these from downstream analyses.
-tmb_df_filter <- tmb_genomic_total %>% 
+df <- df_total %>% 
   filter(!experimental_strategy == "WXS") %>% 
   dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
     
@@ -76,7 +76,7 @@ ylim <- 360
 
 # df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
-plot_df <- tmb_df_filter %>% 
+plot_df <- df %>% 
   dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, f)) 
 
@@ -94,14 +94,14 @@ Here, we notice that there are samples with high TMB (hyper-mutant samples). Nex
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
-plot_df_filter <- tmb_df_filter %>%
+plot_df_filter <- df %>%
   filter(!tmb >= 10)  %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
-  dplyr::left_join(tmb_df_filter, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  dplyr::left_join(df, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
          cancer_group_sum = replace_na(cancer_group_sum, "Other"),
