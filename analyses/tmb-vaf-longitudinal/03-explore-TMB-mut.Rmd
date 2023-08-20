@@ -76,14 +76,14 @@ ylim <- 360
 
 # df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
-plot_df <- df %>% 
+df_plot <- df %>% 
   dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, f)) 
 
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-total.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = plot_df, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = df_plot, ylim = ylim)
 pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
@@ -94,7 +94,7 @@ Here, we notice that there are samples with high TMB (hyper-mutant samples). Nex
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df
-plot_df_filter <- df %>%
+df_plot_filter <- df %>%
   filter(!tmb >= 10)  %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
@@ -112,12 +112,12 @@ plot_df_filter <- df %>%
 
 # Define parameters for function
 ylim <- 12.5
-plot_df_filter <- plot_df_filter
+df_plot_filter <- df_plot_filter
 
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = plot_df_filter, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = df_plot_filter, ylim = ylim)
 pdf(file = fname, width = 25, height = 8)
 print(p)
 dev.off()
@@ -127,13 +127,13 @@ dev.off()
 We will explore TMB per cancer group over time by creating dumbbell plots. We classified by using cancer types with the highest number of samples (High- and Low-grade gliomas) versus any other cancer groups.
 
 ```{r create-dumbbell-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
-cancer_groups <- unique(as.character(plot_df_filter$cancer_group_sum))
+cancer_groups <- unique(as.character(df_plot_filter$cancer_group_sum))
 cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
 for (i in seq_along(cancer_groups)) {
   print(i)
-  df_ct_sub <- plot_df_filter %>% 
+  df_ct_sub <- df_plot_filter %>% 
     filter(cancer_group_sum == cancer_groups [i])
   
   if (i == 1) {
@@ -169,7 +169,7 @@ for (i in seq_along(cancer_groups)) {
 ```{r create-dumbbell-ct-mut, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
 for (i in seq_along(cancer_groups)) {
   print(i)
-  df_ct_sub <- plot_df_filter %>% 
+  df_ct_sub <- df_plot_filter %>% 
     filter(cancer_group_sum == cancer_groups [i])
   
   if (i == 1) {
@@ -204,12 +204,12 @@ for (i in seq_along(cancer_groups)) {
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
 
 ```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
-samples <- unique(as.character(plot_df_filter$Kids_First_Participant_ID))
+samples <- unique(as.character(df_plot_filter$Kids_First_Participant_ID))
 print(samples)
 
 for (i in seq_along(samples)) {
   print(i)
-  tmb_sub <- plot_df_filter %>%
+  tmb_sub <- df_plot_filter %>%
     filter(Kids_First_Participant_ID == samples[i])
   
   # Define parameters for function
