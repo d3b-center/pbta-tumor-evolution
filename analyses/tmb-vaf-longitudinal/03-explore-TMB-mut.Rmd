@@ -41,8 +41,8 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-source(paste0(analysis_dir, "/util/function-create-barplot.R"))
-source(paste0(analysis_dir, "/util/function-create-dumbbell-plot.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot copy.R"))
+source(paste0(analysis_dir, "/util/function-create-dumbbell-plot copy.R"))
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
@@ -226,6 +226,24 @@ for (i in seq_along(samples)) {
   dev.off()
 }
 ```
+
+Let's try to do the same by using `facet_wrap` function. Again, we are missing values in timepoints.
+Maybe we can divide my names(samples), adjust ylim per each and create 3-4 panels for each ylim.
+
+```{r create-barplot-sample-panel, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+# Define parameters for function
+ylim = max(df_plot_filter$mutation_count)
+ 
+# Run function
+fname <- paste0(plots_dir, "/", "TMB-barplot.pdf")
+print(fname)
+p <- create_barplot_sample_panel(tmb_df = df_plot_filter,
+                             ylim = ylim)
+pdf(file = fname, width = 25, height = 20)
+print(p)
+dev.off()
+``` 
+
 
 ```{r echo=TRUE}
 sessionInfo()
