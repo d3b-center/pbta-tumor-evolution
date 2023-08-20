@@ -28,6 +28,8 @@ Then, we will leverage this information to create one column for the constant va
 
 `01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_genomic.tsv` files for the next steps and are placed in `../../scratch`.
 
+`04-tmb-unpaired-samples-plot.Rmd` is a script written to process TMB data and generate plots for unpaired longitudinal samples and across cancer types.
+
 ## Results
 
 There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
@@ -39,8 +41,14 @@ The structure of this folder is as follows:
 ```
 ├── 01-preprocess-data.Rmd
 ├── 01-preprocess-data.nb.html
+├── 04-tmb-unpaired-samples-plot.Rmd
+├── 04-tmb-unpaired-samples-plot.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
+├── plots
+    ├── TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf
+    ├── TMB-unpaired-longitudinal-samples-cancer-type.pdf
+│   └── TMB-unpaired-longitudinal-samples.pdf
 ├── README.md
 └── run-tmb-vaf-longitudinal.sh
 ```
