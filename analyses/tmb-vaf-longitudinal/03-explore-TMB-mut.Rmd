@@ -32,7 +32,7 @@ input_dir <- file.path(analysis_dir, "input")
 
 # Input files
 tmb_genomic_file <- file.path(scratch_dir, "tmb_genomic.tsv")
-tumor_descriptor_color_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 
 # File path to plots directory
 plots_dir <-
@@ -64,7 +64,7 @@ tmb_df_filter <- tmb_genomic_total %>%
   dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
     
 # Read color palette
-tumor_descriptor_color_palette <- readr::read_tsv(tumor_descriptor_color_palette_file, guess_max = 100000, show_col_types = FALSE)
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
 
 # TMB per Patient case
