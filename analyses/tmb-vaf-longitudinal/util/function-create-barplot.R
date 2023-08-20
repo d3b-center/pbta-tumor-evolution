@@ -47,16 +47,16 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 create_barplot_sample <- function(tmb_df, ylim, sid) {
   
   # Rename legend for timepoints
-  Timepoints <- factor(tmb_df$tumor_descriptor)
+  Timepoint <- factor(tmb_df$tumor_descriptor)
   
   # Define and order palette
-  palette <- tumor_descriptor_color_palette$hex_codes
-  names(palette) <- tumor_descriptor_color_palette$color_names
+  palette <- palette_df$hex_codes
+  names(palette) <- palette_df$color_names
   
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, 
                                 y = mutation_count, 
-                                fill = Timepoints)) +  
+                                fill = Timepoint)) +  
                geom_col(position = position_stack(reverse = TRUE)) +
                geom_bar(stat = "identity", width = 0.5) + 
                scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
