@@ -189,6 +189,16 @@ stat.summary <- df_plot %>%
         filter(!n <=2) 
 stat.summary
 
+# Pairwise comparisons between time points at each group levels
+# Paired t-test is used because we have repeated measures by time
+stat.test <- df_plot %>%
+  group_by(tumor_descriptor) %>%
+  pairwise_t_test(
+    tmb ~ short_histology_sum, paired = FALSE, 
+    p.adjust.method = "bonferroni"
+    )
+stat.test
+
 # Create the plot
 bxp <- print(ggboxplot(df_plot, 
                        x = "tumor_descriptor", 
