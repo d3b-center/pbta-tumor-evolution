@@ -69,9 +69,16 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
   distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
   filter(!is.na(tmb)) 
 
-
+# How many samples per Timepoint?
 print(df_plot %>% count(tumor_descriptor))
 
+# How many samples per cancer type?
+print(df_plot %>% count(short_histology_sum))
+
+# How many samples per Timepoint and cancer type?
+rename(count(df_plot, tumor_descriptor, short_histology_sum), Freq = n)
+
+# How many cases with unpaired longitudinal samples?
 no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
 ``` 
 
