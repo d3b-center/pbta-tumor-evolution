@@ -192,9 +192,9 @@ stat.summary
 # Pairwise comparisons between time points at each group levels
 # Paired t-test is used because we have repeated measures by time
 stat.test <- df_plot %>%
-  group_by(tumor_descriptor) %>%
+  group_by(short_histology_sum) %>%
   pairwise_t_test(
-    tmb ~ short_histology_sum, paired = FALSE, 
+    tmb ~ tumor_descriptor, paired = FALSE, 
     p.adjust.method = "bonferroni"
     )
 stat.test
@@ -213,8 +213,10 @@ bxp <- print(ggboxplot(df_plot,
 stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor")
 bxp + stat_pvalue_manual(
   stat.test, label = "p.adj.signif", 
-  step.increase = 0.08
+  step.increase = 0.08, hide.ns = TRUE, tip.length = 0
   )
+
+# https://www.datanovia.com/en/blog/how-to-perform-multiple-paired-t-tests-in-r/
 ```
 
 ```{r echo=TRUE}
