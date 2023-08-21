@@ -60,8 +60,9 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
          broad_histology, match_id_DNA, experimental_strategy, 
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
-  dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
-                                            ifelse(short_histology == "LGAT", "Low-grade glioma", "Other")),
+  dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
+                                            ifelse(short_histology == "LGAT", "LGG", "Other")),
+                 col_stat = paste(tumor_descriptor, short_histology_sum, sep = "_"),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
@@ -177,8 +178,8 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 
 # Transform into long data: 
 # gather the before and after values in the same column
-mice2.long <- mice2 %>%
-  gather(key = "group", value = "weight", before, after)
+df_plot.long <- df_plot %>%
+  gather(key = "", value = "weight", before, after)
 head(mice2.long, 3)
 ```
 
