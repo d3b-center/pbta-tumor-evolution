@@ -205,54 +205,6 @@ bxp + stat_pvalue_manual(
   stat.test, label = "p.adj.signif", 
   step.increase = 0.08
   )
-
-
-
-
-
-# Plot stat.summary
-print(ggplot(stat.summary, aes(x = tumor_descriptor,
-                               y = tmb,
-                               color = tumor_descriptor)) +
-        geom_boxplot() +
-        ggplot2::scale_color_manual(values = palette, 
-                                    breaks = sort(names(palette))))
-
-ggplot(ToothGrowth, aes(x=dose, y=len, color=dose)) +
-  geom_boxplot()
-
-
-
-
-# Run multiple pairwise comparisons using paired t-tests
-# P-values are adjusted using the Bonferroni multiple testing correction method.
-
-# Pairwise comparisons between time points at each group levels
-# Paired t-test is used because we have repeated measures by time
-stat.test <- df_plot %>%
-  group_by(short_histology_sum, tumor_descriptor) %>%
-  
-  group_by(my_data, group) %>%
-  summarise(
-    count = n(),
-    mean = mean(weight, na.rm = TRUE),
-    sd = sd(weight, na.rm = TRUE)
-  )
-  
-  
-  
-  
-  
-  pairwise_t_test(
-    tumor_descriptor ~ tmb, paired = FALSE, 
-    p.adjust.method = "bonferroni"
-    ) %>%
-  select(-df, -statistic, -p) # Remove details
-stat.test
-
-
-
-
 ```
 
 ```{r echo=TRUE}
