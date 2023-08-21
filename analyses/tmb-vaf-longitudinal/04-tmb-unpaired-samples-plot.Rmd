@@ -63,7 +63,7 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
          broad_histology, match_id_DNA, experimental_strategy, 
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
   dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
-                                            ifelse(short_histology == "LGAT", "LGG", "Other")),
+                                              ifelse(short_histology == "LGAT", "LGG", "Other")),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
@@ -94,7 +94,7 @@ names(palette) <- palette_df$color_names
 Timepoint <- df_plot$tumor_descriptor
 
 # Define ylim
-ylim = max(df_plot$tmb)
+ylim <- max(df_plot$tmb)
 ```
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
@@ -112,10 +112,15 @@ print(df_plot %>%
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
         theme_Publication() +
-        scale_y_continuous(limits=c(0, ylim)))
+        scale_y_continuous(limits = c(0, ylim)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats = FALSE)
+ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf",
+       path = plots_dir, 
+       width = 10, 
+       height = 5, 
+       device = "pdf", 
+       useDingbats = FALSE)
 ```
 
 
@@ -138,11 +143,16 @@ print(df_plot %>%
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
         theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90))+
-        scale_y_continuous(limits=c(0, ylim)))
+        theme(axis.text.x = element_text(angle = 90)) +
+        scale_y_continuous(limits = c(0, ylim)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", path = plots_dir, width = 25, height = 20, device = "pdf", useDingbats = FALSE)
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", 
+       path = plots_dir, 
+       width = 25, 
+       height = 20, 
+       device = "pdf", 
+       useDingbats = FALSE)
 ```
 
 We observe that majority of samples are High- and Low-grade gliomas, so we will classify accordingly (versus any other cancer types).
@@ -166,10 +176,15 @@ print(df_plot %>%
                       y = "TMB") +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits=c(0, ylim)))
+        scale_y_continuous(limits = c(0, ylim)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats = FALSE)
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 6, 
+       device = "pdf", 
+       useDingbats = FALSE)
 ```
 
 # Summary statistics for Timepoints and cancer types
@@ -179,24 +194,23 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot %>% 
-  select (short_histology_sum, tumor_descriptor, tmb) %>% 
+  select(short_histology_sum, tumor_descriptor, tmb) %>% 
   sample_n_by(short_histology_sum, tumor_descriptor, tmb, size = 1)
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot %>%
-        group_by(tumor_descriptor, short_histology_sum) %>%
-        get_summary_stats(tmb, type = "mean_sd") %>% 
-        filter(!n <=2) 
+  group_by(tumor_descriptor, short_histology_sum) %>%
+  get_summary_stats(tmb, type = "mean_sd") %>% 
+  filter(!n <= 2) # remove if total number of values per group is less than 2
 stat.summary
 
 # Pairwise comparisons between time points at each group levels
 # Paired t-test is used because we have repeated measures by time
 stat.test <- df_plot %>%
   group_by(short_histology_sum) %>%
-  pairwise_t_test(
-    tmb ~ tumor_descriptor, paired = FALSE, 
-    p.adjust.method = "bonferroni"
-    )
+  pairwise_t_test(tmb ~ tumor_descriptor, 
+                  paired = FALSE, 
+                  p.adjust.method = "bonferroni")
 stat.test
 
 # Add statistical test p-values
@@ -215,7 +229,12 @@ print(ggboxplot(df_plot,
                            step.increase = 0.08, hide.ns = TRUE, tip.length = 0))
 
 # Save the plot
-ggsave(filename = "TMB-Bxp-stat-test.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats = FALSE)
+ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 6, 
+       device = "pdf", 
+       useDingbats = FALSE)
 
 # This code was inspired by the following:
 # HOW TO PERFORM MULTIPLE PAIRED T-TESTS IN R
