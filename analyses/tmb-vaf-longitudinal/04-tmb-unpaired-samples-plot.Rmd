@@ -68,7 +68,16 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
 print(df_plot %>% count(tumor_descriptor))
 
 no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
+``` 
 
+
+## How many patient samples in the unpaired longitudinal data?
+There are `r no_samples` samples in total.
+
+# All unpaired samples
+We are interested in how TMB changes over the time in all PBTA samples (unpaired samples).
+
+```{r define-parameters-for-plots}
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 
@@ -82,12 +91,6 @@ Timepoint <- df_plot$tumor_descriptor
 # Define ylim
 ylim = max(df_plot$tmb)
 ```
-
-## How many patient samples in the unpaired longitudinal data?
-There are `r no_samples` samples in total.
-
-# All unpaired samples
-We are interested in how TMB changes over the time in all PBTA samples (unpaired samples).
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
 print(df_plot %>% 
