@@ -60,10 +60,13 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
          broad_histology, match_id_DNA, experimental_strategy, 
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
-  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+  dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
+                                            ifelse(short_histology == "LGAT", "Low-grade glioma", "Other")),
+                 tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
   filter(!is.na(tmb)) 
+
 
 print(df_plot %>% count(tumor_descriptor))
 
@@ -113,6 +116,7 @@ print(df_plot %>%
 ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf", path = plots_dir, width = 10, height = 5, device = "pdf", useDingbats = FALSE)
 ```
 
+
 # All unpaired samples across cancer types
 We will use the `short_histology` column to display TMB differences across cancer types.
 
@@ -144,10 +148,7 @@ We observe that majority of samples are High- and Low-grade gliomas, so we will 
 # All unpaired samples across cancer types summarized
 
 ```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
-print(df_plot %>%
-        mutate(short_histology_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
-                                            ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
-               short_histology_sum = replace_na(short_histology_sum, "Other")) %>% 
+print(df_plot %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
                      y = tmb,
@@ -167,6 +168,18 @@ print(df_plot %>%
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path = plots_dir, width = 12, height = 6, device = "pdf", useDingbats = FALSE)
+```
+
+# Summary statistics for Timepoints and cancer types
+Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
+
+```{r summary-statistic-HGG}
+
+# Transform into long data: 
+# gather the before and after values in the same column
+mice2.long <- mice2 %>%
+  gather(key = "group", value = "weight", before, after)
+head(mice2.long, 3)
 ```
 
 ```{r echo=TRUE}
