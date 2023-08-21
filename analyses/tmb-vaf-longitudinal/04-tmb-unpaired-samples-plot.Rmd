@@ -181,9 +181,27 @@ df_plot %>%
   group_by(col_stat) %>%
   get_summary_stats(tmb, type = "mean_sd")
 
+# Inspect some random rows of the data by groups
+set.seed(2023)
+df_plot %>% 
+  select (col_stat, tmb) %>% 
+  sample_n_by(col_stat, tmb, size = 1)
 
+# Run multiple pairwise comparisons using paired t-tests
+# P-values are adjusted using the Bonferroni multiple testing correction method.
 
+# Pairwise comparisons between time points at each group levels
+# Paired t-test is used because we have repeated measures by time
+stat.test <- df_plot %>%
+  group_by(short_histology_sum) %>%
+  pairwise_t_test(
+    tumor_descriptor ~ tmb, paired = FALSE, 
+    p.adjust.method = "bonferroni"
+    ) %>%
+  select(-df, -statistic, -p) # Remove details
+stat.test
 
+# https://www.datanovia.com/en/blog/how-to-perform-multiple-paired-t-tests-in-r/
 
 
 ```
