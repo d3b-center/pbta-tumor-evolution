@@ -184,7 +184,7 @@ df_plot %>%
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot %>%
-        group_by(short_histology_sum, tumor_descriptor) %>%
+        group_by(tumor_descriptor, short_histology_sum) %>%
         get_summary_stats(tmb, type = "mean_sd") %>% 
         filter(!n <=2) 
 stat.summary
@@ -216,6 +216,8 @@ bxp + stat_pvalue_manual(
   step.increase = 0.08, hide.ns = TRUE, tip.length = 0
   )
 
+# This code was inspired by the following:
+# HOW TO PERFORM MULTIPLE PAIRED T-TESTS IN R
 # https://www.datanovia.com/en/blog/how-to-perform-multiple-paired-t-tests-in-r/
 ```
 
