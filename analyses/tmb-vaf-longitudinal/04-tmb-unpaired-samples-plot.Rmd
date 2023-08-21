@@ -17,6 +17,7 @@ In this notebook, we are using the `pbta.tsv` file geenrated by the `sample-dist
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(rstatix)
 })
 ```
 
@@ -174,13 +175,17 @@ ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", path 
 # Summary statistics for Timepoints and cancer types
 Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
 
-```{r summary-statistic-HGG}
+```{r summary-statistic}
+# Compute some summary statistics (mean and sd) by groups:
+df_plot %>%
+  group_by(col_stat) %>%
+  get_summary_stats(tmb, type = "mean_sd")
 
-# Transform into long data: 
-# gather the before and after values in the same column
-df_plot.long <- df_plot %>%
-  gather(key = "", value = "weight", before, after)
-head(mice2.long, 3)
+
+
+
+
+
 ```
 
 ```{r echo=TRUE}
