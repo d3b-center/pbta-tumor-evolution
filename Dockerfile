@@ -66,6 +66,7 @@ RUN install2.r \
 	RColorBrewer \
   R.utils \
   rlist \
+  rstatix \
   tidytext \
   vroom
 
