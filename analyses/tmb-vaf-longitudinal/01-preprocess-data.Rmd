@@ -1,5 +1,5 @@
 ---
-title: "VAF estimation of tumors across multiple timepoints for the autopsy samples in the PBTA Cohort"
+title: "VAF estimation of tumors across multiple timepoints in the PBTA Cohort"
 author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
 date: "2023"
 output:
@@ -34,7 +34,6 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
-v12_file <- file.path(data_dir, "histologies.tsv")
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 matched_time_points_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
@@ -124,6 +123,7 @@ maf_autopsy <- patient_list_metadata %>%
 # How many patients have paired time samples with autopsy time point present?
 paired_samples_autopsy <- length(unique(maf_autopsy$Kids_First_Participant_ID))
 ```
+
 ## How many patient cases with autopsy samples in the paired longitudinal data?
 There are `r paired_samples_autopsy` autopsy samples out of the total `r paired_samples` patient cases.
 
