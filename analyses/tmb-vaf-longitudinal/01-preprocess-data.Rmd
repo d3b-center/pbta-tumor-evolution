@@ -85,8 +85,8 @@ maf <- data.table::fread(maf_file, data.table = FALSE) %>%
 patient_list <- readr::read_tsv(matched_time_points_file, guess_max = 100000, show_col_types = FALSE) %>%
   subset(select = c("Kids_First_Participant_ID", "descriptors"))
 
-# How many patients have paired time samples?
-paired_time_samples <- length(unique(patient_list$Kids_First_Participant_ID))
+# How many patients have paired samples?
+paired_samples <- length(unique(patient_list$Kids_First_Participant_ID))
 
 # Add metadata from pbta to patient list
 patient_list_metadata <- patient_list %>% 
@@ -122,10 +122,10 @@ maf_autopsy <- patient_list_metadata %>%
   write_tsv(file.path(scratch_dir, "maf_autopsy.tsv"))
 
 # How many patients have paired time samples with autopsy time point present?
-paired_time_samples_autopsy <- length(unique(maf_autopsy$Kids_First_Participant_ID))
+paired_samples_autopsy <- length(unique(maf_autopsy$Kids_First_Participant_ID))
 ```
 ## How many patient cases with autopsy samples in the paired longitudinal data?
-There are `r paired_time_samples_autopsy` autopsy samples out of the total `r paired_time_samples` patient cases.
+There are `r paired_samples_autopsy` autopsy samples out of the total `r paired_samples` patient cases.
 
 # Create tmb file for all patient samples with genomic assays
 ```{r tmb_all}
@@ -145,7 +145,7 @@ tmb_genomic <- patient_list_metadata %>%
           timepoints_other = case_when(grepl("Deceased", match_id_bs) ~ "4",
                                        TRUE ~ timepoints_other)) 
 
-paired_time_samples_tmb_genomic <- length(unique(tmb_genomic$Kids_First_Participant_ID))
+tmb_paired_samples <- length(unique(tmb_genomic$Kids_First_Participant_ID))
 
 # There are missing tmb information for some `Kids_First_Biospecimen_ID` in the pbta cohort.
 # This will result into cases with no matched longitudinal samples (`tumor_descriptor`) per `Kids_First_Participant_ID`.
@@ -155,24 +155,29 @@ tmb_missing_bs <- pbta %>%
   filter(is.na(tmb)) %>%
   write_tsv(file.path(results_dir, "tmb_missing_bs.tsv"))
 
+# How many biospecimen samples are missing?
+biospecimen_missing <- length(unique(tmb_missing_bs$Kids_First_Biospecimen_ID))
+
 # Now let's account for any missing tmb in the `tmb_genomic` and 
 # exclude those samples (`Kids_First_Participant_ID` and `tumor_descriptor`) from further analysis
-paired_tumor_descriptor_list <- tmb_genomic %>%
+paired_list <- tmb_genomic %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor)  %>%
   group_by(Kids_First_Participant_ID) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
 
-tmb_genomic_filter <- paired_tumor_descriptor_list %>% 
+tmb_genomic_filter <- paired_list %>% 
   left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
   write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
 
-paired_time_samples_tmb_genomic_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
+tmb_paired_samples_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data
-There are `r paired_time_samples_tmb_genomic_filter` (out of the `r paired_time_samples_tmb_genomic`) patient cases with TMB information.
+There are `r tmb_paired_samples_filter` (out of the `r tmb_paired_samples`) patient cases with TMB information.
+There are `r biospecimen_missing` biospecimen samples missing from the TMB file.
+
 Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
