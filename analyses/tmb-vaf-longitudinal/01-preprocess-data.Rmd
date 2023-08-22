@@ -150,13 +150,27 @@ tmb_paired_samples <- length(unique(tmb_genomic$Kids_First_Participant_ID))
 # There are missing tmb information for some `Kids_First_Biospecimen_ID` in the pbta cohort.
 # This will result into cases with no matched longitudinal samples (`tumor_descriptor`) per `Kids_First_Participant_ID`.
 # First, let's find out which `Kids_First_Biospecimen_ID` samples are missing from the tmb table.
-tmb_missing_bs <- pbta %>% 
+bs_missing_tmb <- pbta %>% 
   left_join(tmb_all, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>% 
   filter(is.na(tmb)) %>%
-  write_tsv(file.path(results_dir, "tmb_missing_bs.tsv"))
+  select(Kids_First_Biospecimen_ID) %>% 
+  write_tsv(file.path(results_dir, "bs_missing_tmb.tsv"))
 
-# How many biospecimen samples are missing?
-biospecimen_missing <- length(unique(tmb_missing_bs$Kids_First_Biospecimen_ID))
+# How many biospecimen samples are missing from the TMB file?
+bs_missing_tmb_samples <- length(unique(bs_missing_tmb$Kids_First_Biospecimen_ID))
+
+# How many of those are missing from the VAF file?
+bs_missing_tmb_vaf <- maf %>% 
+  select(Kids_First_Biospecimen_ID) %>%
+  unique() %>% 
+  right_join(bs_missing_tmb, by = c("Kids_First_Biospecimen_ID")) %>% 
+  select(Kids_First_Biospecimen_ID) %>% 
+  write_tsv(file.path(results_dir, "bs_missing_tmb_vaf.tsv"))
+
+bs_missing_tmb_vaf_samples <- length(unique(bs_missing_tmb_vaf$Kids_First_Biospecimen_ID))
+
+# Are the same biospecimen samples missing in both df?
+print(diff <- setdiff(bs_missing_tmb_vaf, bs_missing_tmb))
 
 # Now let's account for any missing tmb in the `tmb_genomic` and 
 # exclude those samples (`Kids_First_Participant_ID` and `tumor_descriptor`) from further analysis
@@ -176,9 +190,11 @@ tmb_paired_samples_filter <- length(unique(tmb_genomic_filter$Kids_First_Partici
 
 ## How many patient cases with paired time and autopsy samples and TMB data
 There are `r tmb_paired_samples_filter` (out of the `r tmb_paired_samples`) patient cases with TMB information.
-There are `r biospecimen_missing` biospecimen samples missing from the TMB file.
 
-Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
+# Notes
+There are `r bs_missing_tmb_samples` and `r bs_missing_tmb_vaf_samples` biospecimen samples missing from the TMB and VAF files, respectively. `r diff` indicates any differences in biospecimen samples between those two files.
+
+Any discrepancy noted in biospecimen samples between TMB and VAF data might be caused by an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
 
 ```{r echo=TRUE}
 sessionInfo()
