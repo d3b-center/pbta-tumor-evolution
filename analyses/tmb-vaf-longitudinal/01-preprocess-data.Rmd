@@ -11,7 +11,7 @@ output:
 #### Tumor evolution project 
 
 ### Data used 
-In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
+In this notebook, we calculate MAF and create TMB df for coding genes across the longitudinal samples from the PBTA cohort.
 
 # Set up
 ```{r load-library}
