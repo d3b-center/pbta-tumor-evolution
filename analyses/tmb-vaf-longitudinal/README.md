@@ -32,7 +32,8 @@ Then, we will leverage this information to create one column for the constant va
 
 ## Results
 
-There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. Any discrepancy in patient numbers between maf and tmb data might be caused from an issue related to the MAF file (see https://github.com/d3b-center/bixu-tracker/issues/2049).
+There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
+
 
 Overall, we have significantly more samples for Diagnosis compared to the rest of the timepoints (>700). That makes it hard to draw conclusions. On the other hand, when looking at the cancer types with the most samples (HGG and LGG) and compared to the rest of them, there is an indication of significantly increase of TMB for Recurrence samples compared to Diagnosis and Deceased for HGG. There is no significant changes in TMB for LGG. However, there are significant TMB changes across all timepoints when looking at the rest of cancer types, with higher TMB in all timepoints and specifically to Deceased compared to Diagnosis.
 
@@ -53,6 +54,9 @@ The structure of this folder is as follows:
     ├── TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf
     ├── TMB-unpaired-longitudinal-samples-cancer-type.pdf
 │   └── TMB-unpaired-longitudinal-samples.pdf
+├── results
+│   ├── bs_missing_tmb_vaf.tsv
+│   └── bs_missing_tmb.tsv
 ├── README.md
 └── run-tmb-vaf-longitudinal.sh
 ```
