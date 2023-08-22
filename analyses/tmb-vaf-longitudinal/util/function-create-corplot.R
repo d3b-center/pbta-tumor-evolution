@@ -55,7 +55,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   # Plot corplot 
   p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
                geom_point(size = 10, fill = 4, alpha = 1 / 6) +
-               scale_colour_manual(values = timepoint_color_palette$hex_codes) + 
+               scale_colour_manual(values = palette_df$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
                     subtitle = cancer_group) + 
                geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
