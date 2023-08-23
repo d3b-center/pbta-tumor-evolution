@@ -49,6 +49,9 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ## Read in data and process
 ```{r load-process-inputs}
+# Make this reproducible
+set.seed(2023)
+
 # Read in tmb file and remove hypermutant samples
 tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!tmb >= 10) %>% 
@@ -63,11 +66,13 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
          broad_histology, match_id_DNA, experimental_strategy, 
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
   dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
-                                              ifelse(short_histology == "LGAT", "LGG", "Other")),
+                                              ifelse(short_histology == "LGAT", "LGG", 
+                                                     ifelse(short_histology == "Ependymoma", "Ependymoma", "Other"))),
+                 log10_tmb = log10(tmb),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
-  distinct(match_id_DNA, .keep_all = TRUE) %>% # filter out multiple bs_id per genomic assay (WGS/WXS)
-  filter(!is.na(tmb)) 
+  distinct(match_id_DNA, .keep_all = TRUE) %>% # keep only one bs_sample per genomic assay (WGS/WXS)
+  filter(!is.na(tmb))
 
 # How many samples per Timepoint?
 print(df_plot %>% count(tumor_descriptor))
@@ -119,7 +124,8 @@ print(df_plot %>%
         ggplot2::labs(x = "Tumor descriptor",
                       y = "TMB") +
         theme_Publication() +
-        scale_y_continuous(limits = c(0, ylim)))
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf",
