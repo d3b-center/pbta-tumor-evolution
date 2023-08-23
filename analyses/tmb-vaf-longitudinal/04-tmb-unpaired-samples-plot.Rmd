@@ -96,11 +96,12 @@ We are interested in how TMB changes over the time in all PBTA samples (unpaired
 
 ```{r define-parameters-for-plots}
 # Read color palette
-palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(tumor_descriptor = color_names)
 
 # Define and order palette
 palette <- palette_df$hex_codes
-names(palette) <- palette_df$color_names
+names(palette) <- palette_df$tumor_descriptor
 
 # Define label for plots
 Timepoint <- df_plot$tumor_descriptor
@@ -174,20 +175,22 @@ We observe that majority of samples are High- and Low-grade gliomas, so we will 
 
 ```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
 # Create col with sample size per cancer type
-df_plot <- df_plot %>%
-  dplyr::count(short_histology_sum) %>%
+df_plot_n <- df_plot %>%
+  dplyr::count(tumor_descriptor) %>%
   dplyr::distinct() %>%
-  dplyr::select(short_histology_sum, n) %>%
+  dplyr::inner_join(
+    dplyr::select(palette_df, dplyr::contains("tumor_descriptor"))) %>%
+  dplyr::select(tumor_descriptor, n) %>%
   # Create wrapped with (n=X) factor column for cancer groups
-  dplyr::mutate(cancer_group_display_n = glue::glue("{short_histology_sum} (N={n})")) %>%
+  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})")) %>%
   dplyr::inner_join(df_plot) %>%
   unique() %>%
   # reverse order levels to alphabetize when flipping coordinates
-  mutate(cancer_group_display_n = fct_rev(cancer_group_display_n)) 
+  mutate(tumor_descriptor_n = fct_rev(tumor_descriptor_n)) 
 
-print(df_plot %>% 
+print(df_plot_n %>% 
         ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor, 
+        ggplot2::aes(x = tumor_descriptor_n, 
                      y = tmb,
                      color = Timepoint) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
@@ -219,13 +222,13 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot %>% 
-  select(short_histology_sum, tumor_descriptor, tmb) %>% 
+  select(short_histology_sum, tumor_descriptor, tmb, log10_tmb) %>% 
   sample_n_by(short_histology_sum, tumor_descriptor, tmb, size = 1)
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot %>%
   group_by(tumor_descriptor, short_histology_sum) %>%
-  get_summary_stats(tmb, type = "mean_sd") %>% 
+  get_summary_stats(log10_tmb, type = "mean_sd") %>% 
   filter(!n <= 2) # remove if total number of values per group is less than 2
 stat.summary
 
@@ -233,7 +236,7 @@ stat.summary
 # Paired t-test is used because we have repeated measures by time
 stat.test <- df_plot %>%
   group_by(short_histology_sum) %>%
-  pairwise_t_test(tmb ~ tumor_descriptor, 
+  pairwise_t_test(log10_tmb ~ tumor_descriptor, 
                   paired = FALSE, 
                   p.adjust.method = "bonferroni")
 stat.test
@@ -242,11 +245,17 @@ stat.test
 stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor")
 
 # Create the plot
-print(ggboxplot(df_plot,
-                x = "tumor_descriptor",
-                y = "tmb",
-                color = "tumor_descriptor",
-                palette = palette) +
+
+print(df_plot %>% 
+        ggplot2::ggplot() + 
+        ggplot2::aes(x = tumor_descriptor, 
+                     y = log10_tmb,
+                     color = Timepoint) + 
+        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        ggplot2::geom_hline(yintercept = 0, size = 0.15) +
+        ggplot2::scale_color_manual(values = palette, 
+                                    breaks = sort(names(palette))) +
         facet_wrap(~short_histology_sum, nrow = 1) +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
