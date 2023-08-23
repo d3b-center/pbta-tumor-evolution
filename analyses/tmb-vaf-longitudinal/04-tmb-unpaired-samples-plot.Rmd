@@ -68,7 +68,8 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
                                               ifelse(short_histology == "LGAT", "LGG", 
                                                      ifelse(short_histology == "Ependymoma", "Ependymoma", 
-                                                            ifelse(short_histology == "Medulloblastoma", "Medulloblastoma", "Other")))),
+                                                            ifelse(short_histology == "Medulloblastoma", "Medulloblastoma", 
+                                                                   ifelse(short_histology == "ATRT", "ATRT", "Other"))))),
                  log10_tmb = abs(log10(tmb)),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
@@ -201,7 +202,7 @@ Timepoint_cancer <- df_plot_cancer$tumor_descriptor
 # Define ylim
 ylim_cancer <- max(df_plot_cancer$tmb)
 
-# Plot the plot
+# Plot the plot!
 print(df_plot_cancer %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
@@ -231,11 +232,13 @@ ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf",
 
 # Plot by using tumor_descriptor_cancer_n
 # Let's order first x axis 
-f = c("Ependymoma_Diagnosis  (N=113)", "Ependymoma_Progressive  (N=20)" , "Ependymoma_Recurrence  (N=24)", "Ependymoma_Deceased  (N=7)",
+#TODO: To make the f reproducible
+f = c("ATRT_Diagnosis  (N=48)", "ATRT_Progressive  (N=10)", "ATRT_Recurrence  (N=3)", "ATRT_Deceased  (N=4)",
+  "Ependymoma_Diagnosis  (N=113)", "Ependymoma_Progressive  (N=20)" , "Ependymoma_Recurrence  (N=24)", "Ependymoma_Deceased  (N=7)",
       "HGG_Diagnosis  (N=235)", "HGG_Progressive  (N=22)", "HGG_Recurrence  (N=15)", "HGG_Deceased  (N=72)", "HGG_Second Malignancy  (N=5)",
       "LGG_Diagnosis  (N=405)" , "LGG_Progressive  (N=61)", "LGG_Recurrence  (N=25)", "LGG_Deceased  (N=7)", "LGG_Second Malignancy  (N=4)" ,
       "Medulloblastoma_Diagnosis  (N=217)", "Medulloblastoma_Progressive  (N=6)", "Medulloblastoma_Recurrence  (N=6)" , "Medulloblastoma_Deceased  (N=6)",
-      "Other_Diagnosis  (N=586)", "Other_Progressive  (N=99)", "Other_Recurrence  (N=83)", "Other_Deceased  (N=12)", "Other_Second Malignancy  (N=11)")
+      "Other_Diagnosis  (N=538)", "Other_Progressive  (N=89)", "Other_Recurrence  (N=80)", "Other_Deceased  (N=8)")
 
 df_plot_cancer <- df_plot_cancer %>% 
   mutate(tumor_descriptor_cancer_n = factor(tumor_descriptor_cancer_n),
@@ -266,6 +269,8 @@ ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum-n.pdf",
        height = 6, 
        device = "pdf", 
        useDingbats = FALSE)
+
+#TODO: To choose one of the plots in the code chunk `plot-cancer-group-sum`
 ```
 
 # Summary statistics for Timepoints and cancer types
@@ -345,6 +350,8 @@ ggsave(filename = "TMB-jitter-stat-test.pdf",
 # This code was inspired by the following:
 # HOW TO PERFORM MULTIPLE PAIRED T-TESTS IN R
 # https://www.datanovia.com/en/blog/how-to-perform-multiple-paired-t-tests-in-r/
+
+#TODO: To choose one of the plots in this code chunk `summary-statistics`
 ```
 
 ```{r echo=TRUE}
