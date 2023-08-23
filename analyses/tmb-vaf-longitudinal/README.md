@@ -1,4 +1,4 @@
-# Pipeline for creating VAF Correlation and TMB stacked barplots and violin plots
+# Pipeline for creating VAF Correlation and TMB plots
 
 ## Usage
 
@@ -32,11 +32,7 @@ Then, we will leverage this information to create one column for the constant va
 
 ## Results
 
-There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
-
-
-Overall, we have significantly more samples for Diagnosis compared to the rest of the timepoints (>700). That makes it hard to draw conclusions. On the other hand, when looking at the cancer types with the most samples (ATRT, HGG, LGG and Medulloblastoma) and compared to the rest of them, there is an indication of significantly increase of TMB for Recurrence samples compared to Diagnosis and Deceased for HGG. There is no significant changes in TMB for LGG. However, there are significant TMB changes across all timepoints when looking at the rest of cancer types, with higher TMB in all timepoints and specifically to Deceased compared to Diagnosis.
-
+Overall, we have more samples for Diagnosis compared to the rest of the timepoints (1556). That makes it hard to draw conclusions. On the other hand, when looking at the cancer types with the most samples (ATRT, HGG, LGG and Medulloblastoma) and compared to the rest of them, there is an indication of increase of TMB for Recurrence and Deceased samples compared to Diagnosis. This is significant only for the `Ependymoma` samples.
 
 ## Folder structure 
 
@@ -52,8 +48,6 @@ The structure of this folder is as follows:
 ├── plots
     ├── TMB-Bxp-stat-test.pdf
     ├── TMB-jitter-stat-test.pdf
-    ├── TMB-unpaired-longitudinal-samples-cancer-type-sum-n.pdf
-    ├── TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf
     ├── TMB-unpaired-longitudinal-samples-cancer-type.pdf
 │   └── TMB-unpaired-longitudinal-samples.pdf
 ├── results
