@@ -68,7 +68,7 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
   dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
                                               ifelse(short_histology == "LGAT", "LGG", 
                                                      ifelse(short_histology == "Ependymoma", "Ependymoma", "Other"))),
-                 log10_tmb = log10(tmb),
+                 log10_tmb = abs(log10(tmb)),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # keep only one bs_sample per genomic assay (WGS/WXS)
@@ -244,8 +244,28 @@ stat.test
 # Add statistical test p-values
 stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor")
 
-# Create the plot
+# Create bxp
+print(ggboxplot(df_plot,
+                x = "tumor_descriptor",
+                y = "log10_tmb",
+                color = "tumor_descriptor",
+                palette = palette) +
+        facet_wrap(~short_histology_sum, nrow = 1) +
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)) +
+        stat_pvalue_manual(stat.test, label = "p.adj.signif",
+                           step.increase = 0.08, hide.ns = TRUE, tip.length = 0))
 
+# Save the plot
+ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 6, 
+       device = "pdf", 
+       useDingbats = FALSE)
+
+
+# Create jitter plot
 print(df_plot %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
@@ -263,7 +283,7 @@ print(df_plot %>%
                            step.increase = 0.08, hide.ns = TRUE, tip.length = 0))
 
 # Save the plot
-ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+ggsave(filename = "TMB-jitter-stat-test.pdf", 
        path = plots_dir, 
        width = 12, 
        height = 6, 
