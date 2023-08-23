@@ -67,7 +67,8 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
   dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
                                               ifelse(short_histology == "LGAT", "LGG", 
-                                                     ifelse(short_histology == "Ependymoma", "Ependymoma", "Other"))),
+                                                     ifelse(short_histology == "Ependymoma", "Ependymoma", 
+                                                            ifelse(short_histology == "Medulloblastoma", "Medulloblastoma", "Other")))),
                  log10_tmb = abs(log10(tmb)),
                  tumor_descriptor = factor(tumor_descriptor),
                  tumor_descriptor = fct_relevel(tumor_descriptor, c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable"))) %>% 
@@ -85,6 +86,15 @@ rename(count(df_plot, tumor_descriptor, short_histology_sum), Freq = n)
 
 # How many cases with unpaired longitudinal samples?
 no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
+
+# Let's count and remove any timepoints with less than 2 samples therein
+timepoint_n <- df_plot %>% 
+  count(tumor_descriptor) %>% 
+  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})"))
+
+df_plot <- df_plot %>% 
+  left_join(timepoint_n, by = c("tumor_descriptor")) %>%
+  filter(!n <= 2) # remove if total number of values per group is less than 2
 ``` 
 
 
@@ -169,11 +179,20 @@ ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf",
        useDingbats = FALSE)
 ```
 
-We observe that majority of samples are High- and Low-grade gliomas, so we will classify accordingly (versus any other cancer types).
+We observe that majority of samples are High- and Low-grade gliomas as well as Ependymoma, so we will classify accordingly (versus any other cancer types).
 
 # All unpaired samples across cancer types summarized
 
 ```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+
+
+
+
+short_histology_sum_n <- df_plot %>% 
+  count(short_histology_sum) %>% 
+  dplyr::mutate(short_histology_sum = glue::glue("{short_histology_sum} (N={n})"))
+
+
 # Create col with sample size per cancer type
 df_plot_n <- df_plot %>%
   dplyr::count(tumor_descriptor) %>%
@@ -188,9 +207,9 @@ df_plot_n <- df_plot %>%
   # reverse order levels to alphabetize when flipping coordinates
   mutate(tumor_descriptor_n = fct_rev(tumor_descriptor_n)) 
 
-print(df_plot_n %>% 
+print(df_plot %>% 
         ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor_n, 
+        ggplot2::aes(x = tumor_descriptor, 
                      y = tmb,
                      color = Timepoint) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
@@ -227,8 +246,8 @@ df_plot %>%
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot %>%
-  group_by(tumor_descriptor, short_histology_sum) %>%
-  get_summary_stats(log10_tmb, type = "mean_sd") %>% 
+  group_by(short_histology_sum, tumor_descriptor) %>%
+  get_summary_stats(tmb, type = "mean_sd") %>% 
   filter(!n <= 2) # remove if total number of values per group is less than 2
 stat.summary
 
