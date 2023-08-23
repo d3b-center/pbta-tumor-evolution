@@ -213,7 +213,7 @@ for (i in seq_along(samples)) {
     filter(Kids_First_Participant_ID == samples[i])
   
   # Define parameters for function
-  ylim = max(df_plot_filter$tmb)
+  ylim = max(df_plot_filter$mutation_count)
  
   # Run function
   fname <- paste0(plots_dir, "/", samples[i], "-TMB-barplot.pdf")
