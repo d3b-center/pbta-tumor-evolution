@@ -173,6 +173,18 @@ We observe that majority of samples are High- and Low-grade gliomas, so we will 
 # All unpaired samples across cancer types summarized
 
 ```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+# Create col with sample size per cancer type
+df_plot <- df_plot %>%
+  dplyr::count(short_histology_sum) %>%
+  dplyr::distinct() %>%
+  dplyr::select(short_histology_sum, n) %>%
+  # Create wrapped with (n=X) factor column for cancer groups
+  dplyr::mutate(cancer_group_display_n = glue::glue("{short_histology_sum} (N={n})")) %>%
+  dplyr::inner_join(df_plot) %>%
+  unique() %>%
+  # reverse order levels to alphabetize when flipping coordinates
+  mutate(cancer_group_display_n = fct_rev(cancer_group_display_n)) 
+
 print(df_plot %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
