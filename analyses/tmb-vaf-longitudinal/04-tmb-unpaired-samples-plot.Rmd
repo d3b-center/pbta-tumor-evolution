@@ -57,8 +57,8 @@ tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!tmb >= 10) %>% 
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
-# Read in pbta file and create df_plot
-df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
+# Read in pbta file and create df
+df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!(experimental_strategy == "RNA-Seq"),
          !(tumor_descriptor == "Unavailable")) %>% # these are 2 samples
   left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
@@ -76,25 +76,26 @@ df_plot <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
   filter(!is.na(tmb))
 
 # How many samples per Timepoint?
-print(df_plot %>% count(tumor_descriptor))
+print(df %>% count(tumor_descriptor))
 
 # How many samples per cancer type?
-print(df_plot %>% count(short_histology_sum))
+print(df %>% count(short_histology_sum))
 
 # How many samples per Timepoint and cancer type?
-rename(count(df_plot, tumor_descriptor, short_histology_sum), Freq = n)
+rename(count(df, tumor_descriptor, short_histology_sum), Freq = n)
 
 # How many cases with unpaired longitudinal samples?
-no_samples <- length(unique(df_plot$Kids_First_Participant_ID))
+no_samples <- length(unique(df$Kids_First_Participant_ID))
 
 # Let's count and remove any timepoints with less than 2 samples therein
-timepoint_n <- df_plot %>% 
+timepoint_n_df <- df %>% 
   count(tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})"))
+  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
+  dplyr::rename(timepoint_n = n)
 
-df_plot <- df_plot %>% 
-  left_join(timepoint_n, by = c("tumor_descriptor")) %>%
-  filter(!n <= 2) # remove if total number of values per group is less than 2
+df_plot <- df %>% 
+  left_join(timepoint_n_df, by = c("tumor_descriptor")) %>%
+  filter(!timepoint_n <= 2) # remove if total number of values per group is less than 2
 ``` 
 
 
@@ -184,34 +185,28 @@ We observe that majority of samples are High- and Low-grade gliomas as well as E
 # All unpaired samples across cancer types summarized
 
 ```{r plot-cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+# Let's count and remove any cancer types and timepoints with less than 2 samples therein
+tumor_descriptor_cancer_n_df <- df_plot %>% 
+  count(short_histology_sum, tumor_descriptor) %>% 
+  dplyr::mutate(tumor_descriptor_cancer_n = glue::glue("{short_histology_sum}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(histology_n = n)
 
+df_plot_cancer <- df_plot %>% 
+  left_join(tumor_descriptor_cancer_n_df, by = c("tumor_descriptor", "short_histology_sum")) %>%
+  filter(!histology_n <= 2) # remove if total number of values per group is less than 2
 
+# Define label for plots
+Timepoint_cancer <- df_plot_cancer$tumor_descriptor
 
+# Define ylim
+ylim_cancer <- max(df_plot_cancer$tmb)
 
-short_histology_sum_n <- df_plot %>% 
-  count(short_histology_sum) %>% 
-  dplyr::mutate(short_histology_sum = glue::glue("{short_histology_sum} (N={n})"))
-
-
-# Create col with sample size per cancer type
-df_plot_n <- df_plot %>%
-  dplyr::count(tumor_descriptor) %>%
-  dplyr::distinct() %>%
-  dplyr::inner_join(
-    dplyr::select(palette_df, dplyr::contains("tumor_descriptor"))) %>%
-  dplyr::select(tumor_descriptor, n) %>%
-  # Create wrapped with (n=X) factor column for cancer groups
-  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})")) %>%
-  dplyr::inner_join(df_plot) %>%
-  unique() %>%
-  # reverse order levels to alphabetize when flipping coordinates
-  mutate(tumor_descriptor_n = fct_rev(tumor_descriptor_n)) 
-
-print(df_plot %>% 
+# Plot the plot
+print(df_plot_cancer %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
                      y = tmb,
-                     color = Timepoint) + 
+                     color = Timepoint_cancer) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
         ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
@@ -223,10 +218,49 @@ print(df_plot %>%
                       y = "TMB") +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, ylim)))
+        scale_y_continuous(limits = c(0, ylim_cancer)))
 
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 6, 
+       device = "pdf", 
+       useDingbats = FALSE)
+
+
+# Plot by using tumor_descriptor_cancer_n
+# Let's order first x axis 
+f = c("Ependymoma_Diagnosis  (N=113)", "Ependymoma_Progressive  (N=20)" , "Ependymoma_Recurrence  (N=24)", "Ependymoma_Deceased  (N=7)",
+      "HGG_Diagnosis  (N=235)", "HGG_Progressive  (N=22)", "HGG_Recurrence  (N=15)", "HGG_Deceased  (N=72)", "HGG_Second Malignancy  (N=5)",
+      "LGG_Diagnosis  (N=405)" , "LGG_Progressive  (N=61)", "LGG_Recurrence  (N=25)", "LGG_Deceased  (N=7)", "LGG_Second Malignancy  (N=4)" ,
+      "Medulloblastoma_Diagnosis  (N=217)", "Medulloblastoma_Progressive  (N=6)", "Medulloblastoma_Recurrence  (N=6)" , "Medulloblastoma_Deceased  (N=6)",
+      "Other_Diagnosis  (N=586)", "Other_Progressive  (N=99)", "Other_Recurrence  (N=83)", "Other_Deceased  (N=12)", "Other_Second Malignancy  (N=11)")
+
+df_plot_cancer <- df_plot_cancer %>% 
+  mutate(tumor_descriptor_cancer_n = factor(tumor_descriptor_cancer_n),
+                 tumor_descriptor_cancer_n = fct_relevel(tumor_descriptor_cancer_n, f))
+                                                         
+# Plot the plot!
+print(df_plot_cancer %>% 
+        ggplot2::ggplot() + 
+        ggplot2::aes(x = tumor_descriptor_cancer_n, 
+                     y = tmb,
+                     color = Timepoint_cancer) + 
+        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
+        ggplot2::scale_color_manual(values = palette, 
+                                    breaks = sort(names(palette))) +
+        ggplot2::stat_summary(color = "black", size = 0.3) + 
+        ggplot2::labs(x = "Tumor descriptor",
+                      y = "TMB") +
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)) +
+        scale_y_continuous(limits = c(0, ylim_cancer)))
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum-n.pdf", 
        path = plots_dir, 
        width = 12, 
        height = 6, 
@@ -240,20 +274,19 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 ```{r summary-statistics, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
-df_plot %>% 
+df_plot_cancer %>% 
   select(short_histology_sum, tumor_descriptor, tmb, log10_tmb) %>% 
   sample_n_by(short_histology_sum, tumor_descriptor, tmb, size = 1)
 
 # Compute some summary statistics (mean and sd) by groups:
-stat.summary <- df_plot %>%
+stat.summary <- df_plot_cancer %>%
   group_by(short_histology_sum, tumor_descriptor) %>%
-  get_summary_stats(tmb, type = "mean_sd") %>% 
-  filter(!n <= 2) # remove if total number of values per group is less than 2
+  get_summary_stats(tmb, type = "mean_sd")
 stat.summary
 
 # Pairwise comparisons between time points at each group levels
 # Paired t-test is used because we have repeated measures by time
-stat.test <- df_plot %>%
+stat.test <- df_plot_cancer %>%
   group_by(short_histology_sum) %>%
   pairwise_t_test(log10_tmb ~ tumor_descriptor, 
                   paired = FALSE, 
@@ -264,7 +297,7 @@ stat.test
 stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor")
 
 # Create bxp
-print(ggboxplot(df_plot,
+print(ggboxplot(df_plot_cancer,
                 x = "tumor_descriptor",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
@@ -285,11 +318,11 @@ ggsave(filename = "TMB-Bxp-stat-test.pdf",
 
 
 # Create jitter plot
-print(df_plot %>% 
+print(df_plot_cancer %>% 
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
                      y = log10_tmb,
-                     color = Timepoint) + 
+                     color = Timepoint_cancer) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
         ggplot2::geom_hline(yintercept = 0, size = 0.15) +
