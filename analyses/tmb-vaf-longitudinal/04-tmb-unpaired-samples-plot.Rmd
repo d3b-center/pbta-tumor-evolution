@@ -202,34 +202,6 @@ Timepoint_cancer <- df_plot_cancer$tumor_descriptor
 # Define ylim
 ylim_cancer <- max(df_plot_cancer$tmb)
 
-# Plot the plot!
-print(df_plot_cancer %>% 
-        ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor, 
-                     y = tmb,
-                     color = Timepoint_cancer) + 
-        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-        # light guiding line representing 0 exposure
-        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-        ggplot2::scale_color_manual(values = palette, 
-                                    breaks = sort(names(palette))) +
-        ggplot2::stat_summary(color = "black", size = 0.3) + 
-        ggplot2::facet_wrap(~short_histology_sum, nrow = 1) +
-        ggplot2::labs(x = "Tumor descriptor",
-                      y = "TMB") +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, ylim_cancer)))
-
-# Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", 
-       path = plots_dir, 
-       width = 12, 
-       height = 6, 
-       device = "pdf", 
-       useDingbats = FALSE)
-
-
 # Plot by using tumor_descriptor_cancer_n
 # Let's order first x axis 
 #TODO: To make the f reproducible
@@ -243,34 +215,6 @@ f = c("ATRT_Diagnosis  (N=48)", "ATRT_Progressive  (N=10)", "ATRT_Recurrence  (N
 df_plot_cancer <- df_plot_cancer %>% 
   mutate(tumor_descriptor_cancer_n = factor(tumor_descriptor_cancer_n),
                  tumor_descriptor_cancer_n = fct_relevel(tumor_descriptor_cancer_n, f))
-                                                         
-# Plot the plot!
-print(df_plot_cancer %>% 
-        ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor_cancer_n, 
-                     y = tmb,
-                     color = Timepoint_cancer) + 
-        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-        # light guiding line representing 0 exposure
-        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-        ggplot2::scale_color_manual(values = palette, 
-                                    breaks = sort(names(palette))) +
-        ggplot2::stat_summary(color = "black", size = 0.3) + 
-        ggplot2::labs(x = "Tumor descriptor",
-                      y = "TMB") +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, ylim_cancer)))
-
-# Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum-n.pdf", 
-       path = plots_dir, 
-       width = 12, 
-       height = 6, 
-       device = "pdf", 
-       useDingbats = FALSE)
-
-#TODO: To choose one of the plots in the code chunk `plot-cancer-group-sum`
 ```
 
 # Summary statistics for Timepoints and cancer types
@@ -280,12 +224,12 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot_cancer %>% 
-  select(short_histology_sum, tumor_descriptor, tmb, log10_tmb) %>% 
-  sample_n_by(short_histology_sum, tumor_descriptor, tmb, size = 1)
+  select(short_histology_sum, tumor_descriptor_cancer_n, tmb, log10_tmb) %>% 
+  sample_n_by(short_histology_sum, tumor_descriptor_cancer_n, tmb, size = 1)
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot_cancer %>%
-  group_by(short_histology_sum, tumor_descriptor) %>%
+  group_by(short_histology_sum, tumor_descriptor_cancer_n) %>%
   get_summary_stats(tmb, type = "mean_sd")
 stat.summary
 
@@ -293,21 +237,20 @@ stat.summary
 # Paired t-test is used because we have repeated measures by time
 stat.test <- df_plot_cancer %>%
   group_by(short_histology_sum) %>%
-  pairwise_t_test(log10_tmb ~ tumor_descriptor, 
+  pairwise_t_test(log10_tmb ~ tumor_descriptor_cancer_n, 
                   paired = FALSE, 
                   p.adjust.method = "bonferroni")
 stat.test
 
 # Add statistical test p-values
-stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor")
+stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor_cancer_n")
 
 # Create bxp
 print(ggboxplot(df_plot_cancer,
-                x = "tumor_descriptor",
+                x = "tumor_descriptor_cancer_n",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
                 palette = palette) +
-        facet_wrap(~short_histology_sum, nrow = 1) +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test, label = "p.adj.signif",
@@ -325,7 +268,7 @@ ggsave(filename = "TMB-Bxp-stat-test.pdf",
 # Create jitter plot
 print(df_plot_cancer %>% 
         ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor, 
+        ggplot2::aes(x = tumor_descriptor_cancer_n, 
                      y = log10_tmb,
                      color = Timepoint_cancer) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
@@ -333,7 +276,6 @@ print(df_plot_cancer %>%
         ggplot2::geom_hline(yintercept = 0, size = 0.15) +
         ggplot2::scale_color_manual(values = palette, 
                                     breaks = sort(names(palette))) +
-        facet_wrap(~short_histology_sum, nrow = 1) +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test, label = "p.adj.signif",
