@@ -12,7 +12,7 @@ Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count.Rmd', clean =
 
 This folder contains a script tasked to analyze the distribution of samples across cancer types and patients in the PBTA dataset.
 
-`01-tumor-descriptor-and-assay-count-plot.Rmd` is a script written to perform the initial analyses on the PBTA dataset. This script produces TSV files containing the PBTA samples with all and paired gemomic and transcriptomic assays across different time points and cancer types.   
+`01-tumor-descriptor-and-assay-count.Rmd` is a script written to perform the initial analyses on the PBTA dataset. This script produces TSV files containing the PBTA samples with all and paired gemomic and transcriptomic assays across different time points and cancer types.   
 
 ## Results
 
@@ -27,8 +27,8 @@ The five cancer types with the highest number of tumor samples (>100) therein ar
 The structure of this folder is as follows:
 
 ```
-├── 01-tumor-descriptor-and-assay-count-plot.Rmd
-├── 01-tumor-descriptor-and-assay-count-plot.nb.html
+├── 01-tumor-descriptor-and-assay-count.Rmd
+├── 01-tumor-descriptor-and-assay-count.nb.html
 ├── input
 │   └── PBTA-germline-histology-groups-plot-mapping.tsv
 ├── README.md
