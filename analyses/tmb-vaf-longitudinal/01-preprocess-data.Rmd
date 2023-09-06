@@ -72,18 +72,13 @@ maf_nonsynonymous <- c(
 
 # Read in maf file, calculate VAF, and retain only coding gene mutations
 # We will use this column to label gene mutations in the final graphs
-
-maf1 <- vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
+maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
-
-
-print(diff <- setdiff(maf, maf1))
-
 
 # Read in matched_genomic_file and get the list of patients 
 # with matched time points for the genomic assays
