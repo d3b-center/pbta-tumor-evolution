@@ -179,25 +179,12 @@ bs_missing_tmb_vaf_samples <- length(unique(bs_missing_tmb_vaf$Kids_First_Biospe
 print(diff <- setdiff(bs_missing_tmb_vaf, bs_missing_tmb))
 
 # Now let's account for any missing tmb in the `tmb_genomic` and 
-# exclude those samples (`Kids_First_Participant_ID` and `tumor_descriptor`) from further analysis
+# exclude any samples that might have only one timepoint from further analysis (`Kids_First_Participant_ID` and `tumor_descriptor`) 
 paired_list <- tmb_genomic %>%
   group_by(Kids_First_Participant_ID) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
 
-
-
-
-paired_list2 <- tmb_genomic %>%
-    unique() %>% 
-  dplyr::filter(!Kids_First_Biospecimen_ID %in% bs_missing_tmb$Kids_First_Biospecimen_ID)
-
-
-      filter(gene_ID %in% accessions40$V1)
-
-
-      
-      
 tmb_genomic_filter <- paired_list %>% 
   left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
   write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
