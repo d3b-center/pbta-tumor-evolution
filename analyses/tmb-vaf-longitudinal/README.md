@@ -15,9 +15,23 @@ bash run-tmb-vaf-longitudinal.sh
 This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA cohort.
 
 ## Summary 
-This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples under the following timepoints models: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
+This pipeline produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples under various timepoints models, e.g., Diagnosis-Deceased, Progressive-Deceased.
 
-`01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_autopsy.tsv` files for the next steps and are placed in `../../scratch`.
+To generate corplots, we need to create timepoint models that will account for the following conditions: 
+(1) We are interested in how VAF values change over the time and specifically for the autopsy samples. 
+(2) We will create corplots by keeping Deceased timepoint as constant and any other timepoint paired with it will be the variable. 
+(3) There are patient cases with more than one time points in addition to Deceased, e.g. Diagnosis and Progressive. 
+(4) There are multiple `Kids_First_Biospecimen_ID` samples per `tumor_descriptor` and `Kids_First_Participant_ID`.
+
+First, we create unique identifiers for each of those cases `match_id_bs`.
+Then, we will leverage this information to create one column for the constant variable (`timepoints_deceased`) and one column for the variable (`timepoints_other`). We will replace with numbers any timpoint not relevant to those columns, e.g., there should be only deceased samples in the `timepoints_deceased` so we will replace with numeric values (1-3). Same logic applies for `timepoints_other` only there, we have one value to replace (used 4 for continuity). This system allows us to build a timepoint model to be used for loops that will iterate and create graphs based on any possible combination between timepoints and biospecimen samples per `Kids_First_Participant_ID`.
+
+`01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_genomic.tsv` files for the next steps and are placed in `../../scratch`.
+
+## Results
+
+There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
+
 
 ## Folder structure 
 
@@ -28,6 +42,9 @@ The structure of this folder is as follows:
 ├── 01-preprocess-data.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
+├── results
+│   ├── bs_missing_tmb_vaf.tsv
+│   └── bs_missing_tmb.tsv
 ├── README.md
 └── run-tmb-vaf-longitudinal.sh
 ```
