@@ -17,6 +17,7 @@ In this notebook, we calculate MAF and create TMB file for coding genes across t
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(vroom)
 })
 ```
 
