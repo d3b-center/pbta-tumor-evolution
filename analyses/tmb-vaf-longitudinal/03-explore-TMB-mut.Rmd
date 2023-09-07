@@ -152,7 +152,7 @@ for (i in seq_along(cancer_groups)) {
       }
     
     # Name plots
-    fname <- paste0(plots_dir, "/", "TMB-genomic-dumbbell", "-", cancer_groups[i], ".pdf")
+    fname <- paste0(plots_dir, "/", cancer_groups[i],, "-TMB-genomic-dumbbell", ".pdf")
     print(fname)
     
     # Run function
