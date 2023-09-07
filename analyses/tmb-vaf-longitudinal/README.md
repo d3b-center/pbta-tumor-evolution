@@ -37,7 +37,7 @@ Then, we will leverage this information to create one column for the constant va
 
 ## Results
 
-There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 61 (out of the 67) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
+There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 117 (out of the 118) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
 
 
 Moreover, we explored TMB and the number of mutations across longitudinal samples with genomic assays. 
