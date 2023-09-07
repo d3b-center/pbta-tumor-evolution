@@ -102,7 +102,7 @@ df_plot_filter <- df %>%
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>% 
   dplyr::left_join(df, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
@@ -249,32 +249,7 @@ We could consider to use them in later analyses.
 # Total number of mutations across timepoints and biospecimen sample per Patient case
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
 
-```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
-samples <- unique(as.character(df_plot_filter$Kids_First_Participant_ID))
-print(samples)
-
-for (i in seq_along(samples)) {
-  print(i)
-  tmb_sub <- df_plot_filter %>%
-    filter(Kids_First_Participant_ID == samples[i])
-  
-  # Define parameters for function
-  ylim = max(df_plot_filter$mutation_count)
- 
-  # Run function
-  fname <- paste0(plots_dir, "/", samples[i], "-Mutations-barplot.pdf")
-  print(fname)
-  p <- create_barplot_sample(tmb_df = tmb_sub,
-                             ylim = ylim,
-                             sid = samples[i])
-  pdf(file = fname, width = 5, height = 4)
-  print(p)
-  dev.off()
-}
-```
-
-Let's try to do the same by using `facet_wrap` function. Again, we are missing values in timepoints.
-Maybe we can divide by names(samples), adjust ylim per each and create 3-4 panels for each ylim.
+First, let's try to use `facet_wrap` function. Again, we are missing values in timepoints.
 
 ```{r create-barplot-sample-panel, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
 for (i in seq_along(cancer_groups)) {
@@ -309,6 +284,32 @@ for (i in seq_along(cancer_groups)) {
     dev.off()
 }
 ``` 
+
+But this doesn't happen when plotting separate barplots per `Kids_First_Participant_ID`.
+
+```{r create-barplot-sample, fig.width = 5, fig.height = 4, fig.fullwidth = TRUE}
+samples <- unique(as.character(df_plot_filter$Kids_First_Participant_ID))
+print(samples)
+
+for (i in seq_along(samples)) {
+  print(i)
+  tmb_sub <- df_plot_filter %>%
+    filter(Kids_First_Participant_ID == samples[i])
+  
+  # Define parameters for function
+  ylim = max(df_plot_filter$mutation_count)
+ 
+  # Run function
+  fname <- paste0(plots_dir, "/", samples[i], "-Mutations-barplot.pdf")
+  print(fname)
+  p <- create_barplot_sample(tmb_df = tmb_sub,
+                             ylim = ylim,
+                             sid = samples[i])
+  pdf(file = fname, width = 5, height = 4)
+  print(p)
+  dev.off()
+}
+```
 
 ```{r echo=TRUE}
 sessionInfo()
