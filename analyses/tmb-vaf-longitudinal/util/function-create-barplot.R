@@ -75,12 +75,13 @@ create_barplot_sample <- function(tmb_df, ylim, sid) {
 #'
 #' @param tmb_df 
 #' @param ylim
+#' @param ct_id
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_barplot_sample_panel <- function(tmb_df, ylim) {
+create_barplot_sample_panel <- function(tmb_df, ylim, ct_id) {
   
   # Rename legend for timepoints
   Timepoint <- factor(tmb_df$tumor_descriptor)
