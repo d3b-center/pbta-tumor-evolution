@@ -61,7 +61,8 @@ df_total %>%
 # There are, so let's remove these from downstream analyses.
 df <- df_total %>% 
   filter(!experimental_strategy == "WXS") %>% 
-  dplyr:::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_"))
+  dplyr::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, patient_id, short_histology, tumor_descriptor, descriptors, tumor_descriptor_sum, tmb, mutation_count)
     
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
@@ -74,7 +75,7 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 # Define parameters for function
 ylim = max(df$tmb)
 
-# df
+# Re-order df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
 df_plot <- df %>% 
   dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
@@ -88,19 +89,19 @@ pdf(file = fname, width = 15, height = 6)
 print(p)
 dev.off()
 ```
-Attention: Hypermutant TMB defined as ≥10 Mb, and Ultrahypermutant TMB defined as ≥100 mutations/Mb in pediatrci brain tumors (https://pubmed.ncbi.nlm.nih.gov/29056344/).
+Attention: Hypermutant TMB defined as ≥10 Mb, and Ultrahypermutant TMB defined as ≥100 mutations/Mb in pediatric brain tumors (https://pubmed.ncbi.nlm.nih.gov/29056344/).
 
 Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 10) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
 
 ```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
-# Filter df
+# Filter df and remove any samples with single timepoints
 df_plot_filter <- df %>%
   filter(!tmb >= 10) %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
   dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased")) %>% 
   dplyr::left_join(df, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
   mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
                                    ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
@@ -198,6 +199,7 @@ for (i in seq_along(cancer_groups)) {
     dev.off()
 }
 ```
+
 
 # Total number of mutations across timepoints and biospecimen sample per Patient case
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
