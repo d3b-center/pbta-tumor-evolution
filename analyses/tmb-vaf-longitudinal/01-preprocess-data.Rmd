@@ -17,6 +17,7 @@ In this notebook, we calculate MAF and create TMB file for coding genes across t
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(vroom)
 })
 ```
 
@@ -71,7 +72,7 @@ maf_nonsynonymous <- c(
 
 # Read in maf file, calculate VAF, and retain only coding gene mutations
 # We will use this column to label gene mutations in the final graphs
-maf <- data.table::fread(maf_file, data.table = FALSE) %>% 
+maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
@@ -173,10 +174,8 @@ bs_missing_tmb_vaf_samples <- length(unique(bs_missing_tmb_vaf$Kids_First_Biospe
 print(diff <- setdiff(bs_missing_tmb_vaf, bs_missing_tmb))
 
 # Now let's account for any missing tmb in the `tmb_genomic` and 
-# exclude those samples (`Kids_First_Participant_ID` and `tumor_descriptor`) from further analysis
+# exclude any samples that might have only one timepoint from further analysis (`Kids_First_Participant_ID` and `tumor_descriptor`) 
 paired_list <- tmb_genomic %>%
-  unique() %>% 
-  arrange(Kids_First_Participant_ID, tumor_descriptor)  %>%
   group_by(Kids_First_Participant_ID) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
