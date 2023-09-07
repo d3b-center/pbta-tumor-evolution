@@ -25,12 +25,9 @@ create_jitter_ct <- function(tmb_df, ylim, ct_id) {
                             y = tmb,
                             color = Timepoint) + 
                ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-               # light guiding line representing 0 exposure
-               #ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
                coord_flip() +
                ggplot2::scale_color_manual(values = palette, 
                                            breaks = sort(names(palette))) +
-               ggplot2::stat_summary(color = "black", size = 0.3) + 
                labs(title = paste(ct_id)) + 
                ggplot2::labs(x = "Patient case",
                              y = "TMB") +
