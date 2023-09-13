@@ -46,6 +46,13 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir )) {
+  dir.create(results_dir)
+}
+
 source(paste0(analysis_dir, "/util/function-create-corplot.R"))
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
@@ -94,10 +101,13 @@ for (i in seq_along(samples)) {
     for (k in seq_along(timepoints_other_plots)){
       fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
       print(fname)
+      table_name <- paste0(results_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-maf_gene_protein.tsv")
+      print(table_name)
       p <- create_corplot(maf = maf_sub,
                           timepoints_other_plot = timepoints_other_plots[k],
                           timepoints_deceased_plot = timepoints_deceased_plots[t],
                           sid = samples[i])
+      write_tsv(maf_join, file = table_name)
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
