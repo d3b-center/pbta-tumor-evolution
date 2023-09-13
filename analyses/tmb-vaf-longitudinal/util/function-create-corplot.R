@@ -68,13 +68,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                                max.overlaps=Inf,
                                force = 0.5,
                                direction = "y",
-                               #segment.size = 0.2,
-                               #segment.curvature = -0.1,
-                               #min.segment.length = 1, # Omit short line segments (default behavior=0.5)
-                               max.time = 1, max.iter = 1e5, # stop after 1 second, or after 100,000 iterations
                                box.padding = 0.5, # additional padding around each text label
-                               #arrow = arrow(
-                               #  length = unit(0.03, "npc"), type = "closed", ends = "first"),
                ) +
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
@@ -82,6 +76,4 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   return(p)
 
 }
-
-
 
