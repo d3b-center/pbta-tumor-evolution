@@ -58,8 +58,8 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                scale_colour_manual(values = palette_df$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
                     subtitle = cancer_group) + 
-               geom_vline(xintercept = 0.1, linetype = "dashed") + # Add vertical intercept
-               geom_hline(yintercept = 0.1, linetype = "dashed") + # Add horizontal intercept line
+               geom_vline(xintercept = 0.2, linetype = "dashed") + # Add vertical intercept line to differentiate clonal vs subclonal gene mutations
+               geom_hline(yintercept = 0.2, linetype = "dashed") + # Add horizontal intercept line to differentiate clonal vs subclonal gene mutations
                geom_text_repel(aes(label = paste("", gene_protein, "")), 
                                size = 3.5, hjust = 0, vjust = 0, nudge_x = 0.005, 
                                point.padding = NA, segment.color = NA, show.legend = FALSE, 
