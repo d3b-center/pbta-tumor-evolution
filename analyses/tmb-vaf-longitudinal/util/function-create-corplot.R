@@ -54,22 +54,34 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   
   # Plot corplot 
   p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
-               geom_point(size = 10, fill = 4, alpha = 1 / 6) +
+               geom_point(size = 6, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = palette_df$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
                     subtitle = cancer_group) + 
                geom_vline(xintercept = 0.2, linetype = "dashed") + # Add vertical intercept line to differentiate clonal vs subclonal gene mutations
                geom_hline(yintercept = 0.2, linetype = "dashed") + # Add horizontal intercept line to differentiate clonal vs subclonal gene mutations
-               geom_text_repel(aes(label = paste("", gene_protein, "")), 
+               geom_text_repel(aes(label = paste("", gene_protein, ""),  segment.color = NA), 
                                size = 3.5, hjust = 0, vjust = 0, nudge_x = 0.005, 
-                               point.padding = NA, segment.color = NA, show.legend = FALSE, 
+                               point.padding = 0.2, # additional padding around each point
+                               show.legend = FALSE, 
                                xlim = c(0.02, NA), ylim = c(0.025, 0.96),
-                               max.overlaps=Inf) +
+                               max.overlaps=Inf,
+                               force = 0.5,
+                               direction = "y",
+                               #segment.size = 0.2,
+                               #segment.curvature = -0.1,
+                               #min.segment.length = 1, # Omit short line segments (default behavior=0.5)
+                               max.time = 1, max.iter = 1e5, # stop after 1 second, or after 100,000 iterations
+                               box.padding = 0.5, # additional padding around each text label
+                               #arrow = arrow(
+                               #  length = unit(0.03, "npc"), type = "closed", ends = "first"),
+               ) +
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
   return(p)
 
 }
+
 
 
