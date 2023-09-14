@@ -1,0 +1,37 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_HYKV2TH9	Diagnosis_BS_3VKW5988	sym	group
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		FOXE3	0.07446808510638298	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		DEPDC1	0.1	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		KCNT2	0.07142857142857142	0.10112359550561796	FALSE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma	H3-3A_p.K28M	H3-3A	0.34285714285714286	0.3380281690140845	TRUE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma	APC_p.P1584K	APC	0.11320754716981132	0	TRUE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		NFYA	0.07766990291262135	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TFEC	0.1984732824427481	0.2676056338028169	FALSE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TFEC	0.1793103448275862	0.2601626016260163	FALSE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TFEC	0.1885245901639344	0.28688524590163933	FALSE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TRBV6-5	0.06329113924050633	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		PRKDC	0.05405405405405406	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		FER1L6	0.11458333333333331	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		WAC	0.04615384615384615	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ANK3	0.0990990990990991	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		LCOR	0.05970149253731343	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		PSD	0.14150943396226415	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		CASP7	0.0989010989010989	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TRAV39	0.04705882352941176	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		AHNAK2	0.09090909090909093	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		VPS13C	0.07291666666666667	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ABCC6	0.06306306306306306	0.13402061855670103	FALSE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		NPIPB6	0.11475409836065574	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma	TP53_p.C242Y	TP53	0.1020408163265306	0.07964601769911504	TRUE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma	TP53_p.K120E	TP53	0.07692307692307693	0.15714285714285714	TRUE	Common
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ARHGAP27	0.07633587786259542	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		SEPTIN9	0.0707070707070707	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		GAREM1	0.09278350515463918	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		FCGBP	0.16176470588235295	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		KIR2DL3	0.06896551724137931	0	FALSE	Deceased
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		NUP210L	0	0.07865168539325842	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ALMS1	0	0.07194244604316546	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ITGA1	0	0.17647058823529413	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		TFEC	0	0.203125	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ARHGAP39	0	0.07446808510638298	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		STARD13	0	0.0588235294117647	FALSE	Diagnosis
+PT_KTRJ8TFY	Diffuse midline glioma	Diffuse midline glioma		ZNF207	0	0.06944444444444445	FALSE	Diagnosis

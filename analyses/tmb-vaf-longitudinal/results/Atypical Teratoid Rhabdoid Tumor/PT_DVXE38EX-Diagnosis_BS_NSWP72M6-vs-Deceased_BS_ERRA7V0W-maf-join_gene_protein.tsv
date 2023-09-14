@@ -1,0 +1,21 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_ERRA7V0W	Diagnosis_BS_NSWP72M6	sym	group
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TTLL7	0.03947368421052631	0	FALSE	Deceased
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		SMIM33	0.05042016806722689	0	FALSE	Deceased
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		EPPK1	0.19444444444444445	0	FALSE	Deceased
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		WASHC1	0.07317073170731707	0.06741573033707865	FALSE	Common
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		UNC93B1	0.07920792079207921	0.06976744186046512	FALSE	Common
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		SUSD2	0.13978494623655913	0.14130434782608697	FALSE	Common
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TAF12	0	0.13761467889908258	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor	NRAS_p.Q61R	NRAS	0	0.15384615384615383	TRUE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		ADAM30	0	0.04819277108433735	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		SEMA5B	0	0.15315315315315314	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TOPBP1	0	0.1588785046728972	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		MRM2	0	0.0797872340425532	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		CAMK2B	0	0.102803738317757	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		EPHA1	0	0.11971830985915492	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PLEC	0	0.09848484848484848	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		OR10G2	0	0.09230769230769233	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PKD1	0	0.07142857142857142	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		ABCA7	0	0.13385826771653545	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		NLRP4	0	0.09782608695652174	FALSE	Diagnosis
+PT_DVXE38EX	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		MT-CO1	0	0.14907733775658305	FALSE	Diagnosis

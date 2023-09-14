@@ -1,0 +1,67 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_537YFJ06	Recurrence_BS_EJP43CD9	sym	group
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		AK2	0.27848101265822783	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		DNAI3	0.3595505617977528	0.35294117647058826	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ATP2B4	0.15841584158415842	0.15294117647058825	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		DNAH14	0.18556701030927836	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		RYR2	0.25882352941176473	0.21212121212121213	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PTRHD1	0.0273972602739726	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		CAD	0.32857142857142857	0.18333333333333332	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SPEG	0.3609022556390977	0.34375	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		CACNA2D3	0.3225806451612903	0.30526315789473685	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		EOGT	0.34234234234234234	0.3372093023255814	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ACAD11	0.3048780487804878	0.18181818181818185	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ZNF721	0.01694915254237288	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PTPN13	0.6419753086419753	0.375	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NDST3	0.28	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ADAMTS16	0.2682926829268293	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		H3Y1	0.43670886075949367	0.3627450980392157	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ITGA1	0.4	0.36885245901639346	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SLC26A3	0.2222222222222222	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		FASTK	0.36419753086419754	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ADAM18	0.3559322033898305	0.4084507042253521	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NRBP2	0.38028169014084506	0.2125	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		LCN2	0.2375	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SETX	0.4433962264150943	0.25	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		OR8H3	0.3308270676691729	0.38738738738738737	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		OR5M3	0.25609756097560976	0.2191780821917808	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	RB1_p.I181Nfs*5	RB1	0.2765957446808511	0	TRUE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		AP5M1	0.2692307692307692	0.3230769230769231	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		AHNAK2	0.2631578947368421	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		HDC	0.23404255319148937	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		GOLGA6L10	0.1411764705882353	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TSC2_p.L590Q	TSC2	0.3636363636363637	0	TRUE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TP53_p.R342P	TP53	0.3643410852713178	0.3780487804878049	TRUE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TP53_p.P72Lfs*48	TP53	0.2972972972972973	0.14545454545454545	TRUE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MYH1	0.3181818181818182	0.2033898305084746	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		FAM83G	0.11842105263157894	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TNFAIP1	0.22988505747126436	0.20987654320987653	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NSRP1	0.3103448275862069	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		EFCAB3	0.2857142857142857	0.24193548387096775	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ABCA5	0.3418803418803419	0.4272727272727273	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MYO1F	0.2727272727272727	0.2073170731707317	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		HAUS5	0.1693548387096774	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		HAUS5	0.2987012987012987	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	CIC_p.A2023Pfs*47	CIC	0.23684210526315788	0.2	TRUE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NCAPH2	0.33121019108280253	0.24509803921568624	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TEX13C	0.16666666666666666	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		OR13H1	0.6216216216216216	0.5	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		USH2A	0	0.03846153846153846	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		OR2T34	0	0.0588235294117647	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ITGAV	0	0.28	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PCBP4	0	0.046875	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MEGF10	0	0.0303030303030303	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NOTCH4	0	0.02912621359223301	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MUC17	0	0.06818181818181818	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MPP7	0	0.03389830508474576	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PDZD7	0	0.17391304347826086	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TRIM8	0	0.10144927536231883	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		BARX2	0	0.05714285714285714	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		FLT1	0	0.04273504273504273	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TSC22D1	0	0.0588235294117647	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SIX4	0	0.10526315789473684	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		UBR1	0	0.04347826086956521	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	NF1_p.X160_splice	NF1	0	0.0379746835443038	TRUE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SLFN11	0	0.15476190476190477	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ABCA9	0	0.07142857142857142	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SLC25A52	0	0.19696969696969696	FALSE	Recurrence
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		NLRP12	0	0.2	FALSE	Recurrence

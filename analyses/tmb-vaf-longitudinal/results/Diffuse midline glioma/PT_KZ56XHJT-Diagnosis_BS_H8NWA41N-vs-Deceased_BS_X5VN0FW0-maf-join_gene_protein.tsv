@@ -1,0 +1,48 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_X5VN0FW0	Diagnosis_BS_H8NWA41N	sym	group
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		ASPM	0.20382165605095545	0.28859060402684567	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma	H3-3A_p.K28M	H3-3A	0.37606837606837606	0.57	TRUE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		TRIM58	0.16666666666666666	0.2761904761904762	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		KLHL41	0.25688073394495414	0.38392857142857145	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		USP40	0.1782178217821782	0.32142857142857145	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		UGT2A3	0.271523178807947	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		TNIP3	0.2647058823529412	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		AGA	0.24107142857142855	0.3402061855670103	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		FAT1	0.15789473684210523	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		TRIP13	0.2761904761904762	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma	PIK3R1_p.K567E	PIK3R1	0.256198347107438	0.3883495145631068	TRUE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		DSP	0.2840909090909091	0.33962264150943394	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		CDSN	0.1926605504587156	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MDN1	0.2371134020618557	0.4166666666666667	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		GDAP1	0.25833333333333336	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		VPS13B	0.21487603305785125	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		GPAA1	0.14473684210526316	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		ADAMTSL1	0.30612244897959184	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		ELP1	0.1981981981981982	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		NOTCH1	0.30303030303030304	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		OR10A2	0.2209302325581395	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		OR5T1	0.24324324324324328	0.38372093023255816	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		NXF1	0.3269230769230769	0.2524271844660194	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		NCKAP1L	0.25	0.2261904761904762	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		CFAP54	0.28888888888888886	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MAP1LC3B2	0.2857142857142857	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		KL	0.10606060606060606	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MYCBP2	0.25	0.3896103896103896	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		SYT16	0.19626168224299065	0.2345679012345679	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		ISM2	0.08849557522123894	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		ADGRG3	0.2689655172413793	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		COX10	0.297029702970297	0.38461538461538464	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		CCT6B	0.3622047244094488	0	FALSE	Deceased
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		DNAJC7	0.28888888888888886	0.3523809523809524	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma	PPM1D_p.L546Pfs*6	PPM1D	0.27884615384615385	0.32989690721649484	TRUE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MEX3C	0.26229508196721313	0.4090909090909091	FALSE	Common
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		PTPRF	0	0.28421052631578947	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		PRG4	0	0.15853658536585366	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		SIPA1L2	0	0.2857142857142857	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		SPTBN1	0	0.06818181818181818	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		KAT6B	0	0.07692307692307693	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MUC5B	0	0.1282051282051282	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		KRT5	0	0.05714285714285714	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		SOX1	0	0.0847457627118644	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		CDRT15L2	0	0.06097560975609756	FALSE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma	ATRX_p.L563*	ATRX	0	0.07692307692307693	TRUE	Diagnosis
+PT_KZ56XHJT	Diffuse midline glioma	Diffuse midline glioma		MT-ND2	0	0.4240069838498473	FALSE	Diagnosis

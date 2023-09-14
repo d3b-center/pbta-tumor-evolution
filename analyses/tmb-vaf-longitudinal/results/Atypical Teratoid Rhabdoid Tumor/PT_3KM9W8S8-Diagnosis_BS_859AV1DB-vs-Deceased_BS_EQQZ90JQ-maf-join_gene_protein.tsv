@@ -1,0 +1,13 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_EQQZ90JQ	Diagnosis_BS_859AV1DB	sym	group
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		ALS2	0.03508771929824561	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PPARD	0.06557377049180328	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TULP4	0.04225352112676056	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PYROXD2	0.02857142857142857	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		ZNF594	0.06593406593406594	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		DNAH17	0.03658536585365853	0	FALSE	Deceased
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor	SMARCB1_p.Q12Rfs*56	SMARCB1	0.07228915662650602	0.9761904761904762	TRUE	Common
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		IL6	0	0.0594059405940594	FALSE	Diagnosis
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		DSC1	0	0.20754716981132076	FALSE	Diagnosis
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PRR36	0	0.34	FALSE	Diagnosis
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		CCNB3	0	0.1	FALSE	Diagnosis
+PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TEX13C	0	0.125	FALSE	Diagnosis

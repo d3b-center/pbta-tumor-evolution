@@ -13,15 +13,15 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
 
   # Split maf, create df, and rename VAF column based on time point
   timepoint_df <- maf[which(maf$timepoints_other == timepoints_other_plot), ] %>%
-    select(Kids_First_Participant_ID, cancer_group, gene_protein, Hugo_Symbol, VAF) 
+    select(Kids_First_Participant_ID, cg_sum, cancer_group, gene_protein, Hugo_Symbol, VAF) 
   colnames(timepoint_df)[colnames(timepoint_df) == "VAF"] <- timepoints_other_plot
   
   deceased_df <- maf[which(maf$timepoints_deceased == timepoints_deceased_plot), ] %>%
-    select(Kids_First_Participant_ID, cancer_group, gene_protein, Hugo_Symbol, VAF)
+    select(Kids_First_Participant_ID, cg_sum, cancer_group, gene_protein, Hugo_Symbol, VAF)
   colnames(deceased_df)[colnames(deceased_df) == "VAF"] <- timepoints_deceased_plot
   
   maf_join <- deceased_df %>%
-    full_join(timepoint_df, by = c("gene_protein", "Hugo_Symbol", "cancer_group", "Kids_First_Participant_ID"), relationship = "many-to-many") %>%
+    full_join(timepoint_df, by = c("Kids_First_Participant_ID", "cg_sum", "cancer_group", "gene_protein", "Hugo_Symbol"), relationship = "many-to-many") %>%
     mutate(sym = ifelse(Hugo_Symbol %in% oncoprint_goi$oncoprint_goi, TRUE, FALSE)) 
   
   maf_join[is.na(maf_join)] <- 0
@@ -45,8 +45,8 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   # Reorder time points
   maf_join$group <- factor(x = maf_join$group, levels = c(timepoint, "Deceased", "Common"))
  
-  # Add cancer_group information
-  cancer_group <- maf_join$cancer_group
+  # Add cg_sum information for subtitle
+  cg_sum <- maf_join$cg_sum
   
   # make corplot reproducible when using the geom_text_repel function
   set.seed(2023)
@@ -56,7 +56,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                geom_point(size = 6, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = palette_df$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
-                    subtitle = cancer_group) +
+                    subtitle = cg_sum) +
                geom_vline(xintercept = 0.2, linetype = "dashed") + # Add vertical intercept line to differentiate clonal vs subclonal gene mutations
                geom_hline(yintercept = 0.2, linetype = "dashed") + # Add horizontal intercept line to differentiate clonal vs subclonal gene mutations
                geom_text_repel(aes(label = paste("", gene_protein, ""),  segment.color = NA), 
@@ -72,6 +72,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
+  return(p)
   
   df_out <- paste0(cg_results_dir, "/", sid, "-", timepoints_other_plot, "-vs-", timepoints_deceased_plot, "-maf-join_gene_protein.tsv")
   name <- paste(sid, timepoints_other_plot, timepoints_deceased_plot, sep = "-")

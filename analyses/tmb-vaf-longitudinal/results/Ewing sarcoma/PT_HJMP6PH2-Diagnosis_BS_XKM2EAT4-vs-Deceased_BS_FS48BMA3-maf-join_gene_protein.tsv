@@ -1,0 +1,12 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_FS48BMA3	Diagnosis_BS_XKM2EAT4	sym	group
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		OBSCN	0.07462686567164178	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		MUCL3	0.05128205128205128	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		YLPM1	0.05357142857142857	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		AHNAK2	0.09375	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		KCNH4	0.04545454545454545	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		RRBP1	0.06172839506172839	0	FALSE	Deceased
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		SHROOM3	0	0.4186046511627907	FALSE	Diagnosis
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		NKX2-5	0	0.06862745098039216	FALSE	Diagnosis
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		SLC7A6	0	0.04285714285714286	FALSE	Diagnosis
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		ZNF616	0	0.04054054054054054	FALSE	Diagnosis
+PT_HJMP6PH2	Ewing sarcoma	Ewing sarcoma		GTPBP1	0	0.06796116504854369	FALSE	Diagnosis

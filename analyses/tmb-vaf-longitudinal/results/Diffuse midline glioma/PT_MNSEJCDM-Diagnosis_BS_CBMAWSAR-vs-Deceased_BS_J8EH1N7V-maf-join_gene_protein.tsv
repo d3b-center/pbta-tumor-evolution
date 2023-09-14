@@ -1,0 +1,39 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_J8EH1N7V	Diagnosis_BS_CBMAWSAR	sym	group
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		KIAA0319L	0.2258064516129032	0.28125	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		GLMN	0.1694915254237288	0.1565217391304348	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		STYXL2	0.2328767123287671	0.23387096774193547	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		MROH9	0.06976744186046512	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ST3GAL5	0.07207207207207207	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		SCN3A	0.0684931506849315	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		EPHA6	0.10256410256410256	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		NR3C1	0.12030075187969924	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma	H3C3_p.K28M	H3C3	0.3783783783783784	0.17567567567567569	TRUE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		MLIP	0.27631578947368424	0.203125	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		DST	0.17582417582417584	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		CCN2	0.17777777777777778	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ZNF117	0.08383233532934131	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ABCB4	0.19333333333333333	0.2125984251968504	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		CBWD5	0.14606741573033707	0.09433962264150944	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ABCA2	0.28865979381443296	0.24050632911392408	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		TRIM22	0.32954545454545453	0.25316455696202533	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		IGHMBP2	0.29347826086956524	0.24242424242424243	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		TAS2R46	0.07936507936507936	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		SOX1	0.1038961038961039	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		RASGRF1	0.16304347826086957	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ZNF594	0.1097560975609756	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma	TP53_p.R248Q	TP53	0.4509803921568627	0.4852941176470588	TRUE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		PWWP3A	0.05217391304347826	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		EVI5L	0.2597402597402597	0.2195121951219512	FALSE	Common
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ZNF257	0.09574468085106384	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ZNF850	0.16666666666666666	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		LILRA1	0.0967741935483871	0	FALSE	Deceased
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		SMCP	0	0.1464968152866242	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		PLEKHA6	0	0.05405405405405406	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		DNAH1	0	0.15	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		XRN1	0	0.07964601769911504	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma	PIK3CA_p.G451_N457del	PIK3CA	0	0.1559633027522936	TRUE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		TRPV6	0	0.0437956204379562	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		ALKAL1	0	0.08900523560209424	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		CYRIB	0	0.04927007299270073	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		DNHD1	0	0.1020408163265306	FALSE	Diagnosis
+PT_MNSEJCDM	Diffuse midline glioma	Diffuse midline glioma		OR10A5	0	0.1643835616438356	FALSE	Diagnosis

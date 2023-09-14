@@ -1,0 +1,14 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_VZB4K7NV	Progressive_BS_FBJ516WW	sym	group
+PT_HFQNKP5X	Chordoma	Chordoma		PRSS3	0.04	0	FALSE	Deceased
+PT_HFQNKP5X	Chordoma	Chordoma		LOC101927375	0.18811881188118812	0	FALSE	Deceased
+PT_HFQNKP5X	Chordoma	Chordoma		ANPEP	0.06194690265486725	0	FALSE	Deceased
+PT_HFQNKP5X	Chordoma	Chordoma		ZNF417	0.10434782608695652	0	FALSE	Deceased
+PT_HFQNKP5X	Chordoma	Chordoma		ATAD3B	0	0.08163265306122448	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		RGPD4	0	0.26153846153846155	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		BLNK	0	0.04545454545454545	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		IFITM3	0	0.06315789473684211	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		IGHV1-69D	0	0.36	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		ROCK1	0	0.08571428571428572	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		PHLPP1	0	0.08196721311475409	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		SUSD2	0	0.1308411214953271	FALSE	Progressive
+PT_HFQNKP5X	Chordoma	Chordoma		SOWAHD	0	0.05147058823529411	FALSE	Progressive

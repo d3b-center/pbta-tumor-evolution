@@ -1,0 +1,38 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_M4KR9DSE	Diagnosis_BS_N4S9T8F5	sym	group
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		CELSR2	0.21666666666666667	0.375	FALSE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		CRP	0.06956521739130435	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		USH2A	0.11702127659574468	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma	H3-3A_p.K28M	H3-3A	0.28735632183908044	0.3947368421052632	TRUE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		MYO1B	0.04316546762589928	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		PRR23A	0.13186813186813187	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		IRX1	0.0641025641025641	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		IQGAP2	0.0641025641025641	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		PCDHGA5	0.05714285714285714	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		PTCHD4	0.1	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		PHF3	0.24691358024691357	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		MEI4	0.13043478260869565	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		LPA	0.1477272727272727	0.3411764705882353	FALSE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		ABCB4	0.04301075268817204	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		GPAA1	0.07377049180327869	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		CCDC187	0.11023622047244094	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		MRC1	0.05405405405405406	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		B4GALNT4	0.168141592920354	0.34444444444444444	FALSE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		SSU72P2	0.08888888888888889	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		CD3D	0.21739130434782608	0.3627450980392157	FALSE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		ACVRL1	0.04918032786885246	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		VSIG10	0.15853658536585366	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		SF3B3	0.07692307692307693	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		ZBTB4	0.06134969325153374	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma	TP53_p.R273H	TP53	0.6916666666666667	0.9	TRUE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma	NF1_p.Y2162*	NF1	0.4891304347826087	0.8588235294117647	TRUE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma	TTYH1_p.Q42L	TTYH1	0.07352941176470588	0	TRUE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		MID1	0.11504424778761062	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		MAGEE1	0.1523809523809524	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		IRS4	0.09375	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		EOLA2	0.1111111111111111	0.1891891891891892	FALSE	Common
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		CD99L2	0.1276595744680851	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		SRPK3	0.05747126436781609	0	FALSE	Deceased
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		LOC105378947	0	0.2023809523809524	FALSE	Diagnosis
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		TCHH	0	0.1111111111111111	FALSE	Diagnosis
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		KRTAP4-11	0	0.06593406593406594	FALSE	Diagnosis
+PT_GTHZF21E	Diffuse midline glioma	Diffuse midline glioma		ZNF280B	0	0.3253012048192771	FALSE	Diagnosis

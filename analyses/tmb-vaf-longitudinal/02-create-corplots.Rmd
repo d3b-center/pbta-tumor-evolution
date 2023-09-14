@@ -60,11 +60,17 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 ## Read in data and process
 ```{r read-input-files}
 # Read maf_autopsy file generated from step `01-process-data.Rmd`
-maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE) %>% 
+maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE) %>% 
   group_by(Kids_First_Participant_ID) %>% 
-  mutate(id = paste(Kids_First_Participant_ID, cancer_group, sep = "_"),
-         cg_sum = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
-          
+  mutate(cg_distinct = n_distinct(cancer_group) > 1 # to identify samples with different diagnosis across timepoints
+         ) 
+
+# So far we have one PT_1H2REHT2 patient case with a secondary diagnosis in one of the progressive samples
+# To reflect this kind of situation we create cg_sum column
+maf_autopsy <- maf_autopsy_raw %>% 
+  distinct(cancer_group, .keep_all = TRUE) %>% 
+  summarise(cg_sum = str_c(cancer_group, collapse=",")) %>%
+  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
 
 # Read oncoprint_goi_file
 # We will use the following list of genes and then we will create a label to select the ones for the corplots.
@@ -85,28 +91,28 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 ## Corplots for each Patient case and per biospecimen_id and timepoint
 
 ```{r create-corplot-please-wait}
-# Save results by cancer_group
-cg_names <- unique(as.character(maf_autopsy$cancer_group))
+# Save results by cg_sum
+cg_names <- unique(as.character(maf_autopsy$cg_sum))
 print(cg_names)
 
-# Loop through cancer_group
+# Loop through cg_sum
 for (x in 1:length(cg_names)){
   print(x)
   
   cg_maf_sub <- maf_autopsy %>%
-    filter(cancer_group == cg_names[x])
+    filter(cg_sum == cg_names[x])
  
     # We will define samples based on the "Kids_First_Participant_ID" column 
     samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
     print(samples)
     
-    # define cancer_group specific plots dir
+    # define cg_sum specific plots dir
     cg_plots_dir <- file.path(plots_dir, cg_names[x])
     if (!dir.exists(cg_plots_dir)) {
       dir.create(cg_plots_dir)
     }
     
-    # define cancer_group specific results dir
+    # define cg_sum specific results dir
     cg_results_dir <- file.path(results_dir, cg_names[x])
     if (!dir.exists(cg_results_dir)) {
       dir.create(cg_results_dir)
@@ -124,9 +130,9 @@ for (x in 1:length(cg_names)){
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
-   # for (y in 1:length(maf_sub$cg_sum)){
-  #  if (maf_sub$cg_sum[y] == "FALSE"){
-   #   print ("Single diagnosis across timepoints")
+ #  for (y in 1:length(maf_sub$cg_sum)){
+ #   if (maf_sub$cg_sum[y] == "FALSE"){
+  #   print ("Single diagnosis across timepoints")
   #    } else {
    #     print ("Multiple diagnosis across timepoints")
    #     next
@@ -148,7 +154,8 @@ for (x in 1:length(cg_names)){
     }
   }
   }  
-}
+    }
+#}
 ```
 
 ```{r echo=TRUE}

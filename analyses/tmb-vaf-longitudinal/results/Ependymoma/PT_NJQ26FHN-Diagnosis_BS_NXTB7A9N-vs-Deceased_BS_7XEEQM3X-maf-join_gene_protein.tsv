@@ -1,0 +1,13 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_7XEEQM3X	Diagnosis_BS_NXTB7A9N	sym	group
+PT_NJQ26FHN	Ependymoma	Ependymoma		F5	0.0673076923076923	0	FALSE	Deceased
+PT_NJQ26FHN	Ependymoma	Ependymoma		SLC30A6	0.2753623188405797	0	FALSE	Deceased
+PT_NJQ26FHN	Ependymoma	Ependymoma		CENPC	0.2835820895522388	0.1686746987951807	FALSE	Common
+PT_NJQ26FHN	Ependymoma	Ependymoma		ZP3	0.25316455696202533	0	FALSE	Deceased
+PT_NJQ26FHN	Ependymoma	Ependymoma		ZNF425	0.3333333333333333	0	FALSE	Deceased
+PT_NJQ26FHN	Ependymoma	Ependymoma		HPSE2	0.29411764705882354	0	FALSE	Deceased
+PT_NJQ26FHN	Ependymoma	Ependymoma		FCGR3B	0	0.10294117647058824	FALSE	Diagnosis
+PT_NJQ26FHN	Ependymoma	Ependymoma		AHNAK	0	0.08235294117647059	FALSE	Diagnosis
+PT_NJQ26FHN	Ependymoma	Ependymoma		AHNAK	0	0.10588235294117648	FALSE	Diagnosis
+PT_NJQ26FHN	Ependymoma	Ependymoma		AHNAK2	0	0.06930693069306931	FALSE	Diagnosis
+PT_NJQ26FHN	Ependymoma	Ependymoma		ZNF709	0	0.13829787234042554	FALSE	Diagnosis
+PT_NJQ26FHN	Ependymoma	Ependymoma		ZNF829	0	0.06172839506172839	FALSE	Diagnosis

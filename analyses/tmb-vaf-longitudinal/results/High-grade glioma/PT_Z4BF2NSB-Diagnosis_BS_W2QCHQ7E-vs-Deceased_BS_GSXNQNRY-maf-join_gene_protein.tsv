@@ -1,0 +1,41 @@
+Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_GSXNQNRY	Diagnosis_BS_W2QCHQ7E	sym	group
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PLOD1	0.05405405405405406	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ATP2B4	0.09090909090909093	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		UTP25	0.06153846153846154	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TCAF2C	0.17073170731707318	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MFHAS1	0.06493506493506493	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SIX4	0.05555555555555555	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		AHNAK2	0.05769230769230769	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SLFN11	0.0625	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ZNF266	0.1153846153846154	0.7346938775510204	FALSE	Common
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		MAGEC1	0.14814814814814814	0	FALSE	Deceased
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		LRRC7	0	0.0625	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		OR2T7	0	0.13793103448275862	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ASAP2	0	0.4772727272727273	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		CAD	0	0.7924528301886793	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		CNOT6L	0	0.1836734693877551	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ASB5	0	0.4552845528455284	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		H3Y1	0	0.33980582524271846	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		DCAF13	0	0.49523809523809526	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		HSF1	0	0.3793103448275862	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		JAKMIP3	0	0.6851851851851852	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PLCB3	0	0.36036036036036034	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ARL2	0	0.32323232323232326	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		FCHSD2	0	0.3191489361702128	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TRIM64B	0	0.0851063829787234	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TRIM64B	0	0.07246376811594203	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		TTC12	0	0.04615384615384615	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PHLDB1	0	0.2	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		COL2A1	0	0.2272727272727273	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	RB1_p.I297Yfs*13	RB1	0	0.6956521739130435	TRUE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TSC2_p.Q63*	TSC2	0	0.6595744680851063	TRUE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SULT1A3	0	0.3636363636363637	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TP53_p.R342P	TP53	0	0.45555555555555555	TRUE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	TP53_p.P72Lfs*48	TP53	0	0.4929577464788733	TRUE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		PSMC5	0	0.3486238532110092	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		RFX2	0	0.37777777777777777	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma	CIC_p.A2023Pfs*47	CIC	0	0.29464285714285715	TRUE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ZNF155	0	0.3333333333333333	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		LILRB3	0	0.13043478260869565	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		ZCCHC3	0	0.35353535353535354	FALSE	Diagnosis
+PT_Z4BF2NSB	High-grade glioma	High-grade glioma		SIRPB1	0	0.375	FALSE	Diagnosis
