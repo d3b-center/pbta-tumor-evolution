@@ -118,6 +118,14 @@ for (x in 1:length(cg_names)){
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
+   # for (y in 1:length(maf_sub$cg_sum)){
+  #  if (maf_sub$cg_sum[y] == "FALSE"){
+   #   print ("Single diagnosis across timepoints")
+  #    } else {
+   #     print ("Multiple diagnosis across timepoints")
+   #     next
+   #   }
+
   # Run corplot function
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
