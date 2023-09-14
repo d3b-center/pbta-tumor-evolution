@@ -60,7 +60,10 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 ## Read in data and process
 ```{r read-input-files}
 # Read maf_autopsy file generated from step `01-process-data.Rmd`
-maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE)
+maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(id = paste(Kids_First_Participant_ID, cancer_group, sep = "_"),
+         cg_sum = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
 
 # Read oncoprint_goi_file
 # We will use the following list of genes and then we will create a label to select the ones for the corplots.
