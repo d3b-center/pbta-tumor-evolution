@@ -13,11 +13,11 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
 
   # Split maf, create df, and rename VAF column based on time point
   timepoint_df <- maf[which(maf$timepoints_other == timepoints_other_plot), ] %>%
-    select(cancer_group, gene_protein, Hugo_Symbol, VAF) 
+    select(Kids_First_Participant_ID, cancer_group, gene_protein, Hugo_Symbol, VAF) 
   colnames(timepoint_df)[colnames(timepoint_df) == "VAF"] <- timepoints_other_plot
   
   deceased_df <- maf[which(maf$timepoints_deceased == timepoints_deceased_plot), ] %>%
-    select(cancer_group, gene_protein, Hugo_Symbol, VAF)
+    select(Kids_First_Participant_ID, cancer_group, gene_protein, Hugo_Symbol, VAF)
   colnames(deceased_df)[colnames(deceased_df) == "VAF"] <- timepoints_deceased_plot
   
   maf_join <- deceased_df %>%
@@ -72,7 +72,10 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
-  return(p)
-
+  
+  df_out <- paste0(cg_results_dir, "/", sid, "-", timepoints_other_plot, "-vs-", timepoints_deceased_plot, "-maf-join_gene_protein.tsv")
+  name <- paste(sid, timepoints_other_plot, timepoints_deceased_plot, sep = "-")
+  assign (name, maf_join) %>% 
+    write_tsv(df_out)
 }
 
