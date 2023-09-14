@@ -85,16 +85,17 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 cg_names <- unique(as.character(maf_autopsy$cancer_group))
 print(cg_names)
 
-# We will define samples based on the "Kids_First_Participant_ID" column 
-samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
-print(samples)
-
 # loop through cancer_group
 for (x in 1:length(cg_names)){
   print(x)
+  
   cg_maf_sub <- maf_autopsy %>%
     filter(cancer_group == cg_names[x])
   
+  # We will define samples based on the "Kids_First_Participant_ID" column 
+  samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
+  print(samples)
+
   # define cancer_group specific plots dir
   cg_plots_dir <- file.path(plots_dir, cg_names[x])
   if (!dir.exists(cg_plots_dir)) {
