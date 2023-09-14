@@ -66,7 +66,7 @@ maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_co
          ) 
 
 # So far we have one PT_1H2REHT2 patient case with a secondary diagnosis in one of the progressive samples
-# To reflect this kind of situation we create cg_sum column
+# To reflect situations with multiple diagnosis, we will create `cg_sum column`
 maf_autopsy <- maf_autopsy_raw %>% 
   distinct(cancer_group, .keep_all = TRUE) %>% 
   summarise(cg_sum = str_c(cancer_group, collapse=",")) %>%
@@ -130,14 +130,6 @@ for (x in 1:length(cg_names)){
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
- #  for (y in 1:length(maf_sub$cg_sum)){
- #   if (maf_sub$cg_sum[y] == "FALSE"){
-  #   print ("Single diagnosis across timepoints")
-  #    } else {
-   #     print ("Multiple diagnosis across timepoints")
-   #     next
-   #   }
-
   # Run corplot function
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
