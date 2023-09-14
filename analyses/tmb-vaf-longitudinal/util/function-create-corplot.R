@@ -74,6 +74,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                ylim(0, 1))
   return(p)
   
+  # Save df 
   df_out <- paste0(cg_results_dir, "/", sid, "-", timepoints_other_plot, "-vs-", timepoints_deceased_plot, "-maf-join_gene_protein.tsv")
   name <- paste(sid, timepoints_other_plot, timepoints_deceased_plot, sep = "-")
   assign (name, maf_join) %>% 

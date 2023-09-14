@@ -1,8 +1,0 @@
-Kids_First_Participant_ID	cg_sum	cancer_group	gene_protein	Hugo_Symbol	Deceased_BS_P8FXRTZ2	Diagnosis_BS_859AV1DB	sym	group
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		CEP170	0.10714285714285714	0	FALSE	Deceased
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor	SMARCB1_p.Q12Rfs*56	SMARCB1	0.04807692307692308	0.9761904761904762	TRUE	Common
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		IL6	0	0.0594059405940594	FALSE	Diagnosis
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		DSC1	0	0.20754716981132076	FALSE	Diagnosis
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		PRR36	0	0.34	FALSE	Diagnosis
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		CCNB3	0	0.1	FALSE	Diagnosis
-PT_3KM9W8S8	Atypical Teratoid Rhabdoid Tumor	Atypical Teratoid Rhabdoid Tumor		TEX13C	0	0.125	FALSE	Diagnosis
