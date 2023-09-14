@@ -104,6 +104,12 @@ for (x in 1:length(cg_names)){
     cg_plots_dir <- file.path(plots_dir, cg_names[x])
     if (!dir.exists(cg_plots_dir)) {
       dir.create(cg_plots_dir)
+    }
+    
+    # define cancer_group specific results dir
+    cg_results_dir <- file.path(results_dir, cg_names[x])
+    if (!dir.exists(cg_results_dir)) {
+      dir.create(cg_results_dir)
       }
   
     # Run loop for each sample and pair
