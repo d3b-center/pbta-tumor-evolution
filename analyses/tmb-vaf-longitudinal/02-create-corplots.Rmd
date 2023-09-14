@@ -89,10 +89,11 @@ print(cg_names)
 samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
 print(samples)
 
-
 # loop through cancer_group
 for (x in 1:length(cg_names)){
   print(x)
+  cg_maf_sub <- maf_autopsy %>%
+    filter(cancer_group == cg_names[x])
   
   # define cancer_group specific plots dir
   cg_plots_dir <- file.path(plots_dir, cg_names[x])
@@ -103,7 +104,7 @@ for (x in 1:length(cg_names)){
   # Run loop for each sample and pair
   for (i in seq_along(samples)) {
   print(i)
-  maf_sub <- maf_autopsy %>%
+  maf_sub <- cg_maf_sub %>%
     filter(Kids_First_Participant_ID == samples[i])
   timepoints_other_plots <- unique(maf_sub$timepoints_other)
   timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
@@ -112,12 +113,7 @@ for (x in 1:length(cg_names)){
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
-  
-  
-  
   # Run corplot function
-
-  
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
       fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
