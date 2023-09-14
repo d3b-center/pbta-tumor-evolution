@@ -85,7 +85,22 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
 print(samples)
 
-for (i in seq_along(samples)) {
+# Save results by cancer_group
+cg_names <- unique(as.character(maf_autopsy$cancer_group))
+print(cg_names)
+
+# loop through two gene list inputs
+for (x in 1:length(cg_names)){
+  print(x)
+  
+  # define cancer_group specific results and plots dir
+  cg_plots_dir <- file.path(plots_dir, cg_names[x])
+  if (!dir.exists(cg_plots_dir)) {
+    dir.create(cg_plots_dir)
+    }
+  
+  # Run loop for each sample and pair
+  for (i in seq_along(samples)) {
   print(i)
   maf_sub <- maf_autopsy %>%
     filter(Kids_First_Participant_ID == samples[i])
@@ -96,24 +111,22 @@ for (i in seq_along(samples)) {
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
-# Run corplot
+  # Run corplot function
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
-      fname <- paste0(plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+      fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
       print(fname)
-      table_name <- paste0(results_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-maf_gene_protein.tsv")
-      print(table_name)
       p <- create_corplot(maf = maf_sub,
                           timepoints_other_plot = timepoints_other_plots[k],
                           timepoints_deceased_plot = timepoints_deceased_plots[t],
                           sid = samples[i])
-      write_tsv(maf_join, file = table_name)
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
     }
   }
-  }  
+}  
+}
 ```
 
 ```{r echo=TRUE}

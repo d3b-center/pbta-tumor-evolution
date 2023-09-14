@@ -48,8 +48,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   # Add cancer_group information
   cancer_group <- maf_join$cancer_group
   
-  # make corplot reproducible
-  # add this to ensure that we plot the same data points when using the geom_text_repel function
+  # make corplot reproducible when using the geom_text_repel function
   set.seed(2023)
   
   # Plot corplot 
@@ -73,6 +72,6 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                xlim(0, 1) +
                ylim(0, 1))
   return(p)
-
+  
 }
 
