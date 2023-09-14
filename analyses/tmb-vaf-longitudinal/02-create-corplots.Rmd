@@ -95,24 +95,24 @@ cg_names <- unique(as.character(maf_autopsy$cg_sum))
 print(cg_names)
 
 # Loop through cg_sum
-for (names in seq_along(cg_names)){
-  print(names)
+for (x in seq_along(cg_names)){
+  print(x)
   
   cg_maf_sub <- maf_autopsy %>%
-    filter(cg_sum == cg_names[names])
+    filter(cg_sum == cg_names[x])
  
   # We will define samples based on the "Kids_First_Participant_ID" column 
   samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
   print(samples)
     
   # define cg_sum specific plots dir
-  cg_plots_dir <- file.path(plots_dir, cg_names[names])
+  cg_plots_dir <- file.path(plots_dir, cg_names[x])
   if (!dir.exists(cg_plots_dir)) {
     dir.create(cg_plots_dir)
   }
   
   # define cg_sum specific results dir
-  cg_results_dir <- file.path(results_dir, cg_names[names])
+  cg_results_dir <- file.path(results_dir, cg_names[x])
   if (!dir.exists(cg_results_dir)) {
     dir.create(cg_results_dir)
   }
