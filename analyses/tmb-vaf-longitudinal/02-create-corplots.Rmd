@@ -81,15 +81,16 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 ## Corplots for each Patient case and per biospecimen_id and timepoint
 
 ```{r create-corplot-please-wait}
-# We will define samples based on the "Kids_First_Participant_ID" column 
-samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
-print(samples)
-
 # Save results by cancer_group
 cg_names <- unique(as.character(maf_autopsy$cancer_group))
 print(cg_names)
 
-# loop through two gene list inputs
+# We will define samples based on the "Kids_First_Participant_ID" column 
+samples <- unique(as.character(maf_autopsy$Kids_First_Participant_ID))
+print(samples)
+
+
+# loop through cancer_group
 for (x in 1:length(cg_names)){
   print(x)
   
@@ -111,7 +112,12 @@ for (x in 1:length(cg_names)){
   timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
   print(timepoints_deceased_plots)
   
+  
+  
+  
   # Run corplot function
+
+  
   for (t in seq_along(timepoints_deceased_plots)){
     for (k in seq_along(timepoints_other_plots)){
       fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
@@ -123,11 +129,12 @@ for (x in 1:length(cg_names)){
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
-      
+       
     }
   }
-}  
+  }  
 }
+
 ```
 
 ```{r echo=TRUE}
