@@ -49,7 +49,7 @@ if (!dir.exists(plots_dir)) {
 # File path to results directory
 results_dir <-
   file.path(analysis_dir, "results")
-if (!dir.exists(results_dir )) {
+if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
@@ -62,14 +62,13 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 # Read maf_autopsy file generated from step `01-process-data.Rmd`
 maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE) %>% 
   group_by(Kids_First_Participant_ID) %>% 
-  mutate(cg_distinct = n_distinct(cancer_group) > 1 # to identify samples with different diagnosis across timepoints
-         ) 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
 
 # So far we have one PT_1H2REHT2 patient case with a secondary diagnosis in one of the progressive samples
 # To reflect situations with multiple diagnosis, we will create `cg_sum column`
 maf_autopsy <- maf_autopsy_raw %>% 
   distinct(cancer_group, .keep_all = TRUE) %>% 
-  summarise(cg_sum = str_c(cancer_group, collapse=",")) %>%
+  summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>%
   left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
 
 # Read oncoprint_goi_file
@@ -96,58 +95,56 @@ cg_names <- unique(as.character(maf_autopsy$cg_sum))
 print(cg_names)
 
 # Loop through cg_sum
-for (x in 1:length(cg_names)){
+for (x in seq_along(cg_names)){
   print(x)
   
   cg_maf_sub <- maf_autopsy %>%
     filter(cg_sum == cg_names[x])
  
-    # We will define samples based on the "Kids_First_Participant_ID" column 
-    samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
-    print(samples)
+  # We will define samples based on the "Kids_First_Participant_ID" column 
+  samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
+  print(samples)
     
-    # define cg_sum specific plots dir
-    cg_plots_dir <- file.path(plots_dir, cg_names[x])
-    if (!dir.exists(cg_plots_dir)) {
-      dir.create(cg_plots_dir)
-    }
-    
-    # define cg_sum specific results dir
-    cg_results_dir <- file.path(results_dir, cg_names[x])
-    if (!dir.exists(cg_results_dir)) {
-      dir.create(cg_results_dir)
+  # define cg_sum specific plots dir
+  cg_plots_dir <- file.path(plots_dir, cg_names[x])
+  if (!dir.exists(cg_plots_dir)) {
+    dir.create(cg_plots_dir)
+  }
+  
+  # define cg_sum specific results dir
+  cg_results_dir <- file.path(results_dir, cg_names[x])
+  if (!dir.exists(cg_results_dir)) {
+    dir.create(cg_results_dir)
+  }
+  
+  # Run loop for each sample and pair
+  for (i in seq_along(samples)) {
+    print(i)
+    maf_sub <- cg_maf_sub %>%
+      filter(Kids_First_Participant_ID == samples[i])
+    timepoints_other_plots <- unique(maf_sub$timepoints_other)
+    timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
+    print(timepoints_other_plots)
+    timepoints_deceased_plots <- unique(maf_sub$timepoints_deceased)
+    timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
+    print(timepoints_deceased_plots)
+  
+    # Run corplot function
+    for (t in seq_along(timepoints_deceased_plots)){
+      for (k in seq_along(timepoints_other_plots)){
+        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+        print(fname)
+        p <- create_corplot(maf = maf_sub,
+                            timepoints_other_plot = timepoints_other_plots[k],
+                            timepoints_deceased_plot = timepoints_deceased_plots[t],
+                            sid = samples[i])
+        pdf(file = fname, width = 10, height = 8)
+        print(p)
+        dev.off()
       }
-  
-    # Run loop for each sample and pair
-    for (i in seq_along(samples)) {
-  print(i)
-  maf_sub <- cg_maf_sub %>%
-    filter(Kids_First_Participant_ID == samples[i])
-  timepoints_other_plots <- unique(maf_sub$timepoints_other)
-  timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
-  print(timepoints_other_plots)
-  timepoints_deceased_plots <- unique(maf_sub$timepoints_deceased)
-  timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
-  print(timepoints_deceased_plots)
-  
-  # Run corplot function
-  for (t in seq_along(timepoints_deceased_plots)){
-    for (k in seq_along(timepoints_other_plots)){
-      fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
-      print(fname)
-      p <- create_corplot(maf = maf_sub,
-                          timepoints_other_plot = timepoints_other_plots[k],
-                          timepoints_deceased_plot = timepoints_deceased_plots[t],
-                          sid = samples[i])
-      pdf(file = fname, width = 10, height = 8)
-      print(p)
-      dev.off()
-
     }
   }
-  }  
-    }
-#}
+}
 ```
 
 ```{r echo=TRUE}
