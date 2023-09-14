@@ -89,7 +89,7 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 cg_names <- unique(as.character(maf_autopsy$cancer_group))
 print(cg_names)
 
-# loop through cancer_group
+# Loop through cancer_group
 for (x in 1:length(cg_names)){
   print(x)
   
@@ -144,12 +144,11 @@ for (x in 1:length(cg_names)){
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
-   
+
     }
   }
   }  
 }
-
 ```
 
 ```{r echo=TRUE}
