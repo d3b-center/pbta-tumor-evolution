@@ -64,6 +64,7 @@ maf_autopsy <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_ty
   group_by(Kids_First_Participant_ID) %>% 
   mutate(id = paste(Kids_First_Participant_ID, cancer_group, sep = "_"),
          cg_sum = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
+          
 
 # Read oncoprint_goi_file
 # We will use the following list of genes and then we will create a label to select the ones for the corplots.
@@ -94,19 +95,19 @@ for (x in 1:length(cg_names)){
   
   cg_maf_sub <- maf_autopsy %>%
     filter(cancer_group == cg_names[x])
+ 
+    # We will define samples based on the "Kids_First_Participant_ID" column 
+    samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
+    print(samples)
+    
+    # define cancer_group specific plots dir
+    cg_plots_dir <- file.path(plots_dir, cg_names[x])
+    if (!dir.exists(cg_plots_dir)) {
+      dir.create(cg_plots_dir)
+      }
   
-  # We will define samples based on the "Kids_First_Participant_ID" column 
-  samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
-  print(samples)
-
-  # define cancer_group specific plots dir
-  cg_plots_dir <- file.path(plots_dir, cg_names[x])
-  if (!dir.exists(cg_plots_dir)) {
-    dir.create(cg_plots_dir)
-    }
-  
-  # Run loop for each sample and pair
-  for (i in seq_along(samples)) {
+    # Run loop for each sample and pair
+    for (i in seq_along(samples)) {
   print(i)
   maf_sub <- cg_maf_sub %>%
     filter(Kids_First_Participant_ID == samples[i])
@@ -129,7 +130,7 @@ for (x in 1:length(cg_names)){
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
-       
+   
     }
   }
   }  

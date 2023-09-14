@@ -21,7 +21,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   colnames(deceased_df)[colnames(deceased_df) == "VAF"] <- timepoints_deceased_plot
   
   maf_join <- deceased_df %>%
-    full_join(timepoint_df, by = c("gene_protein", "Hugo_Symbol", "cancer_group"), relationship = "many-to-many") %>%
+    full_join(timepoint_df, by = c("gene_protein", "Hugo_Symbol", "cancer_group", "Kids_First_Participant_ID"), relationship = "many-to-many") %>%
     mutate(sym = ifelse(Hugo_Symbol %in% oncoprint_goi$oncoprint_goi, TRUE, FALSE)) 
   
   maf_join[is.na(maf_join)] <- 0
