@@ -73,6 +73,6 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                xlim(0, 1) +
                ylim(0, 1))
   return(p)
-  
+
 }
 
