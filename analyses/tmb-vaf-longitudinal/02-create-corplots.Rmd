@@ -93,7 +93,7 @@ print(cg_names)
 for (x in 1:length(cg_names)){
   print(x)
   
-  # define cancer_group specific results and plots dir
+  # define cancer_group specific plots dir
   cg_plots_dir <- file.path(plots_dir, cg_names[x])
   if (!dir.exists(cg_plots_dir)) {
     dir.create(cg_plots_dir)
@@ -123,6 +123,7 @@ for (x in 1:length(cg_names)){
       pdf(file = fname, width = 10, height = 8)
       print(p)
       dev.off()
+      
     }
   }
 }  
