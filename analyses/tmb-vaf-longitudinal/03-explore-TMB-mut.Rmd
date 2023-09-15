@@ -50,7 +50,9 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 # Read in data and process
 ```{r read_input_files}
 # Read and process tmb_genomic file
-df_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) 
+df_total <- readr::read_tsv(tmb_genomic_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
 
 # Are there any samples with both WGS and WXS? 
 df_total %>% 
@@ -63,8 +65,11 @@ df_total %>%
 df <- df_total %>% 
   filter(!experimental_strategy == "WXS") %>% 
   dplyr::mutate(patient_id = paste(short_histology, Kids_First_Participant_ID, sep = "_")) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, patient_id, short_histology, tumor_descriptor, descriptors, tumor_descriptor_sum, tmb, mutation_count)
-    
+  distinct(cancer_group, .keep_all = TRUE) %>% 
+  summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>% # to identify cases with multiple diagnosis
+  left_join(df_total, by = c("Kids_First_Participant_ID")) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_sum, cancer_group, short_histology, tumor_descriptor, descriptors, tumor_descriptor_sum, tmb, mutation_count)
+  
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
