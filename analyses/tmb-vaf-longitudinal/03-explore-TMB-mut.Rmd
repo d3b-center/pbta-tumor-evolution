@@ -149,7 +149,7 @@ dev.off()
 # TMB across timepoints and cancer types per Patient case
 We will explore TMB per cancer group over time by creating dumbbell plots. We classified by using cancer types with the highest number of samples (High- and Low-grade gliomas) versus any other cancer groups.
 
-```{r create-dumbbell-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
+```{r create-dumbbell-ct, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
 # How many bs_samples per kids_id and cancer group?
 # print(table(df_plot_filter$cg_plot))
 print(df_plot_filter %>% 
