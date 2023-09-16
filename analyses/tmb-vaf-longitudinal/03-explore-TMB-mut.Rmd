@@ -146,29 +146,18 @@ dev.off()
 We will explore TMB per cancer group over time by creating dumbbell plots. We classified by using cancer types with the highest number of samples (High- and Low-grade gliomas) versus any other cancer groups.
 
 ```{r create-dumbbell-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
-cancer_groups <- unique(as.character(df_plot_filter$cancer_group_sum))
+cancer_groups <- unique(as.character(df_plot_filter$cg_plot))
 cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
 for (i in seq_along(cancer_groups)) {
   print(i)
   df_ct_sub <- df_plot_filter %>% 
-    filter(cancer_group_sum == cancer_groups [i])
+    filter(cg_plot == cancer_groups [i])
   
-  if (i == 1) {
-    print(cancer_groups [i])
-    # Define parameters for function
-    ylim <- 8
-    } else if (i == 2) {
-      print(cancer_groups [i])
-      # Define parameters for function
-      ylim <- 4
-      } else {
-        print(cancer_groups [i])
-        # Define parameters for function
-        ylim <- 4
-      }
-    
+  # Define ylim
+  ylim <- max(df_plot_filter$tmb)
+  
     # Name plots
     fname <- paste0(plots_dir, "/", cancer_groups[i], "-TMB-dumbbell", ".pdf")
     print(fname)
@@ -181,6 +170,11 @@ for (i in seq_along(cancer_groups)) {
     print(p)
     dev.off()
 }
+
+
+
+
+
 ```
 
 # Total number of mutations across timepoints and cancer types per Patient case
