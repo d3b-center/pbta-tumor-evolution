@@ -69,7 +69,23 @@ df <- df_total %>%
   summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>% # to identify cases with multiple diagnosis
   left_join(df_total, by = c("Kids_First_Participant_ID")) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_sum, cancer_group, short_histology, tumor_descriptor, descriptors, tumor_descriptor_sum, tmb, mutation_count)
-  
+
+# How many bs_samples per cg_sum?
+print(df %>% count(cg_sum) %>% arrange(desc(n))) 
+
+# Let's summarize cancer groups with < 10 bs_samples as Other and use this for visualization purposes
+cg_sum_df <- df %>% 
+  count(cg_sum) %>% 
+  dplyr::mutate(cg_sum_n = glue::glue("{cg_sum} (N={n})"))
+
+df <- df %>% 
+  left_join(cg_sum_df, by = c("cg_sum")) %>% 
+  mutate(cg_plot = case_when(n < 10 ~ "Other",
+                             TRUE ~ cg_sum))
+
+# How many bs_samples per cg_plot?
+print(df %>% count(cg_plot) %>% arrange(desc(n))) 
+
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 ```
@@ -109,10 +125,7 @@ df_plot_filter <- df %>%
   dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>% 
   dplyr::left_join(df, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
-  mutate(cancer_group_sum = ifelse(short_histology == "HGAT", "High-grade glioma",
-                                   ifelse(short_histology == "LGAT", "Low-grade glioma", "Other cancer group")),
-         cancer_group_sum = replace_na(cancer_group_sum, "Other"),
-         tumor_descriptor = factor(tumor_descriptor),
+  mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
   drop_na(tmb) 
 
