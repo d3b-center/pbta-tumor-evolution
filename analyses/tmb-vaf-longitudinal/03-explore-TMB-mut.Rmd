@@ -43,7 +43,6 @@ if (!dir.exists(plots_dir)) {
 
 source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 source(paste0(analysis_dir, "/util/function-create-dumbbell-plot.R"))
-source(paste0(analysis_dir, "/util/function-create-jitter-plot.R"))
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
