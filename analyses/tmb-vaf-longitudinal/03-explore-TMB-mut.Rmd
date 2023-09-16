@@ -194,53 +194,6 @@ for (i in seq_along(cancer_groups)) {
 }
 ```
 
-
-
-Let's see if the issue with missing values per sample int he dumbbell plots is bypassed when using jitter plot.
-
-
-```{r create-jitter-ct, fig.width = 18, fig.height = 10, fig.fullwidth = TRUE}
-cancer_groups <- unique(as.character(df_plot_filter$cancer_group_sum))
-cancer_groups <- sort(cancer_groups, decreasing = FALSE)
-print(cancer_groups)
-
-for (i in seq_along(cancer_groups)) {
-  print(i)
-  df_ct_sub <- df_plot_filter %>% 
-    filter(cancer_group_sum == cancer_groups [i])
-  
-  if (i == 1) {
-    print(cancer_groups [i])
-    # Define parameters for function
-    ylim <- 8
-    } else if (i == 2) {
-      print(cancer_groups [i])
-      # Define parameters for function
-      ylim <- 4
-      } else {
-        print(cancer_groups [i])
-        # Define parameters for function
-        ylim <- 4
-      }
-    
-    # Name plots
-    fname <- paste0(plots_dir, "/", cancer_groups[i], "-TMB-jitter", ".pdf")
-    print(fname)
-    
-    # Run function
-    p <- create_jitter_ct(tmb_df = df_ct_sub, 
-                                 ylim = ylim, 
-                                 ct_id = cancer_groups[i])
-    pdf(file = fname, width = 18, height = 10)
-    print(p)
-    dev.off()
-}
-```
-
-It is not... i have tried with side-by-side barplots and it was the same issue.
-Dumbbell plots might be more informative to show changes across timepoints. 
-We could consider to use them in later analyses.
-
 # Total number of mutations across timepoints and biospecimen sample per Patient case
 Here, we want to explore the number of mutations per timepoint and biospecimen sample per patient case.
 
