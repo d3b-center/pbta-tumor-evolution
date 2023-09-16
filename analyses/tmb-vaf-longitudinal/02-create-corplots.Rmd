@@ -68,7 +68,7 @@ maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_co
 # To reflect situations with multiple diagnosis, we will create `cg_sum column`
 maf_autopsy <- maf_autopsy_raw %>% 
   distinct(cancer_group, .keep_all = TRUE) %>% 
-  summarise(cg_sum = str_c(cancer_group, collapse=",")) %>%
+  summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>%
   left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
 
 # Read oncoprint_goi_file
@@ -92,6 +92,7 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 ```{r create-corplot-please-wait}
 # Save results by cg_sum
 cg_names <- unique(as.character(maf_autopsy$cg_sum))
+cg_names <- sort(cg_names, decreasing = FALSE)
 print(cg_names)
 
 # Loop through cg_sum
