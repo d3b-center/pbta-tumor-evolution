@@ -60,10 +60,21 @@ The structure of this folder is as follows:
 ├── 03-explore-TMB-mut.nb.html
 ├── input
 │   └── snv-mutation-tmb-coding.tsv
+├── plots
+│   ├── Atypical Teratoid Rhabdoid Tumor-TMB-dumbbell.pdf
+│   ├── Diffuse midline glioma-TMB-dumbbell.pdf
+│   ├── Ependymoma-TMB-dumbbell.pdf
+│   ├── High-grade glioma-TMB-dumbbell.pdf
+│   ├── Low-grade glioma-TMB-dumbbell.pdf
+│   ├── Medulloblastoma-TMB-dumbbell.pdf
+│   ├── Meningioma-TMB-dumbbell.pdf
+│   ├── Other-TMB-dumbbell.pdf
+│   ├── TMB-genomic-no-hypermutants.pdf
+│   └── TMB-genomic-total.pdf
+├── README.md
 ├── results
 │   ├── bs_missing_tmb_vaf.tsv
 │   └── bs_missing_tmb.tsv
-├── README.md
 ├── run-tmb-vaf-longitudinal.sh
 ├── util
     ├── function-create-barplot.R
