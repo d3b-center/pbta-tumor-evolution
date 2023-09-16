@@ -209,14 +209,10 @@ for (i in seq_along(samples)) {
   ylim = max(df_plot_filter$mutation_count)
  
   # Run function
-  fname <- paste0(plots_dir, "/", samples[i], "-Mutations-barplot.pdf")
-  print(fname)
   p <- create_barplot_sample(tmb_df = tmb_sub,
                              ylim = ylim,
                              sid = samples[i])
-  pdf(file = fname, width = 5, height = 4)
   print(p)
-  dev.off()
 }
 ```
 
