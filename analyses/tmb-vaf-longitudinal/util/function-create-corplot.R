@@ -52,7 +52,7 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
   set.seed(2023)
   
   # Plot corplot 
-  p <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
+  plot <- print(ggplot(maf_join, aes_string(x = timepoints_other_plot, y = timepoints_deceased_plot, color = "group")) +
                geom_point(size = 6, fill = 4, alpha = 1 / 6) +
                scale_colour_manual(values = palette_df$hex_codes) + 
                labs(title = paste(sid, timepoint, "vs Deceased VAF Corplot", sep = " "),
@@ -67,17 +67,83 @@ create_corplot <- function(maf, timepoints_other_plot, timepoints_deceased_plot,
                                max.overlaps=Inf,
                                force = 0.5,
                                direction = "y",
-                               box.padding = 0.5, # additional padding around each text label
-               ) +
+                               box.padding = 0.5) + # additional padding around each text label
                theme_Publication(base_size = 12) +
                xlim(0, 1) +
                ylim(0, 1))
-  return(p)
+  return(plot)
   
-  # Save df 
-  df_out <- paste0(cg_results_dir, "/", sid, "-", timepoints_other_plot, "-vs-", timepoints_deceased_plot, "-maf-join_gene_protein.tsv")
-  name <- paste(sid, timepoints_other_plot, timepoints_deceased_plot, sep = "-")
-  assign (name, maf_join) %>% 
-    write_tsv(df_out)
-}
+  
+  # Reshape df to homogenize the table format across samples to make it easier to save
+  #df_melt <- reshape2::melt(maf_join) %>% 
+   # dplyr::rename(Timepoint_bs_id = variable,
+    #              VAF = value) %>% 
+    #as.data.frame() 
+  
+  #return(df_melt)
+  
+  
+} 
+  
+  
+#' Create corplots and melt df
+#'
+#' @param maf 
+#' @param timepoints_other_plot 
+#' @param timepoints_deceased_plot 
+#' @param sid 
+#'
+#' @return A data frame with each possible combination of timepoints and create VAF corplot
+#' @export
+#'
+#' @examples
+create_corplot_melt <- function(maf, timepoints_other_plot, timepoints_deceased_plot, sid) {
+  
+  # Split maf, create df, and rename VAF column based on time point
+  timepoint_df <- maf[which(maf$timepoints_other == timepoints_other_plot), ] %>%
+    select(Kids_First_Participant_ID, cg_sum, cancer_group, gene_protein, Hugo_Symbol, VAF) 
+  colnames(timepoint_df)[colnames(timepoint_df) == "VAF"] <- timepoints_other_plot
+  
+  deceased_df <- maf[which(maf$timepoints_deceased == timepoints_deceased_plot), ] %>%
+    select(Kids_First_Participant_ID, cg_sum, cancer_group, gene_protein, Hugo_Symbol, VAF)
+  colnames(deceased_df)[colnames(deceased_df) == "VAF"] <- timepoints_deceased_plot
+  
+  maf_join <- deceased_df %>%
+    full_join(timepoint_df, by = c("Kids_First_Participant_ID", "cg_sum", "cancer_group", "gene_protein", "Hugo_Symbol"), relationship = "many-to-many") %>%
+    mutate(sym = ifelse(Hugo_Symbol %in% oncoprint_goi$oncoprint_goi, TRUE, FALSE)) 
+  
+  maf_join[is.na(maf_join)] <- 0
+  
+  # Create timepoint label to use for group column 
+  # only for timepoints = Diagnosis, Progressive, Recurrence
+  timepoint <- str_extract(timepoints_other_plot, "[^_]+")
+  
+  # Create group column
+  maf_join$group <-  ifelse(maf_join[, timepoints_other_plot] > 0 & maf_join[, timepoints_deceased_plot] > 0, "Common",
+                            ifelse(maf_join[, timepoints_other_plot] > 0, timepoint,
+                                   ifelse(maf_join[, timepoints_deceased_plot] > 0, "Deceased",
+                                          ifelse(maf_join[, timepoints_other_plot] == 0 & maf_join[, timepoints_deceased_plot] == 0, "Remove", "Other"))))
+  
+  maf_join <- maf_join %>%
+    filter(!group %in% c("Remove", "Other"))
+  
+  # Convert labels to display on the plot only the ones in the goi list
+  maf_join$gene_protein <- ifelse(maf_join$sym == TRUE, maf_join$gene_protein, "")
+  
+  # Reorder time points
+  maf_join$group <- factor(x = maf_join$group, levels = c(timepoint, "Deceased", "Common"))
+  
+  # Add cg_sum information for subtitle
+  cg_sum <- maf_join$cg_sum
+  
+  # Reshape df to homogenize the table format across samples to make it easier to save
+  df_melt <- reshape2::melt(maf_join) %>% 
+   dplyr::rename(Timepoint_bs_id = variable,
+                VAF = value) %>% 
+  as.data.frame() 
+  
+  return(df_melt)
+  
+  
+} 
 
