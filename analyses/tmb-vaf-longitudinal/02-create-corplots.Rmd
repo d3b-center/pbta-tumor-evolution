@@ -133,15 +133,14 @@ for (x in seq_along(cg_names)){
       for (k in seq_along(timepoints_other_plots)){
         
         # Plot the corplots
+        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+        print(fname)
         p <- create_corplot(maf = maf_sub,
                             timepoints_other_plot = timepoints_other_plots[k],
                             timepoints_deceased_plot = timepoints_deceased_plots[t],
                             sid = samples[i])
-        print(p)
-        # Assign name to plot files and save
-        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
-        print(fname)
         pdf(file = fname, width = 10, height = 8)
+        print(p)
         dev.off()
         
         
