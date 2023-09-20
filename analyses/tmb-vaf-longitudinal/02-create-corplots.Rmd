@@ -146,15 +146,14 @@ for (x in seq_along(cg_names)){
         
         # Print df per pair in a list
         m <- create_corplot_melt(maf = maf_sub,
-                            timepoints_other_plot = timepoints_other_plots[k],
-                            timepoints_deceased_plot = timepoints_deceased_plots[t],
-                            sid = samples[i])
+                                 timepoints_other_plot = timepoints_other_plots[k],
+                                 timepoints_deceased_plot = timepoints_deceased_plots[t],
+                                 sid = samples[i])
         print(m)
         # Assign name to df and store all df in list
         df_name <- paste(samples[i], timepoints_other_plots[k], timepoints_deceased_plots[t], sep = "-")
         df <- assign(df_name, m)
         df_list[[df_name]] <- df
-        
        
       }
     }
