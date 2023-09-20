@@ -20,6 +20,7 @@ We will also use the oncoprint goi list from OpenPedCan `oncoprint-goi-lists-Ope
 suppressPackageStartupMessages({
   library(tidyverse)
   library(ggrepel)
+  library(reshape2)
 })
 ```
 
