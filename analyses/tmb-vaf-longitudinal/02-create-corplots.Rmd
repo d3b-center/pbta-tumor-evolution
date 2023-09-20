@@ -95,8 +95,11 @@ cg_names <- unique(as.character(maf_autopsy$cg_sum))
 cg_names <- sort(cg_names, decreasing = FALSE)
 print(cg_names)
 
+# Create empty list for df
+df_list <- list() 
+
 # Loop through cg_sum
-for (x in 1:length(cg_names)){
+for (x in seq_along(cg_names)){
   print(x)
 
   cg_maf_sub <- maf_autopsy %>%
@@ -106,16 +109,10 @@ for (x in 1:length(cg_names)){
   samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
   print(samples)
     
-  # define cg_sum specific plots dir
+  # Define cg_sum specific plots dir
   cg_plots_dir <- file.path(plots_dir, cg_names[x])
   if (!dir.exists(cg_plots_dir)) {
     dir.create(cg_plots_dir)
-  }
-    
-  # define cg_sum specific results dir
-  cg_results_dir <- file.path(results_dir, cg_names[x])
-  if (!dir.exists(cg_results_dir)) {
-    dir.create(cg_results_dir)
   }
   
   # Run loop for each sample and pair
@@ -133,19 +130,41 @@ for (x in 1:length(cg_names)){
     # Run corplot function
     for (t in seq_along(timepoints_deceased_plots)){
       for (k in seq_along(timepoints_other_plots)){
-        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
-        print(fname)
+        
+        # Plot the corplots
         p <- create_corplot(maf = maf_sub,
                             timepoints_other_plot = timepoints_other_plots[k],
                             timepoints_deceased_plot = timepoints_deceased_plots[t],
                             sid = samples[i])
-        pdf(file = fname, width = 10, height = 8)
         print(p)
+        # Assign name to plot files and save
+        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+        print(fname)
+        pdf(file = fname, width = 10, height = 8)
         dev.off()
+        
+        
+        # Print df per pair in a list
+        m <- create_corplot_melt(maf = maf_sub,
+                            timepoints_other_plot = timepoints_other_plots[k],
+                            timepoints_deceased_plot = timepoints_deceased_plots[t],
+                            sid = samples[i])
+        print(m)
+        # Assign name to df and store all df in list
+        df_name <- paste(samples[i], timepoints_other_plots[k], timepoints_deceased_plots[t], sep = "-")
+        df <- assign(df_name, m)
+        df_list[[df_name]] <- df
+        
+       
       }
     }
   }  
 }
+
+
+# Bind all df from list and save in one file
+list_df_bind <- bind_rows(df_list) %>% 
+  write_tsv(file.path(results_dir, "all-maf-join-gene-protein.tsv"))
 ```
 
 ```{r echo=TRUE}
