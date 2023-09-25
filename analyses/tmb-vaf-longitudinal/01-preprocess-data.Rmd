@@ -17,7 +17,7 @@ In this notebook, we calculate MAF and create TMB file for coding genes across t
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(vroom)
+  #library(vroom)
 })
 ```
 
@@ -72,13 +72,17 @@ maf_nonsynonymous <- c(
 
 # Read in maf file, calculate VAF, and retain only coding gene mutations
 # We will use this column to label gene mutations in the final graphs
-maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
+# maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
+
+maf <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
+maf %>% 
+  write_tsv(file.path(scratch_dir, "maf.tsv"))
 
 # Read in matched_genomic_file and get the list of patients 
 # with matched time points for the genomic assays
@@ -180,11 +184,10 @@ paired_list <- tmb_genomic %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
 
-tmb_genomic_filter <- paired_list %>% 
-  left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
-  write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
+tmb_vaf_df <- join_all(list(paired_list, tmb_genomic, maf), by = "Kids_First_Participant_ID", type = "left") %>%
+  write_tsv(file.path(scratch_dir, "tmb_vaf_genomic.tsv"))
 
-tmb_paired_samples_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
+tmb_paired_samples_filter <- length(unique(tmb_vaf_df$Kids_First_Participant_ID))
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data
