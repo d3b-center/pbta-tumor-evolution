@@ -79,7 +79,7 @@ maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>%
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
   select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) %>% 
-  write_tsv(file.path(scratch_dir, "maf.tsv"))
+  write_tsv(file.path(results_dir, "maf.tsv"))
 
 # Read in matched_genomic_file and get the list of patients 
 # with matched time points for the genomic assays
@@ -184,7 +184,7 @@ paired_list <- tmb_genomic %>%
 
 tmb_vaf_df <- paired_list %>%
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>% 
-  write_tsv(file.path(scratch_dir, "tmb_vaf_genomic.tsv"))
+  write_tsv(file.path(results_dir, "tmb_vaf_genomic.tsv"))
 
 tmb_paired_samples_filter <- length(unique(tmb_vaf_df$Kids_First_Participant_ID))
 ```
