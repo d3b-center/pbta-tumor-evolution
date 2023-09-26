@@ -120,27 +120,6 @@ df %>%
   fontsize(size = 12, part = "all")
 ``` 
 
-#
-# How many patient cases with autopsy specimens per cancer group, kids_id, and timepoint?
-
-```{r}
-dec_df <- df %>%
-  filter(str_detect(timepoints_models, "Dec")) 
-
-dec_df %>%
-  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
-  unique() %>% 
-  count(cancer_group) %>%
-  arrange(desc(n)) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-
-dec_df %>% 
-  count(cg_multiple, cancer_group, Kids_First_Participant_ID, tumor_descriptor) %>%
-  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
-``` 
 
 ```{r}
 sessionInfo()
