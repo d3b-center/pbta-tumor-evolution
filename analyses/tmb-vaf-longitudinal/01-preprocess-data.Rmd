@@ -181,7 +181,7 @@ paired_list <- tmb_genomic %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
 
-tmb_vaf_df <- plyr::join_all(list(paired_list, tmb_genomic, maf), by = by = "Kids_First_Biospecimen_ID", type = "left") %>%
+tmb_vaf_df <- plyr::join_all(list(paired_list, tmb_genomic, maf), by = "Kids_First_Biospecimen_ID", type = "left") %>%
   write_tsv(file.path(scratch_dir, "tmb_vaf_genomic.tsv"))
 
 tmb_paired_samples_filter <- length(unique(tmb_vaf_df$Kids_First_Participant_ID))
