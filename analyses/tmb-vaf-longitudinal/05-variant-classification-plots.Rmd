@@ -239,12 +239,18 @@ ggsave(filename = "Alteration_type_cancer_group.pdf",
 # What type of alterations we observe per tumor descriptor in each cancer group and timepoint model?
 
 ```{r plot-cancer-group, fig.width = 25, fig.height = 18, fig.fullwidth = TRUE}
-timepoints_models = as.character(unique(df_plot$timepoints_models))
-timepoints_models
+tm = as.character(unique(df_plot$timepoints_models))
+tm
 
-for 
+#tm = "Dx-Rec"
+# Loop through variable
+for (i in seq_along(tm)){
+  print(i)
+  df_sub <- df_plot %>%
+      filter(timepoints_models == tm[i])
+  
 # Create bxp
-print(ggpubr::ggboxplot(df_plot, 
+print(ggpubr::ggboxplot(df_sub, 
                         x = "tumor_descriptor", 
                         y = "tmb", 
                         color = "Variant_Classification",
@@ -256,12 +262,15 @@ print(ggpubr::ggboxplot(df_plot,
         theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "Alteration_type_cancer_group.pdf", 
+
+name <- paste0(timepoints_models[i], "-Alteration_type_cancer_group.pdf")
+ggsave(filename = name, 
        path = plots_dir, 
-       width = 25, 
-       height = 18, 
+       width = 12, 
+       height = 8, 
        device = "pdf", 
        useDingbats = FALSE)
+}
 ```
 
 
