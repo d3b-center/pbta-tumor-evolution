@@ -65,15 +65,19 @@ df <- genomic_paired_df %>%
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, td_order))
 
-# Let's count and remove any timepoints with less than 2 samples therein
-#timepoint_n_df <- df %>% 
-#  count(tumor_descriptor) %>% 
-#  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
-#  dplyr::rename(timepoint_n = n)
 
-df_plot <- df #%>% 
-#  left_join(timepoint_n_df, by = c("tumor_descriptor")) %>%
-#  filter(!timepoint_n <= 2) # remove if total number of values per group is less than 2
+# Let's count #samples per cancer groups and timepoints 
+timepoint_n_df <- df %>% 
+  count(cancer_group, tumor_descriptor) %>% 
+  dplyr::mutate(tumor_descriptor_cancer_n = glue::glue("{cancer_group}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_n = n) 
+
+
+# Create df to use for plots
+df_plot <- df %>% 
+  left_join(timepoint_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
+  filter(!timepoint_n <= 2) 
+
 ``` 
 
 # Type of non synonymous mutations per cancer group
@@ -143,7 +147,45 @@ ggsave(filename = "Alteration_type_cancer_group.pdf",
        height = 18, 
        device = "pdf", 
        useDingbats = FALSE)
+
 ```
+
+# What type of alterations we observe per tumor descriptor in each cancer group (add _n))?
+ 
+
+```{r plot-tumor_descriptor_n, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
+cg <- as.character(unique(df_plot$cancer_group))
+cg
+
+# Loop through variable
+for (i in seq_along(cg)){
+  print(i)
+  df_sub <- df_plot %>%
+      filter(cancer_group == cg[i])
+  
+  # Create bxp
+  print(ggpubr::ggboxplot(df_sub, 
+                        x = "tumor_descriptor_cancer_n", 
+                        y = "tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        theme_Publication() + 
+        ylab("TMB") +
+        xlab("Timepoint") +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust = 1)))
+
+  # Save the plot
+  #name <- paste0(cg[i], "-Alteration_type_cancer_group.pdf")
+  #ggsave(filename = name, 
+  #       path = plots_dir, 
+  #       width = 12, 
+  #       height = 8, 
+  #       device = "pdf", 
+  #       useDingbats = FALSE)
+}
+```
+
 
 # What type of alterations we observe per tumor descriptor in each cancer group and timepoint model?
 
@@ -157,12 +199,11 @@ for (i in seq_along(tm)){
   df_sub <- df_plot %>%
       filter(timepoints_models == tm[i])
   
-# Create bxp
-print(ggpubr::ggboxplot(df_sub, 
+  # Create bxp
+  print(ggpubr::ggboxplot(df_sub, 
                         x = "tumor_descriptor", 
                         y = "tmb", 
                         color = "Variant_Classification",
-                        #add = "jitter",
                         palette = palette) +
         facet_wrap(~cancer_group) +
         theme_Publication() +
@@ -171,15 +212,14 @@ print(ggpubr::ggboxplot(df_sub,
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90)))
 
-# Save the plot
-
-name <- paste0(timepoints_models[i], "-Alteration_type_cancer_group.pdf")
-ggsave(filename = name, 
-       path = plots_dir, 
-       width = 12, 
-       height = 8, 
-       device = "pdf", 
-       useDingbats = FALSE)
+   # Save the plot
+   #name <- paste0(timepoints_models[i], "-Alteration_type_cancer_group.pdf")
+   #ggsave(filename = name, 
+   #    path = plots_dir, 
+   #    width = 12, 
+   #    height = 8, 
+   #   device = "pdf", 
+   #   useDingbats = FALSE)
 }
 ```
 
