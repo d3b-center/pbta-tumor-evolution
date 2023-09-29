@@ -75,8 +75,8 @@ timepoint_n_df <- df %>%
 
 # Create df to use for plots
 df_plot <- df %>% 
-  left_join(timepoint_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
-  filter(!timepoint_n <= 2) 
+  left_join(timepoint_n_df, by = c("tumor_descriptor", "cancer_group")) #%>%
+  #filter(!timepoint_n <= 2) 
 
 ``` 
 
@@ -153,7 +153,7 @@ ggsave(filename = "Alteration_type_cancer_group.pdf",
 # What type of alterations we observe per tumor descriptor in each cancer group (add _n))?
  
 
-```{r plot-tumor_descriptor_n, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
+```{r plot-tumor_descriptor_n, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
 cg <- as.character(unique(df_plot$cancer_group))
 cg
 
@@ -172,8 +172,9 @@ for (i in seq_along(cg)){
         theme_Publication() + 
         ylab("TMB") +
         xlab("Timepoint") +
+        labs(title = paste(cg)) +
         scale_y_continuous(limits = c(0, ylim)) +
-        theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust = 1)))
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
 
   # Save the plot
   #name <- paste0(cg[i], "-Alteration_type_cancer_group.pdf")
