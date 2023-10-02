@@ -62,25 +62,40 @@ td_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Mali
 
 df <- genomic_paired_df %>% 
   filter(!is.na(tmb)) %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, td_order))
+  mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG",
+                            grepl("Diffuse midline glioma", cancer_group) ~ "DIPG",
+                            grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma",
+                            grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
+                            grepl("Low-grade glioma", cancer_group) ~ "LGG",
+                            grepl("Ependymoma", cancer_group) ~ "Ependymoma",
+                            grepl("Chordoma", cancer_group) ~ "Chordoma",
+                            TRUE ~ "Other"),
+         td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+                                      TRUE ~ tumor_descriptor))
 
 
 # Let's count #samples per cancer groups and timepoints 
-timepoint_n_df <- df %>% 
+timepoint_cg_n_df <- df %>% 
   count(cancer_group, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_cancer_n = glue::glue("{cancer_group}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(timepoint_n = n) 
+  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cancer_group}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cg_n = n) 
 
+# Let's count #samples per cancer groups and timepoints 
+timepoint_cgGFAC_n_df <- df %>% 
+  count(cgGFAC, td_cgGFAC) %>% 
+  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_n = n) 
 
 # Create df to use for plots
 df_plot <- df %>% 
-  left_join(timepoint_n_df, by = c("tumor_descriptor", "cancer_group")) #%>%
+  left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
   #filter(!timepoint_n <= 2) 
-
+  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, td_order))
+        
 ``` 
 
-# Type of non synonymous mutations per cancer group
 
 ```{r define-parameters-for-plots}
 # Read color palette
@@ -105,7 +120,6 @@ print(ggpubr::ggboxplot(df_plot,
                         x = "tumor_descriptor", 
                         y = "tmb", 
                         color = "Variant_Classification",
-                        #add = "jitter",
                         palette = palette) +
         theme_Publication() + 
         scale_y_continuous(limits = c(0, ylim)) +
@@ -131,7 +145,6 @@ print(ggpubr::ggboxplot(df_plot,
                         x = "tumor_descriptor", 
                         y = "tmb", 
                         color = "Variant_Classification",
-                        #add = "jitter",
                         palette = palette) +
         facet_wrap(~cancer_group) +
         theme_Publication() + 
@@ -147,13 +160,71 @@ ggsave(filename = "Alteration_type_cancer_group.pdf",
        height = 18, 
        device = "pdf", 
        useDingbats = FALSE)
+```
 
+
+# What type of alterations we observe per tumor descriptor in each cancer group defined by cgGFAC?
+
+```{r plot-cgGFAC-n, fig.width = 18, fig.height = 12, fig.fullwidth = TRUE}
+df_plot_cgGFAC <- df_plot %>% 
+  arrange(tumor_descriptor_cgGFAC_n)
+  #mutate(tumor_descriptor_cgGFAC_n = factor(tumor_descriptor_cgGFAC_n)) 
+
+#df_plot_cgGFAC$tumor_descriptor_cgGFAC_n %>% levels()
+
+# Create bxp
+print(ggpubr::ggboxplot(df_plot_cgGFAC, 
+                        x = "tumor_descriptor_cgGFAC_n", 
+                        y = "tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        #facet_wrap(~cgGFAC) +
+        theme_Publication() + 
+        ylab("TMB") +
+        xlab("Timepoint") +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "Alteration_type_cgGFAC.pdf", 
+       path = plots_dir, 
+       width = 18, 
+       height = 12, 
+       device = "pdf", 
+       useDingbats = FALSE)
+
+```
+
+
+```{r plot-cgGFAC-n-individual-plots, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC))
+cgGFAC_id
+
+# Loop through variable
+for (i in seq_along(cgGFAC_id)){
+  print(i)
+  df_sub <- df_plot_cgGFAC %>%
+      filter(cgGFAC == cgGFAC_id[i])
+
+  
+   # Create bxp
+  print(ggpubr::ggboxplot(df_sub, 
+                        x = "tumor_descriptor_cgGFAC_n", 
+                        y = "tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        theme_Publication() + 
+        ylab("TMB") +
+        labs(title = paste(cg)) +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
+}
 ```
 
 # What type of alterations we observe per tumor descriptor in each cancer group (add _n))?
  
 
-```{r plot-tumor_descriptor_n, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+```{r plot-n, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
 cg <- as.character(unique(df_plot$cancer_group))
 cg
 
@@ -165,7 +236,7 @@ for (i in seq_along(cg)){
   
   # Create bxp
   print(ggpubr::ggboxplot(df_sub, 
-                        x = "tumor_descriptor_cancer_n", 
+                        x = "tumor_descriptor_cg_n", 
                         y = "tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
