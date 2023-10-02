@@ -68,14 +68,17 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
          broad_histology, match_id_DNA, experimental_strategy, 
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
-  dplyr:::mutate(short_histology_sum = ifelse(short_histology == "HGAT", "HGG",
-                                              ifelse(short_histology == "LGAT", "LGG", 
-                                                     ifelse(short_histology == "Ependymoma", "Ependymoma", 
-                                                            ifelse(short_histology == "Medulloblastoma", "Medulloblastoma", 
-                                                                   ifelse(short_histology == "ATRT", "ATRT", "Other"))))),
-                 log10_tmb = abs(log10(tmb)),
-                 tumor_descriptor = factor(tumor_descriptor),
-                 tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  dplyr::mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG",
+                                   grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
+                                   grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma",
+                                   grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
+                                   grepl("Low-grade glioma", cancer_group) ~ "LGG",
+                                   grepl("Ependymoma", cancer_group) ~ "Ependymoma",
+                                   grepl("Chordoma", cancer_group) ~ "Chordoma",
+                                   TRUE ~ "Other"),
+                 td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+                                       TRUE ~ tumor_descriptor),
+                 log10_tmb = abs(log10(tmb))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # keep only one bs_sample per genomic assay (WGS/WXS)
   filter(!is.na(tmb))
 
@@ -85,12 +88,6 @@ print(df %>% count(tumor_descriptor) %>% arrange(desc(n)))
 # How many samples per cancer group?
 print(df %>% count(cancer_group) %>% arrange(desc(n)))
 
-#table = df %>% count(cancer_group) %>%
-#  write_tsv(file.path(results_dir, "cancer_group_count.tsv"))
-
-# How many samples per short_histology_sum?
-# print(df %>% count(short_histology_sum) %>% arrange(desc(n)))
-
 # How many samples per Timepoint and cancer type?
 rename(count(df, tumor_descriptor, cancer_group), Freq = n)
 
@@ -98,10 +95,16 @@ rename(count(df, tumor_descriptor, cancer_group), Freq = n)
 no_samples <- length(unique(df$Kids_First_Participant_ID))
 
 # Let's count #samples per cancer groups and timepoints 
-timepoint_n_df <- df %>% 
+timepoint_cg_n_df <- df %>% 
   count(cancer_group, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
-  dplyr::rename(timepoint_n = n) 
+  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cancer_group}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cg_n = n) 
+
+# Let's count #samples per cancer groups and timepoints 
+timepoint_cgGFAC_n_df <- df %>% 
+  count(cgGFAC, td_cgGFAC) %>% 
+  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_n = n) 
 
 # Summarize timepoints per cancer groups
 # We will summarize cancer groups with single timepoints as "Other" 
@@ -111,9 +114,13 @@ timepoint_sum <- df %>%
   arrange(tumor_descriptor) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) 
 
+# Create df to use for plots
 df_plot <- df %>% 
-  left_join(timepoint_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
-  filter(!timepoint_n <= 2) %>% # remove if total samples per timepoint is less than 2
+  left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
+  filter(!tumor_descriptor_cg_n <= 2) %>% # remove if total samples per timepoint is less than 2
+
+  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
+  
   left_join(timepoint_sum, by = c("cancer_group")) %>%
   filter(!tumor_descriptor_sum %in% timepoints,
          !tumor_descriptor_sum %in% c("Diagnosis-Diagnosis", 
@@ -121,9 +128,9 @@ df_plot <- df %>%
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis"
                                       )) %>% # remove cancer groups with single timepoints
- # TODO: not sure how to make lines 109-113 reproducible
-
-  mutate(cancer_group_sum = replace_na(cancer_group, "Other"))
+  mutate(cancer_group_sum = replace_na(cancer_group, "Other"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 ``` 
 
 
@@ -241,35 +248,16 @@ We observe that majority of samples are High- and Low-grade gliomas as well as E
 # All unpaired samples across cancer types summarized
 
 ```{r cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
-# Let's count and remove any cancer types and timepoints with less than 2 samples therein
-tumor_descriptor_cancer_n_df <- df_plot %>% 
-  count(short_histology_sum, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_cancer_n = glue::glue("{short_histology_sum}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(histology_n = n)
-
-df_plot_cancer <- df_plot %>% 
-  left_join(tumor_descriptor_cancer_n_df, by = c("tumor_descriptor", "short_histology_sum")) %>%
-  filter(!histology_n <= 2) # remove if total number of values per group is less than 2
+df_plot_cgGFAC <- df_plot %>% 
+  arrange(tumor_descriptor_cgGFAC_n)
+  #mutate(tumor_descriptor_cgGFAC_n = factor(tumor_descriptor_cgGFAC_n)) 
 
 # Define label for plots
-Timepoint_cancer <- df_plot_cancer$tumor_descriptor
+Timepoint_cancer <- df_plot_cgGFAC$tumor_descriptor
 
 # Define ylim
-ylim_cancer <- max(df_plot_cancer$tmb)
+ylim_cancer <- max(df_plot_cgGFAC$tmb)
 
-# Plot by using tumor_descriptor_cancer_n
-# Let's order first x axis 
-#TODO: To make the f reproducible
-f = c("ATRT_Diagnosis  (N=48)", "ATRT_Progressive  (N=10)", "ATRT_Recurrence  (N=3)", "ATRT_Deceased  (N=4)",
-  "Ependymoma_Diagnosis  (N=113)", "Ependymoma_Progressive  (N=20)" , "Ependymoma_Recurrence  (N=24)", "Ependymoma_Deceased  (N=7)",
-      "HGG_Diagnosis  (N=235)", "HGG_Progressive  (N=22)", "HGG_Recurrence  (N=15)", "HGG_Deceased  (N=72)", "HGG_Second Malignancy  (N=5)",
-      "LGG_Diagnosis  (N=405)" , "LGG_Progressive  (N=61)", "LGG_Recurrence  (N=25)", "LGG_Deceased  (N=7)", "LGG_Second Malignancy  (N=4)" ,
-      "Medulloblastoma_Diagnosis  (N=217)", "Medulloblastoma_Progressive  (N=6)", "Medulloblastoma_Recurrence  (N=6)" , "Medulloblastoma_Deceased  (N=6)",
-      "Other_Diagnosis  (N=538)", "Other_Progressive  (N=89)", "Other_Recurrence  (N=80)", "Other_Deceased  (N=8)")
-
-df_plot_cancer <- df_plot_cancer %>% 
-  mutate(tumor_descriptor_cancer_n = factor(tumor_descriptor_cancer_n),
-                 tumor_descriptor_cancer_n = fct_relevel(tumor_descriptor_cancer_n, f))
 ```
 
 # Summary statistics for Timepoints and cancer types
@@ -278,38 +266,43 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 ```{r summary-statistics, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
-df_plot_cancer %>% 
-  select(short_histology_sum, tumor_descriptor_cancer_n, tmb, log10_tmb) %>% 
-  sample_n_by(short_histology_sum, tumor_descriptor_cancer_n, tmb, size = 1)
+df_plot_cgGFAC %>% 
+  select(cgGFAC, tumor_descriptor_cgGFAC_n, tmb, log10_tmb) %>% 
+  sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, tmb, size = 1)
 
 # Compute some summary statistics (mean and sd) by groups:
-stat.summary <- df_plot_cancer %>%
-  group_by(short_histology_sum, tumor_descriptor_cancer_n) %>%
+stat.summary <- df_plot_cgGFAC %>%
+  group_by(cgGFAC, tumor_descriptor_cgGFAC_n) %>%
   get_summary_stats(tmb, type = "mean_sd")
 stat.summary
 
 # Pairwise comparisons between time points at each group levels
 # Paired t-test is used because we have repeated measures by time
-stat.test <- df_plot_cancer %>%
-  group_by(short_histology_sum) %>%
-  pairwise_t_test(log10_tmb ~ tumor_descriptor_cancer_n, 
+stat.test <- df_plot_cgGFAC %>%
+  group_by(cgGFAC) %>%
+  pairwise_t_test(log10_tmb ~ tumor_descriptor_cgGFAC_n, 
                   paired = FALSE, 
                   p.adjust.method = "bonferroni")
 stat.test
 
 # Add statistical test p-values
-stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor_cancer_n")
+stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor_cgGFAC_n")
 
 # Create bxp
-print(ggboxplot(df_plot_cancer,
-                x = "tumor_descriptor_cancer_n",
+print(ggboxplot(df_plot_cgGFAC,
+                x = "tumor_descriptor_cgGFAC_n",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
                 palette = palette) +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
-        stat_pvalue_manual(stat.test, label = "p.adj.signif",
-                           step.increase = 0.08, hide.ns = TRUE, tip.length = 0))
+        stat_pvalue_manual(stat.test, 
+                           label = "p = {p.adj.signif}",
+                           step.increase = 0.08, 
+                           hide.ns = TRUE, 
+                           tip.length = 0,
+                           position = position_dodge(0.8),
+                           y.position = 33))
 
 # Save the plot
 ggsave(filename = "TMB-Bxp-stat-test.pdf", 
