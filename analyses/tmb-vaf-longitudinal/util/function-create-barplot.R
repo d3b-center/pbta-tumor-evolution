@@ -11,11 +11,11 @@
 #'
 #' @examples
 create_stacked_barplot <- function(tmb_df, ylim, x_value, palette) {
-
+  
   # Rename legend for timepoints
   Timepoint <- factor(tmb_df$tumor_descriptor)
   
-
+  
   
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = x_value, 
