@@ -15,7 +15,7 @@ bash run-tmb-vaf-longitudinal.sh
 This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA cohort.
 
 ## Summary 
-This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
+This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with labeled genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
 
 To generate corplots, we need to create timepoint models that will account for the following conditions: 
 (1) We are interested in how VAF values change over the time and specifically for the autopsy samples. 
@@ -42,7 +42,7 @@ There are 29 autopsy samples out of the total 119 patient cases (with genomic as
 
 Moreover, we explored TMB and the number of mutations across longitudinal samples with genomic assays. 
 
-Generally, Hypermutant TMB defined as ≤10 Mb, and Ultrahypermutant TMB defined as >100 mutations/Mb (https://pubmed.ncbi.nlm.nih.gov/29056344/). There are hyper mutant samples in the PBTA cohort. We excluded samples with >= 10 from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We also remove those so we always have matched longitudinal samples.
+Generally, Hypermutant TMB defined as >=10 Mb, and Ultrahypermutant TMB defined as >100 mutations/Mb (https://pubmed.ncbi.nlm.nih.gov/29056344/). There are hyper mutant samples in the PBTA cohort. We excluded samples with >= 10 from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We also remove those so we always have matched longitudinal samples.
 
 Overall, TMB patterns across timepoints seem to be idiosyncratic, but we notice a higher overall TMB for Progressive and Recurrence compared to other timepoints. We don’t see any patterns driven by cancer type.
 
