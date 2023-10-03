@@ -17,6 +17,7 @@ In this notebook, we are using the `tmb_genomic.tsv` file generated from the `01
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(scales)
 })
 ```
 
