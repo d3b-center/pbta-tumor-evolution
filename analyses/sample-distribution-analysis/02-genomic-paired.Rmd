@@ -44,7 +44,7 @@ pbta_file <- file.path(results_dir, "pbta.tsv")
 pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Vector to order timepoints
-td_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
 df_genomic <- readr::read_tsv(genomic_file, guess_max = 100000, show_col_types = FALSE) %>%
   rename(cg_sum = cancer_group,
@@ -56,7 +56,7 @@ df_genomic <- readr::read_tsv(genomic_file, guess_max = 100000, show_col_types =
           molecular_subtype, broad_histology, short_histology) %>% 
   group_by(Kids_First_Participant_ID) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, td_order),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints),
          cg_distinct = n_distinct(cancer_group) > 1)  # to identify samples with different diagnosis across timepoints
 
 df <- df_genomic %>%
@@ -82,9 +82,9 @@ df <- df_genomic %>%
                                        descriptors == "Deceased, Diagnosis, Progressive" ~ "Dx-Pro-Dec",
                                        descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv"
                                        )) %>% # to generate timepoints_models
-  write_tsv(file.path(results_dir, "list-genomic-paired.tsv"))
+  write_tsv(file.path(results_dir, "genomic_assays_matched_time_points_extended.tsv"))
 
-#df_samples <- print(length(unique(df$Kids_First_Participant_ID)))
+df_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 ```
 
 # How many patient cases per cancer group?
