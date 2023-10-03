@@ -44,6 +44,13 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
@@ -89,7 +96,7 @@ print(df %>% count(tumor_descriptor) %>% arrange(desc(n)))
 print(df %>% count(cancer_group) %>% arrange(desc(n)))
 
 # How many samples per Timepoint and cancer type?
-rename(count(df, tumor_descriptor, cancer_group), Freq = n)
+# rename(count(df, tumor_descriptor, cancer_group), Freq = n)
 
 # How many cases with unpaired longitudinal samples?
 no_samples <- length(unique(df$Kids_First_Participant_ID))
@@ -154,6 +161,7 @@ Timepoint <- df_plot$tumor_descriptor
 
 # Define ylim
 ylim <- max(df_plot$tmb)
+log10_ylim <- max(df_plot$log10_tmb)
 ```
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
@@ -175,7 +183,7 @@ print(df_plot %>%
         theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf",
+ggsave(filename = "TMB-unpaired-longitudinal.pdf",
        path = plots_dir, 
        width = 10, 
        height = 5, 
@@ -185,41 +193,12 @@ ggsave(filename = "TMB-unpaired-longitudinal-samples.pdf",
 
 
 # All unpaired samples across cancer types
-We will use the `cancer_group` column to display TMB differences across cancer types.
-
-```{r plot-cancer-group, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
-print(df_plot %>%
-        ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor, 
-                     y = tmb,
-                     color = Timepoint) + 
-        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
-        # light guiding line representing 0 exposure
-        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-        ggplot2::scale_color_manual(values = palette, 
-                                    breaks = sort(names(palette))) +
-        ggplot2::stat_summary(color = "black", size = 0.3) + 
-        ggplot2::facet_wrap(~cancer_group, nrow = 8) +
-        ggplot2::labs(x = "Tumor descriptor",
-                      y = "TMB") +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, ylim)))
-
-# Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type.pdf", 
-       path = plots_dir, 
-       width = 25, 
-       height = 20, 
-       device = "pdf", 
-       useDingbats = FALSE)
-```
 
 ```{r plot-cancer-group-sum, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
 print(df_plot %>%
         ggplot2::ggplot() + 
         ggplot2::aes(x = tumor_descriptor, 
-                     y = tmb,
+                     y = log10_tmb,
                      color = Timepoint) + 
         ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
@@ -232,10 +211,10 @@ print(df_plot %>%
                       y = "TMB") +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, ylim)))
+        scale_y_continuous(limits = c(0, log10_ylim)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-samples-cancer-type-sum.pdf", 
+ggsave(filename = "TMB-unpaired-longitudinal-cancer-type.pdf", 
        path = plots_dir, 
        width = 25, 
        height = 20, 
@@ -255,9 +234,6 @@ df_plot_cgGFAC <- df_plot %>%
 # Define label for plots
 Timepoint_cancer <- df_plot_cgGFAC$tumor_descriptor
 
-# Define ylim
-ylim_cancer <- max(df_plot_cgGFAC$tmb)
-
 ```
 
 # Summary statistics for Timepoints and cancer types
@@ -267,13 +243,13 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot_cgGFAC %>% 
-  select(cgGFAC, tumor_descriptor_cgGFAC_n, tmb, log10_tmb) %>% 
-  sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, tmb, size = 1)
+  select(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb) %>% 
+  sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb, size = 1) 
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot_cgGFAC %>%
   group_by(cgGFAC, tumor_descriptor_cgGFAC_n) %>%
-  get_summary_stats(tmb, type = "mean_sd")
+  get_summary_stats(log10_tmb, type = "mean_sd")
 stat.summary
 
 # Pairwise comparisons between time points at each group levels
@@ -282,8 +258,8 @@ stat.test <- df_plot_cgGFAC %>%
   group_by(cgGFAC) %>%
   pairwise_t_test(log10_tmb ~ tumor_descriptor_cgGFAC_n, 
                   paired = FALSE, 
-                  p.adjust.method = "bonferroni")
-stat.test
+                  p.adjust.method = "bonferroni") %>% 
+  write_tsv(file.path(results_dir, "stat.test.tsv"))
 
 # Add statistical test p-values
 stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor_cgGFAC_n")
@@ -296,13 +272,16 @@ print(ggboxplot(df_plot_cgGFAC,
                 palette = palette) +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
-        stat_pvalue_manual(stat.test, 
-                           label = "p = {p.adj.signif}",
+        scale_y_continuous(limits = c(0, 2)) +
+        stat_pvalue_manual(stat.test,
+                           label = "p = {p.signif}",
                            step.increase = 0.08, 
                            hide.ns = TRUE, 
                            tip.length = 0,
                            position = position_dodge(0.8),
-                           y.position = 33))
+                           y.position = "y.position") +
+        scale_y_continuous(limits = c(0, 2)))
+
 
 # Save the plot
 ggsave(filename = "TMB-Bxp-stat-test.pdf", 
