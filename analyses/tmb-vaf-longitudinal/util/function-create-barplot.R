@@ -27,6 +27,8 @@ create_stacked_barplot <- function(tmb_df, ylim) {
                theme(axis.text.x = element_text(angle = 85, 
                                                 hjust = 1, 
                                                 vjust = 1)) + 
+               scale_y_continuous(breaks = scales::pretty_breaks(n = 6), 
+                                  limits = c(0, ylim)) +
                labs(title = paste("TMB in PBTA cohort", sep = " ")) + 
                labs(x = "Patient case", y = "TMB") +
                ylim(0, ylim))
