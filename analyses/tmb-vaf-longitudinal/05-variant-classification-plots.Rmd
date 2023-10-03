@@ -248,15 +248,6 @@ for (i in seq_along(cg)){
         labs(title = paste(cg[i])) +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
-
-  # Save the plot
-  #name <- paste0(cg[i], "-Alteration_type_cancer_group.pdf")
-  #ggsave(filename = name, 
-  #       path = plots_dir, 
-  #       width = 12, 
-  #       height = 8, 
-  #       device = "pdf", 
-  #       useDingbats = FALSE)
 }
 ```
 
@@ -285,15 +276,6 @@ for (i in seq_along(tm)){
         xlab("Timepoint") +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90)))
-
-   # Save the plot
-   #name <- paste0(timepoints_models[i], "-Alteration_type_cancer_group.pdf")
-   #ggsave(filename = name, 
-   #    path = plots_dir, 
-   #    width = 12, 
-   #    height = 8, 
-   #   device = "pdf", 
-   #   useDingbats = FALSE)
 }
 ```
 
