@@ -77,11 +77,8 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
          cancer_group, short_histology, tmb, mutation_count, DNA) %>%
   dplyr::mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG",
                                    grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
-                                   grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma",
                                    grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
                                    grepl("Low-grade glioma", cancer_group) ~ "LGG",
-                                   grepl("Ependymoma", cancer_group) ~ "Ependymoma",
-                                   grepl("Chordoma", cancer_group) ~ "Chordoma",
                                    TRUE ~ "Other"),
                  td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                        TRUE ~ tumor_descriptor),
@@ -124,10 +121,11 @@ timepoint_sum <- df %>%
 # Create df to use for plots
 df_plot <- df %>% 
   left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cancer_group")) %>%
-  filter(!tumor_descriptor_cg_n <= 2) %>% # remove if total samples per timepoint is less than 2
+  filter(!tumor_descriptor_cg_n <= 2) %>% # remove if total #samples per timepoint is less than 2
 
   left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
-  
+  filter(!timepoint_cgGFAC_n <= 2) %>% # remove if total #samples per timepoint is less than 2
+
   left_join(timepoint_sum, by = c("cancer_group")) %>%
   filter(!tumor_descriptor_sum %in% timepoints,
          !tumor_descriptor_sum %in% c("Diagnosis-Diagnosis", 

@@ -5,12 +5,9 @@ ATRT	log10_tmb	ATRT_Progressive  (N=10)	ATRT_Recurrence  (N=3)	10	3	0.721	ns	1	n
 ATRT	log10_tmb	ATRT_Diagnosis  (N=48)	ATRT_xDeceased  (N=4)	48	4	0.432	ns	1	ns
 ATRT	log10_tmb	ATRT_Progressive  (N=10)	ATRT_xDeceased  (N=4)	10	4	0.45	ns	1	ns
 ATRT	log10_tmb	ATRT_Recurrence  (N=3)	ATRT_xDeceased  (N=4)	3	4	0.373	ns	1	ns
-DMG	log10_tmb	DMG_Diagnosis  (N=124)	DMG_Progressive  (N=8)	124	8	0.518	ns	1	ns
-DMG	log10_tmb	DMG_Diagnosis  (N=124)	DMG_Recurrence  (N=2)	124	2	0.314	ns	1	ns
-DMG	log10_tmb	DMG_Progressive  (N=8)	DMG_Recurrence  (N=2)	8	2	0.541	ns	1	ns
-DMG	log10_tmb	DMG_Diagnosis  (N=124)	DMG_xDeceased  (N=45)	124	45	0.313	ns	1	ns
-DMG	log10_tmb	DMG_Progressive  (N=8)	DMG_xDeceased  (N=45)	8	45	0.284	ns	1	ns
-DMG	log10_tmb	DMG_Recurrence  (N=2)	DMG_xDeceased  (N=45)	2	45	0.216	ns	1	ns
+DMG	log10_tmb	DMG_Diagnosis  (N=124)	DMG_Progressive  (N=8)	124	8	0.52	ns	1	ns
+DMG	log10_tmb	DMG_Diagnosis  (N=124)	DMG_xDeceased  (N=45)	124	45	0.314	ns	0.943	ns
+DMG	log10_tmb	DMG_Progressive  (N=8)	DMG_xDeceased  (N=45)	8	45	0.285	ns	0.856	ns
 HGG	log10_tmb	HGG_Diagnosis  (N=87)	HGG_Progressive  (N=13)	87	13	0.894	ns	1	ns
 HGG	log10_tmb	HGG_Diagnosis  (N=87)	HGG_Recurrence  (N=11)	87	11	0.793	ns	1	ns
 HGG	log10_tmb	HGG_Progressive  (N=13)	HGG_Recurrence  (N=11)	13	11	0.914	ns	1	ns
@@ -31,9 +28,13 @@ LGG	log10_tmb	LGG_Diagnosis  (N=336)	LGG_xDeceased  (N=6)	336	6	0.763	ns	1	ns
 LGG	log10_tmb	LGG_Progressive  (N=56)	LGG_xDeceased  (N=6)	56	6	0.844	ns	1	ns
 LGG	log10_tmb	LGG_Recurrence  (N=20)	LGG_xDeceased  (N=6)	20	6	0.387	ns	1	ns
 LGG	log10_tmb	LGG_Second Malignancy  (N=3)	LGG_xDeceased  (N=6)	3	6	0.307	ns	1	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Diagnosis  (N=217)	Medulloblastoma_Progressive  (N=6)	217	6	0.151	ns	0.909	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Diagnosis  (N=217)	Medulloblastoma_Recurrence  (N=6)	217	6	0.0448	*	0.269	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Progressive  (N=6)	Medulloblastoma_Recurrence  (N=6)	6	6	0.679	ns	1	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Diagnosis  (N=217)	Medulloblastoma_xDeceased  (N=6)	217	6	0.392	ns	1	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Progressive  (N=6)	Medulloblastoma_xDeceased  (N=6)	6	6	0.678	ns	1	ns
-Medulloblastoma	log10_tmb	Medulloblastoma_Recurrence  (N=6)	Medulloblastoma_xDeceased  (N=6)	6	6	0.407	ns	1	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Progressive  (N=121)	919	121	0.396	ns	1	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Recurrence  (N=117)	919	116	8.64e-5	****	8.64e-4	***
+Other	log10_tmb	Other_Progressive  (N=121)	Other_Recurrence  (N=117)	121	116	0.0187	*	0.187	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Second Malignancy  (N=13)	919	12	0.00194	**	0.0194	*
+Other	log10_tmb	Other_Progressive  (N=121)	Other_Second Malignancy  (N=13)	121	12	0.0068	**	0.068	ns
+Other	log10_tmb	Other_Recurrence  (N=117)	Other_Second Malignancy  (N=13)	116	12	0.09	ns	0.9	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_xDeceased  (N=25)	919	25	0.137	ns	1	ns
+Other	log10_tmb	Other_Progressive  (N=121)	Other_xDeceased  (N=25)	121	25	0.318	ns	1	ns
+Other	log10_tmb	Other_Recurrence  (N=117)	Other_xDeceased  (N=25)	116	25	0.695	ns	1	ns
+Other	log10_tmb	Other_Second Malignancy  (N=13)	Other_xDeceased  (N=25)	12	25	0.0873	ns	0.873	ns
