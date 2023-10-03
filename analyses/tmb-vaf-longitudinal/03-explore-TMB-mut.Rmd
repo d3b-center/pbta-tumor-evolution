@@ -101,7 +101,7 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 # TMB per Patient case
 We will explore TMB per `Kids_First_Participant_ID` over time by creating stacked barplots.
 
-```{r create-stacked-barplot, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
+```{r create-stacked-barplot, fig.width = 22, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim = max(df$tmb)
 
@@ -115,7 +115,7 @@ df_plot <- df %>%
 fname <- paste0(plots_dir, "/", "TMB-genomic-total.pdf")
 print(fname)
 p <- create_stacked_barplot(tmb_df = df_plot, ylim = ylim)
-pdf(file = fname, width = 15, height = 6)
+pdf(file = fname, width = 22, height = 6)
 print(p)
 dev.off()
 ```
