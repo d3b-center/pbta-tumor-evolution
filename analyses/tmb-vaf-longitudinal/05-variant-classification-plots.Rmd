@@ -97,10 +97,10 @@ timepoint_cgGFAC_n_df <- df %>%
 # Create df to use for plots
 df_plot <- df %>% 
   left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
+  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
   filter(!timepoint_cg_n <= 2,
          !timepoint_cgGFAC_n <= 2,
-         cg_id == "NA") 
-  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
+         !cg_id == "NA") %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
         
