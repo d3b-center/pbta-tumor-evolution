@@ -208,7 +208,7 @@ for (i in seq_along(cgGFAC_id)){
                         color = "Variant_Classification",
                         palette = palette) +
         theme_Publication() + 
-        labs(title = paste(cgGFAC_id)) +
+        labs(title = paste(cgGFAC_id[i])) +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
 }
