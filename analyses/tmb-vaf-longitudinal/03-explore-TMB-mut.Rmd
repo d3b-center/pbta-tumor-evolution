@@ -97,6 +97,10 @@ print(df %>% count(cg_plot) %>% arrange(desc(n)))
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
 
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$color_names
+
 # length(unique(df$Kids_First_Participant_ID))
 ```
 
@@ -117,7 +121,7 @@ df_plot <- df %>%
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-total.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = df_plot, ylim = ylim)
+p <- create_stacked_barplot(tmb_df = df_plot, ylim = ylim, x = x_value, palette = palette)
 pdf(file = fname, width = 22, height = 6)
 print(p)
 dev.off()
