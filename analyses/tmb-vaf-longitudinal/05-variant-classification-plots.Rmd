@@ -56,7 +56,7 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
 # If that happens, we will end up with samples lacking timepoints.
 
 # Which patient samples don't have TMB?
-#genomic_paired_df %>% 
+# genomic_paired_df %>% 
 #  filter(is.na(tmb)) %>% 
 #  unique() %>% 
 #  regulartable() %>%
@@ -97,7 +97,9 @@ timepoint_cgGFAC_n_df <- df %>%
 # Create df to use for plots
 df_plot <- df %>% 
   left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
-  #filter(!timepoint_n <= 2) 
+  filter(!timepoint_cg_n <= 2,
+         !timepoint_cgGFAC_n <= 2,
+         cg_id == "NA") 
   left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
