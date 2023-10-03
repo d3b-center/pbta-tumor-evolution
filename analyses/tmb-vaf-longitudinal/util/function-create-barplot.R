@@ -1,23 +1,24 @@
 #' Create stacked barplots for all samples in the df
 #'
-#' @param tmb_df_df 
+#' @param tmb_df 
 #' @param ylim 
+#' @param x_value 
+#' @param palette 
+#' 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_stacked_barplot <- function(tmb_df, ylim) {
+create_stacked_barplot <- function(tmb_df, ylim, x_value, palette) {
 
   # Rename legend for timepoints
   Timepoint <- factor(tmb_df$tumor_descriptor)
   
-  # Define and order palette
-  palette <- palette_df$hex_codes
-  names(palette) <- palette_df$color_names
+
   
   # Plot stacked barplot 
-  p <- print(ggplot(tmb_df, aes(x = Kids_First_Participant_ID, 
+  p <- print(ggplot(tmb_df, aes(x = x_value, 
                                 y = tmb, 
                                 fill = Timepoint)) +  
                geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
@@ -41,19 +42,16 @@ create_stacked_barplot <- function(tmb_df, ylim) {
 #' @param tmb_df 
 #' @param ylim
 #' @param sid
+#' @param palette 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_barplot_sample <- function(tmb_df, ylim, sid) {
+create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
   
   # Rename legend for timepoints
   Timepoint <- factor(tmb_df$tumor_descriptor)
-  
-  # Define and order palette
-  palette <- palette_df$hex_codes
-  names(palette) <- palette_df$color_names
   
   # Plot stacked barplot 
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Biospecimen_ID, 

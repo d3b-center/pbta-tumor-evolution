@@ -110,7 +110,7 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 ```{r create-stacked-barplot, fig.width = 22, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim = max(df$tmb)
-x_value <- df_plot_filter$Kids_First_Participant_ID
+x_value <- df$Kids_First_Participant_ID
 
 # Re-order df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
@@ -154,7 +154,7 @@ x_value <- df_plot_filter$cg_kids_id
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = df_plot_filter, ylim = ylim, x = x_value)
+p <- create_stacked_barplot(tmb_df = df_plot_filter, ylim = ylim, x = x_value, palette = palette)
 pdf(file = fname, width = 25, height = 10)
 print(p)
 dev.off()
@@ -201,7 +201,8 @@ for (i in seq_along(cancer_groups)) {
     # Run function
     p <- create_dumbbell_ct(tmb_df = df_ct_sub, 
                                  ylim = ylim, 
-                                 ct_id = cancer_groups[i])
+                                 ct_id = cancer_groups[i],
+                                 palette = palette)
     pdf(file = fname, width = 12, height = 8)
     print(p)
     dev.off()
@@ -226,7 +227,8 @@ for (i in seq_along(samples)) {
   # Run function
   p <- create_barplot_sample(tmb_df = tmb_sub,
                              ylim = ylim,
-                             sid = samples[i])
+                             sid = samples[i],
+                             palette = palette)
   print(p)
 }
 ```

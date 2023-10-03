@@ -3,20 +3,17 @@
 #'
 #' @param tmb_df 
 #' @param ylim 
-#' @param ct_id 
+#' @param ct_id
+#' @param palette 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_dumbbell_ct <- function(tmb_df, ylim, ct_id) {
+create_dumbbell_ct <- function(tmb_df, ylim, ct_id, palette) {
   
   # Rename legend for timepoints
   Timepoint <- factor(tmb_df$tumor_descriptor)
-  
-  # Define and order palette
-  palette <- palette_df$hex_codes
-  names(palette) <- palette_df$color_names
   
   # Plot  
   p <- print(ggplot(tmb_df, aes(x = Kids_First_Participant_ID, y = tmb)) +
