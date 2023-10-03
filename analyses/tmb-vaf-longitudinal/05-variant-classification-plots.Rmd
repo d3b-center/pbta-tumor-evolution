@@ -58,20 +58,18 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
 #  fontsize(size = 12, part = "all")
 
 # Vector to order timepoints
-td_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
 df <- genomic_paired_df %>% 
   filter(!is.na(tmb)) %>% 
   mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG",
-                            grepl("Diffuse midline glioma", cancer_group) ~ "DIPG",
-                            grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma",
+                            grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
                             grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
                             grepl("Low-grade glioma", cancer_group) ~ "LGG",
-                            grepl("Ependymoma", cancer_group) ~ "Ependymoma",
-                            grepl("Chordoma", cancer_group) ~ "Chordoma",
                             TRUE ~ "Other"),
          td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
-                                      TRUE ~ tumor_descriptor))
+                                      TRUE ~ tumor_descriptor),
+         log10_tmb = abs(log10(tmb)))
 
 
 # Let's count #samples per cancer groups and timepoints 
@@ -92,7 +90,7 @@ df_plot <- df %>%
   #filter(!timepoint_n <= 2) 
   left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, td_order))
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
         
 ``` 
 
@@ -109,7 +107,7 @@ names(palette) <- palette_df$Variant_Classification
 Alteration_type <- df_plot$Variant_Classification
 
 # Define ylim
-ylim <- max(df_plot$tmb)
+ylim <- max(df_plot$log10_tmb)
 ```
 
 # What type of alterations we observe per tumor descriptor?
@@ -118,12 +116,11 @@ ylim <- max(df_plot$tmb)
 # Create bxp
 print(ggpubr::ggboxplot(df_plot, 
                         x = "tumor_descriptor", 
-                        y = "tmb", 
+                        y = "log10_tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
         theme_Publication() + 
         scale_y_continuous(limits = c(0, ylim)) +
-        ylab("TMB") +
         xlab("Timepoint") +
         theme(axis.text.x = element_text(angle = 90)))
 
@@ -143,12 +140,11 @@ ggsave(filename = "Alteration_type_timepoints.pdf",
 # Create bxp
 print(ggpubr::ggboxplot(df_plot, 
                         x = "tumor_descriptor", 
-                        y = "tmb", 
+                        y = "log10_tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
         facet_wrap(~cancer_group) +
         theme_Publication() + 
-        ylab("TMB") +
         xlab("Timepoint") +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90)))
@@ -175,12 +171,10 @@ df_plot_cgGFAC <- df_plot %>%
 # Create bxp
 print(ggpubr::ggboxplot(df_plot_cgGFAC, 
                         x = "tumor_descriptor_cgGFAC_n", 
-                        y = "tmb", 
+                        y = "log10_tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
-        #facet_wrap(~cgGFAC) +
         theme_Publication() + 
-        ylab("TMB") +
         xlab("Timepoint") +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90)))
@@ -210,12 +204,11 @@ for (i in seq_along(cgGFAC_id)){
    # Create bxp
   print(ggpubr::ggboxplot(df_sub, 
                         x = "tumor_descriptor_cgGFAC_n", 
-                        y = "tmb", 
+                        y = "log10_tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
         theme_Publication() + 
-        ylab("TMB") +
-        labs(title = paste(cg)) +
+        labs(title = paste(cgGFAC_id)) +
         scale_y_continuous(limits = c(0, ylim)) +
         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
 }
@@ -237,11 +230,10 @@ for (i in seq_along(cg)){
   # Create bxp
   print(ggpubr::ggboxplot(df_sub, 
                         x = "tumor_descriptor_cg_n", 
-                        y = "tmb", 
+                        y = "log10_tmb", 
                         color = "Variant_Classification",
                         palette = palette) +
         theme_Publication() + 
-        ylab("TMB") +
         xlab("Timepoint") +
         labs(title = paste(cg)) +
         scale_y_continuous(limits = c(0, ylim)) +
