@@ -32,7 +32,8 @@ Then, we will leverage this information to create one column for the constant va
 
 ## Results
 
-Overall, we have more samples for Diagnosis compared to the rest of the timepoints (1556). That makes it hard to draw conclusions. On the other hand, when looking at the cancer types with the most samples (ATRT, HGG, LGG and Medulloblastoma) and compared to the rest of them, there is an indication of increase of TMB for Recurrence and Deceased samples compared to Diagnosis. This is significant only for the `Ependymoma` samples.
+Overall, we have the highest number of samples for Diagnosis compared to the rest of the timepoints (1556). There is an indication of a TMB increase for Deceased specimens compared to Diagnosis for HGG. samples. 
+
 
 ## Folder structure 
 
@@ -47,10 +48,11 @@ The structure of this folder is as follows:
 │   └── snv-mutation-tmb-coding.tsv
 ├── plots
     ├── TMB-Bxp-stat-test.pdf
-    ├── TMB-jitter-stat-test.pdf
-    ├── TMB-unpaired-longitudinal-samples-cancer-type.pdf
-│   └── TMB-unpaired-longitudinal-samples.pdf
+    ├── TMB-unpaired-longitudinal-cancer-type.pdf
+│   └── TMB-unpaired-longitudinal.pdf
 ├── results
+│   ├── stat_test.tsv
+│   ├── stat_summary.tsv
 │   ├── bs_missing_tmb_vaf.tsv
 │   └── bs_missing_tmb.tsv
 ├── README.md
