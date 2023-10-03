@@ -50,13 +50,6 @@ tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types =
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID"))
 
-# Which patient samples don't have TMB?
-#genomic_paired_df %>% 
-#  filter(is.na(tmb)) %>% 
-#  unique() %>% 
-#  regulartable() %>%
-#  fontsize(size = 12, part = "all")
-
 # Vector to order timepoints
 timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
