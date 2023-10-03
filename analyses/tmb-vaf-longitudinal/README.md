@@ -15,7 +15,7 @@ bash run-tmb-vaf-longitudinal.sh
 This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA cohort.
 
 ## Summary 
-This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
+This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with labeled genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
 
 To generate corplots, we need to create timepoint models that will account for the following conditions: 
 (1) We are interested in how VAF values change over the time and specifically for the autopsy samples. 
