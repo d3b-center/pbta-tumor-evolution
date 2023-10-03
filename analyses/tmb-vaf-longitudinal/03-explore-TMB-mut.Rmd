@@ -124,7 +124,7 @@ Attention: Hypermutant TMB defined as ≥10 Mb, and Ultrahypermutant TMB defined
 
 Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 10) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
 
-```{r create-stacked-barplot-filter, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
+```{r create-stacked-barplot-filter, fig.width = 25, fig.height = 8, fig.fullwidth = TRUE}
 # Filter df and remove any samples with single timepoints
 df_plot_filter <- df %>%
   filter(!tmb >= 10) %>%
