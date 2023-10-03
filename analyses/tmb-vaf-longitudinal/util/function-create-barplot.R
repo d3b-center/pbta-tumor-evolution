@@ -31,8 +31,7 @@ create_stacked_barplot <- function(tmb_df, ylim) {
                scale_y_continuous(breaks = scales::pretty_breaks(n = 6), 
                                   limits = c(0, ylim)) +
                labs(title = paste("TMB in PBTA cohort", sep = " ")) + 
-               labs(x = "Patient case", y = "TMB") +
-               ylim(0, ylim))
+               labs(x = "Patient case", y = "TMB"))
   return(p)
 }
 
