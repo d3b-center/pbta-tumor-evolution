@@ -88,7 +88,8 @@ cg_sum_df <- df %>%
 df <- df %>% 
   left_join(cg_sum_df, by = c("cg_sum")) %>% 
   mutate(cg_plot = case_when(n < 10 ~ "Other",
-                             TRUE ~ cg_sum))
+                             TRUE ~ cg_sum),
+         cg_kids_id = paste(cg_sum, Kids_First_Participant_ID, sep = "_"))
 
 # How many bs_samples per cg_plot?
 print(df %>% count(cg_plot) %>% arrange(desc(n))) 
@@ -105,6 +106,7 @@ We will explore TMB per `Kids_First_Participant_ID` over time by creating stacke
 ```{r create-stacked-barplot, fig.width = 22, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 ylim = max(df$tmb)
+x_value <- df_plot_filter$Kids_First_Participant_ID
 
 # Re-order df
 f <- c("Second Malignancy", "Unavailable", "Deceased", "Recurrence", "Progressive", "Diagnosis") # Level df by timepoints
@@ -124,7 +126,7 @@ Attention: Hypermutant TMB defined as ≥10 Mb, and Ultrahypermutant TMB defined
 
 Here, we notice that there are samples with high TMB (hyper-mutant samples). Next, we will exclude these samples (threshold >= 10) from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We will also remove those so we always have matched longitudinal samples.
 
-```{r create-stacked-barplot-filter, fig.width = 25, fig.height = 8, fig.fullwidth = TRUE}
+```{r create-stacked-barplot-filter, fig.width = 25, fig.height = 10, fig.fullwidth = TRUE}
 # Filter df and remove any samples with single timepoints
 df_plot_filter <- df %>%
   filter(!tmb >= 10) %>%
@@ -141,14 +143,15 @@ df_plot_filter <- df %>%
 # length(unique(df_plot_filter$Kids_First_Participant_ID))
 
 # Define parameters for function
-ylim = max(df_plot_filter$tmb)
+ylim <- max(df_plot_filter$tmb)
 df_plot_filter <- df_plot_filter
+x_value <- df_plot_filter$cg_kids_id
 
 # Run function
 fname <- paste0(plots_dir, "/", "TMB-genomic-no-hypermutants.pdf")
 print(fname)
-p <- create_stacked_barplot(tmb_df = df_plot_filter, ylim = ylim)
-pdf(file = fname, width = 25, height = 8)
+p <- create_stacked_barplot(tmb_df = df_plot_filter, ylim = ylim, x = x_value)
+pdf(file = fname, width = 25, height = 10)
 print(p)
 dev.off()
 ```
