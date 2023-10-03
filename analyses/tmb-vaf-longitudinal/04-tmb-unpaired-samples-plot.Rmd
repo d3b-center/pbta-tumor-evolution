@@ -273,14 +273,9 @@ print(ggboxplot(df_plot_cgGFAC,
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
-                           label = "T-test, p = {p.signif}",
-                           step.increase = 0.08, 
-                           hide.ns = TRUE, 
-                           tip.length = 0,
-                           position = position_dodge(0.8),
-                           y.position = "y.position") +
+                           label = "{p.signif}",
+                           hide.ns = "p") +
         scale_y_continuous(limits = c(0, 2)))
-
 
 # Save the plot
 ggsave(filename = "TMB-Bxp-stat-test.pdf", 
