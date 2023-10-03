@@ -273,7 +273,7 @@ print(ggboxplot(df_plot_cgGFAC,
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
-                           label = "p = {p.signif}",
+                           label = "T-test, p = {p.signif}",
                            step.increase = 0.08, 
                            hide.ns = TRUE, 
                            tip.length = 0,
@@ -289,11 +289,6 @@ ggsave(filename = "TMB-Bxp-stat-test.pdf",
        height = 6, 
        device = "pdf", 
        useDingbats = FALSE)
-
-# This code was inspired by the following:
-# HOW TO PERFORM MULTIPLE PAIRED T-TESTS IN R
-# https://www.datanovia.com/en/blog/how-to-perform-multiple-paired-t-tests-in-r/
-
 ```
 
 ```{r echo=TRUE}
