@@ -78,7 +78,8 @@ maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% # change name of the biospecimen to match the one from the histologies files
   dplyr::mutate(VAF = t_alt_count / (t_ref_count + t_alt_count), # calculate VAF 
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  # concatenate gene and protein information
-  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) 
+  select(Kids_First_Biospecimen_ID, Hugo_Symbol, Chromosome, Start_Position, Variant_Classification, VAF, HGVSc, HGVSp, HGVSp_Short, gene_protein) %>% 
+  write_tsv(file.path(results_dir, "maf.tsv"))
 
 # Read in matched_genomic_file and get the list of patients 
 # with matched time points for the genomic assays
@@ -178,13 +179,14 @@ print(diff <- setdiff(bs_missing_tmb_vaf, bs_missing_tmb))
 paired_list <- tmb_genomic %>%
   group_by(Kids_First_Participant_ID) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence"))
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence")) %>% 
+  left_join(tmb_genomic, by = "Kids_First_Participant_ID")
 
-tmb_genomic_filter <- paired_list %>% 
-  left_join(tmb_genomic, by = "Kids_First_Participant_ID") %>%
-  write_tsv(file.path(scratch_dir, "tmb_genomic.tsv"))
+tmb_vaf_df <- paired_list %>%
+  left_join(maf, by = "Kids_First_Biospecimen_ID") %>% 
+  write_tsv(file.path(results_dir, "tmb_vaf_genomic.tsv"))
 
-tmb_paired_samples_filter <- length(unique(tmb_genomic_filter$Kids_First_Participant_ID))
+tmb_paired_samples_filter <- length(unique(tmb_vaf_df$Kids_First_Participant_ID))
 ```
 
 ## How many patient cases with paired time and autopsy samples and TMB data

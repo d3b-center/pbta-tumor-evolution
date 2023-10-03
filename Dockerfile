@@ -50,6 +50,9 @@ RUN ./install_github.r 'hdng/clonevol' --ref '7aff737aedde157de4e7374cedf9a873e8
 # package required for immune deconvolution
 RUN ./install_github.r 'omnideconv/immunedeconv' --ref '0c5c61978029c069eb1ab7487aaeb8b721810401'
 
+# package for performing basic statistical tests
+RUN ./install_github.r 'kassambara/rstatix' --ref '360cda40bd22e80bce19ed63fbadfc4a9e52ce23'
+
 # install R packages from CRAN
 RUN install2.r \
 	BiocManager \
