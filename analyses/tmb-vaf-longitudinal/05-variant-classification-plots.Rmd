@@ -194,7 +194,7 @@ for (i in seq_along(cgGFAC_id)){
 }
 ```
 
-# What type of alterations we observe per tumor descriptor in each cancer group and timepoint model?
+# Alterations per timepoint in each cancer type and timepoint model
 
 ```{r plot-timepoint-model, fig.width = 18, fig.height = 8, fig.fullwidth = TRUE}
 df_plot <- df_plot %>%
