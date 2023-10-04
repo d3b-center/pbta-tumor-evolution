@@ -44,13 +44,18 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ## Read in data and process
 ```{r load-process-inputs}
+pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(Kids_First_Participant_ID, cg_multiple, cg_id)
+
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
   select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
 
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
-  filter(!is.na(tmb)) 
+  filter(!is.na(tmb)) %>% 
+  
+  left_join(pbta_df, by = c("Kids_First_Participant_ID"))
 
 
 # Attention as some bs specimen might not have TMB!
