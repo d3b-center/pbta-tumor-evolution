@@ -264,7 +264,8 @@ print(ggboxplot(df_plot_cgGFAC,
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
                            label = "{p.signif}",
-                           hide.ns = "p") +
+                           hide.ns = "p",
+                           y.position = "y.position") +
         scale_y_continuous(limits = c(0, 2)))
 
 # Save the plot
