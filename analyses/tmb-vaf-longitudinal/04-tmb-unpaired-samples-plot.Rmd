@@ -1,6 +1,6 @@
 ---
 title: "TMB across unpaired longitudinal samples in the PBTA Cohort"
-author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
   html_notebook:
