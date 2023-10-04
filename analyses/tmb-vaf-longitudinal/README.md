@@ -32,7 +32,7 @@ Then, we will leverage this information to create one column for the constant va
 
 ## Results
 
-Overall, we have the highest number of samples for Diagnosis compared to the rest of the timepoints (1556). There is an indication of a TMB increase for Deceased specimens compared to Diagnosis for HGG. samples. 
+Overall, we have the highest number of samples for Diagnosis compared to the rest of the timepoints (1556). There is an indication of a TMB increase for Deceased specimens compared to Diagnosis for HGG samples. 
 
 
 ## Folder structure 
@@ -48,7 +48,7 @@ The structure of this folder is as follows:
 │   └── snv-mutation-tmb-coding.tsv
 ├── plots
     ├── TMB-Bxp-stat-test.pdf
-    ├── TMB-unpaired-longitudinal-cancer-type.pdf
+    ├── TMB-unpaired-longitudinal-cg-id-sum.pdf
 │   └── TMB-unpaired-longitudinal.pdf
 ├── results
 │   ├── stat_test.tsv
