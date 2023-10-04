@@ -161,7 +161,7 @@ print(ggpubr::ggboxplot(df_plot,
         theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "Alteration_type_cancer_group.pdf", 
+ggsave(filename = "Alteration_type_cg_id.pdf", 
        path = plots_dir, 
        width = 25, 
        height = 18, 
