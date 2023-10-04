@@ -7,4 +7,4 @@ set -o pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")" 
 
 # Run Rmd script to process data
-Rscript -e "rmarkdown::render('05-variant-classification-plots.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('06-variant-classification-pbta-plots', clean = TRUE)"
