@@ -70,14 +70,9 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
          broad_histology, match_id_DNA, experimental_strategy, 
          cg_multiple, cg_id, cancer_group, short_histology, tmb, mutation_count, DNA) %>%
-  dplyr::mutate(cgGFAC = case_when(grepl("High-grade glioma", cg_id) ~ "HGG", 
-                                   grepl("Diffuse midline glioma", cg_id) ~ "DMG",
-                                   grepl("Atypical Teratoid Rhabdoid Tumor", cg_id) ~ "ATRT",
-                                   grepl("Low-grade glioma", cg_id) ~ "LGG",
-                                   TRUE ~ "Other"),
-                 td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased", 
-                                       TRUE ~ tumor_descriptor),
-                 log10_tmb = abs(log10(tmb))) %>% 
+  dplyr::mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased", 
+                                      TRUE ~ tumor_descriptor),
+                log10_tmb = abs(log10(tmb))) %>% 
   distinct(match_id_DNA, .keep_all = TRUE) %>% # keep only one bs_sample per genomic assay (WGS/WXS)
   filter(!is.na(tmb))
 
