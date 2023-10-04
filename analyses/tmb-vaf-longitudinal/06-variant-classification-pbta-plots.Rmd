@@ -110,7 +110,7 @@ ylim <- max(df_plot$log10_tmb)
 
 # Alterations per timepoint
 
-```{r plot-timepoint, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
+```{r plot-timepoint, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
 # Create bxp
 print(ggpubr::ggboxplot(df_plot, 
                         x = "tumor_descriptor", 
@@ -125,15 +125,15 @@ print(ggpubr::ggboxplot(df_plot,
 # Save the plot
 ggsave(filename = "Alteration_type_timepoints_pbta.pdf", 
        path = plots_dir, 
-       width = 15, 
-       height = 8, 
+       width = 12, 
+       height = 6, 
        device = "pdf", 
        useDingbats = FALSE)
 ```
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 25, fig.height = 18, fig.fullwidth = TRUE}
+```{r plot-cg-id, fig.width = 30, fig.height = 18, fig.fullwidth = TRUE}
 # Create bxp
 print(ggpubr::ggboxplot(df_plot, 
                         x = "tumor_descriptor", 
@@ -149,7 +149,7 @@ print(ggpubr::ggboxplot(df_plot,
 # Save the plot
 ggsave(filename = "Alteration_type_cg_id_pbta.pdf", 
        path = plots_dir, 
-       width = 25, 
+       width = 30, 
        height = 18, 
        device = "pdf", 
        useDingbats = FALSE)
