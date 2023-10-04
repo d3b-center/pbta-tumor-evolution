@@ -45,7 +45,7 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 ## Read in data and process
 ```{r load-process-inputs}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(Kids_First_Participant_ID, cg_multiple, cg_id)
+  select(Kids_First_Participant_ID, cg_multiple, cg_id, cgGFAC)
 
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
@@ -54,7 +54,6 @@ tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types =
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
   filter(!is.na(tmb)) %>% 
-  
   left_join(pbta_df, by = c("Kids_First_Participant_ID"))
 
 
@@ -78,13 +77,8 @@ timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Ma
 
 df <- genomic_paired_df %>% 
   left_join(descriptors_df, by = c("Kids_First_Participant_ID")) %>% 
-  mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG",
-                            grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
-                            grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
-                            grepl("Low-grade glioma", cancer_group) ~ "LGG",
-                            TRUE ~ "Other"),
-         td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
-                                      TRUE ~ tumor_descriptor),
+  mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+                               TRUE ~ tumor_descriptor),
          log10_tmb = abs(log10(tmb)))
 
 # Let's count #samples per cancer groups and timepoints.
