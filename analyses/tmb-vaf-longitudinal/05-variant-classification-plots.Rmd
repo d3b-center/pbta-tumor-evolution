@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-## Directories and File Inputs/Outputs
+# Directories and File Inputs/Outputs
 ```{r set-dir-and-file-names}
 # Detect the ".git" folder -- this will be in the project root directory
 # Use this as the root directory to ensure proper sourcing of functions 
@@ -42,20 +42,20 @@ if (!dir.exists(plots_dir)) {
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
-## Read in data and process
+# Read in data and process
+
 ```{r load-process-inputs}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(Kids_First_Participant_ID, cg_multiple, cg_id, cgGFAC)
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC)
 
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
   select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
 
-genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
+genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
-  filter(!is.na(tmb)) %>% 
-  left_join(pbta_df, by = c("Kids_First_Participant_ID"))
-
+  filter(!is.na(tmb))
 
 # Attention as some bs specimen might not have TMB!
 # If that happens, we will end up with samples lacking timepoints.
@@ -70,7 +70,6 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
 descriptors_df <- genomic_paired_df %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),) 
-
 
 # Vector to order timepoints
 timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
@@ -103,9 +102,9 @@ df_plot <- df %>%
          !cg_id == "NA") %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
-        
 ``` 
 
+# Define parameters for plots
 
 ```{r define-parameters-for-plots}
 # Read color palette
@@ -176,9 +175,6 @@ ggsave(filename = "Alteration_type_cancer_group.pdf",
 ```{r plot-cgGFAC-n, fig.width = 14, fig.height = 8, fig.fullwidth = TRUE}
 df_plot_cgGFAC <- df_plot %>% 
   arrange(tumor_descriptor_cgGFAC_n)
-  #mutate(tumor_descriptor_cgGFAC_n = factor(tumor_descriptor_cgGFAC_n)) 
-
-#df_plot_cgGFAC$tumor_descriptor_cgGFAC_n %>% levels()
 
 # Create bxp
 print(ggpubr::ggboxplot(df_plot_cgGFAC, 
@@ -228,7 +224,6 @@ for (i in seq_along(cgGFAC_id)){
 
 # What type of alterations we observe per tumor descriptor in each cancer group (add _n))?
  
-
 ```{r plot-n, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
 cg <- as.character(unique(df_plot$cg_id))
 cg
