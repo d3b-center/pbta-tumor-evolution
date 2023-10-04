@@ -1,0 +1,223 @@
+---
+title: "Classification of Variants across all longitudinal samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+# Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal")
+results_dir <- file.path(analysis_dir, "results")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+
+# Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+tmb_vaf_file <- file.path(results_dir, "tmb_vaf_pbta.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_palette.tsv")
+
+# File path to plot directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+# Read in data and process
+
+```{r load-process-inputs}
+pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
+
+tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(!tmb >= 10) %>% 
+  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
+
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+df <- pbta_df %>% 
+  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+                               TRUE ~ tumor_descriptor),
+         log10_tmb = abs(log10(tmb)))
+
+# Let's count #samples per cancer groups and timepoints.
+# We will use the cg_id col that indicates cancer type as identified at the first diagnostic sample
+timepoint_cg_n_df <- df %>% 
+  count(cg_id, tumor_descriptor) %>% 
+  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cg_n = n) 
+
+# Let's count #samples per cancer groups and timepoints 
+timepoint_cgGFAC_n_df <- df %>% 
+  count(cgGFAC, td_cgGFAC) %>% 
+  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_n = n) 
+
+# Create df to use for plots
+df_plot <- df %>% 
+  left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
+  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
+  filter(!timepoint_cg_n <= 2,
+         !timepoint_cgGFAC_n <= 2,
+         !cg_id == "NA", 
+         !tmb == "NA") %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+
+df_plot_samples <- print(length(unique(df_plot$Kids_First_Participant_ID)))
+``` 
+
+# Define parameters for plots
+
+```{r define-parameters-for-plots}
+# Read color palette
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) 
+
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$Variant_Classification
+
+# Define label for plots
+Alteration_type <- df_plot$Variant_Classification
+
+# Define ylim
+ylim <- max(df_plot$log10_tmb)
+```
+
+# Alterations per timepoint
+
+```{r plot-timepoint, fig.width = 15, fig.height = 8, fig.fullwidth = TRUE}
+# Create bxp
+print(ggpubr::ggboxplot(df_plot, 
+                        x = "tumor_descriptor", 
+                        y = "log10_tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        theme_Publication() + 
+        scale_y_continuous(limits = c(0, ylim)) +
+        xlab("Timepoint") +
+        theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "Alteration_type_timepoints_pbta.pdf", 
+       path = plots_dir, 
+       width = 15, 
+       height = 8, 
+       device = "pdf", 
+       useDingbats = FALSE)
+```
+
+# Alterations per timepoint in each cancer type
+
+```{r plot-cg-id, fig.width = 25, fig.height = 18, fig.fullwidth = TRUE}
+# Create bxp
+print(ggpubr::ggboxplot(df_plot, 
+                        x = "tumor_descriptor", 
+                        y = "log10_tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        facet_wrap(~cg_id) +
+        theme_Publication() + 
+        xlab("Timepoint") +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "Alteration_type_cg_id_pbta.pdf", 
+       path = plots_dir, 
+       width = 25, 
+       height = 18, 
+       device = "pdf", 
+       useDingbats = FALSE)
+```
+
+# Alterations per timepoint in each cancer type defined by cgGFAC
+
+```{r plot-cgGFAC-n-individual-plots, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+cgGFAC_id <- as.character(unique(df_plot$cgGFAC)) 
+cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
+cgGFAC_id
+
+# Loop through variable
+for (i in seq_along(cgGFAC_id)){
+  print(i)
+  df_sub <- df_plot %>%
+      filter(cgGFAC == cgGFAC_id[i])
+  
+   # Create bxp
+  print(ggpubr::ggboxplot(df_sub, 
+                        x = "tumor_descriptor_cgGFAC_n", 
+                        y = "log10_tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        theme_Publication() + 
+        labs(title = paste(cgGFAC_id[i])) +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
+}
+```
+
+# Alterations per timepoint in each cancer type and timepoint model
+
+```{r plot-timepoint-model, fig.width = 18, fig.height = 8, fig.fullwidth = TRUE}
+df_plot <- df_plot %>%
+      filter(!is.na(timepoints_models))
+
+tm <- as.character(unique(df_plot$timepoints_models))
+tm <- sort(tm, decreasing = FALSE)
+tm
+
+# Loop through variable
+for (i in seq_along(tm)){
+  print(i)
+  df_sub <- df_plot %>%
+      filter(timepoints_models == tm[i])
+  
+  # Create bxp
+  print(ggpubr::ggboxplot(df_sub, 
+                        x = "tumor_descriptor", 
+                        y = "tmb", 
+                        color = "Variant_Classification",
+                        palette = palette) +
+        facet_wrap(~cg_id) +
+        theme_Publication() +
+        ylab("TMB") +
+        xlab("Timepoint") +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90),
+              text = element_text(size = 14)))
+  # Save the plot
+fname <- paste0(plots_dir, "/", tm[i], "-Alteration_type_cg_id_pbta.pdf")
+
+ggsave(filename = fname, 
+       width = 18, 
+       height = 8, 
+       device = "pdf", 
+       useDingbats = FALSE)
+}
+```
+
+
+```{r echo=TRUE}
+sessionInfo()
+```
