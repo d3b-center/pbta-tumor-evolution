@@ -212,7 +212,6 @@ ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf",
        useDingbats = FALSE)
 ```
 
-We observe that majority of samples are High- and Low-grade gliomas as well as Ependymoma, so we will classify accordingly (versus any other cancer types).
 
 # All unpaired samples across cancer types summarized
 
