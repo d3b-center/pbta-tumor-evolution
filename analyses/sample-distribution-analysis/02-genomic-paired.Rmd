@@ -49,7 +49,7 @@ df <- readr::read_tsv(genomic_file, guess_max = 100000, show_col_types = FALSE) 
   left_join(pbta, by = "Kids_First_Participant_ID") %>% 
   filter(!experimental_strategy == "RNA-Seq") %>% 
   select (Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy,
-          cg_sum, cancer_group, tumor_descriptor, descriptors, primary_site,
+          cg_multiple, cg_id, cg_sum, cancer_group, tumor_descriptor, descriptors, primary_site,
           molecular_subtype, broad_histology, short_histology) 
 
 df_samples <- print(length(unique(df$Kids_First_Participant_ID)))
