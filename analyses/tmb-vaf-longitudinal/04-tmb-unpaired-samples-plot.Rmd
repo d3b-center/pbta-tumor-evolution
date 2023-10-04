@@ -69,7 +69,7 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
          broad_histology, match_id_DNA, experimental_strategy, 
-         cg_multiple, cg_id, cancer_group, short_histology, tmb, mutation_count, DNA) %>%
+         cg_multiple, cg_id, cgGFAC, cancer_group, short_histology, tmb, mutation_count, DNA) %>%
   dplyr::mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased", 
                                       TRUE ~ tumor_descriptor),
                 log10_tmb = abs(log10(tmb))) %>% 
