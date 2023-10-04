@@ -219,7 +219,9 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot_cgGFAC <- df_plot %>% 
-  arrange(tumor_descriptor_cgGFAC_n) %>% 
+  arrange(tumor_descriptor_cgGFAC_n) 
+
+df_plot_cgGFAC %>% 
   select(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb) %>% 
   sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb, size = 1) 
 
