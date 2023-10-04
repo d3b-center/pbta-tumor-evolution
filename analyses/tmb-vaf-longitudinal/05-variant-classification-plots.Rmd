@@ -172,32 +172,6 @@ ggsave(filename = "Alteration_type_cg_id.pdf",
 
 # What type of alterations we observe per tumor descriptor in each cancer group defined by cgGFAC?
 
-```{r plot-cgGFAC-n, fig.width = 14, fig.height = 8, fig.fullwidth = TRUE}
-df_plot_cgGFAC <- df_plot %>% 
-  arrange(tumor_descriptor_cgGFAC_n)
-
-# Create bxp
-print(ggpubr::ggboxplot(df_plot_cgGFAC, 
-                        x = "tumor_descriptor_cgGFAC_n", 
-                        y = "log10_tmb", 
-                        color = "Variant_Classification",
-                        palette = palette) +
-        theme_Publication() + 
-        xlab("Timepoint") +
-        scale_y_continuous(limits = c(0, ylim)) +
-        theme(axis.text.x = element_text(angle = 90)))
-
-# Save the plot
-ggsave(filename = "Alteration_type_cgGFAC.pdf", 
-       path = plots_dir, 
-       width = 14, 
-       height = 8, 
-       device = "pdf", 
-       useDingbats = FALSE)
-
-```
-
-
 ```{r plot-cgGFAC-n-individual-plots, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
 cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC))
 cgGFAC_id
