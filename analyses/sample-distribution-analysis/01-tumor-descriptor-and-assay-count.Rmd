@@ -90,7 +90,12 @@ pbta <- pbta_pre_df %>%
   mutate_at(c("cg_multiple"), ~replace_na(.,"NA")) %>% 
   left_join(pbta_pre_df, by = "Kids_First_Participant_ID") %>%
   tidyr::separate(cg_multiple, c("cg_id", "drop"), sep = ',', remove = FALSE) %>% # to generate cg_id that shows cancer group for the first diagnosis for this sample
-  select(!drop) %>% 
+  select(!drop) %>%
+  mutate(cgGFAC = case_when(grepl("High-grade glioma", cg_id) ~ "HGG", 
+                            grepl("Diffuse midline glioma", cg_id) ~ "DMG",
+                            grepl("Atypical Teratoid Rhabdoid Tumor", cg_id) ~ "ATRT",
+                            grepl("Low-grade glioma", cg_id) ~ "LGG",
+                            TRUE ~ "Other")) %>% 
   write_tsv(file.path(results_dir, "pbta.tsv")) # save all pbta data
 
 
