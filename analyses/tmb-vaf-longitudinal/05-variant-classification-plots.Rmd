@@ -171,7 +171,7 @@ ggsave(filename = "Alteration_type_cg_id.pdf",
 # Alterations per timepoint in each cancer type defined by cgGFAC
 
 ```{r plot-cgGFAC-n-individual-plots, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
-cgGFAC_id <- as.character(unique(df_plot$cgGFAC)) %>% 
+cgGFAC_id <- as.character(unique(df_plot$cgGFAC)) 
 cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
 cgGFAC_id
 
