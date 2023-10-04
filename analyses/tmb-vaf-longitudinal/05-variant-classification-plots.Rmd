@@ -181,7 +181,6 @@ for (i in seq_along(cgGFAC_id)){
   print(i)
   df_sub <- df_plot_cgGFAC %>%
       filter(cgGFAC == cgGFAC_id[i])
-
   
    # Create bxp
   print(ggpubr::ggboxplot(df_sub, 
