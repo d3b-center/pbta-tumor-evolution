@@ -193,32 +193,6 @@ for (i in seq_along(cgGFAC_id)){
 }
 ```
 
-# Alterations per timepoint in each cancer type (add _n)
-
-```{r plot-cg-id-n, fig.width = 12, fig.height = 8, fig.fullwidth = TRUE}
-cg <- as.character(unique(df_plot$cg_id))
-cg
-
-# Loop through variable
-for (i in seq_along(cg)){
-  print(i)
-  df_sub <- df_plot %>%
-      filter(cg_id == cg[i])
-  
-  # Create bxp
-  print(ggpubr::ggboxplot(df_sub, 
-                        x = "tumor_descriptor_cg_n", 
-                        y = "log10_tmb", 
-                        color = "Variant_Classification",
-                        palette = palette) +
-        theme_Publication() + 
-        xlab("Timepoint") +
-        labs(title = paste(cg[i])) +
-        scale_y_continuous(limits = c(0, ylim)) +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
-}
-```
-
 
 # What type of alterations we observe per tumor descriptor in each cancer group and timepoint model?
 
