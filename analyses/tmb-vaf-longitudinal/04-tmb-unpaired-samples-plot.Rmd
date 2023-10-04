@@ -133,7 +133,7 @@ df_plot <- df %>%
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis"
                                       )) %>% # remove cancer groups with single timepoints
-  mutate(cancer_group_sum = replace_na(cancer_group, "Other"),
+  mutate(cg_id_sum = replace_na(cg_id, "Other"),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 ``` 
@@ -188,27 +188,23 @@ ggsave(filename = "TMB-unpaired-longitudinal.pdf",
 
 # All unpaired samples across cancer types
 
-```{r plot-cancer-group-sum, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
-print(df_plot %>%
-        ggplot2::ggplot() + 
-        ggplot2::aes(x = tumor_descriptor, 
-                     y = log10_tmb,
-                     color = Timepoint) + 
-        ggplot2::geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+```{r plot-cg-id-sum, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
+print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) + 
+        geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
-        ggplot2::geom_hline(yintercept = 0, size = 0.15) + 
-        ggplot2::scale_color_manual(values = palette, 
-                                    breaks = sort(names(palette))) +
-        ggplot2::stat_summary(color = "black", size = 0.3) + 
-        ggplot2::facet_wrap(~cancer_group_sum, nrow = 8) +
-        ggplot2::labs(x = "Tumor descriptor",
-                      y = "TMB") +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, log10_ylim)))
+        geom_hline(yintercept = 0, size = 0.15) + 
+        scale_color_manual(values = palette, 
+                           breaks = sort(names(palette))) +
+        stat_summary(color = "black", size = 0.3) + 
+        ggplot2::facet_wrap(~cg_id_sum, nrow = 8) +
+        labs(x = "Tumor descriptor",
+             y = "log10TMB") +
+        theme_Publication() +
+        scale_y_continuous(limits = c(0, log10_ylim)) +
+        theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
-ggsave(filename = "TMB-unpaired-longitudinal-cancer-type.pdf", 
+ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf", 
        path = plots_dir, 
        width = 25, 
        height = 20, 
