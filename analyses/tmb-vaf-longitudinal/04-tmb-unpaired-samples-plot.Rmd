@@ -212,26 +212,14 @@ ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf",
        useDingbats = FALSE)
 ```
 
-
-# All unpaired samples across cancer types summarized
-
-```{r cancer-group-sum, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
-df_plot_cgGFAC <- df_plot %>% 
-  arrange(tumor_descriptor_cgGFAC_n)
-  #mutate(tumor_descriptor_cgGFAC_n = factor(tumor_descriptor_cgGFAC_n)) 
-
-# Define label for plots
-Timepoint_cancer <- df_plot_cgGFAC$tumor_descriptor
-
-```
-
 # Summary statistics for Timepoints and cancer types
 Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
 
 ```{r summary-statistics, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
-df_plot_cgGFAC %>% 
+df_plot_cgGFAC <- df_plot %>% 
+  arrange(tumor_descriptor_cgGFAC_n) %>% 
   select(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb) %>% 
   sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb, size = 1) 
 
