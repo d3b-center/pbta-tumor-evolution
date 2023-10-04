@@ -46,7 +46,7 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ```{r load-process-inputs}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC)
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
 
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
