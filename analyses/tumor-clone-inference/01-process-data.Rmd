@@ -1,36 +1,12 @@
 ---
 title: "Inference of subclonal architecture of tumors across multiple timepoints for the PBTA Cohort"
-author: 'Antonia Chroni <chronia@chop.edu> and Jo Lynne Rokita <rokita@chop.edu> for D3B'
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
   html_notebook:
     toc: TRUE
     toc_float: TRUE
 ---
-
-
-#### Tumor evolution project 
-
-# Background
-We are investigating the subclonal architecture of tumors across multiple timepoints in the PBTA cohort.
-We will infer fishplots for each patient sample with multiple time points.
-
-### Data used 
-In this notebook, we are looking into the v12 histologies file (last updates on May 1st, 2023) and subset to the PBTA cohort.
-We use the output files from the "analyses/sample-distribution-analysis/results".
-
-### Method used 
-For visualizing the tumor sublcones, we will use the fishplot R package as described in here: https://github.com/chrisamiller/fishplot
-
-
-### Usage
-
-This notebook is intended to be run via the command line from the top directory
-of the repository as follows:
-
-```
-Rscript -e "rmarkdown::render('01-process-data.Rmd', clean = TRUE)"
-```
 
 # Set up
 
