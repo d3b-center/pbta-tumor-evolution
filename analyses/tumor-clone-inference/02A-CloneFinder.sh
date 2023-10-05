@@ -31,13 +31,13 @@ cp -r /Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-infer
 
 # Let's define input and output files location 
 # $1 path to input files for CloneFinder: generated in the "01-process-data.Rmd"
-# $1 path to input files for CloneFinder: /Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot/results/distinct_samples_list.csv
+# $1 path to input files for CloneFinder: /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv
 
-# $2 out_path: /Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot/results/distinct_samples_list.csv
+# $2 out_path: /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1/
 
-sample=( $( awk -F"," 'FNR>1{print $1}' /Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot/results/distinct_samples_list.csv ) )
-outs=( $( awk -F"," 'FNR>1{print $2}'  /Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot/results/distinct_samples_list.csv ) )
-out_path=/Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/results-pbta-tumor-evolution/
+sample=( $( awk -F"," 'FNR>1{print $1}' /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv ) )
+outs=( $( awk -F"," 'FNR>1{print $2}'  /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv ) )
+out_path=/Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1/
 
 # array length
 echo ${#sample[@]}
@@ -46,7 +46,7 @@ echo ${#outs[@]}
 #bash script with serial port input
 #run from command line
 
-cd /Users/chronia/CHOP/projects/pbta-tumor-evolution/pbta-tumor-evolution-analysis/analyses/fishplot
+cd /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1
 
 for (( i=1; i<${#outs[@]}; i++ )); 
     do
