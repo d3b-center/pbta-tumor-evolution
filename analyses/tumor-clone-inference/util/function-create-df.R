@@ -2,13 +2,14 @@
 #'
 #' @param df 
 #' @param samples 
+#' @param cg_kids
 #' 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_df <- function(df, samples) {
+create_df <- function(df, samples, cg_kids) {
   # Reference df
   ref_df <- df_sub %>%
     #filter(td_bs_id == td_bs_id_names) %>%
