@@ -115,15 +115,14 @@ for (x in seq_along(cg_id_kids_names)){
   # Run loop for each td_bs_id_names
   for (i in seq_along(td_bs_id_names)) {
     print(i)
-    
-    # Print df per pair
+   
+    # Print df 
     m <- create_df(df = df_sub, 
                    samples = td_bs_id_names[i])
   
     # Assign name to df and store all df in list
     df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")
     df <- assign(df_name, m)
-    
     df_list[[df_name]] <- df
     
     # Merge all df per `cg_kids_id`
