@@ -13,7 +13,6 @@ output:
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  #library(powerjoin)
 })
 ```
 
@@ -131,10 +130,6 @@ for (x in seq_along(cg_id_kids_names)){
     # Merge all df per `cg_kids_id`
     # Assign name to all_df
     name <- paste(cg_id_kids_names[x])
-
-    #cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
-    #  replace(is.na(.), 0) %>% 
-    #  write_tsv(file.path(CloneFinder_input_dir, paste0(name, ".txt")))
     
     cg_kids_df <- df_list %>% 
       reduce(full_join, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
