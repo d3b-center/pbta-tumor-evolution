@@ -54,6 +54,8 @@ plots_dir <-
  if (!dir.exists(plots_dir)) {
    dir.create(plots_dir)
  }
+
+source(paste0(analysis_dir, "/util/function-create-df.R"))
 ```
 
 # Load data
@@ -104,31 +106,7 @@ Next we need to create different columns assigning the read counts for ref and a
 We will do this in three steps: (1) create wide df for ref variant, (2) create wide df for alt variant, and (3) merge wide df.
 
 ```{r df-cg-id-kids}
-# Function
-create_df <- function(df, samples) {
-  # Reference df
-    ref_df <- df_sub %>%
-      filter(td_bs_id == td_bs_id_names) %>%
-      mutate(td_bs_id = paste(td_bs_id_names, "ref", sep = "_")) %>% 
-      pivot_wider(names_from = "td_bs_id", values_from = "XX_ref") %>% 
-      select(!XX_alt)
-  
-    # Alteration df
-    alt_df <- df_sub %>%
-      filter(td_bs_id == td_bs_id_names) %>%
-      mutate(td_bs_id = paste(td_bs_id_names, "alt", sep = "_")) %>% 
-      pivot_wider(names_from = "td_bs_id", values_from = "XX_alt") %>%
-      select(!XX_ref)
-  
-    # Merge df
-    merge_df <- ref_df %>% 
-      full_join(alt_df, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
-      as.data.frame() 
-    
-    return(merge_df)
-}
-  
-# Save results byc g_id_kids
+# Save results by cg_id_kids
 cg_id_kids_names <- unique(as.character(df$cg_id_kids))
 cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
 print(cg_id_kids_names)
