@@ -19,6 +19,7 @@ python3 -m pip install SciPy NumPy Biopython
 # set directory
 # clone git repo in there
 git clone https://github.com/gstecher/CloneFinderAPI.git
+mkdir ./CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1
 
 # Adding alias for python to your profile, if you encounter the following issue:
 # bash: - : invalid option
@@ -27,7 +28,8 @@ alias python=python3
 
 # CloneFinderAPI requires input files to be located where the software lives 
 # So, we will copy input files folder into CloneFinder directory
-cp -r /Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3
+cp -r ./results/CloneFinder_input ./CloneFinderAPI/clonefinder_py3
+cp -r ./results/samples_path.tsv ./CloneFinderAPI/clonefinder_py3/CloneFinder_input
 
 # Let's define input and output files location 
 # $1 path to input files for CloneFinder: generated in the "01-process-data.Rmd"
