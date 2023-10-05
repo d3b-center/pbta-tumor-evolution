@@ -153,6 +153,7 @@ for (x in seq_along(cg_id_kids_names)){
 samples_path_df <- df_temp %>%
   select(cg_id_kids) %>% 
   unique() %>% 
+  mutate(path = CloneFinder_results_dir,
          additional = 1) %>% 
       write_tsv(file.path(results_dir, "samples_path.tsv"))
 ```  
