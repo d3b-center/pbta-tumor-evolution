@@ -207,6 +207,8 @@ genomic_assays
 We will look now into patient samples with genomic assays that have matched longitudinal samples.
 
 ```{r}
+print(unique(genomic_assays$descriptors))
+
 genomic_assays_matched <- genomic_assays %>%
   filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
                              "Second Malignancy", "Deceased", "Not Reported",
@@ -214,17 +216,17 @@ genomic_assays_matched <- genomic_assays %>%
  mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy),
          timepoints_models = case_when(descriptors == "Diagnosis, Recurrence" ~ "Dx-Rec",
                                        descriptors == "Diagnosis, Progressive" ~ "Dx-Pro",
-                                       descriptors == "Deceased, Diagnosis" ~ "Dx-Dec",
-                                       descriptors == "Deceased, Progressive" ~ "Pro-Dec",
+                                       descriptors == "Diagnosis, Deceased" ~ "Dx-Dec",
+                                       descriptors == "Progressive, Deceased" ~ "Pro-Dec",
                                        descriptors == "Recurrence, Second Malignancy" ~ "Rec-SM",
                                        descriptors == "Progressive, Recurrence" ~ "Pro-Rec",
                                        descriptors == "Diagnosis, Second Malignancy" ~ "Dx-SM",
-                                       descriptors == "Deceased, Progressive, Recurrence" ~ "Pro-Rec-Dec",
+                                       descriptors == "Progressive, Recurrence, Deceased" ~ "Pro-Rec-Dec",
                                        descriptors == "Diagnosis, Progressive, Recurrence" ~ "Dx-Pro-Rec",
-                                       descriptors == "Deceased, Recurrence" ~ "Rec-Dec",
-                                       descriptors == "Deceased, Diagnosis, Progressive, Recurrence" ~ "Dx-Pro-Rec-Dec",
-                                       descriptors == "Deceased, Diagnosis, Recurrence" ~ "Dx-Rec-Dec",
-                                       descriptors == "Deceased, Diagnosis, Progressive" ~ "Dx-Pro-Dec",
+                                       descriptors == "Recurrence, Deceased" ~ "Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence, Deceased" ~ "Dx-Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Recurrence, Deceased" ~ "Dx-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Deceased" ~ "Dx-Pro-Dec",
                                        descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv")) %>% # to generate timepoints_models
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
