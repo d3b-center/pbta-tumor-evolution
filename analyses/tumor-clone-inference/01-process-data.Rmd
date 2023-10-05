@@ -116,9 +116,13 @@ for (x in seq_along(cg_id_kids_names)){
   for (i in seq_along(td_bs_id_names)) {
     print(i)
    
-    # Print df 
-    m <- create_df(df = df_sub, 
-                   samples = td_bs_id_names[i])
+    td_bs_df <- df_sub %>%
+      filter(td_bs_id == td_bs_id_names[i])
+    
+    # Run function 
+    m <- create_df(df = td_bs_df, 
+                   samples = td_bs_id_names[i],
+                   cg_kids = cg_id_kids_names[x])
   
     # Assign name to df and store all df in list
     df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")

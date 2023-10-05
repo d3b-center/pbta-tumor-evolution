@@ -10,17 +10,18 @@
 #'
 #' @examples
 create_df <- function(df, samples, cg_kids) {
+  
   # Reference df
   ref_df <- df_sub %>%
-    #filter(td_bs_id == td_bs_id_names) %>%
-    mutate(td_bs_id = paste(td_bs_id_names, "ref", sep = ":")) %>% 
+    filter(td_bs_id == samples) %>%
+    mutate(td_bs_id = paste(samples, "ref", sep = ":")) %>% 
     pivot_wider(names_from = "td_bs_id", values_from = "XX:ref") %>% 
     select(-c("XX:alt"))
   
   # Alteration df
   alt_df <- df_sub %>%
-    #filter(td_bs_id == td_bs_id_names) %>%
-    mutate(td_bs_id = paste(td_bs_id_names, "alt", sep = ":")) %>% 
+    filter(td_bs_id == samples) %>%
+    mutate(td_bs_id = paste(samples, "alt", sep = ":")) %>% 
     pivot_wider(names_from = "td_bs_id", values_from = "XX:alt") %>% 
     select(-c("XX:ref"))
   
