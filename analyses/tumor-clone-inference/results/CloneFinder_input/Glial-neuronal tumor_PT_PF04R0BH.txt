@@ -1,0 +1,11 @@
+cg_id_kids	mut_id	Chr	Position	Wild	Mut	Diagnosis_BS_CWYM07MR:ref	Diagnosis_BS_CWYM07MR:alt	Recurrence_BS_ZT0WA5EX:ref	Recurrence_BS_ZT0WA5EX:alt
+Glial-neuronal tumor_PT_PF04R0BH	chr10_45847220_GCTCCTGCCATCCTGTCCCCA_-	chr10	45847220	GCTCCTGCCATCCTGTCCCCA	-	46	0	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr14_104952976_C_A	chr14	104952976	C	A	86	5	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr14_104953316_AG_GA	chr14	104953316	AG	GA	43	0	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr19_4512144_C_T	chr19	4512144	C	T	26	0	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr20_17659051_T_G	chr20	17659051	T	G	87	8	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr21_44539641_A_C	chr21	44539641	A	C	42	0	0	0
+Glial-neuronal tumor_PT_PF04R0BH	chr15_43521971_A_C	chr15	43521971	A	C	0	0	108	10
+Glial-neuronal tumor_PT_PF04R0BH	chr19_40035571_C_A	chr19	40035571	C	A	0	0	65	7
+Glial-neuronal tumor_PT_PF04R0BH	chr19_54837777_T_G	chr19	54837777	T	G	0	0	35	5
+Glial-neuronal tumor_PT_PF04R0BH	chrX_156022337_C_A	chrX	156022337	C	A	0	0	40	10
