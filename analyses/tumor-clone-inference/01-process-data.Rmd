@@ -10,9 +10,10 @@ output:
 
 # Set up
 
-```{r sload-library}
+```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  #library(powerjoin)
 })
 ```
 
@@ -41,11 +42,11 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-# File path to results directory
-CloneFinder_results_dir <-
+# File path to CloneFinder_input directory
+CloneFinder_input_dir <-
   file.path(analysis_dir, "results", "CloneFinder_input")
-if (!dir.exists(results_dir)) {
-  dir.create(results_dir)
+if (!dir.exists(CloneFinder_input_dir)) {
+  dir.create(CloneFinder_input_dir)
 }
 
 source(paste0(analysis_dir, "/util/function-create-df.R"))
@@ -53,7 +54,7 @@ source(paste0(analysis_dir, "/util/function-create-df.R"))
 
 # Load data
 
-```{r load-inputs-please-wait}
+```{r load-inputs}
 maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   dplyr::rename("Chr" = "Chromosome", 
                 "Position" = "Start_Position",
@@ -131,11 +132,14 @@ for (x in seq_along(cg_id_kids_names)){
     # Assign name to all_df
     name <- paste(cg_id_kids_names[x])
 
-    #library(powerjoin)
-    cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
+    #cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
+    #  replace(is.na(.), 0) %>% 
+    #  write_tsv(file.path(CloneFinder_input_dir, paste0(name, ".txt")))
+    
+    cg_kids_df <- df_list %>% 
+      reduce(full_join, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
-      write_tsv(file.path(CloneFinder_results_dir, paste0(name, ".txt")))
-
+      write_tsv(file.path(CloneFinder_input_dir, paste0(name, ".txt")))
     }
 }
 ```
