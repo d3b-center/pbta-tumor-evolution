@@ -43,7 +43,7 @@ genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.
 
 # File path to results directory
 results_dir <-
-  file.path(analysis_dir, "results")
+  file.path(analysis_dir, "results", "CloneFinder_input")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
@@ -77,7 +77,8 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
          td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"))
 
 df <- genomic_paired_df %>% 
-  left_join(maf_df, by = c("Kids_First_Biospecimen_ID")) 
+  left_join(maf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  mutate(mut_id = paste(Chr, Position, Wild, Mut, sep = "_"))
 
 df_samples <- print(length(unique(df$cg_id_kids)))
 ```
@@ -104,7 +105,7 @@ We will do this in three steps: (1) create wide df for ref variant, (2) create w
 
 ```{r df-cg-id-kids}
 # Function
-create_df <- function(df, samples) {
+create_df <- function(df, samples, kids_id) {
   # Reference df
     ref_df <- df_sub %>%
       filter(td_bs_id == td_bs_id_names) %>%
@@ -121,7 +122,7 @@ create_df <- function(df, samples) {
   
     # Merge df
     merge_df <- ref_df %>% 
-      full_join(alt_df, by = c("cg_id_kids", "Chr", "Position", "Wild", "Mut")) %>% 
+      full_join(alt_df, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       as.data.frame() 
     
     return(merge_df)
@@ -132,7 +133,7 @@ cg_id_kids_names <- unique(as.character(df$cg_id_kids))
 cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
 print(cg_id_kids_names)
 
-cg_id_kids_names = "Adamantinomatous Craniopharyngioma_PT_CBTW4E3X"
+#cg_id_kids_names = "Adamantinomatous Craniopharyngioma_PT_CBTW4E3X"
 
 # Loop through cg_sum
 for (x in seq_along(cg_id_kids_names)){
@@ -140,7 +141,7 @@ for (x in seq_along(cg_id_kids_names)){
 
   df_sub <- df %>%
     filter(cg_id_kids == cg_id_kids_names[x]) %>% 
-    select("cg_id_kids", "td_bs_id", "Chr", "Position", "Wild", "Mut", "XX_ref", "XX_alt")
+    select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX_ref", "XX_alt")
  
   # We will define samples based on the "Kids_First_Participant_ID" column 
   td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
@@ -149,27 +150,32 @@ for (x in seq_along(cg_id_kids_names)){
   # Create empty list for df
   df_list <- list() 
   
-  #td_bs_id_names = "Recurrence_BS_KR6PXZGJ"
-    
+  # td_bs_id_names = "Recurrence_BS_KR6PXZGJ"
+  # td_bs_id_names = "Diagnosis_BS_SS7E1QKV"
+  
   # Run loop for each td_bs_id_names
   for (i in seq_along(td_bs_id_names)) {
     print(i)
     
     # Print df per pair
-    m <- create_df(df = df_sub, samples = td_bs_id_names[i])
+    m <- create_df(df = df_sub, 
+                   samples = td_bs_id_names[i],
+                   kids_id = cg_id_kids_names[x])
   
     # Assign name to df and store all df in list
-    df_name <- paste(td_bs_id_names[i])
+    df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")
     df <- assign(df_name, m)
     df_list[[df_name]] <- df
-       
-      }
+    
+    # Merge all df per `cg_kids_id`
+    #library(powerjoin)
+    cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
+      replace(is.na(.), 0) %>% 
+      write_tsv(file.path(results_dir, "test_df.tsv"))
 
+    }
+}
 
-# Bind all df from list and save in one file
-df_list_bind <- bind_rows(df_list) %>% 
-  write_tsv(file.path(results_dir, "test_df.tsv"))
-  
   
     
 
