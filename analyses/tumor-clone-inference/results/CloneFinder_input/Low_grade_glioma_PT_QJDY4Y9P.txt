@@ -1,0 +1,16 @@
+cg_id_kids	mut_id	Chr	Position	Wild	Mut	Progressive_BS_XVVQ4M5T:ref	Progressive_BS_XVVQ4M5T:alt	Diagnosis_BS_YPWPG2Y6:ref	Diagnosis_BS_YPWPG2Y6:alt
+Low_grade_glioma_PT_QJDY4Y9P	chr1_27366405_T_G	chr1	27366405	T	G	67	7	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr1_146988909_A_G	chr1	146988909	A	G	12	0	12	0
+Low_grade_glioma_PT_QJDY4Y9P	chr2_95851754_A_C	chr2	95851754	A	C	58	7	30	0
+Low_grade_glioma_PT_QJDY4Y9P	chr2_95851770_A_G	chr2	95851770	A	G	73	13	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr2_97164281_A_C	chr2	97164281	A	C	39	0	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr7_92469235_G_A	chr7	92469235	G	A	85	8	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr11_124023094_A_G	chr11	124023094	A	G	68	5	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr13_24442624_G_A	chr13	24442624	G	A	40	0	40	0
+Low_grade_glioma_PT_QJDY4Y9P	chr15_82434266_GT_AC	chr15	82434266	GT	AC	36	0	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr18_9887158_A_G	chr18	9887158	A	G	61	4	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chrX_156006081_A_G	chrX	156006081	A	G	30	0	0	0
+Low_grade_glioma_PT_QJDY4Y9P	chr1_146121641_C_T	chr1	146121641	C	T	0	0	16	0
+Low_grade_glioma_PT_QJDY4Y9P	chr2_210016023_G_A	chr2	210016023	G	A	0	0	53	20
+Low_grade_glioma_PT_QJDY4Y9P	chr19_19505377_C_T	chr19	19505377	C	T	0	0	69	23
+Low_grade_glioma_PT_QJDY4Y9P	chr22_17524154_C_T	chr22	17524154	C	T	0	0	61	4

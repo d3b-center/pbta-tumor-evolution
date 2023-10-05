@@ -1,0 +1,10 @@
+cg_id_kids	mut_id	Chr	Position	Wild	Mut	Progressive_BS_D6FEADYR:ref	Progressive_BS_D6FEADYR:alt	Diagnosis_BS_XEGFMKP5:ref	Diagnosis_BS_XEGFMKP5:alt
+Craniopharyngioma_PT_WWZWD4KC	chr3_41224634_C_T	chr3	41224634	C	T	75	18	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr3_50295476_C_T	chr3	50295476	C	T	141	17	144	7
+Craniopharyngioma_PT_WWZWD4KC	chr5_140797297_A_C	chr5	140797297	A	C	126	12	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr7_30875646_A_G	chr7	30875646	A	G	106	8	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr11_1184702_GG_AT	chr11	1184702	GG	AT	80	6	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr11_55913843_G_A	chr11	55913843	G	A	99	6	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr19_51704348_C_T	chr19	51704348	C	T	148	7	0	0
+Craniopharyngioma_PT_WWZWD4KC	chr11_61007649_T_G	chr11	61007649	T	G	0	0	95	4
+Craniopharyngioma_PT_WWZWD4KC	chr14_104951986_AT_CG	chr14	104951986	AT	CG	0	0	77	10

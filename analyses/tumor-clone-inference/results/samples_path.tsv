@@ -1,120 +1,120 @@
 cg_id_kids	path	additional
-Embryonal tumor with multilayer rosettes_PT_00G007DM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_02J5CWN5	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_04V47WFC	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_0DWRY9ZX	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_0WQFCZ6S	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_19GCSK2S	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_1H2REHT2	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ganglioglioma_PT_1ZAWNGWT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_23NZGSRJ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-NA_PT_25Z2NX27	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_2ECVKTTQ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_2FVTD0WR	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_2MZPGZN1	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_2YT37G8P	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_37B5JRP1	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_394ZA6P7	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Meningioma_PT_39H4JN6H	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-NA_PT_3A2Q62RD	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_3CHB9PK5	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_3GYW6P6P	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_3KM9W8S8	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Pilocytic astrocytoma_PT_3P3HARZ2	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_3R0P995B	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_3T3VGWC6	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_3VCS1PPF	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-CNS Embryonal tumor_PT_5CYJ3NZ9	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_5NS35B66	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Neuroblastoma_PT_5ZPPR06P	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_62G82T6Q	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_6N825561	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Schwannoma_PT_6S1TFJ3D	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Chordoma_PT_75HRTX4S	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_773ZPTEB	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-CNS Embryonal tumor_PT_7HGY5W67	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Meningioma_PT_7M2PGCBV	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_7WYPEC3Q	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_82MX6J77	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_89XRZBSG	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_8GN3TQRM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_962TCBVR	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-CNS Embryonal tumor_PT_98QMQZY7	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_99S5BPE3	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Malignant peripheral nerve sheath tumor_PT_9PJR0ZK7	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_9S6WMQ92	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Meningioma_PT_AQWDQW27	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Choroid plexus carcinoma_PT_AV0W0V8D	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_B5DQ8FF0	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-CNS Embryonal tumor_PT_BRVGRXQY	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_BZCJMEX8	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Schwannoma_PT_C1HRBJJD	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_C1RDBCVM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Adamantinomatous Craniopharyngioma_PT_CBTW4E3X	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Schwannoma_PT_CWXSP19D	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_CXT81GRM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_D6AJHDST	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Dysembryoplastic neuroepithelial tumor_PT_DFQAH7RS	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_DNAJYFZT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_DVXE38EX	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_EQX0VT4F	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_ESHACWF6	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_FA2F3HQG	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_FN4GEEFR	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_GTHZF21E	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_HE8FBFNA	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Chordoma_PT_HFQNKP5X	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_HHG37M6W	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ewing sarcoma_PT_HJMP6PH2	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_HT4HJXY6	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_HXV713W6	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Rosai-Dorfman disease_PT_J06X17XH	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_JNEV57VK	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_JP1FDKN9	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_JSFBMK5V	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Neurofibroma_Plexiform_PT_K8ZV7APT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_KBFM551M	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_KMHGNCNR	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_KTRJ8TFY	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_KZ56XHJT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_MDWPRDBT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_MNSEJCDM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_N4563ERM	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_N8W26H19	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_NJQ26FHN	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_NK8A49X5	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_NPETR8RY	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_NZ85YSJ1	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_P571HTNK	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_PAPEQ0T0	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Glial-neuronal tumor_PT_PF04R0BH	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_PFA762TK	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Diffuse midline glioma_PT_PR4YBBH3	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-NA_PT_QEP13FH4	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Meningioma_PT_QH9H491G	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_QJDY4Y9P	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_RJ1TJ2KH	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_S2SQJVGK	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-NA_PT_S4YNE17X	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Adamantinomatous Craniopharyngioma_PT_T2M1338J	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_T4VN7ZRB	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_TKWTTRQ7	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_TP6GS00H	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_TRZ1N1HQ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_VTG1S395	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ganglioglioma_PT_W6AWJJK7	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Hemangioblastoma_PT_WP871F5S	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Craniopharyngioma_PT_WWZWD4KC	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Adamantinomatous Craniopharyngioma_PT_WYXTEG3E	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Medulloblastoma_PT_XA98HG1C	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-NA_PT_XHYBZKCX	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Atypical Teratoid Rhabdoid Tumor_PT_XTVQB9S4	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_XZGWKXC5	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Dysembryoplastic neuroepithelial tumor_PT_Y98Q8XKV	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_YDFPMXAR	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_YGN06RPZ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Adamantinomatous Craniopharyngioma_PT_YK7AD0KK	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-High-grade glioma_PT_Z4BF2NSB	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_Z4GS3ZQQ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Low-grade glioma_PT_ZMKMKCFQ	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
-Ependymoma_PT_ZZRBX5JT	/home/rstudio/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Embryonal_tumor_with_multilayer_rosettes_PT_00G007DM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_02J5CWN5	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_04V47WFC	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_0DWRY9ZX	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_0WQFCZ6S	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_19GCSK2S	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_1H2REHT2	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ganglioglioma_PT_1ZAWNGWT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_23NZGSRJ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+NA_PT_25Z2NX27	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_2ECVKTTQ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_2FVTD0WR	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_2MZPGZN1	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_2YT37G8P	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_37B5JRP1	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_394ZA6P7	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Meningioma_PT_39H4JN6H	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+NA_PT_3A2Q62RD	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_3CHB9PK5	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_3GYW6P6P	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_3KM9W8S8	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Pilocytic_astrocytoma_PT_3P3HARZ2	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_3R0P995B	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_3T3VGWC6	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_3VCS1PPF	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+CNS_Embryonal_tumor_PT_5CYJ3NZ9	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_5NS35B66	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Neuroblastoma_PT_5ZPPR06P	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_62G82T6Q	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_6N825561	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Schwannoma_PT_6S1TFJ3D	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Chordoma_PT_75HRTX4S	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_773ZPTEB	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+CNS_Embryonal_tumor_PT_7HGY5W67	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Meningioma_PT_7M2PGCBV	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_7WYPEC3Q	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_82MX6J77	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_89XRZBSG	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_8GN3TQRM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_962TCBVR	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+CNS_Embryonal_tumor_PT_98QMQZY7	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_99S5BPE3	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Malignant_peripheral_nerve_sheath_tumor_PT_9PJR0ZK7	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_9S6WMQ92	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Meningioma_PT_AQWDQW27	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Choroid_plexus_carcinoma_PT_AV0W0V8D	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_B5DQ8FF0	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+CNS_Embryonal_tumor_PT_BRVGRXQY	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_BZCJMEX8	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Schwannoma_PT_C1HRBJJD	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_C1RDBCVM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Schwannoma_PT_CWXSP19D	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_CXT81GRM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_D6AJHDST	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Dysembryoplastic_neuroepithelial_tumor_PT_DFQAH7RS	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_DNAJYFZT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_EQX0VT4F	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_ESHACWF6	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_FA2F3HQG	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_FN4GEEFR	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_GTHZF21E	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_HE8FBFNA	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Chordoma_PT_HFQNKP5X	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_HHG37M6W	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ewing_sarcoma_PT_HJMP6PH2	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_HT4HJXY6	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_HXV713W6	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Rosai_Dorfman_disease_PT_J06X17XH	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_JNEV57VK	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_JP1FDKN9	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_JSFBMK5V	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Neurofibroma_Plexiform_PT_K8ZV7APT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_KBFM551M	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_KMHGNCNR	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_KTRJ8TFY	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_KZ56XHJT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_MDWPRDBT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_MNSEJCDM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_N4563ERM	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_N8W26H19	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_NJQ26FHN	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_NK8A49X5	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_NPETR8RY	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_NZ85YSJ1	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_P571HTNK	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_PAPEQ0T0	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Glial_neuronal_tumor_PT_PF04R0BH	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_PFA762TK	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Diffuse_midline_glioma_PT_PR4YBBH3	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+NA_PT_QEP13FH4	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Meningioma_PT_QH9H491G	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_QJDY4Y9P	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_RJ1TJ2KH	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_S2SQJVGK	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+NA_PT_S4YNE17X	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Adamantinomatous_Craniopharyngioma_PT_T2M1338J	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_T4VN7ZRB	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_TKWTTRQ7	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_TP6GS00H	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_TRZ1N1HQ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_VTG1S395	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ganglioglioma_PT_W6AWJJK7	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Hemangioblastoma_PT_WP871F5S	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Craniopharyngioma_PT_WWZWD4KC	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Adamantinomatous_Craniopharyngioma_PT_WYXTEG3E	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Medulloblastoma_PT_XA98HG1C	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+NA_PT_XHYBZKCX	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Atypical_Teratoid_Rhabdoid_Tumor_PT_XTVQB9S4	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_XZGWKXC5	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Dysembryoplastic_neuroepithelial_tumor_PT_Y98Q8XKV	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_YDFPMXAR	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_YGN06RPZ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Adamantinomatous_Craniopharyngioma_PT_YK7AD0KK	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+High_grade_glioma_PT_Z4BF2NSB	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_Z4GS3ZQQ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Low_grade_glioma_PT_ZMKMKCFQ	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1
+Ependymoma_PT_ZZRBX5JT	/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3/CloneFinder_input	1

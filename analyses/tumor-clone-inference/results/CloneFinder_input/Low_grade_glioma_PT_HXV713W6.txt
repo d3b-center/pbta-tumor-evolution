@@ -1,0 +1,11 @@
+cg_id_kids	mut_id	Chr	Position	Wild	Mut	Recurrence_BS_E10P4XYZ:ref	Recurrence_BS_E10P4XYZ:alt	Diagnosis_BS_M500BT9F:ref	Diagnosis_BS_M500BT9F:alt
+Low_grade_glioma_PT_HXV713W6	chr1_152215112_C_T	chr1	152215112	C	T	96	8	0	0
+Low_grade_glioma_PT_HXV713W6	chr4_26420582_C_T	chr4	26420582	C	T	83	11	0	0
+Low_grade_glioma_PT_HXV713W6	chr7_177704_G_T	chr7	177704	G	T	241	36	0	0
+Low_grade_glioma_PT_HXV713W6	chr22_43836131_G_C	chr22	43836131	G	C	119	11	0	0
+Low_grade_glioma_PT_HXV713W6	chr1_1495785_C_T	chr1	1495785	C	T	0	0	88	5
+Low_grade_glioma_PT_HXV713W6	chr1_16058484_T_G	chr1	16058484	T	G	0	0	68	5
+Low_grade_glioma_PT_HXV713W6	chr11_62528863_C_T	chr11	62528863	C	T	0	0	67	8
+Low_grade_glioma_PT_HXV713W6	chr14_77414086_A_G	chr14	77414086	A	G	0	0	116	10
+Low_grade_glioma_PT_HXV713W6	chr19_4511211_C_T	chr19	4511211	C	T	0	0	102	11
+Low_grade_glioma_PT_HXV713W6	chr19_35310582_G_A	chr19	35310582	G	A	0	0	139	7

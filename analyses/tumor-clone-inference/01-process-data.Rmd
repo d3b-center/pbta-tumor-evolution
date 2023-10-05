@@ -70,6 +70,8 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
   left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
   dplyr::mutate(cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
          cg_id_kids = str_replace(cg_id_kids, "/", "_"),
+         cg_id_kids = str_replace(cg_id_kids, "-", "_"),
+         cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
          td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"))
 
 df <- genomic_paired_df %>% 
@@ -134,8 +136,13 @@ for (x in seq_along(cg_id_kids_names)){
     cg_kids_df <- df_list %>% 
       reduce(full_join, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
-      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt", sep=",")))
-    }
+      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt")), 
+                  sep = "\t", 
+                  row.names = FALSE, 
+                  quote = FALSE, 
+                  fileEncoding = "UTF-8")
+  }
+          
 }
 ```
 
