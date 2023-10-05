@@ -13,13 +13,13 @@ output:
 ```{r sload-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  library(data.table)
-  library(R.utils)
-  library(clonevol)
-  library(devtools)
-  library(purrr)
-  library(flextable)
-  library(plyr)
+ # library(data.table)
+  #library(R.utils)
+ # library(clonevol)
+ # library(devtools)
+ # library(purrr)
+ # library(flextable)
+ # library(plyr)
 })
 ```
 
@@ -66,8 +66,8 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
                 "Position" = "Start_Position",
                 "Wild" = "Reference_Allele",
                 "Mut" = "Tumor_Seq_Allele2",
-                "XX_ref" = "t_ref_count", 
-                "XX_alt" = "t_alt_count") # change names to match input requirements for Clonefinder
+                "XX:ref" = "t_ref_count", 
+                "XX:alt" = "t_alt_count") # change names to match input requirements for Clonefinder
 
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!experimental_strategy == "RNA-Seq")
@@ -119,7 +119,7 @@ for (x in seq_along(cg_id_kids_names)){
 
   df_sub <- df %>%
     filter(cg_id_kids == cg_id_kids_names[x]) %>% 
-    select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX_ref", "XX_alt")
+    select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
  
   # We will define samples based on the "Kids_First_Participant_ID" column 
   td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
@@ -142,6 +142,7 @@ for (x in seq_along(cg_id_kids_names)){
     # Assign name to df and store all df in list
     df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")
     df <- assign(df_name, m)
+    
     df_list[[df_name]] <- df
     
     # Merge all df per `cg_kids_id`
