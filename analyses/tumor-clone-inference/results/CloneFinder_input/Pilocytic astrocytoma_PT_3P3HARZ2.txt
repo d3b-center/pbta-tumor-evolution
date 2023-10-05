@@ -1,8 +1,0 @@
-cg_id_kids	mut_id	Chr	Position	Wild	Mut	Diagnosis_BS_RSB4R1C7:ref	Diagnosis_BS_RSB4R1C7:alt	Progressive_BS_W5R5QAKY:ref	Progressive_BS_W5R5QAKY:alt
-Pilocytic astrocytoma_PT_3P3HARZ2	chr1_1495785_C_T	chr1	1495785	C	T	107	6	0	0
-Pilocytic astrocytoma_PT_3P3HARZ2	chr4_904641_A_T	chr4	904641	A	T	145	17	0	0
-Pilocytic astrocytoma_PT_3P3HARZ2	chr6_37173038_G_T	chr6	37173038	G	T	71	39	69	35
-Pilocytic astrocytoma_PT_3P3HARZ2	chr8_142331820_C_T	chr8	142331820	C	T	76	50	67	29
-Pilocytic astrocytoma_PT_3P3HARZ2	chr14_104947134_T_C	chr14	104947134	T	C	0	0	54	5
-Pilocytic astrocytoma_PT_3P3HARZ2	chr17_18779086_A_G	chr17	18779086	A	G	0	0	43	16
-Pilocytic astrocytoma_PT_3P3HARZ2	chr17_58480175_T_C	chr17	58480175	T	C	0	0	95	6

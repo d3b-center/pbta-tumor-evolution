@@ -134,7 +134,7 @@ for (x in seq_along(cg_id_kids_names)){
     cg_kids_df <- df_list %>% 
       reduce(full_join, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
-      write_tsv(file.path(CloneFinder_input_dir, paste0(name, ".txt")))
+      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt", sep=",")))
     }
 }
 ```
