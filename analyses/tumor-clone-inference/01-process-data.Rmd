@@ -105,7 +105,7 @@ We will do this in three steps: (1) create wide df for ref variant, (2) create w
 
 ```{r df-cg-id-kids}
 # Function
-create_df <- function(df, samples, kids_id) {
+create_df <- function(df, samples) {
   # Reference df
     ref_df <- df_sub %>%
       filter(td_bs_id == td_bs_id_names) %>%
@@ -159,8 +159,7 @@ for (x in seq_along(cg_id_kids_names)){
     
     # Print df per pair
     m <- create_df(df = df_sub, 
-                   samples = td_bs_id_names[i],
-                   kids_id = cg_id_kids_names[x])
+                   samples = td_bs_id_names[i])
   
     # Assign name to df and store all df in list
     df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")
@@ -171,64 +170,17 @@ for (x in seq_along(cg_id_kids_names)){
     #library(powerjoin)
     cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
-      write_tsv(file.path(results_dir, "test_df.tsv"))
-
+      write_tsv(file.path(results_dir, paste0(name, ".txt")))
+    
+    # Assign name to all_df
+    #name <- paste(cg_id_kids_names[x])
+    #cg_kids_df <- assign(name, cg_kids_df) %>% 
+    #  write_tsv(file.path(results_dir, paste0(name, ".txt")))
     }
 }
 
-  
-    
-
-#####################
-# merge data_all[[i]]$df_ref with data_all[[i]]$df_alt
-# add columns: 'Chr','Position','Wild', "Mut" that are missing so it matches the CloneFinder input
-
-#data_all[[i]]$merge_read_counts <- list(data_all[[i]]$df_ref_wide, left_join(data_all[[i]]$df_alt_wide)) %>% 
-#                                          reduce(left_join, by=c('match_id_unique'))  %>% 
-#                                          mutate(Chr =gsub("_..*", "", match_id_unique)) %>% 
-#                                          mutate(Position =gsub("_", "", match_id_unique)) 
-
-left_join_ref_alt_wide <- left_join(as.data.frame(df_ref_wide),as.data.frame(df_alt_wide), by = "match_id_unique") %>%
-                          mutate(
-                            Chr =gsub("_..*", "", 'match_id_unique'), 
-                            Position =gsub("_", "", 'match_id_unique')
-                          ) 
-merge_read_counts <- list(left_join_ref_alt_wide)
-
-# we will replace any NAs with zero
-merge_read_counts[is.na(merge_read_counts)] <- 0  
-  
-# save edited files
-write.table(merge_read_counts, paste0(temp_path, "_edited.txt"))
-} 
-
-# let's change back to the root_dir for the rest of the module
-setwd(root_dir)
 ```
 
-## Step 4 
-
-```{r Process Data for CloneFinder-Step4}
-# let's create a list of the samples and their directory path
-# we will use this to run CloneFinder for all samples together
-
-distinct_samples <- read_counts_all_samples_keep %>% distinct(Kids_First_Participant_ID)                   #removes the duplicate values
-samples_list_path <-  subset(distinct_samples, 
-                             select = c(Kids_First_Participant_ID)) %>%
-           mutate(path = temp_path,
-                 additional = 1) %>%
-  write_csv(file.path(results_dir, "distinct_samples_list.csv"))
-```
-
-
-```{r echo=TRUE}
-# Create directory to save CloneFinder results
-CloneFinder_results <-
-  file.path(results_dir, "CloneFinder_results")
-if (!dir.exists(CloneFinder_results)) {
-  dir.create(CloneFinder_results)
-}
-```
 
 ```{r}
 sessionInfo()
