@@ -59,7 +59,13 @@ plots_dir <-
 # Load data
 
 ```{r load-inputs-please-wait}
-maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE)
+maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename("Chr" = "Chromosome", 
+                "Position" = "Start_Position",
+                "Wild" = "Reference_Allele",
+                "Mut" = "Tumor_Seq_Allele2",
+                "XX:ref" = "t_ref_count", 
+                "XX:alt" = "t_alt_count") # change names to match input requirements for Clonefinder
 
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE)
 
@@ -82,44 +88,6 @@ Thus, we will first identify the number of tumor samples per patient and we will
 Input files for CloneFinder should contain the read counts for reference and alteration per each chromosomal position.
 We will split these per patient sample based on the filtering from step 1.
 
-```{r Process Data for CloneFinder-Step2}
-# we will replace names in the column to follow input guidelines for CloneFinder
-
-read_counts_all_samples <- subset(snv_subset, 
-                             select = c(Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count))
-
-read_counts_all_samples <- setnames(read_counts_all_samples, old = c('Chromosome','Start_Position','Reference_Allele', "Tumor_Seq_Allele2", "t_ref_count", "t_alt_count"), 
-         new = c('Chr','Position','Wild', "Mut", "XX:ref", "XX:alt")) 
-
-read_counts_all_samples_keep <- read_counts_all_samples %>% 
-  left_join(keep, by=c('Kids_First_Biospecimen_ID')) %>%
-  filter(!is.na(Kids_First_Participant_ID))
-  
-  
- # write_tsv(file.path(results_dir, "read_counts_all_samples_keep.tsv")) # this is a large file, if not needed in later stages, maybe there is no need to save
-```
-
-We will split and save read count data by the "Kids_First_Participant_ID" column
-
-```{r echo=TRUE}
-# Create dir to save read count data to be used as input for CloneFinder
-temp_path_csv <-
-  file.path(results_dir, "01_Read_count_Per_Patient")
-if (!dir.exists(temp_path_csv)) {
-  dir.create(temp_path_csv)
-}
-
-# we will change the dir here otherwise files are saved outside of the dsired folder
-setwd(temp_path_csv)
-
-# we will split Read_count data by the "Kids_First_Participant_ID.x" column
-read_counts_all_samples_keep %>% 
-  group_split(Kids_First_Participant_ID) %>% 
-  walk(~write_csv(.x, paste0("01_", .x$Kids_First_Participant_ID[1], ".csv")))
-
-# let's change back to the root_dir for the rest of the module
-setwd(root_dir)
-```
 
 ## Step 3 
 
