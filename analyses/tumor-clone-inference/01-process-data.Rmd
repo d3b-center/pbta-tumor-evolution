@@ -138,11 +138,7 @@ for (x in seq_along(cg_id_kids_names)){
     cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
       write_tsv(file.path(results_dir, paste0(name, ".txt")))
-    
-    # Assign name to all_df
-    #name <- paste(cg_id_kids_names[x])
-    #cg_kids_df <- assign(name, cg_kids_df) %>% 
-    #  write_tsv(file.path(results_dir, paste0(name, ".txt")))
+
     }
 }
 
