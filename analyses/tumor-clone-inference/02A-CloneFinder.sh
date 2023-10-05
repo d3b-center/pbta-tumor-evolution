@@ -33,12 +33,12 @@ cp -r ./results/samples_path.tsv ./CloneFinderAPI/clonefinder_py3/CloneFinder_in
 
 # Let's define input and output files location 
 # $1 path to input files for CloneFinder: generated in the "01-process-data.Rmd"
-# $1 path to input files for CloneFinder: /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv
+# $1 path to input files for CloneFinder: ./CloneFinderAPI/clonefinder_py3/CloneFinder_input/samples_path.tsv
 
 # $2 out_path: /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1/
 
-sample=( $( awk -F"," 'FNR>1{print $1}' /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv ) )
-outs=( $( awk -F"," 'FNR>1{print $2}'  /Users/chronia/CHOP/projects/pbta-tumor-evolution/analyses/tumor-clone-inference/results/CloneFinder_input/samples_path.tsv ) )
+sample=( $( awk -F"," 'FNR>1{print $1}' ./CloneFinderAPI/clonefinder_py3/CloneFinder_input/samples_path.tsv ) )
+outs=( $( awk -F"," 'FNR>1{print $2}'  ./CloneFinderAPI/clonefinder_py3/CloneFinder_input/samples_path.tsv ) )
 out_path=/Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1/
 
 # array length
@@ -48,7 +48,7 @@ echo ${#outs[@]}
 #bash script with serial port input
 #run from command line
 
-cd /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3/pbta-tumor-evolution-v1
+cd ./CloneFinderAPI/clonefinder_py3
 
 for (( i=1; i<${#outs[@]}; i++ )); 
     do

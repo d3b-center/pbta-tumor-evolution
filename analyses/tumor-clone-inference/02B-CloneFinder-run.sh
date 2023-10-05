@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 
 # cd "$(dirname "${BASH_SOURCE[0]}")"
-cd /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3
+cd ./CloneFinderAPI/clonefinder_py3
 
 # We use information from the read_counts input directory 
 # generated in the first step of the module while processing the data
@@ -18,10 +18,14 @@ cd /Users/chronia/CHOP/software/CloneFinderAPI/clonefinder_py3
 
 
 ############################ Run CloneFinder script ######################################################################
-python clonefinder.py snv ./input/CloneFinder_input_read_count."$1".txt
+python clonefinder.py snv ./CloneFinder_input/"$1".txt
+
+python clonefinder.py snv ./CloneFinder_input/Adamantinomatous Craniopharyngioma_PT_CBTW4E3X.txt
+
+python clonefinder.py snv /Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/input/Input.txt
 
 
-
+/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/CloneFinderAPI/clonefinder_py3
 
 
 ############################ Remove input files from CloneFinderAPI dir ###################################################
