@@ -87,23 +87,11 @@ df_samples <- print(length(unique(df$cg_id_kids)))
 
 # Process Data for CloneFinder
 
-We need to generate the input files for CloneFinder according to the method's template.
+We need to generate the input files for CloneFinder according to the method's template. 
+The method requires at least 2 samples per tumor site (multiregional sampling per anatomical site).
+Here, we will consider kids samples with more than 2 timepoints with one or more biospecimens. 
+We will compare later differences in samples with single vs multiple biospecimens.
 
-## Step 1
-
-First though, we need to ensure that we have enough number of tumor samples per time point and patient case.
-This is because CloneFinder requires at least 2 tumor samples per anatomical site.
-Thus, we will first identify the number of tumor samples per patient and we will keep only those with more than 2 tumor samples.
-
-## Step 2
-Input files for CloneFinder should contain the read counts for reference and alteration per each chromosomal position.
-We will split these per patient sample based on the filtering from step 1.
-
-
-## Step 3 
-
-Next we need to create different columns assigning the read counts for ref and alt per tumor sample ("Kids_First_Biospecimen_ID").
-We will do this in three steps: (1) create wide df for ref variant, (2) create wide df for alt variant, and (3) merge wide df.
 
 ```{r df-cg-id-kids}
 # Save results by cg_id_kids
