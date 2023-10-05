@@ -88,8 +88,11 @@ We will compare later differences in samples with single vs multiple biospecimen
 
 
 ```{r df-cg-id-kids}
+df_temp <- df %>%
+  select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
+
 # Save results by cg_id_kids
-cg_id_kids_names <- unique(as.character(df$cg_id_kids))
+cg_id_kids_names <- unique(as.character(df_temp$cg_id_kids))
 cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
 print(cg_id_kids_names)
 
@@ -97,9 +100,8 @@ print(cg_id_kids_names)
 for (x in seq_along(cg_id_kids_names)){
   print(x)
 
-  df_sub <- df %>%
-    filter(cg_id_kids == cg_id_kids_names[x]) %>% 
-  select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
+  df_sub <- df_temp %>%
+    filter(cg_id_kids == cg_id_kids_names[x]) 
  
   # We will define samples
   td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
