@@ -68,7 +68,8 @@ pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(!c(cancer_group, experimental_strategy)) %>% 
   left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
-  mutate(cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
+  dplyr::mutate(cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
+         cg_id_kids = str_replace(cg_id_kids, "/", "_"),
          td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"))
 
 df <- genomic_paired_df %>% 
@@ -98,9 +99,9 @@ for (x in seq_along(cg_id_kids_names)){
 
   df_sub <- df %>%
     filter(cg_id_kids == cg_id_kids_names[x]) %>% 
-    select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
+  select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
  
-  # We will define samples based on the "Kids_First_Participant_ID" column 
+  # We will define samples
   td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
   print(td_bs_id_names)
   
@@ -116,8 +117,8 @@ for (x in seq_along(cg_id_kids_names)){
     
     # Run function 
     m <- create_df(df = td_bs_df, 
-                   samples = td_bs_id_names[i],
-                   cg_kids = cg_id_kids_names[x])
+                   sample_id = td_bs_id_names[i],
+                   cg_kid = cg_id_kids_names[x])
   
     # Assign name to df and store all df in list
     df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")

@@ -1,0 +1,16 @@
+cg_id_kids	mut_id	Chr	Position	Wild	Mut	Diagnosis_BS_GRS3T427:ref	Diagnosis_BS_GRS3T427:alt	Progressive_BS_WDTT7PG2:ref	Progressive_BS_WDTT7PG2:alt
+Low-grade glioma_PT_ZMKMKCFQ	chr1_13308378_G_A	chr1	13308378	G	A	32	12	0	0
+Low-grade glioma_PT_ZMKMKCFQ	chr1_34885546_T_G	chr1	34885546	T	G	91	11	0	0
+Low-grade glioma_PT_ZMKMKCFQ	chr4_54270665_AG_TT	chr4	54270665	AG	TT	63	45	57	65
+Low-grade glioma_PT_ZMKMKCFQ	chr14_77484837_G_A	chr14	77484837	G	A	91	11	0	0
+Low-grade glioma_PT_ZMKMKCFQ	chr15_32603374_T_C	chr15	32603374	T	C	70	18	0	0
+Low-grade glioma_PT_ZMKMKCFQ	chr20_63708611_C_T	chr20	63708611	C	T	52	10	0	0
+Low-grade glioma_PT_ZMKMKCFQ	chr1_1212028_G_-	chr1	1212028	G	-	0	0	54	5
+Low-grade glioma_PT_ZMKMKCFQ	chr3_48415749_G_A	chr3	48415749	G	A	0	0	54	3
+Low-grade glioma_PT_ZMKMKCFQ	chr6_31649290_C_A	chr6	31649290	C	A	0	0	47	32
+Low-grade glioma_PT_ZMKMKCFQ	chr17_7674257_-_GTTGTAGTGGATG	chr17	7674257	-	GTTGTAGTGGATG	0	0	21	40
+Low-grade glioma_PT_ZMKMKCFQ	chr17_16432176_TGC_-	chr17	16432176	TGC	-	0	0	59	6
+Low-grade glioma_PT_ZMKMKCFQ	chr19_7142861_G_A	chr19	7142861	G	A	0	0	41	26
+Low-grade glioma_PT_ZMKMKCFQ	chr19_13214530_G_A	chr19	13214530	G	A	0	0	45	40
+Low-grade glioma_PT_ZMKMKCFQ	chrX_26194060_T_A	chrX	26194060	T	A	0	0	43	21
+Low-grade glioma_PT_ZMKMKCFQ	chrX_153398083_G_C	chrX	153398083	G	C	0	0	87	14

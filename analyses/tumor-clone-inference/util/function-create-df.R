@@ -1,27 +1,27 @@
 #' Create df
 #'
 #' @param df 
-#' @param samples 
-#' @param cg_kids
+#' @param sample 
+#' @param cg_kid
 #' 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_df <- function(df, samples, cg_kids) {
+create_df <- function(df, sample_id, cg_kid) {
   
   # Reference df
-  ref_df <- df_sub %>%
-    filter(td_bs_id == samples) %>%
-    mutate(td_bs_id = paste(samples, "ref", sep = ":")) %>% 
+  ref_df <- df %>%
+    filter(td_bs_id == sample_id) %>%
+    mutate(td_bs_id = paste(sample_id, "ref", sep = ":")) %>% 
     pivot_wider(names_from = "td_bs_id", values_from = "XX:ref") %>% 
     select(-c("XX:alt"))
   
   # Alteration df
-  alt_df <- df_sub %>%
-    filter(td_bs_id == samples) %>%
-    mutate(td_bs_id = paste(samples, "alt", sep = ":")) %>% 
+  alt_df <- df %>%
+    filter(td_bs_id == sample_id) %>%
+    mutate(td_bs_id = paste(sample_id, "alt", sep = ":")) %>% 
     pivot_wider(names_from = "td_bs_id", values_from = "XX:alt") %>% 
     select(-c("XX:ref"))
   
