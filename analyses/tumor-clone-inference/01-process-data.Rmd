@@ -64,14 +64,22 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
                 "Position" = "Start_Position",
                 "Wild" = "Reference_Allele",
                 "Mut" = "Tumor_Seq_Allele2",
-                "XX:ref" = "t_ref_count", 
-                "XX:alt" = "t_alt_count") # change names to match input requirements for Clonefinder
+                "XX_ref" = "t_ref_count", 
+                "XX_alt" = "t_alt_count") # change names to match input requirements for Clonefinder
 
-pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE)
+pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(!experimental_strategy == "RNA-Seq")
 
-df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(!cancer_group) %>% 
-  left_join(pbta_df, by = c("Kids_First_Participant_ID", "experimental_strategy"))
+genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(!c(cancer_group, experimental_strategy)) %>% 
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
+  mutate(cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
+         td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"))
+
+df <- genomic_paired_df %>% 
+  left_join(maf_df, by = c("Kids_First_Biospecimen_ID")) 
+
+df_samples <- print(length(unique(df$cg_id_kids)))
 ```
 
 # Process Data for CloneFinder
@@ -94,64 +102,76 @@ We will split these per patient sample based on the filtering from step 1.
 Next we need to create different columns assigning the read counts for ref and alt per tumor sample ("Kids_First_Biospecimen_ID").
 We will do this in three steps: (1) create wide df for ref variant, (2) create wide df for alt variant, and (3) merge wide df.
 
-```{r Process Data for CloneFinder-Step3}
-#create out_dir
-    temp_path <-
-      file.path(results_dir, "02_CloneFinder_input_files")
-    if (!dir.exists(temp_path)) {
-      dir.create(temp_path)
-    } 
-
-# create a list and read csv files
-all_files <-  list.files(path = temp_path_csv, # Identify all CSV files
-                       pattern = "*.csv", full.names = TRUE)
-data_all <- lapply(all_files, read.csv)
-
-##Create list of data frame names without the "CloneFinder_input_read_count_csv." part 
-# get only the file names, not the full path.
-names(data_all) <- gsub("01_", "",
-                       list.files(temp_path_csv,full.names = FALSE),
-                       fixed = TRUE)
-
-# we will change the dir here otherwise files are saved outside of the desired folder
-setwd(temp_path)
-
-# create a loop for the elements in the 'all_files' list
-# and create input files
-
-for(i in 1:length(data_all)) {  
-# i = "PT_KTRJ8TFY.csv"
-
-# we need to have separate columns with the tumor sample containing read counts per variant
+```{r df-cg-id-kids}
+# Function
+create_df <- function(df, samples) {
+  # Reference df
+    ref_df <- df_sub %>%
+      filter(td_bs_id == td_bs_id_names) %>%
+      mutate(td_bs_id = paste(td_bs_id_names, "ref", sep = "_")) %>% 
+      pivot_wider(names_from = "td_bs_id", values_from = "XX_ref") %>% 
+      select(!XX_alt)
   
-#####################
-# we will first create a data frame for the read counts for the reference and alteration variant
-# create unique identifier based on chromosome and chromosomal position for each variant
-# let's also keep the information with tumor sample and time point together. This is useful for visualization purposes later.
-# XX:ref  
+    # Alteration df
+    alt_df <- df_sub %>%
+      filter(td_bs_id == td_bs_id_names) %>%
+      mutate(td_bs_id = paste(td_bs_id_names, "alt", sep = "_")) %>% 
+      pivot_wider(names_from = "td_bs_id", values_from = "XX_alt") %>%
+      select(!XX_ref)
   
-df <- data_all[[i]] %>%
-       mutate(match_id_unique = paste(Chr, Position, sep = "_")) %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_"))
-
+    # Merge df
+    merge_df <- ref_df %>% 
+      full_join(alt_df, by = c("cg_id_kids", "Chr", "Position", "Wild", "Mut")) %>% 
+      as.data.frame() 
+    
+    return(merge_df)
+}
   
-df_ref <- df %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "ref")) %>% 
-       subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.ref)) 
+# Save results byc g_id_kids
+cg_id_kids_names <- unique(as.character(df$cg_id_kids))
+cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
+print(cg_id_kids_names)
 
-# then we need to transform the data from long to wide
-df_ref_wide <- list(dcast(setDT(df_ref), match_id_unique~Kids_First_Biospecimen_ID_descriptor))
+cg_id_kids_names = "Adamantinomatous Craniopharyngioma_PT_CBTW4E3X"
+
+# Loop through cg_sum
+for (x in seq_along(cg_id_kids_names)){
+  print(x)
+
+  df_sub <- df %>%
+    filter(cg_id_kids == cg_id_kids_names[x]) %>% 
+    select("cg_id_kids", "td_bs_id", "Chr", "Position", "Wild", "Mut", "XX_ref", "XX_alt")
+ 
+  # We will define samples based on the "Kids_First_Participant_ID" column 
+  td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
+  print(td_bs_id_names)
+  
+  # Create empty list for df
+  df_list <- list() 
+  
+  #td_bs_id_names = "Recurrence_BS_KR6PXZGJ"
+    
+  # Run loop for each td_bs_id_names
+  for (i in seq_along(td_bs_id_names)) {
+    print(i)
+    
+    # Print df per pair
+    m <- create_df(df = df_sub, samples = td_bs_id_names[i])
+  
+    # Assign name to df and store all df in list
+    df_name <- paste(td_bs_id_names[i])
+    df <- assign(df_name, m)
+    df_list[[df_name]] <- df
+       
+      }
 
 
-#####################
-# then we need to transform the data from long to wide
-# XX:alt
-df_alt <- df %>%
-       mutate(Kids_First_Biospecimen_ID_descriptor = paste(Kids_First_Biospecimen_ID_descriptor, sep = ":", "alt")) %>% 
-       subset(select = c(match_id_unique, Kids_First_Biospecimen_ID_descriptor, XX.alt)) 
-
-# then we need to transform the data from long to wide
-df_alt_wide = list(dcast(setDT(df_alt),match_id_unique~Kids_First_Biospecimen_ID_descriptor))
+# Bind all df from list and save in one file
+df_list_bind <- bind_rows(df_list) %>% 
+  write_tsv(file.path(results_dir, "test_df.tsv"))
+  
+  
+    
 
 #####################
 # merge data_all[[i]]$df_ref with data_all[[i]]$df_alt
