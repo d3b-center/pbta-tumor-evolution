@@ -80,8 +80,8 @@ PT_EQ5C5TEA	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_EQ5C5TEA	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_ESHACWF6	Diagnosis, Progressive	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_FN4GEEFR	Diagnosis, Progressive	RNA-Seq	Medulloblastoma	Dx-Pro
-PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	NA
-PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	NA
+PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
+PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
 PT_GHTSGFCT	Progressive, Deceased	RNA-Seq	High-grade glioma	Pro-Dec
 PT_H3WWDMW9	Diagnosis, Deceased	RNA-Seq	Medulloblastoma	Dx-Dec
 PT_H45M7M2T	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
