@@ -285,7 +285,8 @@ transcriptomic_assays_matched <- transcriptomic_assays %>%
                                        descriptors == "Diagnosis, Recurrence, Deceased" ~ "Dx-Rec-Dec",
                                        descriptors == "Diagnosis, Progressive, Deceased" ~ "Dx-Pro-Dec",
                                        descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv",
-                                       descriptors == "Diagnosis, Recurrence, Second Malignancy" ~ "Dx-Rec-SM")) %>% # to generate timepoints_models
+                                       descriptors == "Diagnosis, Recurrence, Second Malignancy" ~ "Dx-Rec-SM",
+                                       descriptors == "Deceased, Second Malignancy" ~ "Dec-SM")) %>% # to generate timepoints_models
   write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
 
 transcriptomic_assays_matched
