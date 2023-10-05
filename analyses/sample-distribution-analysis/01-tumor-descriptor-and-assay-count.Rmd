@@ -69,7 +69,6 @@ pbta_pre_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FA
          !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  group_by(Kids_First_Participant_ID) %>% 
   mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence",
                                       grepl("C4113612-Tumor", sample_id) ~ "Diagnosis",
                                       grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
@@ -80,8 +79,9 @@ pbta_pre_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FA
                          grepl("RNA-Seq", experimental_strategy) ~ "no"),
          match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_"),
          tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints),
-         cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints 
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints 
 
 pbta <- pbta_pre_df %>%
   distinct(cancer_group, .keep_all = TRUE) %>% 
