@@ -60,8 +60,11 @@ if (!dir.exists(results_dir)) {
 # make this code reproducible
 set.seed(2023)
 
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
 # Read in histologies file and filter for the pbta cohort
-pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
+pbta_pre_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(cohort == "PBTA",
          !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
@@ -74,8 +77,27 @@ pbta <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>
          match_id = paste(tumor_descriptor, sample_id, sep = "_"),
          DNA = case_when(grepl("WGS|WXS", experimental_strategy) ~ "DNA",
                          grepl("RNA-Seq", experimental_strategy) ~ "no"),
-         match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_")) %>%
+         match_id_DNA = paste(Kids_First_Participant_ID, tumor_descriptor, DNA, sep = "_"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints 
+
+pbta <- pbta_pre_df %>%
+  distinct(cancer_group, .keep_all = TRUE) %>% 
+  arrange(tumor_descriptor) %>%
+  summarise(cg_multiple = str_c(cancer_group, collapse = ",")) %>%
+  mutate_at(c("cg_multiple"), ~replace_na(.,"NA")) %>% 
+  left_join(pbta_pre_df, by = "Kids_First_Participant_ID") %>%
+  tidyr::separate(cg_multiple, c("cg_id", "drop"), sep = ',', remove = FALSE) %>% # to generate cg_id that shows cancer group for the first diagnosis for this sample
+  select(!drop) %>%
+  mutate(cgGFAC = case_when(grepl("High-grade glioma", cg_id) ~ "HGG", 
+                            grepl("Diffuse midline glioma", cg_id) ~ "DMG",
+                            grepl("Atypical Teratoid Rhabdoid Tumor", cg_id) ~ "ATRT",
+                            grepl("Low-grade glioma", cg_id) ~ "LGG",
+                            TRUE ~ "Other")) %>% 
   write_tsv(file.path(results_dir, "pbta.tsv")) # save all pbta data
+
 
 # filter out multiple `match_id_DNA` per `Kids_First_Participant_ID` 
 pbta <- pbta %>%
@@ -157,6 +179,7 @@ paired_assays_all_diagnosis %>%
 
 # Genomic assays
 Setting aside the RNA-Seq for the moment and only looking at the patient samples that contain genomic assays. We’re collapsing the different values in tumor_descriptor to form a single descriptor when there are multiple types of tumors from the same individual.
+
 ```{r}
 genomic_assays <- paired_assays_all %>%
   filter(!(experimental_strategy_sum == "RNA")) %>%
@@ -184,11 +207,28 @@ genomic_assays
 We will look now into patient samples with genomic assays that have matched longitudinal samples.
 
 ```{r}
+print(unique(genomic_assays$descriptors))
+
 genomic_assays_matched <- genomic_assays %>%
   filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
                              "Second Malignancy", "Deceased", "Not Reported",
                              "Unavailable", "Metastatic", "Residual", "")) %>%
-  mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy)) %>%
+ mutate(experimental_strategy = gsub("RNA-Seq;","", experimental_strategy),
+         timepoints_models = case_when(descriptors == "Diagnosis, Recurrence" ~ "Dx-Rec",
+                                       descriptors == "Diagnosis, Progressive" ~ "Dx-Pro",
+                                       descriptors == "Diagnosis, Deceased" ~ "Dx-Dec",
+                                       descriptors == "Progressive, Deceased" ~ "Pro-Dec",
+                                       descriptors == "Recurrence, Second Malignancy" ~ "Rec-SM",
+                                       descriptors == "Progressive, Recurrence" ~ "Pro-Rec",
+                                       descriptors == "Diagnosis, Second Malignancy" ~ "Dx-SM",
+                                       descriptors == "Progressive, Recurrence, Deceased" ~ "Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence" ~ "Dx-Pro-Rec",
+                                       descriptors == "Recurrence, Deceased" ~ "Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence, Deceased" ~ "Dx-Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Recurrence, Deceased" ~ "Dx-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Deceased" ~ "Dx-Pro-Dec",
+                                       descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv",
+                                       descriptors == "Diagnosis, Recurrence, Second Malignancy" ~ "Dx-Rec-SM")) %>% # to generate timepoints_models
   write_tsv(file.path(results_dir, "genomic_assays_matched_time_points.tsv"))
 
 matched_samples_genomic <- length(unique(genomic_assays_matched$Kids_First_Participant_ID))
@@ -224,11 +264,29 @@ transcriptomic_assays
 ```
 
 ```{r}
+print(unique(transcriptomic_assays$descriptors))
+
 transcriptomic_assays_matched <- transcriptomic_assays %>%
   filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
                              "Second Malignancy", "Deceased", "Not Reported",
                              "Unavailable", "Metastatic", "Residual", "")) %>%
-  mutate(experimental_strategy = gsub(";WGS|;WXS","", experimental_strategy)) %>%
+  mutate(experimental_strategy = gsub(";WGS|;WXS","", experimental_strategy),
+         timepoints_models = case_when(descriptors == "Diagnosis, Recurrence" ~ "Dx-Rec",
+                                       descriptors == "Diagnosis, Progressive" ~ "Dx-Pro",
+                                       descriptors == "Diagnosis, Deceased" ~ "Dx-Dec",
+                                       descriptors == "Progressive, Deceased" ~ "Pro-Dec",
+                                       descriptors == "Recurrence, Second Malignancy" ~ "Rec-SM",
+                                       descriptors == "Progressive, Recurrence" ~ "Pro-Rec",
+                                       descriptors == "Diagnosis, Second Malignancy" ~ "Dx-SM",
+                                       descriptors == "Progressive, Recurrence, Deceased" ~ "Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence" ~ "Dx-Pro-Rec",
+                                       descriptors == "Recurrence, Deceased" ~ "Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence, Deceased" ~ "Dx-Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Recurrence, Deceased" ~ "Dx-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Deceased" ~ "Dx-Pro-Dec",
+                                       descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv",
+                                       descriptors == "Diagnosis, Recurrence, Second Malignancy" ~ "Dx-Rec-SM",
+                                       descriptors == "Deceased, Second Malignancy" ~ "Dec-SM")) %>% # to generate timepoints_models
   write_tsv(file.path(results_dir, "transcriptomic_assays_matched_time_points.tsv"))
 
 transcriptomic_assays_matched
@@ -267,10 +325,27 @@ paired_assays
 
 
 ```{r}
+print(unique(paired_assays$descriptors))
+
 paired_assays_matched <- paired_assays %>%
   filter(!descriptors %in% c("Diagnosis", "Progressive", "Recurrence", 
                              "Second Malignancy", "Deceased", "Not Reported",
                              "Unavailable", "Metastatic", "Residual", "")) %>%
+  mutate(timepoints_models = case_when(descriptors == "Diagnosis, Recurrence" ~ "Dx-Rec",
+                                       descriptors == "Diagnosis, Progressive" ~ "Dx-Pro",
+                                       descriptors == "Diagnosis, Deceased" ~ "Dx-Dec",
+                                       descriptors == "Progressive, Deceased" ~ "Pro-Dec",
+                                       descriptors == "Recurrence, Second Malignancy" ~ "Rec-SM",
+                                       descriptors == "Progressive, Recurrence" ~ "Pro-Rec",
+                                       descriptors == "Diagnosis, Second Malignancy" ~ "Dx-SM",
+                                       descriptors == "Progressive, Recurrence, Deceased" ~ "Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence" ~ "Dx-Pro-Rec",
+                                       descriptors == "Recurrence, Deceased" ~ "Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Recurrence, Deceased" ~ "Dx-Pro-Rec-Dec",
+                                       descriptors == "Diagnosis, Recurrence, Deceased" ~ "Dx-Rec-Dec",
+                                       descriptors == "Diagnosis, Progressive, Deceased" ~ "Dx-Pro-Dec",
+                                       descriptors == "Diagnosis, Unavailable" ~ "Dx-Unv",
+                                       descriptors == "Diagnosis, Recurrence, Second Malignancy" ~ "Dx-Rec-SM")) %>% # to generate timepoints_models
   write_tsv(file.path(results_dir, "paired_assays_matched_time_points.tsv"))
 
 paired_assays_matched
