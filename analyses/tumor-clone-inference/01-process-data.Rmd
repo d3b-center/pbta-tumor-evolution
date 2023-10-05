@@ -149,10 +149,12 @@ for (x in seq_along(cg_id_kids_names)){
 
 # Make list with input files for CloneFinder
 
-```{r input-CloneFinder}
-df_temp <- df %>%
+```{r samples-path}
+samples_path_df <- df_temp %>%
+  select(cg_id_kids) %>% 
+  unique() %>% 
+         additional = 1) %>% 
       write_tsv(file.path(results_dir, "samples_path.tsv"))
-    
 ```  
 
 ```{r}
