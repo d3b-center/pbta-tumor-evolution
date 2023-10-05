@@ -92,8 +92,6 @@ cg_id_kids_names <- unique(as.character(df$cg_id_kids))
 cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
 print(cg_id_kids_names)
 
-#cg_id_kids_names = "Adamantinomatous Craniopharyngioma_PT_CBTW4E3X"
-
 # Loop through cg_sum
 for (x in seq_along(cg_id_kids_names)){
   print(x)
@@ -108,9 +106,6 @@ for (x in seq_along(cg_id_kids_names)){
   
   # Create empty list for df
   df_list <- list() 
-  
-  # td_bs_id_names = "Recurrence_BS_KR6PXZGJ"
-  # td_bs_id_names = "Diagnosis_BS_SS7E1QKV"
   
   # Run loop for each td_bs_id_names
   for (i in seq_along(td_bs_id_names)) {
@@ -130,6 +125,9 @@ for (x in seq_along(cg_id_kids_names)){
     df_list[[df_name]] <- df
     
     # Merge all df per `cg_kids_id`
+    # Assign name to all_df
+    name <- paste(cg_id_kids_names[x])
+
     #library(powerjoin)
     cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
