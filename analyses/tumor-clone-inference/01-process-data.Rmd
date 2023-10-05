@@ -48,13 +48,6 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-# File path to plots directory
-plots_dir <-
-   file.path(analysis_dir, "plots")
- if (!dir.exists(plots_dir)) {
-   dir.create(plots_dir)
- }
-
 source(paste0(analysis_dir, "/util/function-create-df.R"))
 ```
 
@@ -141,7 +134,6 @@ for (x in seq_along(cg_id_kids_names)){
 
     }
 }
-
 ```
 
 
