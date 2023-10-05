@@ -13,13 +13,6 @@ output:
 ```{r sload-library}
 suppressPackageStartupMessages({
   library(tidyverse)
- # library(data.table)
-  #library(R.utils)
- # library(clonevol)
- # library(devtools)
- # library(purrr)
- # library(flextable)
- # library(plyr)
 })
 ```
 
