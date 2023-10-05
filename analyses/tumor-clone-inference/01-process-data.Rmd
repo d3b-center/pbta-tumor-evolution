@@ -43,6 +43,13 @@ genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.
 
 # File path to results directory
 results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+# File path to results directory
+CloneFinder_results_dir <-
   file.path(analysis_dir, "results", "CloneFinder_input")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
@@ -134,12 +141,19 @@ for (x in seq_along(cg_id_kids_names)){
     #library(powerjoin)
     cg_kids_df <- power_full_join(df_list, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
       replace(is.na(.), 0) %>% 
-      write_tsv(file.path(results_dir, paste0(name, ".txt")))
+      write_tsv(file.path(CloneFinder_results_dir, paste0(name, ".txt")))
 
     }
 }
 ```
 
+# Make list with input files for CloneFinder
+
+```{r input-CloneFinder}
+df_temp <- df %>%
+      write_tsv(file.path(results_dir, "samples_path.tsv"))
+    
+```  
 
 ```{r}
 sessionInfo()
