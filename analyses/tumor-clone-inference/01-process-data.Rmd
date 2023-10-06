@@ -158,7 +158,55 @@ samples_path_df <- df_temp %>%
   unique() %>% 
   mutate(path = samples_path_dir,
          additional = 1) %>% 
-      write_tsv(file.path(results_dir, "samples_path.tsv"))
+      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt")), 
+                  sep = "\t", 
+                  row.names = FALSE, 
+                  quote = FALSE, 
+                  fileEncoding = "UTF-8")
+```
+
+# or try this with the python script
+
+```{r samples-path-python}
+########################################
+DMG <- df %>% 
+  filter(cgGFAC == "DMG")
+print(length(unique((DMG$cg_id_kids))))
+
+HGG <- df %>% 
+  filter(cgGFAC == "HGG")
+print(length(unique((HGG$cg_id_kids))))
+
+LGG <- df %>% 
+  filter(cgGFAC == "LGG")
+print(length(unique((LGG$cg_id_kids))))
+
+Other <- df %>% 
+  filter(cgGFAC == "Other")
+print(length(unique((Other$cg_id_kids))))
+
+########################################
+# Save python script per each sample
+cg_id_kids_names <- unique(as.character(df$cg_id_kids))
+cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
+print(cg_id_kids_names)
+
+library(data.table)
+# create empty vector 
+#vector1 = c() 
+
+# Loop through cg_sum
+for (i in seq_along(cg_id_kids_names)){
+  input_path_dir <-
+    # file.path(analysis_dir, "CloneFinderAPI", "clonefinder_py3", "CloneFinder_input")
+    file.path("/Users/chronia/CHOP/software", "CloneFinderAPI", "clonefinder_py3", "input")
+
+  input_python_script <- paste("python clonefinder.py snv ./input/", cg_id_kids_names[i], ".txt", sep = "") 
+  #vector1 = c(input_python_script, i)
+  print(input_python_script)
+}
+
+# fwrite(input_python_script, file.path(results_dir, file = "input_python_script.csv"))
 ```  
 
 ```{r}
