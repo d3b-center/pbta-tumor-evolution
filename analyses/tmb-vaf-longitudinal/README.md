@@ -15,7 +15,7 @@ bash run-tmb-vaf-longitudinal.sh
 This folder contains scripts tasked to investigate VAFs and TMB across paired longitudinal samples for the autopsy samples in the PBTA cohort.
 
 ## Summary 
-This pipeline investigates VAFs and TMB across matched samples. It produces pdf files containing the correlation of VAFs (with labeled genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples: Diagnosis-Deceased, Progressive-Deceased, Recurrence-Deceased, Diagnosis-Progressive-Deceased, Diagnosis-Recurrence-Deceased, and Progressive-Recurrence-Deceased.
+This pipeline produces pdf files containing the correlation of VAFs (with label genes of interest), as well as violin plots and stacked barplots for TMB of paired longitudinal samples under various timepoints models, e.g., Diagnosis-Deceased, Progressive-Deceased.
 
 To generate corplots, we need to create timepoint models that will account for the following conditions: 
 (1) We are interested in how VAF values change over the time and specifically for the autopsy samples. 
@@ -28,11 +28,9 @@ Then, we will leverage this information to create one column for the constant va
 
 `01-preprocess-data.Rmd` is a script written to process and generate the data to create corplots. (1) Calculate VAFs per each Kids_First_Biospecimen_ID, (2) Select paired longitudinal samples for the autopsy samples, and (3) Add information of number of timepoints and number of biospecimen samples per each patient case. This script generates `maf_autopsy.tsv` and `tmb_genomic.tsv` files for the next steps and are placed in `../../scratch`.
 
-`03-explore-TMB-mut.Rmd` is a script written to plot stacked barplots for mutation count per patient case and per biospecimen sample and timepoint.
+`02-create-corplots.Rmd` is a script written to create corplots for patient cases with multiple biospecimen samples and matched time points. 
 
-`function-create-barplot.R` is a script containing the functions to create (1) stacked barplots for all samples, and (2) barplots for each `Kids_First_Biospecimen_ID` in `Kids_First_Participant_ID`
-
-`function-create-dumbbell-plot.R` is a script containing the functions to create dumbbell plots for TMB and total number of mutations across timepoints and cancer types per patient case.
+`function-create-corplot.R` is a script written for the function to create corplots.
 
 
 ## Results
@@ -40,13 +38,13 @@ Then, we will leverage this information to create one column for the constant va
 There are 29 autopsy samples out of the total 119 patient cases (with genomic assays) with maf information. There are 117 (out of the 118) patient samples with TMB information. There are 44 biospecimen samples missing from both TMB and VAF files. 
 
 
-Moreover, we explored TMB and the number of mutations across longitudinal samples with genomic assays. 
-
-Generally, Hypermutant TMB defined as >=10 Mb, and Ultrahypermutant TMB defined as >100 mutations/Mb (https://pubmed.ncbi.nlm.nih.gov/29056344/). There are hyper mutant samples in the PBTA cohort. We excluded samples with >= 10 from downstream analysis. Attention is needed in cases with high number of mutations in only one timepoint as this will lead to un-matched longitudinal samples. We also remove those so we always have matched longitudinal samples.
-
-Overall, TMB patterns across timepoints seem to be idiosyncratic, but we notice a higher overall TMB for Progressive and Recurrence compared to other timepoints. We don’t see any patterns driven by cancer type.
-
-We also explored the total number of mutations per biospecimen sample and per timepoint in each patient case. This is to showcase the importance of the number of samples per timepoint and how each biopsy might be capturing a different number of mutations (and potentially of driver genes). 
+- Genes shown in the plots are based on the oncoprint goi list from OpenPedCan.
+- Multiple plots are generated based on the number of biospecimen samples per tumor descriptor.
+- Be aware of differences between plots with the same biospecimen samples. These might show in one as tumor descriptor-specific and in another as common.
+- Multiple biospecimen samples/tumor descriptor capture a variety of heterogeneity. We should consider including all biospecimen samples/tumor descriptor and merge that information into one.
+- Deceased samples have higher VAFs overall compared to their counterparts in other timepoints.
+- Biospecimen samples are from different tumor locations. We will obtain that information after the Nautilus harmonization (primary_site column in histologies). If so, that would allow us to perform spatial heterogeneity analysis ([ticket #19](https://github.com/d3b-center/pbta-tumor-evolution/issues/19)).
+- "PT_3CHB9PK5", "PT_6N825561": These samples are hyper-mutant compared to the rest of the samples (VAF corplot).
 
 
 ## Folder structure 
@@ -56,27 +54,17 @@ The structure of this folder is as follows:
 ```
 ├── 01-preprocess-data.Rmd
 ├── 01-preprocess-data.nb.html
-├── 03-explore-TMB-mut.Rmd
-├── 03-explore-TMB-mut.nb.html
+├── 02-create-corplots.nb.html
+├── 02-create-corplots.Rmd
 ├── input
+│   ├── oncoprint-goi-lists-OpenPedCan-gencode-v39.csv
 │   └── snv-mutation-tmb-coding.tsv
 ├── plots
-│   ├── Atypical Teratoid Rhabdoid Tumor-TMB-dumbbell.pdf
-│   ├── Diffuse midline glioma-TMB-dumbbell.pdf
-│   ├── Ependymoma-TMB-dumbbell.pdf
-│   ├── High-grade glioma-TMB-dumbbell.pdf
-│   ├── Low-grade glioma-TMB-dumbbell.pdf
-│   ├── Medulloblastoma-TMB-dumbbell.pdf
-│   ├── Meningioma-TMB-dumbbell.pdf
-│   ├── Other-TMB-dumbbell.pdf
-│   ├── TMB-genomic-no-hypermutants.pdf
-│   └── TMB-genomic-total.pdf
-├── README.md
 ├── results
 │   ├── bs_missing_tmb_vaf.tsv
 │   └── bs_missing_tmb.tsv
+├── README.md
 ├── run-tmb-vaf-longitudinal.sh
 ├── util
-    ├── function-create-barplot.R
-    └── function-create-dumbbell-plot.R
+    └── function-create-corplot.R
 ```
