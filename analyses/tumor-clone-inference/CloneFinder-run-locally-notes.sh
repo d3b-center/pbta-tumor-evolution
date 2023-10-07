@@ -41,9 +41,6 @@ python clonefinder.py snv ./input/HGG/High_grade_glioma_PT_89XRZBSG.txt
 
 
 
-
-
-
 ############################ Remove input files from CloneFinderAPI dir ###################################################
 
 # rm input files from CloneFinderAPI dir
