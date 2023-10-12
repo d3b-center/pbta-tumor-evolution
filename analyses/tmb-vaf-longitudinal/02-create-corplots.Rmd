@@ -1,0 +1,171 @@
+---
+title: "Create VAF corplots of tumors across multiple timepoints for thr autopsy samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+#### Tumor evolution project 
+
+### Data used 
+In this notebook, we are using the `maf_autopsy.tsv` file generated from the `01-preprocess-data.Rmd` script.
+We will also use the oncoprint goi list from OpenPedCan `oncoprint-goi-lists-OpenPedCan-gencode-v39.csv`.
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggrepel)
+  library(reshape2)
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+maf_autopsy_file <- file.path(scratch_dir, "maf_autopsy.tsv")
+oncoprint_goi_file <- file.path(input_dir, "oncoprint-goi-lists-OpenPedCan-gencode-v39.csv")
+palette_file <- file.path(root_dir, "figures", "palettes", "timepoint_color_palette.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-corplot.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+## Read in data and process
+```{r read-input-files}
+# Read maf_autopsy file generated from step `01-process-data.Rmd`
+maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) # to identify samples with different diagnosis across timepoints
+
+# So far we have one PT_1H2REHT2 patient case with a secondary diagnosis in one of the progressive samples
+# To reflect situations with multiple diagnosis, we will create `cg_sum column`
+maf_autopsy <- maf_autopsy_raw %>% 
+  distinct(cancer_group, .keep_all = TRUE) %>% 
+  summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>%
+  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
+
+# Read oncoprint_goi_file
+# We will use the following list of genes and then we will create a label to select the ones for the corplots.
+oncoprint_goi <- read.csv(oncoprint_goi_file, stringsAsFactor = FALSE) %>%
+  select(LGAT, Embryonal.tumor, HGAT, Other) 
+
+# let's create a list with the genes to be used for the corplots
+oncoprint_goi <- data.frame(goi_list = unlist(oncoprint_goi)) 
+
+# remove empty rows
+oncoprint_goi <- oncoprint_goi[!apply(oncoprint_goi == "", 1, all), ] 
+oncoprint_goi <- data.frame(oncoprint_goi)
+
+# Read palette_df file
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
+```
+
+## Corplots for each Patient case and per biospecimen_id and timepoint
+
+```{r create-corplot-please-wait}
+# Save results by cg_sum
+cg_names <- unique(as.character(maf_autopsy$cg_sum))
+cg_names <- sort(cg_names, decreasing = FALSE)
+print(cg_names)
+
+# Create empty list for df
+df_list <- list() 
+
+# Loop through cg_sum
+for (x in seq_along(cg_names)){
+  print(x)
+
+  cg_maf_sub <- maf_autopsy %>%
+    filter(cg_sum == cg_names[x])
+ 
+  # We will define samples based on the "Kids_First_Participant_ID" column 
+  samples <- unique(as.character(cg_maf_sub$Kids_First_Participant_ID))
+  print(samples)
+    
+  # Define cg_sum specific plots dir
+  cg_plots_dir <- file.path(plots_dir, cg_names[x])
+  if (!dir.exists(cg_plots_dir)) {
+    dir.create(cg_plots_dir)
+  }
+  
+  # Run loop for each sample and pair
+  for (i in seq_along(samples)) {
+    print(i)
+    maf_sub <- cg_maf_sub %>%
+      filter(Kids_First_Participant_ID == samples[i])
+    timepoints_other_plots <- unique(maf_sub$timepoints_other)
+    timepoints_other_plots <- timepoints_other_plots[!timepoints_other_plots == "4"]
+    print(timepoints_other_plots)
+    timepoints_deceased_plots <- unique(maf_sub$timepoints_deceased)
+    timepoints_deceased_plots <- timepoints_deceased_plots[!timepoints_deceased_plots %in% c("1", "2", "3")]
+    print(timepoints_deceased_plots)
+  
+    # Run corplot function
+    for (t in seq_along(timepoints_deceased_plots)){
+      for (k in seq_along(timepoints_other_plots)){
+        
+        # Plot the corplots
+        fname <- paste0(cg_plots_dir, "/", samples[i], "-", timepoints_other_plots[k], "-vs-", timepoints_deceased_plots[t], "-vaf-corplot.pdf")
+        print(fname)
+        p <- create_corplot(maf = maf_sub,
+                            timepoints_other_plot = timepoints_other_plots[k],
+                            timepoints_deceased_plot = timepoints_deceased_plots[t],
+                            sid = samples[i])
+        pdf(file = fname, width = 10, height = 8)
+        print(p)
+        dev.off()
+        
+        
+        # Print df per pair
+        m <- create_corplot_melt(maf = maf_sub,
+                                 timepoints_other_plot = timepoints_other_plots[k],
+                                 timepoints_deceased_plot = timepoints_deceased_plots[t],
+                                 sid = samples[i])
+        # Assign name to df and store all df in list
+        df_name <- paste(samples[i], timepoints_other_plots[k], timepoints_deceased_plots[t], sep = "-")
+        df <- assign(df_name, m)
+        df_list[[df_name]] <- df
+       
+      }
+    }
+  }  
+}
+
+
+# Bind all df from list and save in one file
+df_list_bind <- bind_rows(df_list) %>% 
+  write_tsv(file.path(results_dir, "df_list_common_genes.tsv"))
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
+
