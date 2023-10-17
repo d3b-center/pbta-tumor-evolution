@@ -1,9 +1,0 @@
-cg_id_kids	mut_id	Chr	Position	Wild	Mut	Recurrence_BS_KR6PXZGJ:ref	Recurrence_BS_KR6PXZGJ:alt	Diagnosis_BS_SS7E1QKV:ref	Diagnosis_BS_SS7E1QKV:alt
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr3_41224622_C_T	chr3	41224622	C	T	68	28	35	34
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr16_2115394_G_A	chr16	2115394	G	A	63	6	0	0
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr17_28681975_GGCTAGGT_-	chr17	28681975	GGCTAGGT	-	76	5	0	0
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr19_12896938_G_A	chr19	12896938	G	A	87	16	0	0
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr22_24183189_GA_TC	chr22	24183189	GA	TC	80	6	0	0
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr12_10997226_T_G	chr12	10997226	T	G	0	0	118	12
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr14_104944877_G_A	chr14	104944877	G	A	0	0	77	4
-Adamantinomatous_Craniopharyngioma_PT_CBTW4E3X	chr17_4933586_T_C	chr17	4933586	T	C	0	0	63	3

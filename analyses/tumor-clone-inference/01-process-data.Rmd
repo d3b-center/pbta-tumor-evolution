@@ -61,7 +61,8 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
   
   # There are alterations with high number of read counts.
   # We will exclude those with >1000 for now.
-  filter(!t_alt_count >= 1000) %>% 
+  filter(!t_alt_count >= 1000,
+         !t_ref_count >= 1000) %>% 
 
   dplyr::rename("Chr" = "Chromosome", 
                 "Position" = "Start_Position",
@@ -81,34 +82,59 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
          cg_id_kids = str_replace(cg_id_kids, "/", "_"),
          cg_id_kids = str_replace(cg_id_kids, "-", "_"),
          cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
-         td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"))
+         td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_")) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, 
+         descriptors, timepoints_models, cg_multiple, 
+         cg_id, cgGFAC, cg_id_kids, td_bs_id)
 
-df <- genomic_paired_df %>% 
+genomic_paired_samples <- print(length(unique(genomic_paired_df$cg_id_kids)))
+
+# Let's count #specimens per sample 
+# We will remove any samples with less than 2 specimens as phylogenies require at least 3 taxa
+kids_specimens_n_df <- genomic_paired_df %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_specimens_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_specimens_number = n) %>% 
+  filter(!kids_specimens_number <= 2)
+
+# kids_specimens <- print(length(unique(kids_specimens_n_df$Kids_First_Participant_ID)))
+
+df <- kids_specimens_n_df %>% 
+  left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   left_join(maf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
-  mutate(mut_id = paste(Chr, Position, Wild, Mut, sep = "_")) %>% 
-  
-  # We will remove any samples with less than 2 specimens
-  filter(!tmb >= 2)
-  
-  
+  filter(!is.na(Chr)) %>% 
+  mutate(mut_id = paste(Chr, Position, Wild, Mut, sep = "_")) 
   
 
+# Let's confirm and add the number of timepoints per sample
+# In case we lost any from filtering hypermutants and high reads/alteration
+timepoints_n_df <- df %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_timepoints_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_timepoints_number = n) %>% 
+  filter(!kids_timepoints_number <= 1)
+
+df <- timepoints_n_df %>% 
+  left_join(df, by = c("Kids_First_Participant_ID"))
 
 df_samples <- print(length(unique(df$cg_id_kids)))
 
 
+# Make list with samples with >2 biospecimens at Deceased timepoint
+dec_n_df <- df %>% 
+  filter(tumor_descriptor == "Deceased") %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_dec_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_dec_number = n) %>% 
+  filter(!kids_dec_number <= 1) %>% 
+  write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list.tsv"))
 
-
-
-
-
-
-
-
-
- 
-ylim <- max(df$t_alt_count)  
-max(df$t_alt_count)  
 
 ```
 

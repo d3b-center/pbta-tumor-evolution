@@ -1,8 +1,0 @@
-cg_id_kids	mut_id	Chr	Position	Wild	Mut	Diagnosis_BS_2B2ZREGX:ref	Diagnosis_BS_2B2ZREGX:alt	Recurrence_BS_YGW3DSG3:ref	Recurrence_BS_YGW3DSG3:alt
-Low_grade_glioma_PT_2MZPGZN1	chr9_133070601_A_G	chr9	133070601	A	G	75	5	0	0
-Low_grade_glioma_PT_2MZPGZN1	chr22_15700206_G_A	chr22	15700206	G	A	42	8	0	0
-Low_grade_glioma_PT_2MZPGZN1	chr22_24183189_GA_TC	chr22	24183189	GA	TC	72	6	0	0
-Low_grade_glioma_PT_2MZPGZN1	chr2_28411960_G_A	chr2	28411960	G	A	0	0	70	3
-Low_grade_glioma_PT_2MZPGZN1	chr7_150397520_C_A	chr7	150397520	C	A	0	0	108	8
-Low_grade_glioma_PT_2MZPGZN1	chr10_79513017_T_C	chr10	79513017	T	C	0	0	61	16
-Low_grade_glioma_PT_2MZPGZN1	chr19_55605734_T_G	chr19	55605734	T	G	0	0	61	5

@@ -52,7 +52,6 @@ Diffuse_midline_glioma_PT_19GCSK2S	chr15_65982419_T_C	chr15	65982419	T	C	0	0	160
 Diffuse_midline_glioma_PT_19GCSK2S	chr16_57022276_G_T	chr16	57022276	G	T	0	0	135	8	0	0	0	0	0	0
 Diffuse_midline_glioma_PT_19GCSK2S	chr19_39485716_T_G	chr19	39485716	T	G	0	0	103	9	0	0	0	0	0	0
 Diffuse_midline_glioma_PT_19GCSK2S	chr19_50188216_C_A	chr19	50188216	C	A	0	0	98	10	0	0	0	0	0	0
-Diffuse_midline_glioma_PT_19GCSK2S	chrM_15570_T_C	chrM	15570	T	C	0	0	28706	1531	27113	1057	23865	916	27749	777
 Diffuse_midline_glioma_PT_19GCSK2S	chr1_226736095_C_-	chr1	226736095	C	-	0	0	0	0	110	10	0	0	0	0
 Diffuse_midline_glioma_PT_19GCSK2S	chr2_39666029_CTGGGGCTG_-	chr2	39666029	CTGGGGCTG	-	0	0	0	0	80	3	0	0	0	0
 Diffuse_midline_glioma_PT_19GCSK2S	chr2_55585163_A_G	chr2	55585163	A	G	0	0	0	0	95	8	0	0	0	0

@@ -1,6 +1,0 @@
-cg_id_kids	mut_id	Chr	Position	Wild	Mut	Diagnosis_BS_JZV7KSF4:ref	Diagnosis_BS_JZV7KSF4:alt	Progressive_BS_WCX9HT5Y:ref	Progressive_BS_WCX9HT5Y:alt
-Low_grade_glioma_PT_N4563ERM	chr7_90161025_A_G	chr7	90161025	A	G	33	0	0	0
-Low_grade_glioma_PT_N4563ERM	chr7_90161078_A_G	chr7	90161078	A	G	37	0	0	0
-Low_grade_glioma_PT_N4563ERM	chr7_144365352_C_T	chr7	144365352	C	T	95	0	0	0
-Low_grade_glioma_PT_N4563ERM	chr11_62528863_C_T	chr11	62528863	C	T	37	0	0	0
-Low_grade_glioma_PT_N4563ERM	NA_NA_NA_NA	0	0	0	0	0	0	0	0

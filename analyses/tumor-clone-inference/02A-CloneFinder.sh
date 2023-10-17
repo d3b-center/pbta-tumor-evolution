@@ -11,6 +11,17 @@ brew install python
 # python3 -m pip install SciPy NumPy Biopython pandas networkx matplotlib logbook fire pydot
 python3 -m pip install SciPy NumPy Biopython
 
+python3 -m pip install matplotlib pydot graphviz networkx 
+
+Python 3
+	matplotlib
+	pydot
+	graphviz
+	networkx (<=2.8)
+	biopython
+
+
+
 # User needs to have meca-cc installed locally
 # the appropriate version can be found here:
 # https://www.megasoftware.net/active_download

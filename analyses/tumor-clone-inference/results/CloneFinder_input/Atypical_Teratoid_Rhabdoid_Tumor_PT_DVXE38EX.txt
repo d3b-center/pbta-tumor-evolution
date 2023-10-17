@@ -18,7 +18,6 @@ Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr14_21634334_C_T	chr14	21634334	C
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr16_2114210_G_A	chr16	2114210	G	A	0	0	78	6	0	0	0	0
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr19_1054090_C_T	chr19	1054090	C	T	0	0	110	17	96	9	0	0
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr19_55881514_C_T	chr19	55881514	C	T	0	0	83	9	69	7	46	33
-Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chrM_7359_G_A	chrM	7359	G	A	0	0	24624	4314	6055	18909	10515	17646
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_19160976_G_A	chr1	19160976	G	A	0	0	0	0	92	9	59	52
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_107749473_C_G	chr1	107749473	C	G	0	0	0	0	63	6	0	0
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_150440940_A_T	chr1	150440940	A	T	0	0	0	0	61	7	33	33
@@ -91,7 +90,6 @@ Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr22_20733058_G_A	chr22	20733058	G
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr22_21445344_G_T	chr22	21445344	G	T	0	0	0	0	128	13	56	39
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr22_24905172_G_T	chr22	24905172	G	T	0	0	0	0	84	11	14	24
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chrX_150649900_AG_TA	chrX	150649900	AG	TA	0	0	0	0	45	6	0	0
-Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chrM_12602_T_C	chrM	12602	T	C	0	0	0	0	27763	1961	0	0
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_94030452_C_T	chr1	94030452	C	T	0	0	0	0	0	0	80	6
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_113981514_G_-	chr1	113981514	G	-	0	0	0	0	0	0	59	39
 Atypical_Teratoid_Rhabdoid_Tumor_PT_DVXE38EX	chr1_203085517_G_A	chr1	203085517	G	A	0	0	0	0	0	0	76	12
