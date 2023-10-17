@@ -84,14 +84,14 @@ df <- genomic_paired_df %>%
 # We will use the cg_id col that indicates cancer type as identified at the first diagnostic sample
 timepoint_cg_n_df <- df %>% 
   count(cg_id, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cg_n = n) 
+  dplyr::mutate(timepoint_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cg_number = n) 
 
 # Let's count #samples per cancer groups and timepoints 
 timepoint_cgGFAC_n_df <- df %>% 
   count(cgGFAC, td_cgGFAC) %>% 
-  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cgGFAC_n = n) 
+  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_number = n) 
 
 # Create df to use for plots
 df_plot <- df %>% 
