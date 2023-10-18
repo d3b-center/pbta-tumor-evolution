@@ -46,6 +46,9 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 # Read in data and process
 
 ```{r load-process-inputs}
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "xDeceased", "Second Malignancy", "Unavailable")
+
 tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>% 
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
@@ -54,41 +57,26 @@ tmb_vaf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FAL
   filter(!tmb >= 10,
          !is.na(tmb)) 
 
-# Vector to order timepoints
-timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
-
 df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
-  mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+  filter(!cg_id == "NA") %>% 
+  mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
-         log10_tmb = abs(log10(tmb)))
-
-# Let's count #samples per cancer groups and timepoints.
-# We will use the cg_id col that indicates cancer type as identified at the first diagnostic sample
-timepoint_cg_n_df <- df %>% 
-  count(cg_id, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cg_n = n) 
-
-# Let's count #samples per cancer groups and timepoints 
-timepoint_cgGFAC_n_df <- df %>% 
-  count(cgGFAC, td_cgGFAC) %>% 
-  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cgGFAC_n = n) 
-
-# Create df to use for plots
-df_plot <- df %>% 
-  left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
-  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
-  filter(!timepoint_cg_n <= 2,
-         !timepoint_cgGFAC_n <= 2,
-         !cg_id == "NA", 
-         !tmb == "NA") %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
+         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         cg_id = str_replace(cg_id, "/", "_"),
+         cg_id = str_replace(cg_id, "-", "_"),
+         cg_id = str_replace_all(cg_id, " ", "_"),
+         tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
-df_plot_samples <- print(length(unique(df_plot$Kids_First_Participant_ID)))
+no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
+
+# Let's count number of samples 
+count_df <- df %>% 
+  group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id) 
+
 ``` 
 
 # Define parameters for plots
