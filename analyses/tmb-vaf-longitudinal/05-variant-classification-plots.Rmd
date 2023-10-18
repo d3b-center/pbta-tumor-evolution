@@ -110,7 +110,7 @@ names(palette) <- palette_df$color_names
 ```{r plot-timepoint, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
-title <- paste("Variant types in PBTA cohort", sep = " ")
+title <- paste("Variant types in paired longitudinal samples", sep = " ")
 
 # Run function
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
@@ -126,7 +126,7 @@ dev.off()
 ```{r plot-cg-id, fig.width = 25, fig.height = 30, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
-title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
 rows <- 5
 
 # Run function
