@@ -193,44 +193,6 @@ for (i in seq_along(sample)){
 }
 ```
 
-
-
-
-
-
-
-
-
-# Alterations per timepoint in each cancer type defined by cgGFAC
-
-```{r plot-cgGFAC-n-individual-plots, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
-df_plot_cgGFAC <- df_plot %>% 
-  arrange(tumor_descriptor_cgGFAC_n) 
-
-cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC)) 
-cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
-cgGFAC_id
-
-# Loop through variable
-for (i in seq_along(cgGFAC_id)){
-  print(i)
-  df_sub <- df_plot_cgGFAC %>%
-      filter(cgGFAC == cgGFAC_id[i])
-  
-   # Create bxp
-  print(ggpubr::ggboxplot(df_sub, 
-                        x = "tumor_descriptor_cgGFAC_n", 
-                        y = "log10_tmb", 
-                        color = "Variant_Classification",
-                        palette = palette) +
-        theme_Publication() + 
-        labs(title = paste(cgGFAC_id[i])) +
-        scale_y_continuous(limits = c(0, ylim)) +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)))
-}
-```
-
-
 ```{r echo=TRUE}
 sessionInfo()
 ```
