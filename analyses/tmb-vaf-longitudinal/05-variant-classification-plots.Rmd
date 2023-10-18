@@ -75,7 +75,8 @@ descriptors_df <- genomic_paired_df %>%
 # Vector to order timepoints
 timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
-df <- genomic_paired_df %>% 
+# Create df to use for plots
+df_plot <- genomic_paired_df %>% 
   left_join(descriptors_df, by = c("Kids_First_Participant_ID", "descriptors")) %>% 
   mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
@@ -83,29 +84,8 @@ df <- genomic_paired_df %>%
          cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
          cg_id_kids = str_replace(cg_id_kids, "/", "_"),
          cg_id_kids = str_replace(cg_id_kids, "-", "_"),
-         cg_id_kids = str_replace_all(cg_id_kids, " ", "_"))
-
-# Let's count #samples per cancer groups and timepoints.
-# We will use the cg_id col that indicates cancer type as identified at the first diagnostic sample
-timepoint_cg_n_df <- df %>% 
-  count(cg_id, tumor_descriptor) %>% 
-  dplyr::mutate(timepoint_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cg_number = n) 
-
-# Let's count number of samples per cancer groups and timepoints 
-timepoint_cgGFAC_n_df <- df %>% 
-  count(cgGFAC, td_cgGFAC) %>% 
-  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cgGFAC_number = n) 
-
-# Create df to use for plots
-df_plot <- df %>% 
-  left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
-  left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
-  filter(!timepoint_cg_n <= 2,
-         !timepoint_cgGFAC_n <= 2,
-         !cg_id == "NA") %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
+         cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
+         tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
 # Let's count number of samples 
