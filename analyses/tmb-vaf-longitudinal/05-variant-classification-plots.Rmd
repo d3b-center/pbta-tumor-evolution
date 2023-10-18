@@ -80,17 +80,13 @@ df_plot <- genomic_paired_df %>%
   left_join(descriptors_df, by = c("Kids_First_Participant_ID", "descriptors")) %>% 
   mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
-         match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
-         cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
-         cg_id_kids = str_replace(cg_id_kids, "/", "_"),
-         cg_id_kids = str_replace(cg_id_kids, "-", "_"),
-         cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
+         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
 # Let's count number of samples 
 count_df <- df_plot %>% 
-  group_by(tumor_descriptor, cg_id, match_id_bs, Variant_Classification) %>% 
+  group_by(tumor_descriptor, cg_id, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) 
 
 ``` 
@@ -130,7 +126,7 @@ cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
 
 # Define parameters for function
-x_value <- count_df$match_id_bs
+x_value <- count_df$match_id
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
 
 # Run function
