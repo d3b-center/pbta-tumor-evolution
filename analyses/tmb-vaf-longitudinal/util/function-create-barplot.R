@@ -152,42 +152,4 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
 
 
 
-#' Create stacked barplots to explore variant types per cancer_group
-#'
-#' @param count_df 
-#' @param x_value 
-#' @param palette 
-#' @param title
-#' 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' 
-#'  
-#' 
-create_stacked_barplot_variant_cgGFAC <- function(count_df, x_value, palette, title) {
-  
-  # Plot stacked barplot 
-  p <- print(ggplot(count_df,
-                    aes(x = x_value,
-                        y = n, 
-                        fill = Variant_Classification)) + 
-               geom_bar(stat = "identity", position = "fill") +
-               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
-               theme_Publication() + 
-               theme(axis.text.x = element_text(angle = 85,
-                                                hjust = 1,
-                                                vjust = 1),
-                     text = element_text(size = 14)) +
-               #scale_y_continuous(labels = scales::percent_format()) +
-               scale_y_continuous(scales::percent(100, scale = 1)) +
-               facet_wrap(~cgGFAC, scales = "free_x", nrow = 1) +
-               labs(title = title) + 
-               labs(x = "Timepoint", y = "Total count of variants per kids_id"))
-  
-  return(p)
-}
-
 
