@@ -101,10 +101,11 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
                                            hjust = 1,
                                            vjust = 1),
                 text = element_text(size = 14)) +
-          scale_y_continuous(scales::percent(100, scale = 1)) +
-          labs(title = title) + 
-          labs(x = "Timepoint", y = "Total count of variants per kids_id"))
-  
+          scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+          labs(title = title, 
+               x = "Timepoint", 
+               y = "Total count of variants per kids_id"))
+
   return(p)
 }
 
@@ -115,6 +116,8 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
 #' @param x_value 
 #' @param palette 
 #' @param title
+#' @param rows
+
 #' 
 #'
 #' @return
@@ -124,7 +127,7 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
 #' 
 #'  
 #' 
-create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, title) {
+create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, title, rows) {
   
   # Plot stacked barplot 
   p <- print(ggplot(count_df,
@@ -139,15 +142,13 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
                                                 vjust = 1),
                      text = element_text(size = 14)) +
                #scale_y_continuous(labels = scales::percent_format()) +
-               scale_y_continuous(scales::percent(100, scale = 1)) +
-               facet_wrap(~cg_id, scales = "free_x", nrow = 5) +
-               
-               labs(title = title) + 
-               labs(x = "Timepoint", y = "Total count of variants per kids_id"))
-  
+               scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+               facet_wrap(~cg_id, scales = "free_x", nrow = rows) +
+               labs(title = title, 
+                    x = "Timepoint", 
+                    y = "Total count of variants per kids_id"))
+
   return(p)
 }
-
-
 
 
