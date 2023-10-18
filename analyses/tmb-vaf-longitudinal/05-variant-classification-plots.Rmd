@@ -78,16 +78,16 @@ timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Ma
 # Create df to use for plots
 df_plot <- genomic_paired_df %>% 
   left_join(descriptors_df, by = c("Kids_First_Participant_ID", "descriptors")) %>% 
-  mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
+  mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
-         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
-         tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"))
 
 # Let's count number of samples 
 count_df <- df_plot %>% 
   group_by(tumor_descriptor, cg_id, match_id, Variant_Classification) %>% 
-  dplyr::count(cg_id) 
+  dplyr::count(cg_id) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
 ``` 
 
@@ -120,7 +120,24 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 30, fig.height = 18, fig.fullwidth = TRUE}
+```{r plot-cg-id, fig.width = 25, fig.height = 30, fig.fullwidth = TRUE}
+# Define parameters for function
+x_value <- count_df$tumor_descriptor
+title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+
+# Run function
+fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+print(fname)
+p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
+pdf(file = fname, width = 25, height = 30)
+print(p)
+dev.off()
+```
+
+
+# Alterations per timepoint in each cancer type and kids_id
+
+```{r plot-cg-id, fig.width = 30, fig.height = 30, fig.fullwidth = TRUE}
 cg_id_id <- as.character(unique(count_df$cg_id)) 
 cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
@@ -130,15 +147,13 @@ x_value <- count_df$match_id
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
 
 # Run function
-fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_kids_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
-pdf(file = fname, width = 30, height = 18)
+pdf(file = fname, width = 30, height = 30)
 print(p)
 dev.off()
-
 ```
-
 
 # Alterations per timepoint in each cancer type and timepoint model
 
