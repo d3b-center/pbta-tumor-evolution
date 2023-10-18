@@ -152,7 +152,7 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
 
 
 
-#' Create stacked barplots to explore variant types per cancer_group
+#' Create stacked barplots to explore variant types per cancer_group and kids
 #'
 #' @param count_df 
 #' @param x_value 
