@@ -29,7 +29,6 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
-tmb_vaf_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
 palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_palette.tsv")
 
 # File path to plot directory
@@ -49,24 +48,8 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
 
-tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  filter(!tmb >= 10) %>% 
-  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
-
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
-  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
-  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
-  filter(!is.na(tmb))
-
-# Attention as some bs specimen might not have TMB!
-# If that happens, we will end up with samples lacking timepoints.
-
-# Which patient samples don't have TMB?
-# genomic_paired_df %>% 
-#  filter(is.na(tmb)) %>% 
-#  unique() %>% 
-#  regulartable() %>%
-#  fontsize(size = 12, part = "all")
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) 
 
 descriptors_df <- genomic_paired_df %>%
   group_by(Kids_First_Participant_ID) %>%
@@ -104,7 +87,6 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 # Define and order palette
 palette <- palette_df$hex_codes
 names(palette) <- palette_df$color_names
-
 ```
 
 # Alterations per timepoint
@@ -135,7 +117,12 @@ x_value <- count_df$Kids_First_Biospecimen_ID
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
 
 # Run function
+fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+print(fname)
 p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
+pdf(file = fname, width = 30, height = 18)
+print(p)
+dev.off()
 
 ```
 
