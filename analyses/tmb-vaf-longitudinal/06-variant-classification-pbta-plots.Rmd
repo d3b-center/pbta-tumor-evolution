@@ -159,7 +159,39 @@ for (i in seq_along(sample)){
 
 ```
 
+# Alterations per timepoint in each cancer type and timepoint model
 
+```{r plot-timepoint-model, fig.width = 20, fig.height = 10, fig.fullwidth = TRUE}
+tm_df_plot <- df %>%
+  filter(!is.na(timepoints_models)) %>% 
+  group_by(tumor_descriptor, cg_id, timepoints_models, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id)
+
+sample <- as.character(unique(tm_df_plot$timepoints_models))
+sample <- sort(sample, decreasing = FALSE)
+sample
+
+# Loop through variable
+for (i in seq_along(sample)){
+  print(i)
+  df_sub <- tm_df_plot %>%
+      filter(timepoints_models == sample[i])
+  
+  # Define parameters for function
+  x_value <- df_sub$tumor_descriptor
+  title <- paste(sample[i])
+  
+  if (i %in% c(1,2,6)){
+    rows <- 2
+    }else{
+      rows <- 1
+      }
+  
+  # Run function
+  p <- create_stacked_barplot_variant_cg_id(count_df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
+  
+}
+```
 
 
 
