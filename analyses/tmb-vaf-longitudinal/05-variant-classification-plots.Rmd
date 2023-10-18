@@ -124,11 +124,12 @@ dev.off()
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+rows <- 5
 
 # Run function
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 25, height = 30)
 print(p)
 dev.off()
@@ -137,7 +138,7 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and kids_id
 
-```{r plot-cg-id, fig.width = 30, fig.height = 30, fig.fullwidth = TRUE}
+```{r plot-cg-id-kids, fig.width = 30, fig.height = 30, fig.fullwidth = TRUE}
 cg_id_id <- as.character(unique(count_df$cg_id)) 
 cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
@@ -145,11 +146,12 @@ cg_id_id
 # Define parameters for function
 x_value <- count_df$match_id
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+rows <- 5
 
 # Run function
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_kids_barplots.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 30, height = 30)
 print(p)
 dev.off()
@@ -157,7 +159,7 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and timepoint model
 
-```{r plot-timepoint-model, fig.width = 10, fig.height = 15, fig.fullwidth = TRUE}
+```{r plot-timepoint-model, fig.width = 20, fig.height = 10, fig.fullwidth = TRUE}
 tm_df_plot <- df %>%
   filter(!is.na(timepoints_models)) %>% 
   group_by(tumor_descriptor, cg_id, timepoints_models, match_id, Variant_Classification) %>% 
@@ -173,12 +175,18 @@ for (i in seq_along(tm)){
   df_sub <- tm_df_plot %>%
       filter(timepoints_models == tm[i])
   
-   # Define parameters for function
+  # Define parameters for function
   x_value <- df_sub$match_id
   title <- paste(tm[i])
   
+  if (i %in% c(1,2,6)){
+    rows <- 2
+    }else{
+      rows <- 1
+      }
+  
   # Run function
-  p <- create_stacked_barplot_variant_cg_id(count_df = df_sub, x = x_value, palette = palette, title = title)
+  p <- create_stacked_barplot_variant_cg_id(count_df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   
 }
 ```
