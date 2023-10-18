@@ -29,6 +29,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
+tmb_vaf_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
 palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_palette.tsv")
 
 # File path to plot directory
@@ -48,8 +49,24 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
 
+tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(!tmb >= 10) %>% 
+  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
+
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
-  left_join(pbta_df, by = c("Kids_First_Participant_ID")) 
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
+  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
+  filter(!is.na(tmb))
+
+# Attention as some bs specimen might not have TMB!
+# If that happens, we will end up with samples lacking timepoints.
+
+# Which patient samples don't have TMB?
+# genomic_paired_df %>% 
+#  filter(is.na(tmb)) %>% 
+#  unique() %>% 
+#  regulartable() %>%
+#  fontsize(size = 12, part = "all")
 
 descriptors_df <- genomic_paired_df %>%
   group_by(Kids_First_Participant_ID) %>%
@@ -63,7 +80,7 @@ df_plot <- genomic_paired_df %>%
   left_join(descriptors_df, by = c("Kids_First_Participant_ID", "descriptors")) %>% 
   mutate(td_cgGFAC = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
-         log10_tmb = abs(log10(tmb)),
+         match_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_"),
          cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
          cg_id_kids = str_replace(cg_id_kids, "/", "_"),
          cg_id_kids = str_replace(cg_id_kids, "-", "_"),
@@ -73,7 +90,7 @@ df_plot <- genomic_paired_df %>%
 
 # Let's count number of samples 
 count_df <- df_plot %>% 
-  group_by(tumor_descriptor, cg_id, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
+  group_by(tumor_descriptor, cg_id, match_id_bs, Variant_Classification) %>% 
   dplyr::count(cg_id) 
 
 ``` 
@@ -113,7 +130,7 @@ cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
 
 # Define parameters for function
-x_value <- count_df$Kids_First_Biospecimen_ID
+x_value <- count_df$match_id_bs
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
 
 # Run function
