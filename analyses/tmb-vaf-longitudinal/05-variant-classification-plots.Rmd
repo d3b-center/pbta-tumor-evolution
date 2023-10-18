@@ -34,7 +34,7 @@ palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_pale
 
 # File path to plot directory
 plots_dir <-
-  file.path(analysis_dir, "plots", "Alteration_type_barplots")
+  file.path(analysis_dir, "plots", "Alteration_type_barplots_matched_samples")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
