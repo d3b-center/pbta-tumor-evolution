@@ -148,25 +148,18 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
+```{r plot-cg-id, fig.width = 30, fig.height = 18, fig.fullwidth = TRUE}
 cg_id_id <- as.character(unique(count_df$cg_id)) 
 cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
 
-# Loop through variable
-for (i in seq_along(cg_id_id)){
-  print(i)
-  df_sub <- count_df %>%
-      filter(cg_id == cg_id_id[i])
-  
-  # Define parameters for function
-  x_value <- df_sub$Kids_First_Biospecimen_ID
-  title <- paste(cg_id_id[i])
-  
-  # Run function
-  p <- create_stacked_barplot_variant(count_df = df_sub, x = x_value, palette = palette, title = title)
 
-}
+# Define parameters for function
+x_value <- count_df$Kids_First_Biospecimen_ID
+title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+  
+# Run function
+p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
 
 ```
 
@@ -201,7 +194,7 @@ for (i in seq_along(cgGFAC_id)){
 
 # Alterations per timepoint in each cancer type and timepoint model
 
-```{r plot-timepoint-model, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+```{r plot-timepoint-model, fig.width = 15, fig.height = 12, fig.fullwidth = TRUE}
 tm_df_plot <- df_plot %>%
   filter(!is.na(timepoints_models)) %>% 
   group_by(tumor_descriptor, cg_id, timepoints_models, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
