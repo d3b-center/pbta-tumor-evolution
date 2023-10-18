@@ -139,25 +139,6 @@ dev.off()
 
 ```
 
-# Alterations per timepoint in each cancer type defined by cgGFAC
-
-```{r plot-cgGFAC-n-individual-plots, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
-df_plot_cgGFAC <- df_plot %>%
-  group_by(tumor_descriptor, cgGFAC, match_id, Variant_Classification) %>% 
-  dplyr::count(cgGFAC)
-
-cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC)) 
-cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
-cgGFAC_id
-
-# Define parameters for function
-x_value <- df_plot_cgGFAC$match_id
-title <- paste("Variant types in PBTA cohort across cgGFAC", sep = " ")
-
-# Run function
-p <- create_stacked_barplot_variant_cgGFAC(count_df = df_plot_cgGFAC, x = x_value, palette = palette, title = title)
-
-```
 
 # Alterations per timepoint in each cancer type and timepoint model
 
