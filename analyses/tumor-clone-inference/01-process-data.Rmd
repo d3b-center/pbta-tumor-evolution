@@ -119,20 +119,30 @@ timepoints_n_df <- df %>%
   filter(!kids_timepoints_number <= 1)
 
 df <- timepoints_n_df %>% 
-  left_join(df, by = c("Kids_First_Participant_ID"))
+  left_join(df, by = c("Kids_First_Participant_ID")) %>% 
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny.tsv"))
 
 df_samples <- print(length(unique(df$cg_id_kids)))
 
+# List with samples eligible for phylogeny
+# I added the information about to use for phylogenetic inferences
+list_df <- df %>% 
+  select(Kids_First_Participant_ID) %>% 
+  unique() %>% 
+  mutate(somatic_germline_phylogeny = case_when(grepl("PT_KZ56XHJT|PT_KTRJ8TFY", Kids_First_Participant_ID) ~ "yes",
+                                        TRUE ~ "not_yet")) %>% 
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list.tsv"))
 
+  
 # Make list with samples with >2 biospecimens at Deceased timepoint
 dec_n_df <- df %>% 
   filter(tumor_descriptor == "Deceased") %>% 
   select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID) %>% 
   unique() %>% 
   count(Kids_First_Participant_ID) %>% 
-  dplyr::mutate(kids_dec_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
-  dplyr::rename(kids_dec_number = n) %>% 
-  filter(!kids_dec_number <= 1) %>% 
+ # dplyr::mutate(kids_dec_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_deceased_bs_number = n) %>% 
+  filter(!kids_deceased_bs_number <= 1) %>% 
   write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list.tsv"))
 
 
