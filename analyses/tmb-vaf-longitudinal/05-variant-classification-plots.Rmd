@@ -153,11 +153,10 @@ cg_id_id <- as.character(unique(count_df$cg_id))
 cg_id_id <- sort(cg_id_id, decreasing = FALSE)
 cg_id_id
 
-
 # Define parameters for function
 x_value <- count_df$Kids_First_Biospecimen_ID
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
-  
+
 # Run function
 p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
 
@@ -176,20 +175,13 @@ cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC))
 cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
 cgGFAC_id
 
-# Loop through variable
-for (i in seq_along(cgGFAC_id)){
-  print(i)
-  df_sub <- df_plot_cgGFAC %>%
-      filter(cgGFAC == cgGFAC_id[i])
-  
-  # Define parameters for function
-  x_value <- df_sub$Kids_First_Biospecimen_ID
-  title <- paste(cgGFAC_id[i])
-  
-  # Run function
-  p <- create_stacked_barplot_variant(count_df = df_sub, x = x_value, palette = palette, title = title)
+# Define parameters for function
+x_value <- df_plot_cgGFAC$Kids_First_Biospecimen_ID
+title <- paste("Variant types in PBTA cohort across cgGFAC", sep = " ")
 
-}
+# Run function
+p <- create_stacked_barplot_variant_cgGFAC(count_df = df_plot_cgGFAC, x = x_value, palette = palette, title = title)
+
 ```
 
 # Alterations per timepoint in each cancer type and timepoint model
