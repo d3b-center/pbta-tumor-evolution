@@ -141,7 +141,6 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
                                                 hjust = 1,
                                                 vjust = 1),
                      text = element_text(size = 14)) +
-               #scale_y_continuous(labels = scales::percent_format()) +
                scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
                facet_wrap(~cg_id, scales = "free_x", nrow = rows) +
                labs(title = title, 
