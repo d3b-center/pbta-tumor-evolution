@@ -46,6 +46,9 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 # Read in data and process
 
 ```{r load-process-inputs}
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "xDeceased", "Second Malignancy", "Unavailable")
+
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
 
@@ -58,36 +61,33 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
   filter(!is.na(tmb))
 
-# Attention as some bs specimen might not have TMB!
+no_samples_with_tmb <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
+
+# Attention as some bs specimen might not have TMB.
 # If that happens, we will end up with samples lacking timepoints.
+# Let's identify these samples and remove them for now.
 
-# Which patient samples don't have TMB?
-# genomic_paired_df %>% 
-#  filter(is.na(tmb)) %>% 
-#  unique() %>% 
-#  regulartable() %>%
-#  fontsize(size = 12, part = "all")
-
-descriptors_df <- genomic_paired_df %>%
+df <- genomic_paired_df %>%
+  select(Kids_First_Participant_ID, tumor_descriptor) %>% 
+  unique() %>%
+  arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
-  summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),) 
-
-# Vector to order timepoints
-timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
-
-# Create df to use for plots
-df_plot <- genomic_paired_df %>% 
-  left_join(descriptors_df, by = c("Kids_First_Participant_ID", "descriptors")) %>% 
+  summarize(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>%
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
+  left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
+  filter(!cg_id == "NA") %>% 
   mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
-         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"))
+         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+
+no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
-count_df <- df_plot %>% 
+count_df <- df %>% 
   group_by(tumor_descriptor, cg_id, match_id, Variant_Classification) %>% 
-  dplyr::count(cg_id) %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
-          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+  dplyr::count(cg_id) 
 
 ``` 
 
@@ -157,11 +157,11 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and timepoint model
 
-```{r plot-timepoint-model, fig.width = 15, fig.height = 12, fig.fullwidth = TRUE}
-tm_df_plot <- df_plot %>%
+```{r plot-timepoint-model, fig.width = 10, fig.height = 15, fig.fullwidth = TRUE}
+tm_df_plot <- df %>%
   filter(!is.na(timepoints_models)) %>% 
-  group_by(tumor_descriptor, cg_id, timepoints_models, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
-  dplyr::count(timepoint_cgGFAC_n)
+  group_by(tumor_descriptor, cg_id, timepoints_models, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id)
 
 tm <- as.character(unique(tm_df_plot$timepoints_models))
 tm <- sort(tm, decreasing = FALSE)
