@@ -153,7 +153,7 @@ cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
 cgGFAC_id
 
 # Define parameters for function
-x_value <- df_plot_cgGFAC$Kids_First_Biospecimen_ID
+x_value <- df_plot_cgGFAC$match_id
 title <- paste("Variant types in PBTA cohort across cgGFAC", sep = " ")
 
 # Run function
@@ -180,7 +180,7 @@ for (i in seq_along(tm)){
       filter(timepoints_models == tm[i])
   
    # Define parameters for function
-  x_value <- df_sub$Kids_First_Biospecimen_ID
+  x_value <- df_sub$match_id
   title <- paste(tm[i])
   
   # Run function
