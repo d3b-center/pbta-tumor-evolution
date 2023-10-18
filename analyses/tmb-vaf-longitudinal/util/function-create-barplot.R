@@ -91,7 +91,7 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
   
   # Plot stacked barplot 
   p <- print(ggplot(count_df,
-               aes(x = tumor_descriptor,
+               aes(x =  x_value,
                    y = n, 
                    fill = Variant_Classification)) +  
           geom_bar(stat = "identity", position = "fill") +
@@ -100,9 +100,8 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
           theme(axis.text.x = element_text(angle = 85,
                                            hjust = 1,
                                            vjust = 1),
-                text = element_text(size = 14),
-                legend.position = c(.9, .9)) +
-          scale_y_continuous(labels = scales::percent_format()) +
+                text = element_text(size = 14)) +
+          scale_y_continuous(scales::percent(100, scale = 1)) +
           labs(title = title) + 
           labs(x = "Timepoint", y = "Total count of variants per kids_id"))
   
@@ -130,7 +129,7 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
   
   # Plot stacked barplot 
   p <- print(ggplot(count_df,
-                    aes(x = tumor_descriptor,
+                    aes(x = x_value,
                         y = n, 
                         fill = Variant_Classification)) + 
                geom_bar(stat = "identity", position = "fill") +
@@ -140,7 +139,8 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
                                                 hjust = 1,
                                                 vjust = 1),
                      text = element_text(size = 14)) +
-               scale_y_continuous(labels = scales::percent_format()) +
+               #scale_y_continuous(labels = scales::percent_format()) +
+               scale_y_continuous(scales::percent(100, scale = 1)) +
                facet_wrap(~cg_id) +
                labs(title = title) + 
                labs(x = "Timepoint", y = "Total count of variants per kids_id"))

@@ -40,6 +40,7 @@ if (!dir.exists(plots_dir)) {
 }
 
 source(paste0(root_dir, "/figures/scripts/theme.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 ```
 
 # Read in data and process
@@ -109,9 +110,12 @@ df_plot <- df %>%
 
 # Let's count number of samples 
 count_df <- df_plot %>% 
-  group_by(tumor_descriptor, cg_id, Variant_Classification) %>% 
-  dplyr::count(cg_id)
+  group_by(tumor_descriptor, cg_id, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
+  dplyr::count(cg_id) 
 
+#count_df <- df_plot %>% 
+#  dplyr::count(cg_id) %>% 
+#  mutate(pct = n / sum(n) * 100)
 ``` 
 
 # Define parameters for plots
@@ -122,15 +126,13 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 
 # Define and order palette
 palette <- palette_df$hex_codes
-names(palette) <- palette_df$Variant_Classification
+names(palette) <- palette_df$color_names
 
-# Define label for plots
-Alteration_type <-count_df$Variant_Classification
 ```
 
 # Alterations per timepoint
 
-```{r plot-timepoint, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
+```{r plot-timepoint, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
 title <- paste("Variant types in PBTA cohort", sep = " ")
@@ -139,25 +141,33 @@ title <- paste("Variant types in PBTA cohort", sep = " ")
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant(count_df = count_df, x = x_value, palette = palette, title = title)
-pdf(file = fname, width = 5, height = 5)
+pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
 ```
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 25, fig.height = 18, fig.fullwidth = TRUE}
-# Define parameters for function
-x_value <- count_df$tumor_descriptor
-title <- paste("Variant types in PBTA cohort", sep = " ")
+```{r plot-cg-id, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
+cg_id_id <- as.character(unique(count_df$cg_id)) 
+cg_id_id <- sort(cg_id_id, decreasing = FALSE)
+cg_id_id
 
-# Run function
-fname <- paste0(plots_dir, "/", "Alteration_type_cg_id_barplots.pdf")
-print(fname)
-p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title)
-pdf(file = fname, width = 25, height = 18)
-print(p)
-dev.off()
+# Loop through variable
+for (i in seq_along(cg_id_id)){
+  print(i)
+  df_sub <- count_df %>%
+      filter(cg_id == cg_id_id[i])
+  
+  # Define parameters for function
+  x_value <- df_sub$Kids_First_Biospecimen_ID
+  title <- paste(cg_id_id[i])
+  
+  # Run function
+  p <- create_stacked_barplot_variant(count_df = df_sub, x = x_value, palette = palette, title = title)
+
+}
+
 ```
 
 # Alterations per timepoint in each cancer type defined by cgGFAC
@@ -166,7 +176,7 @@ dev.off()
 df_plot_cgGFAC <- df_plot %>%
   filter(!is.na(timepoints_models)) %>% 
   arrange(timepoint_cgGFAC_n) %>% 
-  group_by(tumor_descriptor, cgGFAC, timepoint_cgGFAC_n, Variant_Classification) %>% 
+  group_by(tumor_descriptor, cgGFAC, timepoint_cgGFAC_n, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
   dplyr::count(timepoint_cgGFAC_n)
 
 cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC)) 
@@ -180,21 +190,21 @@ for (i in seq_along(cgGFAC_id)){
       filter(cgGFAC == cgGFAC_id[i])
   
   # Define parameters for function
-  x_value <- df_plot_cgGFAC$timepoint_cgGFAC_n
+  x_value <- df_sub$Kids_First_Biospecimen_ID
   title <- paste(cgGFAC_id[i])
   
   # Run function
-  p <- create_stacked_barplot_variant(count_df = df_plot_cgGFAC, x = x_value, palette = palette, title = title)
+  p <- create_stacked_barplot_variant(count_df = df_sub, x = x_value, palette = palette, title = title)
 
 }
 ```
 
 # Alterations per timepoint in each cancer type and timepoint model
 
-```{r plot-timepoint-model, fig.width = 15, fig.height = 6, fig.fullwidth = TRUE}
+```{r plot-timepoint-model, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
 tm_df_plot <- df_plot %>%
   filter(!is.na(timepoints_models)) %>% 
-  group_by(tumor_descriptor, cg_id, timepoints_models, Variant_Classification) %>% 
+  group_by(tumor_descriptor, cg_id, timepoints_models, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
   dplyr::count(timepoint_cgGFAC_n)
 
 tm <- as.character(unique(tm_df_plot$timepoints_models))
@@ -208,7 +218,7 @@ for (i in seq_along(tm)){
       filter(timepoints_models == tm[i])
   
    # Define parameters for function
-  x_value <- tm_df_plot$tumor_descriptor
+  x_value <- df_sub$Kids_First_Biospecimen_ID
   title <- paste(tm[i])
   
   # Run function
