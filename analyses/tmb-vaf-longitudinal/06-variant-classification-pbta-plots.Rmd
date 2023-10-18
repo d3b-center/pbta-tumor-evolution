@@ -58,7 +58,7 @@ tmb_vaf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FAL
          !is.na(tmb)) 
 
 df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, timepoints_models, tumor_descriptor) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, tumor_descriptor) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
   filter(!cg_id == "NA") %>% 
   mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
