@@ -143,10 +143,8 @@ dev.off()
 
 ```{r plot-cgGFAC-n-individual-plots, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
 df_plot_cgGFAC <- df_plot %>%
-  filter(!is.na(timepoints_models)) %>% 
-  arrange(timepoint_cgGFAC_n) %>% 
-  group_by(tumor_descriptor, cgGFAC, timepoint_cgGFAC_n, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
-  dplyr::count(timepoint_cgGFAC_n)
+  group_by(tumor_descriptor, cgGFAC, match_id, Variant_Classification) %>% 
+  dplyr::count(cgGFAC)
 
 cgGFAC_id <- as.character(unique(df_plot_cgGFAC$cgGFAC)) 
 cgGFAC_id <- sort(cgGFAC_id, decreasing = FALSE)
