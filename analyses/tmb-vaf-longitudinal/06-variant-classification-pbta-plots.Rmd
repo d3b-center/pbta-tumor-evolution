@@ -123,7 +123,41 @@ print(p)
 dev.off()
 ```
 
+# Alterations per timepoint in each cancer type and kids_id
 
+```{r plot-cg-id-kids, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+sample <- as.character(unique(count_df$cg_id)) 
+sample <- sort(sample, decreasing = FALSE)
+sample
+
+
+# Loop through variable
+for (i in seq_along(sample)){
+  print(i)
+  df_sub <- count_df %>%
+      filter(cg_id == sample[i])
+  
+  if (i %in% c(2,7,10, 15,16,18)){
+    width_value = 25
+    }else{
+    width_value = 10
+      }
+
+  # Define parameters for function
+  x_value <- df_sub$tumor_descriptor
+  title <- paste(sample[i], "Variants across samples", sep = ": ")
+  rows <- 1
+  
+  # Run function
+  fname <- paste0(plots_dir, "/", sample[i], "-Alteration_type_timepoints_kids_barplots.pdf")
+  print(fname)
+  p <- create_stacked_barplot_variant_kids(count_df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
+  pdf(file = fname, width = width_value, height = 6)
+  print(p)
+  dev.off()
+  }
+
+```
 
 
 
