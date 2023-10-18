@@ -87,13 +87,7 @@ palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types =
 
 # Define and order palette
 palette <- palette_df$hex_codes
-names(palette) <- palette_df$Variant_Classification
-
-# Define label for plots
-Alteration_type <- df_plot$Variant_Classification
-
-# Define ylim
-ylim <- max(df_plot$log10_tmb)
+names(palette) <- palette_df$color_names
 ```
 
 # Alterations per timepoint
