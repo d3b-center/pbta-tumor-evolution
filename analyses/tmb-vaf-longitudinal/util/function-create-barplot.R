@@ -140,7 +140,7 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
                      text = element_text(size = 14)) +
                #scale_y_continuous(labels = scales::percent_format()) +
                scale_y_continuous(scales::percent(100, scale = 1)) +
-               facet_wrap(~cg_id, scales = "free_x", nrow = 3) +
+               facet_wrap(~cg_id, scales = "free_x", nrow = 5) +
                
                labs(title = title) + 
                labs(x = "Timepoint", y = "Total count of variants per kids_id"))
