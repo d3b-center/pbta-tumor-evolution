@@ -108,27 +108,32 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 30, fig.height = 18, fig.fullwidth = TRUE}
-# Create bxp
-print(ggpubr::ggboxplot(df_plot, 
-                        x = "tumor_descriptor", 
-                        y = "log10_tmb", 
-                        color = "Variant_Classification",
-                        palette = palette) +
-        facet_wrap(~cg_id) +
-        theme_Publication() + 
-        xlab("Timepoint") +
-        scale_y_continuous(limits = c(0, ylim)) +
-        theme(axis.text.x = element_text(angle = 90)))
+```{r plot-cg-id, fig.width = 25, fig.height = 30, fig.fullwidth = TRUE}
+# Define parameters for function
+x_value <- count_df$tumor_descriptor
+title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+rows <- 5
 
-# Save the plot
-ggsave(filename = "Alteration_type_cg_id_pbta.pdf", 
-       path = plots_dir, 
-       width = 30, 
-       height = 18, 
-       device = "pdf", 
-       useDingbats = FALSE)
+# Run function
+fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+print(fname)
+p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
+pdf(file = fname, width = 25, height = 30)
+print(p)
+dev.off()
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Alterations per timepoint in each cancer type defined by cgGFAC
 
