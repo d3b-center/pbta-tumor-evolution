@@ -34,13 +34,12 @@ palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_pale
 
 # File path to plot directory
 plots_dir <-
-  file.path(analysis_dir, "plots", "Alteration_type_barplots_unmatched_samples")
+  file.path(analysis_dir, "plots")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
 source(paste0(root_dir, "/figures/scripts/theme.R"))
-source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 ```
 
 # Read in data and process
