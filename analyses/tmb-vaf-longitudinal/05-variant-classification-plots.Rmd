@@ -34,7 +34,7 @@ palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_pale
 
 # File path to plot directory
 plots_dir <-
-  file.path(analysis_dir, "plots")
+  file.path(analysis_dir, "plots", "Alteration_type")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
@@ -79,6 +79,9 @@ df <- genomic_paired_df %>%
   mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
                                TRUE ~ tumor_descriptor),
          match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         cg_id = str_replace(cg_id, "/", "_"),
+         cg_id = str_replace(cg_id, "-", "_"),
+         cg_id = str_replace_all(cg_id, " ", "_"),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
@@ -86,7 +89,7 @@ no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
 count_df <- df %>% 
-  group_by(tumor_descriptor, cg_id, match_id, Variant_Classification) %>% 
+  group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) 
 
 ``` 
@@ -138,23 +141,32 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and kids_id
 
-```{r plot-cg-id-kids, fig.width = 30, fig.height = 30, fig.fullwidth = TRUE}
-cg_id_id <- as.character(unique(count_df$cg_id)) 
-cg_id_id <- sort(cg_id_id, decreasing = FALSE)
-cg_id_id
+```{r plot-cg-id-kids, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+sample <- as.character(unique(count_df$cg_id)) 
+sample <- sort(sample, decreasing = FALSE)
+sample
 
-# Define parameters for function
-x_value <- count_df$match_id
-title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
-rows <- 5
 
-# Run function
-fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_kids_barplots.pdf")
-print(fname)
-p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
-pdf(file = fname, width = 30, height = 30)
-print(p)
-dev.off()
+# Loop through variable
+for (i in seq_along(sample)){
+  print(i)
+  df_sub <- count_df %>%
+      filter(cg_id == sample[i])
+
+  # Define parameters for function
+  x_value <- df_sub$tumor_descriptor
+  title <- paste(sample[i], "Variants across Samples", sep = ": ")
+  rows <- 1
+  
+  # Run function
+  fname <- paste0(plots_dir, "/", sample[i], "-Alteration_type_timepoints_kids_barplots.pdf")
+  print(fname)
+  p <- create_stacked_barplot_variant_kids(count_df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
+  pdf(file = fname, width = 10, height = 6)
+  print(p)
+  dev.off()
+  }
+
 ```
 
 # Alterations per timepoint in each cancer type and timepoint model
@@ -165,19 +177,19 @@ tm_df_plot <- df %>%
   group_by(tumor_descriptor, cg_id, timepoints_models, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id)
 
-tm <- as.character(unique(tm_df_plot$timepoints_models))
-tm <- sort(tm, decreasing = FALSE)
-tm
+sample <- as.character(unique(tm_df_plot$timepoints_models))
+sample <- sort(sample, decreasing = FALSE)
+sample
 
 # Loop through variable
-for (i in seq_along(tm)){
+for (i in seq_along(sample)){
   print(i)
   df_sub <- tm_df_plot %>%
-      filter(timepoints_models == tm[i])
+      filter(timepoints_models == sample[i])
   
   # Define parameters for function
-  x_value <- df_sub$match_id
-  title <- paste(tm[i])
+  x_value <- df_sub$tumor_descriptor
+  title <- paste(sample[i])
   
   if (i %in% c(1,2,6)){
     rows <- 2
