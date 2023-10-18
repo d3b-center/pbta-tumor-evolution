@@ -151,5 +151,3 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
 
 
 
-
-
