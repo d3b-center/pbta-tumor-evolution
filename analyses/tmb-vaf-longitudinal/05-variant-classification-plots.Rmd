@@ -93,9 +93,6 @@ count_df <- df_plot %>%
   group_by(tumor_descriptor, cg_id, Kids_First_Biospecimen_ID, Variant_Classification) %>% 
   dplyr::count(cg_id) 
 
-#count_df <- df_plot %>% 
-#  dplyr::count(cg_id) %>% 
-#  mutate(pct = n / sum(n) * 100)
 ``` 
 
 # Define parameters for plots
