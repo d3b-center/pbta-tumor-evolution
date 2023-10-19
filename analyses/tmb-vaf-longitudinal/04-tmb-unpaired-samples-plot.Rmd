@@ -209,15 +209,15 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot_cgGFAC <- df_plot %>% 
-  arrange(tumor_descriptor_cgGFAC_n) 
+  arrange(timepoint_cgGFAC_n) 
 
 df_plot_cgGFAC %>% 
-  select(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb) %>% 
-  sample_n_by(cgGFAC, tumor_descriptor_cgGFAC_n, log10_tmb, size = 1) 
+  select(cgGFAC, timepoint_cgGFAC_n, log10_tmb) %>% 
+  sample_n_by(cgGFAC, timepoint_cgGFAC_n, log10_tmb, size = 1) 
 
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot_cgGFAC %>%
-  group_by(cgGFAC, tumor_descriptor_cgGFAC_n) %>%
+  group_by(cgGFAC, timepoint_cgGFAC_n) %>%
   get_summary_stats(log10_tmb, type = "mean_sd") %>% 
   write_tsv(file.path(results_dir, "stat_summary.tsv"))
 
@@ -225,17 +225,17 @@ stat.summary <- df_plot_cgGFAC %>%
 # Paired t-test is used because we have repeated measures by time
 stat.test <- df_plot_cgGFAC %>%
   group_by(cgGFAC) %>%
-  pairwise_t_test(log10_tmb ~ tumor_descriptor_cgGFAC_n, 
+  pairwise_t_test(log10_tmb ~ timepoint_cgGFAC_n, 
                   paired = FALSE, 
                   p.adjust.method = "bonferroni") %>% 
   write_tsv(file.path(results_dir, "stat_test.tsv"))
 
 # Add statistical test p-values
-stat.test <- stat.test %>% add_xy_position(x = "tumor_descriptor_cgGFAC_n")
+stat.test <- stat.test %>% add_xy_position(x = "timepoint_cgGFAC_n")
 
 # Create bxp
 print(ggboxplot(df_plot_cgGFAC,
-                x = "tumor_descriptor_cgGFAC_n",
+                x = "timepoint_cgGFAC_n",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
                 palette = palette) +
@@ -245,8 +245,12 @@ print(ggboxplot(df_plot_cgGFAC,
                            label = "{p.signif}",
                            hide.ns = "p",
                            y.position = "y.position") +
-        scale_y_continuous(limits = c(0, 2)))
+        scale_y_continuous(limits = c(0, 2)) +
+        labs(x = "Tumor descriptor and cgGFAC",
+             y = "log10TMB",
+             color = "Timepoint"))
 
+ 
 # Save the plot
 ggsave(filename = "TMB-Bxp-stat-test.pdf", 
        path = plots_dir, 

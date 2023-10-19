@@ -1,4 +1,4 @@
-cgGFAC	tumor_descriptor_cgGFAC_n	variable	n	mean	sd
+cgGFAC	timepoint_cgGFAC_n	variable	n	mean	sd
 ATRT	ATRT_Diagnosis  (N=48)	log10_tmb	48	0.556	0.306
 ATRT	ATRT_Progressive  (N=10)	log10_tmb	10	0.297	0.255
 ATRT	ATRT_Recurrence  (N=3)	log10_tmb	3	0.226	0.149
@@ -16,8 +16,8 @@ LGG	LGG_Progressive  (N=55)	log10_tmb	55	0.701	0.342
 LGG	LGG_Recurrence  (N=24)	log10_tmb	24	0.616	0.398
 LGG	LGG_Second Malignancy  (N=3)	log10_tmb	3	0.48	0.25
 LGG	LGG_xDeceased  (N=6)	log10_tmb	6	0.735	0.506
-Other	Other_Diagnosis  (N=961)	log10_tmb	920	0.624	0.375
-Other	Other_Progressive  (N=122)	log10_tmb	122	0.597	0.4
-Other	Other_Recurrence  (N=114)	log10_tmb	113	0.469	0.352
-Other	Other_Second Malignancy  (N=13)	log10_tmb	13	0.27	0.29
-Other	Other_xDeceased  (N=26)	log10_tmb	25	0.511	0.481
+Other	Other_Diagnosis  (N=961)	log10_tmb	909	0.622	0.374
+Other	Other_Progressive  (N=122)	log10_tmb	98	0.594	0.4
+Other	Other_Recurrence  (N=114)	log10_tmb	98	0.444	0.325
+Other	Other_Second Malignancy  (N=13)	log10_tmb	4	0.188	0.192
+Other	Other_xDeceased  (N=26)	log10_tmb	13	0.467	0.503

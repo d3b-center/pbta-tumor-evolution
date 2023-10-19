@@ -28,13 +28,13 @@ LGG	log10_tmb	LGG_Diagnosis  (N=335)	LGG_xDeceased  (N=6)	335	6	0.769	ns	1	ns
 LGG	log10_tmb	LGG_Progressive  (N=55)	LGG_xDeceased  (N=6)	55	6	0.819	ns	1	ns
 LGG	log10_tmb	LGG_Recurrence  (N=24)	LGG_xDeceased  (N=6)	24	6	0.461	ns	1	ns
 LGG	log10_tmb	LGG_Second Malignancy  (N=3)	LGG_xDeceased  (N=6)	3	6	0.308	ns	1	ns
-Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Progressive  (N=122)	920	122	0.456	ns	1	ns
-Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Recurrence  (N=114)	920	113	3.89e-5	****	3.89e-4	***
-Other	log10_tmb	Other_Progressive  (N=122)	Other_Recurrence  (N=114)	122	113	0.00937	**	0.0937	ns
-Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Second Malignancy  (N=13)	920	13	7.99e-4	***	0.00799	**
-Other	log10_tmb	Other_Progressive  (N=122)	Other_Second Malignancy  (N=13)	122	13	0.00302	**	0.0302	*
-Other	log10_tmb	Other_Recurrence  (N=114)	Other_Second Malignancy  (N=13)	113	13	0.072	ns	0.72	ns
-Other	log10_tmb	Other_Diagnosis  (N=961)	Other_xDeceased  (N=26)	920	25	0.139	ns	1	ns
-Other	log10_tmb	Other_Progressive  (N=122)	Other_xDeceased  (N=26)	122	25	0.298	ns	1	ns
-Other	log10_tmb	Other_Recurrence  (N=114)	Other_xDeceased  (N=26)	113	25	0.615	ns	1	ns
-Other	log10_tmb	Other_Second Malignancy  (N=13)	Other_xDeceased  (N=26)	13	25	0.0621	ns	0.621	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Progressive  (N=122)	909	98	0.479	ns	1	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Recurrence  (N=114)	909	98	7.82e-6	****	7.82e-5	****
+Other	log10_tmb	Other_Progressive  (N=122)	Other_Recurrence  (N=114)	98	98	0.00496	**	0.0496	*
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_Second Malignancy  (N=13)	909	4	0.0206	*	0.206	ns
+Other	log10_tmb	Other_Progressive  (N=122)	Other_Second Malignancy  (N=13)	98	4	0.0334	*	0.334	ns
+Other	log10_tmb	Other_Recurrence  (N=114)	Other_Second Malignancy  (N=13)	98	4	0.18	ns	1	ns
+Other	log10_tmb	Other_Diagnosis  (N=961)	Other_xDeceased  (N=26)	909	13	0.136	ns	1	ns
+Other	log10_tmb	Other_Progressive  (N=122)	Other_xDeceased  (N=26)	98	13	0.248	ns	1	ns
+Other	log10_tmb	Other_Recurrence  (N=114)	Other_xDeceased  (N=26)	98	13	0.836	ns	1	ns
+Other	log10_tmb	Other_Second Malignancy  (N=13)	Other_xDeceased  (N=26)	4	13	0.193	ns	1	ns
