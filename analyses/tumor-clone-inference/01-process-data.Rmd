@@ -13,6 +13,7 @@ output:
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(readxl)
 })
 ```
 
@@ -24,7 +25,7 @@ suppressPackageStartupMessages({
 # no matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
-# input_dir <- file.path(analysis_dir, "input")
+input_dir <- file.path(analysis_dir, "input")
 data_dir <- file.path(root_dir, "data")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
@@ -33,6 +34,7 @@ maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "result
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
+nautilus_dec_file <- file.path(input_dir, "deceased_samples.xlsx") 
 
 # File path to results directory
 results_dir <-
@@ -83,8 +85,8 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
          cg_id_kids = str_replace(cg_id_kids, "-", "_"),
          cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
          td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_")) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, 
-         descriptors, timepoints_models, cg_multiple, 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, sample_id, 
+         aliquot_id, tumor_descriptor, descriptors, timepoints_models, cg_multiple, 
          cg_id, cgGFAC, cg_id_kids, td_bs_id)
 
 genomic_paired_samples <- print(length(unique(genomic_paired_df$cg_id_kids)))
@@ -145,6 +147,32 @@ dec_n_df <- df %>%
   filter(!kids_deceased_bs_number <= 1) %>% 
   write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list.tsv"))
 
+
+# Add Nautilus location for Deceased specimens
+
+nautilus_dec_df <- read_excel(nautilus_dec_file) %>% 
+  right_join(df, by = c("sample_id", "aliquot_id", "tumor_descriptor")) %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec.tsv"))
+
+list_df <- nautilus_dec_df %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
+  unique() %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
+
+###-----------------------------------------------------
+# let's look into PT_3KM9W8S8
+PT_3KM9W8S8_df <- nautilus_dec_df %>% 
+  filter(Kids_First_Participant_ID == "PT_3KM9W8S8",
+         Kids_First_Biospecimen_ID == "BS_2NQXY528") %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
+  unique() %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
+  
+
+ 
+  
+  
+bs_id <- unique(PT_3KM9W8S8_df$Kids_First_Biospecimen_ID)
 
 ```
 
