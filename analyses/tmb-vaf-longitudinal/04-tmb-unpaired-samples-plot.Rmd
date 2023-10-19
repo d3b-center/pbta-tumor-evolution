@@ -222,71 +222,77 @@ stat.summary <- df_plot_cgGFAC %>%
   write_tsv(file.path(results_dir, "stat_summary.tsv"))
 
 
-print(ggboxplot(df_plot_cgGFAC,
-                x = "timepoint_cgGFAC_n",
-                y = "log10_tmb",
-                color = "tumor_descriptor",
-                palette = palette,
-                width = 0.5, add = c("mean", "jitter")) +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        scale_y_continuous(limits = c(0, 2)) +
-        labs(x = "Tumor descriptor and cgGFAC",
-             y = "log10TMB",
-             color = "Timepoint"))
-
-
-# Pairwise comparisons between time points at each group levels
-# Paired t-test is used because we have repeated measures by time
-stat.test <- df_plot_cgGFAC %>%
-  group_by(cgGFAC) %>%
-  pairwise_t_test(log10_tmb ~ timepoint_cgGFAC_n, 
-                  paired = FALSE, 
-                  p.adjust.method = "bonferroni") %>% 
+stat.test <- df_plot_cgGFAC %>% 
+  rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
+  add_significance() %>% 
   write_tsv(file.path(results_dir, "stat_test.tsv"))
 
-
-test <- wilcox.test(df_plot_cgGFAC$log10_tmb ~ df_plot_cgGFAC$timepoint_cgGFAC_n,
-  #alternative = "less",
-  paired = FALSE
-)
-test
-
-
-stat.test2 <- 
-  pairwise.wilcox.test(df_plot_cgGFAC$log10_tmb ~ df_plot_cgGFAC$timepoint_cgGFAC_n, 
-                  paired = FALSE, 
-                  p.adjust.method = "bonferroni") %>% 
-  write_tsv(file.path(results_dir, "stat_test.tsv"))
-
-
-wilcox_paired_test
-
-
-
-# Add statistical test p-values
-stat.test <- stat.test %>% add_xy_position(x = "timepoint_cgGFAC_n")
+# Add add_xy_position
+stat.test <- stat.test %>% 
+  add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .01) 
 
 # Create bxp
 print(ggboxplot(df_plot_cgGFAC,
                 x = "timepoint_cgGFAC_n",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
-                palette = palette) +
+                palette = palette,
+                add = c("mean")) + # add = c("mean", "jitter")
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
-                           label = "{p.signif}",
-                           hide.ns = "p",
+                           #tip.length = 0.01,
+                           hide.ns = TRUE, 
+                           label = "p.adj.signif",
                            y.position = "y.position") +
-        scale_y_continuous(limits = c(0, 2)) +
+        scale_y_continuous(limits = c(0, 4.3)) +
         labs(x = "Tumor descriptor and cgGFAC",
              y = "log10TMB",
              color = "Timepoint"))
-
  
 # Save the plot
 ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 6, 
+       device = "pdf", 
+       useDingbats = FALSE)
+
+
+###-------------------------------------------------------
+# Let's estimate the effect size
+# library(coin)
+effect.size <- df_plot_cgGFAC %>% wilcox_effsize(log10_tmb ~ timepoint_cgGFAC_n)
+effect.size
+
+# Keep significant p value for cases with magnitude large
+stat.test.filter <- stat.test %>% 
+  left_join(effect.size, by = c("group1", "group2")) %>% 
+  filter(magnitude == "large") %>% 
+  add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .0035)  
+
+
+# Create bxp
+print(ggboxplot(df_plot_cgGFAC,
+                x = "timepoint_cgGFAC_n",
+                y = "log10_tmb",
+                color = "tumor_descriptor",
+                palette = palette,
+                add = c("mean")) + # add = c("mean", "jitter")
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)) +
+        stat_pvalue_manual(stat.test.filter,
+                           #tip.length = 0.01,
+                           hide.ns = TRUE, 
+                           label = "p.adj.signif",
+                           y.position = "y.position") +
+        scale_y_continuous(limits = c(0, 2.5)) +
+        labs(x = "Tumor descriptor and cgGFAC",
+             y = "log10TMB",
+             color = "Timepoint"))
+ 
+# Save the plot
+ggsave(filename = "TMB-Bxp-stat-test-effect-size-large.pdf", 
        path = plots_dir, 
        width = 12, 
        height = 6, 
