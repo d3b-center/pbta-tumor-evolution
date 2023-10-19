@@ -159,7 +159,7 @@ print(ggplot(df_plot, aes(tumor_descriptor, tmb, color = Timepoint)) +
         geom_hline(yintercept = 0, size = 0.15) + 
         scale_color_manual(values = palette, 
                            breaks = sort(names(palette))) +
-        stat_summary(color = "black", size = 0.3) + 
+        stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
         labs(x = "Tumor descriptor",
              y = "TMB") +
         theme_Publication() +
@@ -185,7 +185,7 @@ print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) +
         geom_hline(yintercept = 0, size = 0.15) + 
         scale_color_manual(values = palette, 
                            breaks = sort(names(palette))) +
-        stat_summary(color = "black", size = 0.3) + 
+        stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
         ggplot2::facet_wrap(~cg_id_sum, nrow = 8) +
         labs(x = "Tumor descriptor",
              y = "log10TMB") +
@@ -280,6 +280,7 @@ print(ggboxplot(df_plot_cgGFAC,
                 color = "tumor_descriptor",
                 palette = palette,
                 add = c("mean")) + # add = c("mean", "jitter")
+                rotate() +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test.filter,
