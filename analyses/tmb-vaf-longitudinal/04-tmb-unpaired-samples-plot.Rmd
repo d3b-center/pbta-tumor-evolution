@@ -91,14 +91,14 @@ no_samples <- length(unique(df$Kids_First_Participant_ID))
 # Let's count #samples per cancer groups and timepoints 
 timepoint_cg_n_df <- df %>% 
   count(cg_id, tumor_descriptor) %>% 
-  dplyr::mutate(tumor_descriptor_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cg_n = n) 
+  dplyr::mutate(timepoint_cg_n = glue::glue("{cg_id}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cg_number = n) 
 
 # Let's count #samples per cancer groups and timepoints 
 timepoint_cgGFAC_n_df <- df %>% 
   count(cgGFAC, td_cgGFAC) %>% 
-  dplyr::mutate(tumor_descriptor_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
-  dplyr::rename(timepoint_cgGFAC_n = n) 
+  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{cgGFAC}_{td_cgGFAC}  (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_number = n) 
 
 # Summarize timepoints per cancer groups
 # We will summarize cancer groups with single timepoints as "Other" 
@@ -111,10 +111,10 @@ timepoint_sum <- df %>%
 # Create df to use for plots
 df_plot <- df %>% 
   left_join(timepoint_cg_n_df, by = c("tumor_descriptor", "cg_id")) %>%
-  filter(!tumor_descriptor_cg_n <= 2) %>% # remove if total #samples per timepoint is less than 2
+  filter(!timepoint_cg_number <= 2) %>% # remove if total #samples per timepoint is less than 2
 
   left_join(timepoint_cgGFAC_n_df, by = c("td_cgGFAC", "cgGFAC")) %>% 
-  filter(!timepoint_cgGFAC_n <= 2) %>% # remove if total #samples per timepoint is less than 2
+  filter(!timepoint_cgGFAC_number <= 2) %>% # remove if total #samples per timepoint is less than 2
 
   left_join(timepoint_sum, by = c("cg_id")) %>%
   filter(!tumor_descriptor_sum %in% timepoints,
