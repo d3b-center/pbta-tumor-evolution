@@ -218,8 +218,23 @@ df_plot_cgGFAC %>%
 # Compute some summary statistics (mean and sd) by groups:
 stat.summary <- df_plot_cgGFAC %>%
   group_by(cgGFAC, timepoint_cgGFAC_n) %>%
-  get_summary_stats(log10_tmb, type = "mean_sd") %>% 
+  get_summary_stats(log10_tmb, type = "median_iqr") %>% 
   write_tsv(file.path(results_dir, "stat_summary.tsv"))
+
+
+print(ggboxplot(df_plot_cgGFAC,
+                x = "timepoint_cgGFAC_n",
+                y = "log10_tmb",
+                color = "tumor_descriptor",
+                palette = palette,
+                width = 0.5, add = c("mean", "jitter")) +
+        theme_Publication() + 
+        theme(axis.text.x = element_text(angle = 90)) +
+        scale_y_continuous(limits = c(0, 2)) +
+        labs(x = "Tumor descriptor and cgGFAC",
+             y = "log10TMB",
+             color = "Timepoint"))
+
 
 # Pairwise comparisons between time points at each group levels
 # Paired t-test is used because we have repeated measures by time
@@ -229,6 +244,25 @@ stat.test <- df_plot_cgGFAC %>%
                   paired = FALSE, 
                   p.adjust.method = "bonferroni") %>% 
   write_tsv(file.path(results_dir, "stat_test.tsv"))
+
+
+test <- wilcox.test(df_plot_cgGFAC$log10_tmb ~ df_plot_cgGFAC$timepoint_cgGFAC_n,
+  #alternative = "less",
+  paired = FALSE
+)
+test
+
+
+stat.test2 <- 
+  pairwise.wilcox.test(df_plot_cgGFAC$log10_tmb ~ df_plot_cgGFAC$timepoint_cgGFAC_n, 
+                  paired = FALSE, 
+                  p.adjust.method = "bonferroni") %>% 
+  write_tsv(file.path(results_dir, "stat_test.tsv"))
+
+
+wilcox_paired_test
+
+
 
 # Add statistical test p-values
 stat.test <- stat.test %>% add_xy_position(x = "timepoint_cgGFAC_n")
@@ -258,6 +292,9 @@ ggsave(filename = "TMB-Bxp-stat-test.pdf",
        height = 6, 
        device = "pdf", 
        useDingbats = FALSE)
+
+# This analysis was conducted based on:
+# https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/
 ```
 
 ```{r echo=TRUE}
