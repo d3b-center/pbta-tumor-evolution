@@ -238,6 +238,7 @@ print(ggboxplot(df_plot_cgGFAC,
                 color = "tumor_descriptor",
                 palette = palette,
                 add = c("mean")) + # add = c("mean", "jitter")
+        rotate() +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
@@ -251,7 +252,7 @@ print(ggboxplot(df_plot_cgGFAC,
              color = "Timepoint"))
  
 # Save the plot
-ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+ggsave(filename = "TMB-Bxp-stat-test-rotate.pdf", 
        path = plots_dir, 
        width = 12, 
        height = 6, 
