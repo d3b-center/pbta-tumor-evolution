@@ -1,17 +1,46 @@
 ############################################################################################################################################# CloneFinder+_v0.1
 # https://github.com/SayakaMiura/CloneFinderPlus
 ############################################################################################################################################
-# https://www.easeus.com/computer-instruction/zsh-command-not-found-python.html#Fix3
-export PATH="$PATH:/Users/chronia/.pyenv/versions/3.9.6"
-# python 3 (v3.8 was tested)
-pyenv install 3.8.0
+################################################################################################################
+# this worked
+# https://pages.github.nceas.ucsb.edu/NCEAS/Computing/local_install_python_on_a_server.html
+# how to install python on MacOS
+brew install python@3.8
+cd /Users/chronia/CHOP/software/Python-3.8.0
+mkdir ~/.localpython
+./configure --prefix=/home/chronia/.localpython
+# export PATH="$PATH:/Users/chronia/CHOP/software/Python-3.8.0"
+alias python3=/opt/homebrew/bin/python3.8
 
-conda create --name py38 python=3.8
+# all python3.11(!) symlinks were removed from the directory.
+brew unlink python3
+python3 --version
+#Python 3.8.18
+python --version
+#3.9.6 this lives here: /Users/chronia/.pyenv/versions
+cd /Users/chronia/CHOP/software/CloneFinderPlus
 
-python -m pip install SciPy NumPy Biopython pandas networkx logbook fire pydot
+
+#python -m pip install SciPy NumPy Biopython pandas networkx logbook fire pydot
+#python3 -m pip install Bio
+python3 -m pip install Phylo
+python3 -m pip install SciPy NumPy Biopython pandas networkx logbook fire pydot
+pip3 install biopython
+pip3 install Bio
+pip3 install logbook
+pip3 install fire
+
+# Run example
+# python3 Bootstrap_CloneFinderPlus.py ./Example/ReadCount.txt ./Example/TumorSite.txt 0
+python3 Bootstrap_CloneFinderPlus.py ./Example/ReadCount.txt NA 0
+python3 Bootstrap_CloneFinderPlus.py ReadCount.txt NA 0
+
+
+
 ##########################################################################################################################
 # ATRT
 python3 Bootstrap_CloneFinderPlus.py ./CloneFinder_input/Atypical_Teratoid_Rhabdoid_Tumor_PT_3KM9W8S8.txt NA 0
+
 
 
 
@@ -189,3 +218,67 @@ python clonefinder.py snv ./input/Other/Schwannoma_PT_C1HRBJJD.txt
 python clonefinder.py snv ./input/Other/Ependymoma_PT_D6AJHDST.txt
 
 ######################################################################
+
+
+
+
+# test
+
+
+
+# https://www.easeus.com/computer-instruction/zsh-command-not-found-python.html#Fix3
+export PATH="$PATH:/Users/chronia/.pyenv/versions/3.9.6"
+# python 3 (v3.8 was tested)
+# pyenv install 3.8.0
+brew install python@3.8
+export PATH="$(brew --prefix)/opt/homebrew/bin/python3.8/libexec/bin:$PATH"
+which python3
+
+
+
+
+/Users/chronia/.pyenv/versions
+
+
+
+# https://stackoverflow.com/questions/6767283/find-where-python-is-installed-if-it-isnt-default-dir
+# where python lives?
+python -c "import sys; print(sys.executable)"
+# Library/Developer/CommandLineTools/usr/bin/python3
+#######################################################
+
+export PATH="$PATH:/opt/homebrew/bin/python3.8"
+python3 --version
+
+conda install -c anaconda python=3.8
+
+conda create --name py38 python==3.8 SciPy NumPy Biopython pandas networkx logbook fire pydot
+
+conda create --name mlenv python==3.7.5 pandas numpy
+
+ 
+~/. zshrc
+
+
+###################
+# https://superuser.com/questions/1164706/how-do-i-make-a-python-file-executable-on-macos-sierra
+How to add that folder to your path?
+Find your path first
+
+echo $HOME
+
+If you are using bash or zsh you might have something like this
+
+In ~/.bash_profile or ~/.bashrc or ~/.zshrc at the bottom of your file
+
+export PYTHON_UTILS="$HOME/code/python/utils"
+
+export PATH="$PYTHON_UTILS:$PATH"
+
+Consider removing the .py from your file bc it is not needed in this case
+
+Close and open your terminal, which is sourcing your file by its path
+
+And now you should be able to treat your python file similar to a bash command
+
+You don't need to use python3 filename.py to run the file, you can just use filename
