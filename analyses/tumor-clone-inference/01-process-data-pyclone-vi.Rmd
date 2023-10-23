@@ -1,0 +1,310 @@
+---
+title: "Inference of subclonal architecture of tumors across multiple timepoints for the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(readxl)
+})
+```
+
+# Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
+input_dir <- file.path(analysis_dir, "input")
+data_dir <- file.path(root_dir, "data")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
+
+# Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
+genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
+nautilus_dec_file <- file.path(input_dir, "deceased_samples.xlsx") 
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+# File path to CloneFinder_input directory
+CloneFinder_input_dir <-
+  file.path(analysis_dir, "results", "CloneFinder_input")
+if (!dir.exists(CloneFinder_input_dir)) {
+  dir.create(CloneFinder_input_dir)
+}
+
+source(paste0(analysis_dir, "/util/function-create-df.R"))
+```
+
+# Load data
+
+```{r load-inputs}
+maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>%
+  select(Kids_First_Biospecimen_ID, Chromosome, Start_Position,
+         Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count, tmb) %>% 
+  filter(!tmb >= 10) %>% # Remove hypermutants
+  
+  # There are alterations with high number of read counts.
+  # We will exclude those with >1000 for now.
+  filter(!t_alt_count >= 1000,
+         !t_ref_count >= 1000) %>% 
+
+  dplyr::rename("Chr" = "Chromosome", 
+                "Position" = "Start_Position",
+                "Wild" = "Reference_Allele",
+                "Mut" = "Tumor_Seq_Allele2",
+                "XX:ref" = "t_ref_count", 
+                "XX:alt" = "t_alt_count") # change names to match input requirements for Clonefinder
+
+
+pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(!experimental_strategy == "RNA-Seq")
+
+genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(!c(cancer_group, experimental_strategy)) %>% 
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
+  dplyr::mutate(cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
+         cg_id_kids = str_replace(cg_id_kids, "/", "_"),
+         cg_id_kids = str_replace(cg_id_kids, "-", "_"),
+         cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
+         td_bs_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_")) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, sample_id, 
+         aliquot_id, tumor_descriptor, descriptors, timepoints_models, cg_multiple, 
+         cg_id, cgGFAC, cg_id_kids, td_bs_id)
+
+genomic_paired_samples <- print(length(unique(genomic_paired_df$cg_id_kids)))
+
+# Let's count #specimens per sample 
+# We will remove any samples with less than 2 specimens as phylogenies require at least 3 taxa
+kids_specimens_n_df <- genomic_paired_df %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_specimens_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_specimens_number = n) %>% 
+  filter(!kids_specimens_number <= 2)
+
+# kids_specimens <- print(length(unique(kids_specimens_n_df$Kids_First_Participant_ID)))
+
+df <- kids_specimens_n_df %>% 
+  left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
+  left_join(maf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  filter(!is.na(Chr)) %>% 
+  mutate(mut_id = paste(Chr, Position, Wild, Mut, sep = "_")) 
+  
+
+# Let's confirm and add the number of timepoints per sample
+# In case we lost any from filtering hypermutants and high reads/alteration
+timepoints_n_df <- df %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_timepoints_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_timepoints_number = n) %>% 
+  filter(!kids_timepoints_number <= 1)
+
+df <- timepoints_n_df %>% 
+  left_join(df, by = c("Kids_First_Participant_ID")) %>% 
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny.tsv"))
+
+df_samples <- print(length(unique(df$cg_id_kids)))
+
+# List with samples eligible for phylogeny
+# I added the information about to use for phylogenetic inferences
+list_df <- df %>% 
+  select(Kids_First_Participant_ID) %>% 
+  unique() %>% 
+  mutate(somatic_germline_phylogeny = case_when(grepl("PT_KZ56XHJT|PT_KTRJ8TFY", Kids_First_Participant_ID) ~ "yes",
+                                        TRUE ~ "not_yet")) %>% 
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list.tsv"))
+
+  
+# Make list with samples with >2 biospecimens at Deceased timepoint
+dec_n_df <- df %>% 
+  filter(tumor_descriptor == "Deceased") %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID) %>% 
+  unique() %>% 
+  count(Kids_First_Participant_ID) %>% 
+ # dplyr::mutate(kids_dec_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_deceased_bs_number = n) %>% 
+  filter(!kids_deceased_bs_number <= 1) %>% 
+  write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list.tsv"))
+
+
+# Add Nautilus location for Deceased specimens
+
+nautilus_dec_df <- read_excel(nautilus_dec_file) %>% 
+  right_join(df, by = c("sample_id", "aliquot_id", "tumor_descriptor")) %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec.tsv"))
+
+list_df <- nautilus_dec_df %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
+  unique() %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
+
+###-----------------------------------------------------
+# let's look into PT_3KM9W8S8
+PT_3KM9W8S8_df <- nautilus_dec_df %>% 
+  filter(Kids_First_Participant_ID == "PT_3KM9W8S8",
+         Kids_First_Biospecimen_ID == "BS_2NQXY528") %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
+  unique() %>% 
+  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
+  
+
+ 
+  
+  
+bs_id <- unique(PT_3KM9W8S8_df$Kids_First_Biospecimen_ID)
+
+```
+
+# Process Data for CloneFinder
+
+We need to generate the input files for CloneFinder according to the method's template. 
+The method requires at least 2 samples per tumor site (multiregional sampling per anatomical site).
+Here, we will consider kids samples with more than 2 timepoints with one or more biospecimens. 
+We will compare later differences in samples with single vs multiple biospecimens.
+
+
+```{r df-cg-id-kids}
+df_temp <- df %>%
+  select("cg_id_kids", "td_bs_id", "mut_id", "Chr", "Position", "Wild", "Mut", "XX:ref", "XX:alt")
+
+# Save results by cg_id_kids
+cg_id_kids_names <- unique(as.character(df_temp$cg_id_kids))
+cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
+print(cg_id_kids_names)
+
+# Loop through cg_sum
+for (x in seq_along(cg_id_kids_names)){
+  print(x)
+
+  df_sub <- df_temp %>%
+    filter(cg_id_kids == cg_id_kids_names[x]) 
+ 
+  # We will define samples
+  td_bs_id_names <- unique(as.character(df_sub$td_bs_id))
+  print(td_bs_id_names)
+  
+  # Create empty list for df
+  df_list <- list() 
+  
+  # Run loop for each td_bs_id_names
+  for (i in seq_along(td_bs_id_names)) {
+    print(i)
+   
+    td_bs_df <- df_sub %>%
+      filter(td_bs_id == td_bs_id_names[i])
+    
+    # Run function 
+    m <- create_df(df = td_bs_df, 
+                   sample_id = td_bs_id_names[i],
+                   cg_kid = cg_id_kids_names[x])
+  
+    # Assign name to df and store all df in list
+    df_name <- paste(cg_id_kids_names[x], td_bs_id_names[i], sep = "-")
+    df <- assign(df_name, m)
+    df_list[[df_name]] <- df
+    
+    # Merge all df per `cg_kids_id`
+    # Assign name to all_df
+    name <- paste(cg_id_kids_names[x])
+    
+    cg_kids_df <- df_list %>% 
+      reduce(full_join, by = c("cg_id_kids", "mut_id", "Chr", "Position", "Wild", "Mut")) %>% 
+      replace(is.na(.), 0) %>% 
+      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt")), 
+                  sep = "\t", 
+                  row.names = FALSE, 
+                  quote = FALSE, 
+                  fileEncoding = "UTF-8")
+  }
+          
+}
+```
+
+# Make list with input files for CloneFinder
+
+```{r samples-path}
+# File path 
+samples_path_dir <-
+  file.path(analysis_dir, "CloneFinderAPI", "clonefinder_py3", "CloneFinder_input")
+
+samples_path_df <- df_temp %>%
+  select(cg_id_kids) %>% 
+  unique() %>% 
+  mutate(path = samples_path_dir,
+         additional = 1) %>% 
+      write.table(file.path(CloneFinder_input_dir, paste0(name, ".txt")), 
+                  sep = "\t", 
+                  row.names = FALSE, 
+                  quote = FALSE, 
+                  fileEncoding = "UTF-8")
+```
+
+# or try this with the python script
+
+```{r samples-path-python}
+########################################
+DMG <- df %>% 
+  filter(cgGFAC == "DMG")
+print(length(unique((DMG$cg_id_kids))))
+
+HGG <- df %>% 
+  filter(cgGFAC == "HGG")
+print(length(unique((HGG$cg_id_kids))))
+
+LGG <- df %>% 
+  filter(cgGFAC == "LGG")
+print(length(unique((LGG$cg_id_kids))))
+
+Other <- df %>% 
+  filter(cgGFAC == "Other")
+print(length(unique((Other$cg_id_kids))))
+
+########################################
+# Save python script per each sample
+cg_id_kids_names <- unique(as.character(df$cg_id_kids))
+cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
+print(cg_id_kids_names)
+
+library(data.table)
+# create empty vector 
+#vector1 = c() 
+
+# Loop through cg_sum
+for (i in seq_along(cg_id_kids_names)){
+  input_path_dir <-
+    # file.path(analysis_dir, "CloneFinderAPI", "clonefinder_py3", "CloneFinder_input")
+    file.path("/Users/chronia/CHOP/software", "CloneFinderAPI", "clonefinder_py3", "input")
+
+  input_python_script <- paste("python clonefinder.py snv ./input/", cg_id_kids_names[i], ".txt", sep = "") 
+  #vector1 = c(input_python_script, i)
+  print(input_python_script)
+}
+
+# fwrite(input_python_script, file.path(results_dir, file = "input_python_script.csv"))
+```  
+
+```{r}
+sessionInfo()
+```
+
