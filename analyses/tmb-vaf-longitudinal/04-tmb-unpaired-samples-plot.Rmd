@@ -212,7 +212,8 @@ for (i in seq_along(cancer_groups)) {
   print(i)
   
   df_sub <- df_plot %>% 
-    filter(cgGFAC == cancer_groups[i])
+    filter(cgGFAC == cancer_groups[i]) %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) 
 
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
@@ -241,7 +242,7 @@ for (i in seq_along(cancer_groups)) {
 
   # Create bxp
   print(ggboxplot(df_sub,
-                  x = "tumor_descriptor",
+                  x = "timepoint_cgGFAC_n",
                   y = "log10_tmb",
                   color = "tumor_descriptor",
                   palette = palette,
