@@ -255,7 +255,7 @@ for (i in seq_along(cancer_groups)) {
 
   # Create bxp
   print(ggboxplot(df_sub,
-                  x = "tumor_descriptor",
+                  x = "timepoint_cgGFAC_n",
                   y = "log10_tmb",
                   color = "tumor_descriptor",
                   palette = palette,
