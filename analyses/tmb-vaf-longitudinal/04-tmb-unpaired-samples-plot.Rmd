@@ -95,7 +95,7 @@ timepoint_cg_n_df <- df %>%
 # Let's count #samples per cancer groups and timepoints 
 timepoint_cgGFAC_n_df <- df %>% 
   count(cgGFAC, tumor_descriptor) %>% 
-  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{cgGFAC}_{tumor_descriptor}  (N={n})")) %>% 
+  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{tumor_descriptor}  (N={n})")) %>% 
   dplyr::rename(timepoint_cgGFAC_number = n) 
 
 # Summarize timepoints per cancer groups
@@ -213,30 +213,41 @@ df_plot_cgGFAC %>%
   select(cgGFAC, timepoint_cgGFAC_n, log10_tmb) %>% 
   sample_n_by(cgGFAC, timepoint_cgGFAC_n, log10_tmb, size = 1) 
 
+# Define cancer_groups
+cancer_groups <- unique(as.character(df_plot_cgGFAC$cgGFAC))
+cancer_groups <- sort(samples, decreasing = FALSE)
+print(cancer_groups)
+
+for (i in seq_along(cancer_groups)) {
+  print(i)
+  
+  df_sub <- df_plot_cgGFAC %>% 
+    filter(cgGFAC == cancer_groups[i])
+  
 # Compute some summary statistics (mean and sd) by groups:
-stat.summary <- df_plot_cgGFAC %>%
+stat.summary <- df_sub %>%
   group_by(cgGFAC, timepoint_cgGFAC_n) %>%
-  get_summary_stats(log10_tmb, type = "median_iqr") %>% 
-  write_tsv(file.path(results_dir, "stat_summary.tsv"))
+  get_summary_stats(log10_tmb, type = "median_iqr") #%>% 
+ # write_tsv(file.path(results_dir, "stat_summary.tsv"))
 
 
-stat.test <- df_plot_cgGFAC %>% 
+stat.test <- df_sub %>% 
   rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
-  add_significance() %>% 
-  write_tsv(file.path(results_dir, "stat_test.tsv"))
+  add_significance() #%>% 
+  #write_tsv(file.path(results_dir, "stat_test.tsv"))
 
 # Add add_xy_position
 stat.test <- stat.test %>% 
   add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .01) 
 
 # Create bxp
-print(ggboxplot(df_plot_cgGFAC,
-                x = "timepoint_cgGFAC_n",
+print(ggboxplot(df_sub,
+                x = "tumor_descriptor",
                 y = "log10_tmb",
                 color = "tumor_descriptor",
                 palette = palette,
                 add = c("mean")) + # add = c("mean", "jitter")
-        rotate() +
+        #rotate() +
         theme_Publication() + 
         theme(axis.text.x = element_text(angle = 90)) +
         stat_pvalue_manual(stat.test,
@@ -245,18 +256,19 @@ print(ggboxplot(df_plot_cgGFAC,
                            label = "p.adj.signif",
                            y.position = "y.position") +
         scale_y_continuous(limits = c(0, 4.3)) +
-        labs(x = "Tumor descriptor and cgGFAC",
+        labs(title = cancer_groups[i],
+             x = "Tumor descriptor",
              y = "log10TMB",
              color = "Timepoint"))
  
 # Save the plot
-ggsave(filename = "TMB-Bxp-stat-test.pdf", 
+ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
        path = plots_dir, 
-       width = 12, 
+       width = 8, 
        height = 6, 
        device = "pdf", 
        useDingbats = FALSE)
-
+}
 ```
 
 ```{r echo=TRUE}
