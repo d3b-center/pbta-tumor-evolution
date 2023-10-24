@@ -215,7 +215,7 @@ df_plot_cgGFAC %>%
 
 # Define cancer_groups
 cancer_groups <- unique(as.character(df_plot_cgGFAC$cgGFAC))
-cancer_groups <- sort(samples, decreasing = FALSE)
+cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
 
