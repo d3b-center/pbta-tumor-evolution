@@ -250,7 +250,7 @@ print(ggboxplot(df_plot_cgGFAC,
              color = "Timepoint"))
  
 # Save the plot
-ggsave(filename = "TMB-Bxp-stat-test-rotate.pdf", 
+ggsave(filename = "TMB-Bxp-stat-test.pdf", 
        path = plots_dir, 
        width = 12, 
        height = 6, 
