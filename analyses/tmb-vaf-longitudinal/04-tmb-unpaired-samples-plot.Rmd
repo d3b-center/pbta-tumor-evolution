@@ -221,21 +221,19 @@ for (i in seq_along(cancer_groups)) {
   print(i)
   
   df_sub <- df_plot %>% 
-    filter(cgGFAC == cancer_groups[i]) 
-  
+    filter(cgGFAC == cancer_groups[i])
+
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
     group_by(cgGFAC, timepoint_cgGFAC_n) %>%
     get_summary_stats(log10_tmb, type = "median_iqr") %>%
     as.data.frame() 
-  # write_tsv(file.path(results_dir, "stat_summary.tsv"))
-  
+
   stat.test <- df_sub %>% 
     rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
     add_significance() %>%
     as.data.frame()  
-  #write_tsv(file.path(results_dir, "stat_test.tsv"))
-  
+
   # Save results for all 
   if(i == 1){
     stat.summary.all <- stat.summary
@@ -248,11 +246,11 @@ for (i in seq_along(cancer_groups)) {
   
   # Add add_xy_position
   stat.test <- stat.test %>% 
-    add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .02) 
+    add_xy_position(x = "tumor_descriptor", dodge = 1, step.increase = .02) 
 
   # Create bxp
   print(ggboxplot(df_sub,
-                  x = "timepoint_cgGFAC_n",
+                  x = "tumor_descriptor",
                   y = "log10_tmb",
                   color = "tumor_descriptor",
                   palette = palette,
