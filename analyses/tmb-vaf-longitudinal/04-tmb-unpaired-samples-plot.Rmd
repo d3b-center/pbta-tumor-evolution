@@ -257,48 +257,6 @@ ggsave(filename = "TMB-Bxp-stat-test.pdf",
        device = "pdf", 
        useDingbats = FALSE)
 
-
-###-------------------------------------------------------
-# Let's estimate the effect size
-# library(coin)
-effect.size <- df_plot_cgGFAC %>% wilcox_effsize(log10_tmb ~ timepoint_cgGFAC_n)
-effect.size
-
-# Keep significant p value for cases with magnitude large
-stat.test.filter <- stat.test %>% 
-  left_join(effect.size, by = c("group1", "group2")) %>% 
-  filter(magnitude == "large") %>% 
-  add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .0035)  
-
-
-# Create bxp
-print(ggboxplot(df_plot_cgGFAC,
-                x = "timepoint_cgGFAC_n",
-                y = "log10_tmb",
-                color = "tumor_descriptor",
-                palette = palette,
-                add = c("mean")) + # add = c("mean", "jitter")
-                rotate() +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        stat_pvalue_manual(stat.test.filter,
-                           #tip.length = 0.01,
-                           hide.ns = TRUE, 
-                           label = "p.adj.signif",
-                           y.position = "y.position") +
-        scale_y_continuous(limits = c(0, 2.5)) +
-        labs(x = "Tumor descriptor and cgGFAC",
-             y = "log10TMB",
-             color = "Timepoint"))
- 
-# Save the plot
-ggsave(filename = "TMB-Bxp-stat-test-effect-size-large.pdf", 
-       path = plots_dir, 
-       width = 12, 
-       height = 6, 
-       device = "pdf", 
-       useDingbats = FALSE)
-
 ```
 
 ```{r echo=TRUE}
