@@ -218,6 +218,7 @@ cancer_groups <- unique(as.character(df_plot_cgGFAC$cgGFAC))
 cancer_groups <- sort(samples, decreasing = FALSE)
 print(cancer_groups)
 
+
 for (i in seq_along(cancer_groups)) {
   print(i)
   
@@ -228,14 +229,26 @@ for (i in seq_along(cancer_groups)) {
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
     group_by(cgGFAC, timepoint_cgGFAC_n) %>%
-    get_summary_stats(log10_tmb, type = "median_iqr") #%>% 
+    get_summary_stats(log10_tmb, type = "median_iqr") %>%
+    as.data.frame() 
   # write_tsv(file.path(results_dir, "stat_summary.tsv"))
   
   stat.test <- df_sub %>% 
     rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
-    add_significance() #%>% 
+    add_significance() %>%
+    as.data.frame()  
   #write_tsv(file.path(results_dir, "stat_test.tsv"))
-
+  
+  # Save results for all 
+  if(i == 1){
+    stat.summary.all <- stat.summary
+    stat.test.all <- stat.test
+    } else {
+      stat.summary.all <- rbind(stat.summary.all, stat.summary)
+      stat.test.all <- rbind(stat.test.all, stat.test)
+    }
+    
+  
   # Add add_xy_position
   stat.test <- stat.test %>% 
     add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .02) 
@@ -268,6 +281,10 @@ for (i in seq_along(cancer_groups)) {
          device = "pdf", 
         useDingbats = FALSE)
 }
+
+# Save summary tables for statistics
+stat.summary.all %>% write_tsv(file.path(results_dir, "stat_summary.tsv"))
+stat.test.all %>% write_tsv(file.path(results_dir, "stat_test.tsv"))
 ```
 
 ```{r echo=TRUE}
