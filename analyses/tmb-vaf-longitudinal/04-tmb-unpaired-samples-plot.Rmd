@@ -203,7 +203,7 @@ ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf",
 # Summary statistics for Timepoints and cancer types
 Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
 
-```{r summary-statistics, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+```{r summary-statistics, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
 df_plot_cgGFAC <- df_plot %>% 
@@ -224,50 +224,50 @@ for (i in seq_along(cancer_groups)) {
   df_sub <- df_plot_cgGFAC %>% 
     filter(cgGFAC == cancer_groups[i])
   
-# Compute some summary statistics (mean and sd) by groups:
-stat.summary <- df_sub %>%
-  group_by(cgGFAC, timepoint_cgGFAC_n) %>%
-  get_summary_stats(log10_tmb, type = "median_iqr") #%>% 
- # write_tsv(file.path(results_dir, "stat_summary.tsv"))
-
-
-stat.test <- df_sub %>% 
-  rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
-  add_significance() #%>% 
+  
+  # Compute some summary statistics (mean and sd) by groups:
+  stat.summary <- df_sub %>%
+    group_by(cgGFAC, timepoint_cgGFAC_n) %>%
+    get_summary_stats(log10_tmb, type = "median_iqr") #%>% 
+  # write_tsv(file.path(results_dir, "stat_summary.tsv"))
+  
+  stat.test <- df_sub %>% 
+    rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
+    add_significance() #%>% 
   #write_tsv(file.path(results_dir, "stat_test.tsv"))
 
-# Add add_xy_position
-stat.test <- stat.test %>% 
-  add_xy_position(x = "timepoint_cgGFAC_n") 
+  # Add add_xy_position
+  stat.test <- stat.test %>% 
+    add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .02) 
 
-# Create bxp
-print(ggboxplot(df_sub,
-                x = "tumor_descriptor",
-                y = "log10_tmb",
-                color = "tumor_descriptor",
-                palette = palette,
-                add = c("mean")) + # add = c("mean", "jitter")
+  # Create bxp
+  print(ggboxplot(df_sub,
+                  x = "tumor_descriptor",
+                  y = "log10_tmb",
+                  color = "tumor_descriptor",
+                  palette = palette,
+                  add = c("mean")) + # add = c("mean", "jitter")
         #rotate() +
-        theme_Publication() + 
-        theme(axis.text.x = element_text(angle = 90)) +
-        stat_pvalue_manual(stat.test,
-                           #tip.length = 0.01,
-                           hide.ns = TRUE, 
-                           label = "p.adj.signif",
-                           y.position = "y.position") +
-        scale_y_continuous(limits = c(0, 4.3)) +
-        labs(title = cancer_groups[i],
-             x = "Tumor descriptor",
-             y = "log10TMB",
-             color = "Timepoint"))
- 
-# Save the plot
-ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
-       path = plots_dir, 
-       width = 8, 
-       height = 6, 
-       device = "pdf", 
-       useDingbats = FALSE)
+          theme_Publication() + 
+          theme(axis.text.x = element_text(angle = 90)) +
+          stat_pvalue_manual(stat.test,
+                             #tip.length = 0.01,
+                             hide.ns = TRUE, 
+                             label = "p.adj.signif",
+                             y.position = "y.position") +
+          scale_y_continuous(limits = c(0, 2)) +
+          labs(title = cancer_groups[i],
+               x = "Tumor descriptor",
+               y = "log10TMB",
+               color = "Timepoint"))
+  
+  # Save the plot
+  ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
+         path = plots_dir, 
+         width = 6, 
+         height = 5, 
+         device = "pdf", 
+        useDingbats = FALSE)
 }
 ```
 
