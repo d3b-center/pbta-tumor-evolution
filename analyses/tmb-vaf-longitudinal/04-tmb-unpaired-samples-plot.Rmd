@@ -238,7 +238,7 @@ stat.test <- df_sub %>%
 
 # Add add_xy_position
 stat.test <- stat.test %>% 
-  add_xy_position(x = "timepoint_cgGFAC_n", dodge = 1, step.increase = .01) 
+  add_xy_position(x = "timepoint_cgGFAC_n") 
 
 # Create bxp
 print(ggboxplot(df_sub,
