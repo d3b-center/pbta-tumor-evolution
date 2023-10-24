@@ -247,7 +247,6 @@ for (i in seq_along(cancer_groups)) {
                   color = "tumor_descriptor",
                   palette = palette,
                   add = c("mean")) + # add = c("mean", "jitter")
-        #rotate() +
           theme_Publication() + 
           theme(axis.text.x = element_text(angle = 90)) +
           stat_pvalue_manual(stat.test,
