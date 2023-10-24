@@ -206,15 +206,13 @@ Considering the inequalities in the sampling effort for each timepoint, let's ex
 ```{r summary-statistics, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
-df_plot_cgGFAC <- df_plot %>% 
-  arrange(timepoint_cgGFAC_n) 
 
-df_plot_cgGFAC %>% 
+df_plot %>% 
   select(cgGFAC, timepoint_cgGFAC_n, log10_tmb) %>% 
   sample_n_by(cgGFAC, timepoint_cgGFAC_n, log10_tmb, size = 1) 
 
 # Define cancer_groups
-cancer_groups <- unique(as.character(df_plot_cgGFAC$cgGFAC))
+cancer_groups <- unique(as.character(df_plot$cgGFAC))
 cancer_groups <- sort(cancer_groups, decreasing = FALSE)
 print(cancer_groups)
 
@@ -222,9 +220,8 @@ print(cancer_groups)
 for (i in seq_along(cancer_groups)) {
   print(i)
   
-  df_sub <- df_plot_cgGFAC %>% 
-    filter(cgGFAC == cancer_groups[i])
-  
+  df_sub <- df_plot %>% 
+    filter(cgGFAC == cancer_groups[i]) 
   
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
