@@ -1,0 +1,100 @@
+---
+title: "Matched longitudinal paired samples with genomic assays for the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Usage
+To run the Rscript from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('02-genomic-paired.Rmd', clean = TRUE)"
+```
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(flextable)
+})
+```
+
+## Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+data_dir <- file.path(root_dir, "data")
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
+input_dir <- file.path(analysis_dir, "input")
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+
+# Inputs
+genomic_file <- file.path(results_dir, "genomic_assays_matched_time_points.tsv")
+pbta_file <- file.path(results_dir, "pbta.tsv")
+```
+
+# Read in data and process Data
+```{r genomic-paired-samples, echo=TRUE}
+# Read in data
+pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) 
+
+df <- readr::read_tsv(genomic_file, guess_max = 100000, show_col_types = FALSE) %>%
+  rename(cg_sum = cancer_group,
+         experimental_strategy_sum = experimental_strategy) %>% 
+  left_join(pbta, by = "Kids_First_Participant_ID") %>% 
+  filter(!experimental_strategy == "RNA-Seq") %>% 
+  select (Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy,
+          cg_multiple, cg_id, cg_sum, cancer_group, tumor_descriptor, descriptors, primary_site,
+          molecular_subtype, broad_histology, short_histology) 
+
+df_samples <- print(length(unique(df$Kids_First_Participant_ID)))
+```
+
+# How many patient cases per cancer group?
+Cases with multiple diagnosis at different time point have been taken into consideration and shown in the cg_multiple column.
+
+```{r}
+df %>%
+  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  count(cg_multiple) %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+# How many patient cases per cancer group and timepoint?
+
+```{r}
+df %>%
+  count(cg_multiple, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+# How many patient cases per cancer group, kids_id, and timepoint?
+
+```{r}
+df %>%
+  count(cg_multiple, Kids_First_Participant_ID, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+``` 
+
+
+```{r}
+sessionInfo()
+```
+  
+  
