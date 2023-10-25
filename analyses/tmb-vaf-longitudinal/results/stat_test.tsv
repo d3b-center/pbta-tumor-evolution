@@ -1,232 +1,40 @@
-.y.	group1	group2	n1	n2	statistic	p	p.adj	p.adj.signif
-log10_tmb	ATRT_Diagnosis  (N=48)	ATRT_Progressive  (N=10)	48	10	363.5	0.011	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	ATRT_Recurrence  (N=3)	48	3	119.5	0.06	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	ATRT_xDeceased  (N=4)	48	4	108.5	0.68	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	DMG_Diagnosis  (N=124)	48	124	4857	1.35e-10	3.01e-8	****
-log10_tmb	ATRT_Diagnosis  (N=48)	DMG_Progressive  (N=8)	48	8	285	0.03	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	DMG_xDeceased  (N=44)	48	44	1778.5	1.64e-8	3.59e-6	****
-log10_tmb	ATRT_Diagnosis  (N=48)	HGG_Diagnosis  (N=88)	48	88	3092	8.14e-6	0.002	**
-log10_tmb	ATRT_Diagnosis  (N=48)	HGG_Progressive  (N=13)	48	13	476.5	0.004	0.749	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	HGG_Recurrence  (N=10)	48	10	391.5	0.002	0.368	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	HGG_Second Malignancy  (N=5)	48	5	170.5	0.128	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	HGG_xDeceased  (N=24)	48	24	757	0.031	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	LGG_Diagnosis  (N=335)	48	335	6060.5	0.006	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	LGG_Progressive  (N=55)	48	55	946.5	0.014	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	LGG_Recurrence  (N=24)	48	24	532	0.603	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	LGG_Second Malignancy  (N=3)	48	3	81	0.733	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	LGG_xDeceased  (N=6)	48	6	103.5	0.27	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	Other_Diagnosis  (N=961)	48	909	19677	0.251	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	Other_Progressive  (N=122)	48	98	2292.5	0.806	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	Other_Recurrence  (N=114)	48	98	2911.5	0.02	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	Other_Second Malignancy  (N=13)	48	4	166.5	0.016	1	ns
-log10_tmb	ATRT_Diagnosis  (N=48)	Other_xDeceased  (N=26)	48	13	400	0.123	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	ATRT_Recurrence  (N=3)	10	3	16.5	0.866	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	ATRT_xDeceased  (N=4)	10	4	18	0.832	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	DMG_Diagnosis  (N=124)	10	124	649	0.809	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	DMG_Progressive  (N=8)	10	8	41.5	0.929	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	DMG_xDeceased  (N=44)	10	44	261.5	0.361	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	HGG_Diagnosis  (N=88)	10	88	438	0.986	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	HGG_Progressive  (N=13)	10	13	69.5	0.804	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	HGG_Recurrence  (N=10)	10	10	58.5	0.545	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	HGG_Second Malignancy  (N=5)	10	5	23.5	0.902	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	HGG_xDeceased  (N=24)	10	24	101	0.484	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	LGG_Diagnosis  (N=335)	10	335	603	5.5e-4	0.113	ns
-log10_tmb	ATRT_Progressive  (N=10)	LGG_Progressive  (N=55)	10	55	99	0.001	0.277	ns
-log10_tmb	ATRT_Progressive  (N=10)	LGG_Recurrence  (N=24)	10	24	60.5	0.025	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	LGG_Second Malignancy  (N=3)	10	3	8	0.287	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	LGG_xDeceased  (N=6)	10	6	14	0.092	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	Other_Diagnosis  (N=961)	10	909	2164.5	0.004	0.834	ns
-log10_tmb	ATRT_Progressive  (N=10)	Other_Progressive  (N=122)	10	98	267	0.018	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	Other_Recurrence  (N=114)	10	98	351.5	0.143	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	Other_Second Malignancy  (N=13)	10	4	25.5	0.479	1	ns
-log10_tmb	ATRT_Progressive  (N=10)	Other_xDeceased  (N=26)	10	13	56.5	0.62	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	ATRT_xDeceased  (N=4)	3	4	5.5	1	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	DMG_Diagnosis  (N=124)	3	124	177.5	0.899	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	DMG_Progressive  (N=8)	3	8	11	0.921	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	DMG_xDeceased  (N=44)	3	44	75	0.711	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	HGG_Diagnosis  (N=88)	3	88	120	0.798	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	HGG_Progressive  (N=13)	3	13	21	0.893	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	HGG_Recurrence  (N=10)	3	10	18	0.672	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	HGG_Second Malignancy  (N=5)	3	5	6	0.786	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	HGG_xDeceased  (N=24)	3	24	28	0.563	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	LGG_Diagnosis  (N=335)	3	335	109	0.019	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	LGG_Progressive  (N=55)	3	55	20.5	0.03	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	LGG_Recurrence  (N=24)	3	24	16	0.131	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	LGG_Second Malignancy  (N=3)	3	3	1	0.2	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	LGG_xDeceased  (N=6)	3	6	4	0.243	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	Other_Diagnosis  (N=961)	3	909	478.5	0.052	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	Other_Progressive  (N=122)	3	98	64.5	0.1	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	Other_Recurrence  (N=114)	3	98	92	0.275	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	Other_Second Malignancy  (N=13)	3	4	7	0.857	1	ns
-log10_tmb	ATRT_Recurrence  (N=3)	Other_xDeceased  (N=26)	3	13	18	0.9	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	DMG_Diagnosis  (N=124)	4	124	284	0.627	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	DMG_Progressive  (N=8)	4	8	18	0.799	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	DMG_xDeceased  (N=44)	4	44	107.5	0.478	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	HGG_Diagnosis  (N=88)	4	88	190	0.796	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	HGG_Progressive  (N=13)	4	13	28	0.865	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	HGG_Recurrence  (N=10)	4	10	24	0.62	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	HGG_Second Malignancy  (N=5)	4	5	10	1	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	HGG_xDeceased  (N=24)	4	24	49	0.974	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	LGG_Diagnosis  (N=335)	4	335	449	0.257	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	LGG_Progressive  (N=55)	4	55	61.5	0.147	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	LGG_Recurrence  (N=24)	4	24	35	0.41	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	LGG_Second Malignancy  (N=3)	4	3	6	1	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	LGG_xDeceased  (N=6)	4	6	7	0.334	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	Other_Diagnosis  (N=961)	4	909	1350	0.374	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	Other_Progressive  (N=122)	4	98	141.5	0.351	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	Other_Recurrence  (N=114)	4	98	186	0.87	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	Other_Second Malignancy  (N=13)	4	4	12	0.309	1	ns
-log10_tmb	ATRT_xDeceased  (N=4)	Other_xDeceased  (N=26)	4	13	23	0.777	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	DMG_Progressive  (N=8)	124	8	470	0.808	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	DMG_xDeceased  (N=44)	124	44	3214.5	0.08	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	HGG_Diagnosis  (N=88)	124	88	5157	0.498	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	HGG_Progressive  (N=13)	124	13	846.5	0.769	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	HGG_Recurrence  (N=10)	124	10	741	0.307	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	HGG_Second Malignancy  (N=5)	124	5	253	0.49	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	HGG_xDeceased  (N=24)	124	24	1163	0.091	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	LGG_Diagnosis  (N=335)	124	335	5653.5	4e-33	9.239999999999999e-31	****
-log10_tmb	DMG_Diagnosis  (N=124)	LGG_Progressive  (N=55)	124	55	999.5	4.82e-14	1.09e-11	****
-log10_tmb	DMG_Diagnosis  (N=124)	LGG_Recurrence  (N=24)	124	24	702.5	4.41e-5	0.009	**
-log10_tmb	DMG_Diagnosis  (N=124)	LGG_Second Malignancy  (N=3)	124	3	79.5	0.092	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	LGG_xDeceased  (N=6)	124	6	141	0.011	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	Other_Diagnosis  (N=961)	124	909	22293	7.5299999999999995e-28	1.73e-25	****
-log10_tmb	DMG_Diagnosis  (N=124)	Other_Progressive  (N=122)	124	98	2907.5	2.59e-11	5.8e-9	****
-log10_tmb	DMG_Diagnosis  (N=124)	Other_Recurrence  (N=114)	124	98	3982.5	1.06e-5	0.002	**
-log10_tmb	DMG_Diagnosis  (N=124)	Other_Second Malignancy  (N=13)	124	4	310	0.4	1	ns
-log10_tmb	DMG_Diagnosis  (N=124)	Other_xDeceased  (N=26)	124	13	717.5	0.518	1	ns
-log10_tmb	DMG_Progressive  (N=8)	DMG_xDeceased  (N=44)	8	44	206	0.454	1	ns
-log10_tmb	DMG_Progressive  (N=8)	HGG_Diagnosis  (N=88)	8	88	345	0.931	1	ns
-log10_tmb	DMG_Progressive  (N=8)	HGG_Progressive  (N=13)	8	13	55.5	0.828	1	ns
-log10_tmb	DMG_Progressive  (N=8)	HGG_Recurrence  (N=10)	8	10	46	0.625	1	ns
-log10_tmb	DMG_Progressive  (N=8)	HGG_Second Malignancy  (N=5)	8	5	18	0.833	1	ns
-log10_tmb	DMG_Progressive  (N=8)	HGG_xDeceased  (N=24)	8	24	80.5	0.514	1	ns
-log10_tmb	DMG_Progressive  (N=8)	LGG_Diagnosis  (N=335)	8	335	511.5	0.003	0.541	ns
-log10_tmb	DMG_Progressive  (N=8)	LGG_Progressive  (N=55)	8	55	82.5	0.005	0.883	ns
-log10_tmb	DMG_Progressive  (N=8)	LGG_Recurrence  (N=24)	8	24	49.5	0.045	1	ns
-log10_tmb	DMG_Progressive  (N=8)	LGG_Second Malignancy  (N=3)	8	3	8	0.497	1	ns
-log10_tmb	DMG_Progressive  (N=8)	LGG_xDeceased  (N=6)	8	6	9.5	0.07	1	ns
-log10_tmb	DMG_Progressive  (N=8)	Other_Diagnosis  (N=961)	8	909	1799	0.014	1	ns
-log10_tmb	DMG_Progressive  (N=8)	Other_Progressive  (N=122)	8	98	216	0.036	1	ns
-log10_tmb	DMG_Progressive  (N=8)	Other_Recurrence  (N=114)	8	98	285	0.203	1	ns
-log10_tmb	DMG_Progressive  (N=8)	Other_Second Malignancy  (N=13)	8	4	19	0.683	1	ns
-log10_tmb	DMG_Progressive  (N=8)	Other_xDeceased  (N=26)	8	13	46	0.697	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	HGG_Diagnosis  (N=88)	44	88	1575	0.082	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	HGG_Progressive  (N=13)	44	13	264.5	0.69	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	HGG_Recurrence  (N=10)	44	10	229	0.85	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	HGG_Second Malignancy  (N=5)	44	5	75.5	0.261	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	HGG_xDeceased  (N=24)	44	24	360	0.032	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	LGG_Diagnosis  (N=335)	44	335	1851.5	5.96e-16	1.36e-13	****
-log10_tmb	DMG_xDeceased  (N=44)	LGG_Progressive  (N=55)	44	55	312	2.54e-10	5.61e-8	****
-log10_tmb	DMG_xDeceased  (N=44)	LGG_Recurrence  (N=24)	44	24	209.5	4.45e-5	0.009	**
-log10_tmb	DMG_xDeceased  (N=44)	LGG_Second Malignancy  (N=3)	44	3	22	0.058	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	LGG_xDeceased  (N=6)	44	6	47	0.012	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	Other_Diagnosis  (N=961)	44	909	6875	1.76e-13	3.96e-11	****
-log10_tmb	DMG_xDeceased  (N=44)	Other_Progressive  (N=122)	44	98	886.5	2.12e-8	4.62e-6	****
-log10_tmb	DMG_xDeceased  (N=44)	Other_Recurrence  (N=114)	44	98	1206.5	2.82e-5	0.006	**
-log10_tmb	DMG_xDeceased  (N=44)	Other_Second Malignancy  (N=13)	44	4	99	0.695	1	ns
-log10_tmb	DMG_xDeceased  (N=44)	Other_xDeceased  (N=26)	44	13	215	0.18	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	HGG_Progressive  (N=13)	88	13	620	0.63	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	HGG_Recurrence  (N=10)	88	10	524.5	0.324	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	HGG_Second Malignancy  (N=5)	88	5	196	0.689	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	HGG_xDeceased  (N=24)	88	24	910.5	0.304	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	LGG_Diagnosis  (N=335)	88	335	6067	1.76e-17	4.03e-15	****
-log10_tmb	HGG_Diagnosis  (N=88)	LGG_Progressive  (N=55)	88	55	963	1.48e-9	3.26e-7	****
-log10_tmb	HGG_Diagnosis  (N=88)	LGG_Recurrence  (N=24)	88	24	578	7.07e-4	0.145	ns
-log10_tmb	HGG_Diagnosis  (N=88)	LGG_Second Malignancy  (N=3)	88	3	78.5	0.239	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	LGG_xDeceased  (N=6)	88	6	128	0.036	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	Other_Diagnosis  (N=961)	88	909	20716.5	7.38e-14	1.67e-11	****
-log10_tmb	HGG_Diagnosis  (N=88)	Other_Progressive  (N=122)	88	98	2508	8.58e-7	1.86e-4	***
-log10_tmb	HGG_Diagnosis  (N=88)	Other_Recurrence  (N=114)	88	98	3264.5	0.004	0.83	ns
-log10_tmb	HGG_Diagnosis  (N=88)	Other_Second Malignancy  (N=13)	88	4	224.5	0.358	1	ns
-log10_tmb	HGG_Diagnosis  (N=88)	Other_xDeceased  (N=26)	88	13	512	0.546	1	ns
-log10_tmb	HGG_Progressive  (N=13)	HGG_Recurrence  (N=10)	13	10	74	0.598	1	ns
-log10_tmb	HGG_Progressive  (N=13)	HGG_Second Malignancy  (N=5)	13	5	25.5	0.521	1	ns
-log10_tmb	HGG_Progressive  (N=13)	HGG_xDeceased  (N=24)	13	24	122	0.286	1	ns
-log10_tmb	HGG_Progressive  (N=13)	LGG_Diagnosis  (N=335)	13	335	838.5	1.64e-4	0.034	*
-log10_tmb	HGG_Progressive  (N=13)	LGG_Progressive  (N=55)	13	55	142	7.79e-4	0.159	ns
-log10_tmb	HGG_Progressive  (N=13)	LGG_Recurrence  (N=24)	13	24	83.5	0.022	1	ns
-log10_tmb	HGG_Progressive  (N=13)	LGG_Second Malignancy  (N=3)	13	3	9	0.178	1	ns
-log10_tmb	HGG_Progressive  (N=13)	LGG_xDeceased  (N=6)	13	6	19	0.086	1	ns
-log10_tmb	HGG_Progressive  (N=13)	Other_Diagnosis  (N=961)	13	909	2814.5	0.001	0.234	ns
-log10_tmb	HGG_Progressive  (N=13)	Other_Progressive  (N=122)	13	98	333	0.005	1	ns
-log10_tmb	HGG_Progressive  (N=13)	Other_Recurrence  (N=114)	13	98	436.5	0.067	1	ns
-log10_tmb	HGG_Progressive  (N=13)	Other_Second Malignancy  (N=13)	13	4	31.5	0.571	1	ns
-log10_tmb	HGG_Progressive  (N=13)	Other_xDeceased  (N=26)	13	13	69	0.442	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	HGG_Second Malignancy  (N=5)	10	5	17	0.358	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	HGG_xDeceased  (N=24)	10	24	81	0.145	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	LGG_Diagnosis  (N=335)	10	335	549	2.84e-4	0.059	ns
-log10_tmb	HGG_Recurrence  (N=10)	LGG_Progressive  (N=55)	10	55	96.5	0.001	0.237	ns
-log10_tmb	HGG_Recurrence  (N=10)	LGG_Recurrence  (N=24)	10	24	53.5	0.012	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	LGG_Second Malignancy  (N=3)	10	3	6	0.15	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	LGG_xDeceased  (N=6)	10	6	11.5	0.05	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	Other_Diagnosis  (N=961)	10	909	1855	0.001	0.252	ns
-log10_tmb	HGG_Recurrence  (N=10)	Other_Progressive  (N=122)	10	98	224	0.005	0.924	ns
-log10_tmb	HGG_Recurrence  (N=10)	Other_Recurrence  (N=114)	10	98	278	0.025	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	Other_Second Malignancy  (N=13)	10	4	22	0.831	1	ns
-log10_tmb	HGG_Recurrence  (N=10)	Other_xDeceased  (N=26)	10	13	50	0.368	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	HGG_xDeceased  (N=24)	5	24	60.5	1	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	LGG_Diagnosis  (N=335)	5	335	381.5	0.036	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	LGG_Progressive  (N=55)	5	55	64	0.05	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	LGG_Recurrence  (N=24)	5	24	35	0.156	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	LGG_Second Malignancy  (N=3)	5	3	5	0.571	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	LGG_xDeceased  (N=6)	5	6	7	0.167	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	Other_Diagnosis  (N=961)	5	909	1308.5	0.101	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	Other_Progressive  (N=122)	5	98	161	0.199	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	Other_Recurrence  (N=114)	5	98	205.5	0.549	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	Other_Second Malignancy  (N=13)	5	4	13	0.556	1	ns
-log10_tmb	HGG_Second Malignancy  (N=5)	Other_xDeceased  (N=26)	5	13	33	1	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	LGG_Diagnosis  (N=335)	24	335	2266	3.47e-4	0.072	ns
-log10_tmb	HGG_xDeceased  (N=24)	LGG_Progressive  (N=55)	24	55	373	0.002	0.439	ns
-log10_tmb	HGG_xDeceased  (N=24)	LGG_Recurrence  (N=24)	24	24	211.5	0.117	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	LGG_Second Malignancy  (N=3)	24	3	26.5	0.487	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	LGG_xDeceased  (N=6)	24	6	41	0.113	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	Other_Diagnosis  (N=961)	24	909	7334.5	0.006	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	Other_Progressive  (N=122)	24	98	858.5	0.041	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	Other_Recurrence  (N=114)	24	98	1086	0.564	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	Other_Second Malignancy  (N=13)	24	4	66.5	0.237	1	ns
-log10_tmb	HGG_xDeceased  (N=24)	Other_xDeceased  (N=26)	24	13	161.5	0.874	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	LGG_Progressive  (N=55)	335	55	8750	0.55	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	LGG_Recurrence  (N=24)	335	24	4464.5	0.365	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	LGG_Second Malignancy  (N=3)	335	3	687	0.274	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	LGG_xDeceased  (N=6)	335	6	943.5	0.798	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	Other_Diagnosis  (N=961)	335	909	170705	0.001	0.207	ns
-log10_tmb	LGG_Diagnosis  (N=335)	Other_Progressive  (N=122)	335	98	19155	0.012	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	Other_Recurrence  (N=114)	335	98	23300	2.5e-10	5.55e-8	****
-log10_tmb	LGG_Diagnosis  (N=335)	Other_Second Malignancy  (N=13)	335	4	1211.5	0.005	1	ns
-log10_tmb	LGG_Diagnosis  (N=335)	Other_xDeceased  (N=26)	335	13	2990	0.022	1	ns
-log10_tmb	LGG_Progressive  (N=55)	LGG_Recurrence  (N=24)	55	24	748.5	0.347	1	ns
-log10_tmb	LGG_Progressive  (N=55)	LGG_Second Malignancy  (N=3)	55	3	117.5	0.225	1	ns
-log10_tmb	LGG_Progressive  (N=55)	LGG_xDeceased  (N=6)	55	6	167.5	0.961	1	ns
-log10_tmb	LGG_Progressive  (N=55)	Other_Diagnosis  (N=961)	55	909	28946	0.049	1	ns
-log10_tmb	LGG_Progressive  (N=55)	Other_Progressive  (N=122)	55	98	3204	0.053	1	ns
-log10_tmb	LGG_Progressive  (N=55)	Other_Recurrence  (N=114)	55	98	3842	1.29e-5	0.003	**
-log10_tmb	LGG_Progressive  (N=55)	Other_Second Malignancy  (N=13)	55	4	199	0.007	1	ns
-log10_tmb	LGG_Progressive  (N=55)	Other_xDeceased  (N=26)	55	13	493	0.035	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	LGG_Second Malignancy  (N=3)	24	3	42	0.67	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	LGG_xDeceased  (N=6)	24	6	64	0.697	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	Other_Diagnosis  (N=961)	24	909	10824.5	0.949	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	Other_Progressive  (N=122)	24	98	1227.5	0.742	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	Other_Recurrence  (N=114)	24	98	1473	0.056	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	Other_Second Malignancy  (N=13)	24	4	81	0.032	1	ns
-log10_tmb	LGG_Recurrence  (N=24)	Other_xDeceased  (N=26)	24	13	195	0.22	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	LGG_xDeceased  (N=6)	3	6	5.5	0.435	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	Other_Diagnosis  (N=961)	3	909	1069.5	0.519	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	Other_Progressive  (N=122)	3	98	128.5	0.718	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	Other_Recurrence  (N=114)	3	98	173	0.61	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	Other_Second Malignancy  (N=13)	3	4	10	0.229	1	ns
-log10_tmb	LGG_Second Malignancy  (N=3)	Other_xDeceased  (N=26)	3	13	24	0.611	1	ns
-log10_tmb	LGG_xDeceased  (N=6)	Other_Diagnosis  (N=961)	6	909	3124	0.538	1	ns
-log10_tmb	LGG_xDeceased  (N=6)	Other_Progressive  (N=122)	6	98	342.5	0.503	1	ns
-log10_tmb	LGG_xDeceased  (N=6)	Other_Recurrence  (N=114)	6	98	399.5	0.143	1	ns
-log10_tmb	LGG_xDeceased  (N=6)	Other_Second Malignancy  (N=13)	6	4	21	0.069	1	ns
-log10_tmb	LGG_xDeceased  (N=6)	Other_xDeceased  (N=26)	6	13	51.5	0.292	1	ns
-log10_tmb	Other_Diagnosis  (N=961)	Other_Progressive  (N=122)	909	98	46862.5	0.396	1	ns
-log10_tmb	Other_Diagnosis  (N=961)	Other_Recurrence  (N=114)	909	98	57418.5	2.46e-6	5.31e-4	***
-log10_tmb	Other_Diagnosis  (N=961)	Other_Second Malignancy  (N=13)	909	4	3119	0.013	1	ns
-log10_tmb	Other_Diagnosis  (N=961)	Other_xDeceased  (N=26)	909	13	7661.5	0.066	1	ns
-log10_tmb	Other_Progressive  (N=122)	Other_Recurrence  (N=114)	98	98	5851	0.008	1	ns
-log10_tmb	Other_Progressive  (N=122)	Other_Second Malignancy  (N=13)	98	4	321.5	0.031	1	ns
-log10_tmb	Other_Progressive  (N=122)	Other_xDeceased  (N=26)	98	13	803.5	0.127	1	ns
-log10_tmb	Other_Recurrence  (N=114)	Other_Second Malignancy  (N=13)	98	4	301.5	0.07	1	ns
-log10_tmb	Other_Recurrence  (N=114)	Other_xDeceased  (N=26)	98	13	706	0.53	1	ns
-log10_tmb	Other_Second Malignancy  (N=13)	Other_xDeceased  (N=26)	4	13	17	0.35	1	ns
+.y.	group1	group2	n1	n2	statistic	p	p.adj	p.adj.signif	cgGFAC
+log10_tmb	Deceased (N=4)	Diagnosis (N=48)	4	48	83.5	0.68	1	ns	ATRT
+log10_tmb	Deceased (N=4)	Progressive (N=10)	4	10	22	0.832	1	ns	ATRT
+log10_tmb	Deceased (N=4)	Recurrence (N=3)	4	3	6.5	1	1	ns	ATRT
+log10_tmb	Diagnosis (N=48)	Progressive (N=10)	48	10	363.5	0.011	0.068	ns	ATRT
+log10_tmb	Diagnosis (N=48)	Recurrence (N=3)	48	3	119.5	0.06	0.298	ns	ATRT
+log10_tmb	Progressive (N=10)	Recurrence (N=3)	10	3	16.5	0.866	1	ns	ATRT
+log10_tmb	Deceased (N=44)	Diagnosis (N=124)	44	124	2241.5	0.08	0.238	ns	DMG
+log10_tmb	Deceased (N=44)	Progressive (N=8)	44	8	146	0.454	0.908	ns	DMG
+log10_tmb	Diagnosis (N=124)	Progressive (N=8)	124	8	470	0.808	0.908	ns	DMG
+log10_tmb	Deceased (N=24)	Diagnosis (N=88)	24	88	1201.5	0.304	1	ns	HGG
+log10_tmb	Deceased (N=24)	Progressive (N=13)	24	13	190	0.286	1	ns	HGG
+log10_tmb	Deceased (N=24)	Recurrence (N=10)	24	10	159	0.145	1	ns	HGG
+log10_tmb	Deceased (N=24)	Second Malignancy (N=5)	24	5	59.5	1	1	ns	HGG
+log10_tmb	Diagnosis (N=88)	Progressive (N=13)	88	13	620	0.63	1	ns	HGG
+log10_tmb	Diagnosis (N=88)	Recurrence (N=10)	88	10	524.5	0.324	1	ns	HGG
+log10_tmb	Diagnosis (N=88)	Second Malignancy (N=5)	88	5	196	0.689	1	ns	HGG
+log10_tmb	Progressive (N=13)	Recurrence (N=10)	13	10	74	0.598	1	ns	HGG
+log10_tmb	Progressive (N=13)	Second Malignancy (N=5)	13	5	25.5	0.521	1	ns	HGG
+log10_tmb	Recurrence (N=10)	Second Malignancy (N=5)	10	5	17	0.358	1	ns	HGG
+log10_tmb	Deceased (N=6)	Diagnosis (N=335)	6	335	1066.5	0.798	1	ns	LGG
+log10_tmb	Deceased (N=6)	Progressive (N=55)	6	55	162.5	0.961	1	ns	LGG
+log10_tmb	Deceased (N=6)	Recurrence (N=24)	6	24	80	0.697	1	ns	LGG
+log10_tmb	Deceased (N=6)	Second Malignancy (N=3)	6	3	12.5	0.435	1	ns	LGG
+log10_tmb	Diagnosis (N=335)	Progressive (N=55)	335	55	8750	0.55	1	ns	LGG
+log10_tmb	Diagnosis (N=335)	Recurrence (N=24)	335	24	4464.5	0.365	1	ns	LGG
+log10_tmb	Diagnosis (N=335)	Second Malignancy (N=3)	335	3	687	0.274	1	ns	LGG
+log10_tmb	Progressive (N=55)	Recurrence (N=24)	55	24	748.5	0.347	1	ns	LGG
+log10_tmb	Progressive (N=55)	Second Malignancy (N=3)	55	3	117.5	0.225	1	ns	LGG
+log10_tmb	Recurrence (N=24)	Second Malignancy (N=3)	24	3	42	0.67	1	ns	LGG
+log10_tmb	Deceased (N=26)	Diagnosis (N=961)	25	920	8887	0.052	0.26	ns	Other
+log10_tmb	Deceased (N=26)	Progressive (N=122)	25	122	1257.5	0.168	0.504	ns	Other
+log10_tmb	Deceased (N=26)	Recurrence (N=114)	25	113	1356.5	0.759	0.818	ns	Other
+log10_tmb	Deceased (N=26)	Second Malignancy (N=13)	25	13	221	0.074	0.297	ns	Other
+log10_tmb	Diagnosis (N=961)	Progressive (N=122)	920	122	58699	0.409	0.818	ns	Other
+log10_tmb	Diagnosis (N=961)	Recurrence (N=114)	920	113	65360	7.67e-6	7.67e-5	****	Other
+log10_tmb	Diagnosis (N=961)	Second Malignancy (N=13)	920	13	9349.5	4.73e-4	0.004	**	Other
+log10_tmb	Progressive (N=122)	Recurrence (N=114)	122	113	8221	0.011	0.075	ns	Other
+log10_tmb	Progressive (N=122)	Second Malignancy (N=13)	122	13	1200.5	0.002	0.019	*	Other
+log10_tmb	Recurrence (N=114)	Second Malignancy (N=13)	113	13	1031	0.018	0.106	ns	Other
