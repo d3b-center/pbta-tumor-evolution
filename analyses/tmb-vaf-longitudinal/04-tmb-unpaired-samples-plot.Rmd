@@ -86,12 +86,6 @@ print(df %>% count(cg_id) %>% arrange(desc(n)))
 # How many cases with unpaired longitudinal samples?
 no_samples <- length(unique(df$Kids_First_Participant_ID))
 
-# Let's count #samples per cancer groups and timepoints 
-timepoint_cgGFAC_n_df <- df %>% 
-  count(cgGFAC, tumor_descriptor) %>% 
-  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
-  dplyr::rename(timepoint_cgGFAC_number = n) 
-
 # Summarize timepoints per cancer groups
 # We will summarize cancer groups with single timepoints as "Other" 
 timepoint_sum <- df %>%
@@ -101,17 +95,27 @@ timepoint_sum <- df %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) 
 
 # Create df to use for plots
-df_plot <- df %>% 
-  left_join(timepoint_cgGFAC_n_df, by = c("tumor_descriptor", "cgGFAC")) %>% 
-  filter(!timepoint_cgGFAC_number <= 2) %>% # remove if total #samples per timepoint is less than 2
-
+df <- df %>% 
   left_join(timepoint_sum, by = c("cg_id")) %>%
   filter(!tumor_descriptor_sum %in% timepoints,
          !tumor_descriptor_sum %in% c("Diagnosis-Diagnosis", 
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
                                       "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis"
-                                      )) %>% # remove cancer groups with single timepoints
+                                      )) # remove cancer groups with single timepoints
+
+
+# Let's count #samples per cancer groups and timepoints 
+timepoint_cgGFAC_n_df <- df %>% 
+  count(cgGFAC, tumor_descriptor) %>% 
+  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_number = n) 
+
+
+# Create df to use for plots
+df_plot <- df %>% 
+  left_join(timepoint_cgGFAC_n_df, by = c("tumor_descriptor", "cgGFAC")) %>% 
+  filter(!timepoint_cgGFAC_number <= 2) %>% # remove if total #samples per timepoint is less than 2
   mutate(cg_id_sum = replace_na(cg_id, "Other"),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
