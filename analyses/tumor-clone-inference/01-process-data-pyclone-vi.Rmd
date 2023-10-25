@@ -43,11 +43,11 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-# File path to CloneFinder_input directory
-CloneFinder_input_dir <-
-  file.path(analysis_dir, "results", "CloneFinder_input")
-if (!dir.exists(CloneFinder_input_dir)) {
-  dir.create(CloneFinder_input_dir)
+# File path to input directory
+pyclonevi_input_dir <-
+  file.path(analysis_dir, "results", "pyclonevi_input")
+if (!dir.exists(pyclonevi_input_dir)) {
+  dir.create(pyclonevi_input_dir)
 }
 
 source(paste0(analysis_dir, "/util/function-create-df.R"))
