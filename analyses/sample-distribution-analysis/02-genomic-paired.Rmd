@@ -26,13 +26,6 @@ data_dir <- file.path(root_dir, "data")
 analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
 input_dir <- file.path(analysis_dir, "input")
 
-# File path to results directory
-results_dir <-
-  file.path(analysis_dir, "results")
-if (!dir.exists(results_dir)) {
-  dir.create(results_dir)
-}
-
 # Inputs
 genomic_file <- file.path(results_dir, "genomic_assays_matched_time_points.tsv")
 pbta_file <- file.path(results_dir, "pbta.tsv")
