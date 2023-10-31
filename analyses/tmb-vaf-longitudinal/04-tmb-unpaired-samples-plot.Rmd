@@ -224,10 +224,10 @@ for (i in seq_along(cancer_groups)) {
   df_sub <- df_plot %>% 
     filter(cgGFAC == cancer_groups[i]) %>% 
     arrange(tumor_descriptor, timepoint_cgGFAC_n) 
-  
+ 
   # To add cancer group in the stat.test table
   df_sub_list <- df_sub %>% 
-    select(cgGFAC, timepoint_cgGFAC_n) %>% 
+    select(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
     unique()
   
   # Compute some summary statistics (mean and sd) by groups:
@@ -242,6 +242,7 @@ for (i in seq_along(cancer_groups)) {
     as.data.frame() %>% 
     mutate(timepoint_cgGFAC_n = group1) %>% 
     left_join(df_sub_list, by = c("timepoint_cgGFAC_n")) %>% 
+    arrange(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
     select(-timepoint_cgGFAC_n)
 
   # Save results for all 
