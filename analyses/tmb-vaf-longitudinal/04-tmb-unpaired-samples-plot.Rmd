@@ -146,6 +146,9 @@ log10_ylim <- max(df_plot$log10_tmb)
 ```
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
+# Make this reproducible
+set.seed(2023)
+
 print(ggplot(df_plot, aes(tumor_descriptor, tmb, color = Timepoint)) + 
         geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
@@ -172,6 +175,9 @@ ggsave(filename = "TMB-unpaired-longitudinal.pdf",
 # All unpaired samples across cancer types
 
 ```{r plot-cg-id-sum, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
+# Make this reproducible
+set.seed(2023)
+
 print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) + 
         geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
         # light guiding line representing 0 exposure
