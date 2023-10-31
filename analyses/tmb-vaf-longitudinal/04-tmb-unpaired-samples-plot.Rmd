@@ -245,6 +245,10 @@ for (i in seq_along(cancer_groups)) {
     arrange(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
     select(-timepoint_cgGFAC_n)
 
+  # Add add_xy_position
+  stat.test <- stat.test %>% 
+    add_xy_position(x = "timepoint_cgGFAC_n") # , step.increase = .08
+  
   # Save results for all 
   if(i == 1){
     stat.summary.all <- stat.summary
@@ -254,10 +258,6 @@ for (i in seq_along(cancer_groups)) {
       stat.test.all <- rbind(stat.test.all, stat.test)
     }
     
-  
-  # Add add_xy_position
-  stat.test <- stat.test %>% 
-    add_xy_position(x = "timepoint_cgGFAC_n") # , step.increase = .08
 
   # Create bxp
   print(ggboxplot(df_sub,
