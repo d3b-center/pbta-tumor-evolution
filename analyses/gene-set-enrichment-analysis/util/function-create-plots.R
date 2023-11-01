@@ -55,6 +55,11 @@ create_barplot <- function(df, y_value, title_value, rna_library, td_model_id, c
 create_diverging_barplot <- function(df, y_value, title_value, rna_library, td_model_id, cgGFAC) {
   
   
+  # make corplot reproducible when using the geom_text_repel function
+  set.seed(2023)
+  
+  labels_colors = c("bottom_ranked_data" = "#00AFBB", "Not significant" = "grey", "top_ranked_data" = "#bb0c00")
+  
   p <- ggplot(df, aes(x = reorder(hallmark_name, y_value), 
                       y = y_value,
                       fill = y_value)) +  
@@ -158,75 +163,4 @@ create_volcano_plot <- function(df, title_value, rna_library, td_model_id, cgGFA
 }
 
 
-
-#' Create volcano plot
-#'
-#' @param df
-#' @param x_value
-#' @param y_value
-#' @param title_value 
-#' @param rna_library 
-#' @param td_model_id
-#' @param cgGFAC
-
-#' 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_volcano_plot_log10 <- function(df, x_value, y_value, title_value, rna_library, td_model_id, cgGFAC) {
-  
-  # make corplot reproducible when using the geom_text_repel function
-  set.seed(2023)
-  
-  labels_colors = c("bottom_ranked_data" = "#00AFBB", "Not significant" = "grey", "top_ranked_data" = "#bb0c00")
-  
-  
-  # plot adding up all layers we have seen so far
-  p <- ggplot(data = df, aes(x  = x_value, y = y_value, col = path_diff, label = labels)) +
-    geom_point(size = 6, fill = 4, alpha = 1 / 2) + 
-    theme_Publication() + 
-    geom_text_repel(point.padding = 0.2, # additional padding around each point
-                    box.padding = 0.5) +
-    scale_color_manual(values = labels_colors) + # to set the colours of our variable
-                      # labels = c("bottom_ranked_data", "Not significant", "top_ranked_data")) + # to set the labels in case we want to overwrite the categories from the dataframe (UP, DOWN, NO)
-    #geom_vline(xintercept=c(-0.6, 0.6), col = "red", col = "gray", linetype = "dashed") +
-    geom_hline(yintercept = -log10(0.05), col = "black", linetype = "dashed") +
-    #coord_cartesian(ylim = c(0, 250), xlim = c(-10, 10)) + # since some genes can have minuslog10padj of inf, we set these limits
-    # # Note. with coord_cartesian() even if we have genes with p-values or log2FC ourside our limits, they will still be plotted.
-    # labs(color = "path_diff")  #legend_title
-    labs(title = paste0(cgGFAC, " ", td_model_id, " Volcano plot for ", rna_library, " using ", title_value)) + 
-    labs(x = "log2 Pathway score", y = "-log10_tukey_p_value")
-  
-  return(p)
-  
-}
-
-
-############## TO REMOVE? ############################
-# Create enhanced volcaon plot example
-# labels didnt work 
-#library(EnhancedVolcano)
-
-#p <- EnhancedVolcano(df,
-#                     lab = rownames(df),
- #                    x = 'pathway_score_difference',
- #                    y = 'tukey_p_value',
- #                    selectLab = df$labels, 
- #                    title = 'Volcano plot',
- #                    pCutoff = 0.05,
- #                    FCcutoff = 0.5,
- #                    pointSize = 3.0,
-  #                   labSize = 6.0,
- #                    labCol = 'black',
-#                     labFace = 'bold',
- #                    boxedLabels = TRUE,
-#                     colAlpha = 4/5,
-#                     legendPosition = 'right',
-#                     legendLabSize = 14,
-#                     legendIconSize = 4.0,
-#                     drawConnectors = TRUE,
-#                     widthConnectors = 1.0,
-#                     colConnectors = 'black')
 
