@@ -115,6 +115,9 @@ print(length(unique(patient_list$Kids_First_Participant_ID)))
 metadata <- patient_list %>% 
   left_join(pbta, by = "Kids_First_Participant_ID")
 
+print(table(metadata$RNA_library))
+
+
 # Read scores file
 scores_file <- readr::read_tsv(scores_file) 
 
@@ -124,15 +127,26 @@ timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Ma
 ### Merge histology metadata with each set of gsea scores
 metadata_with_gsva <- metadata %>%
   inner_join(scores_file, by = "Kids_First_Biospecimen_ID") %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
-  filter(!RNA_library == "exome_capture")
+  mutate(RNA_library_sum = case_when(grepl("exome_capture|poly-A|poly-A stranded", RNA_library) ~ "merged-RNA_library",
+                                     TRUE ~ RNA_library),
+        # bs_rna_library_id = paste(Kids_First_Biospecimen_ID, RNA_library_sum, sep = "_"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints,)) %>% 
+  filter(!RNA_library == "exome_capture",
+         !cgGFAC == "Other")
 
+      
 # How many patients with paired assays?
 print(length(unique(metadata_with_gsva$Kids_First_Participant_ID)))
 
 # How many biospecimens per `RNA_library`?
-print(table(metadata_with_gsva$RNA_library))
+bs_unique <- metadata_with_gsva %>%
+  group_by(Kids_First_Biospecimen_ID, RNA_library_sum) %>%
+  select(Kids_First_Biospecimen_ID, RNA_library_sum) %>% 
+  distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE)
+
+print(table(bs_unique$RNA_library_sum))
+print(table(metadata_with_gsva$RNA_library_sum))
 
 ```
 
