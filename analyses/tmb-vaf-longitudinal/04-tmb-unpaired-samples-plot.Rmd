@@ -142,7 +142,8 @@ Timepoint <- df_plot$tumor_descriptor
 
 # Define ylim
 ylim <- max(df_plot$tmb)
-log10_ylim <- max(df_plot$log10_tmb)
+log10_ylim_min <- min(df_plot$log10_tmb)
+log10_ylim_max <- max(df_plot$log10_tmb)
 ```
 
 ```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
@@ -189,7 +190,7 @@ print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) +
         labs(x = "Tumor descriptor",
              y = "log10TMB") +
         theme_Publication() +
-        scale_y_continuous(limits = c(0, log10_ylim)) +
+        scale_y_continuous(limits = c(log10_ylim_min, log10_ylim_max)) +
         theme(axis.text.x = element_text(angle = 90)))
 
 # Save the plot
@@ -249,10 +250,6 @@ for (i in seq_along(cancer_groups)) {
   # Add add_xy_position
   stat.test <- stat.test %>% 
     add_y_position() 
-
-  # add_xy_position() adds xmin and xmax in order to place the brackets, but those do NOT correspond to the appropriate groups in the plot
-  # https://github.com/kassambara/ggpubr/issues/477
-  
   
   # Save results for all 
   if(i == 1){
