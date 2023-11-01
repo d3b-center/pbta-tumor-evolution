@@ -207,18 +207,6 @@ for(i in 1:length(rna_library_list)){
       df$hallmark_name <- factor(df$hallmark_name,
                                  levels = rev(unique(df$hallmark_name[order(df$tukey_p_value, decreasing = TRUE)]))) # Factor levels in increasing order
       
-      ###### barplots ###########
-      name <- paste0(barplots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", cgGFAC_list[x], "-", td_models[t], "-tumor_descriptor_barplot.pdf")
-      print(name)
-      p <- create_barplot(df = df,
-                          y_value = df$tukey_p_value,
-                          title_value = "tukey_p_value",
-                          rna_library = rna_library_list[i],
-                          td_model_id = td_models[t],
-                          cgGFAC = cgGFAC_list[x])
-      pdf(file = name, width = 12, height = 10)
-      print(p)
-      dev.off()
       
       ###### diverging barplots ###########
       name <- paste0(diverging_barplots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", cgGFAC_list[x], "-", td_models[t], "-tumor_descriptor_diverging_barplot.pdf")
@@ -233,22 +221,7 @@ for(i in 1:length(rna_library_list)){
       print(p)
       dev.off()
     
-      
-      
-      ###### dot plots ###########
-      dotplot_name <- paste0(dotplots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", cgGFAC_list[x], "-", td_models[t], "-tumor_descriptor_dotplot.pdf")
-      print(dotplot_name)
-      p <- create_dotplot(df = df,
-                          x_value = df$hallmark_name,
-                          y_value = df$tukey_p_value,
-                          title_value = "tukey_p_value",
-                          rna_library = rna_library_list[i],
-                          td_model_id = td_models[t],
-                          cgGFAC = cgGFAC_list[x])
-      pdf(file = dotplot_name, width = 12, height = 10)
-      print(p)
-      dev.off()
-      
+  
       ###### volcano plots ###########
       # The significantly differentially pathways are the ones found in the upper-left and upper-right corners.
       # Add a column to the data frame to specify if they are UP- or DOWN- regulated (pathway_score_difference respectively positive or negative)
