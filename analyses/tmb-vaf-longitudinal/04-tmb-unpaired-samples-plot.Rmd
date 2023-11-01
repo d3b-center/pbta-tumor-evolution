@@ -228,7 +228,8 @@ for (i in seq_along(cancer_groups)) {
   # To add cancer group in the stat.test table
   df_sub_list <- df_sub %>% 
     select(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
-    unique()
+    unique() %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) 
   
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
@@ -247,7 +248,11 @@ for (i in seq_along(cancer_groups)) {
 
   # Add add_xy_position
   stat.test <- stat.test %>% 
-    add_xy_position(x = "timepoint_cgGFAC_n") # , step.increase = .08
+    add_y_position() 
+
+  # add_xy_position() adds xmin and xmax in order to place the brackets, but those do NOT correspond to the appropriate groups in the plot
+  # https://github.com/kassambara/ggpubr/issues/477
+  
   
   # Save results for all 
   if(i == 1){
@@ -257,10 +262,10 @@ for (i in seq_along(cancer_groups)) {
       stat.summary.all <- rbind(stat.summary.all, stat.summary)
       stat.test.all <- rbind(stat.test.all, stat.test)
     }
-    
-
-  # Create bxp
-  print(ggboxplot(df_sub,
+  
+  
+    # Create bxp
+    p <- print(ggboxplot(df_sub,
                   x = "timepoint_cgGFAC_n",
                   y = "log10_tmb",
                   color = "tumor_descriptor",
@@ -270,16 +275,16 @@ for (i in seq_along(cancer_groups)) {
           #rotate() +
           theme(axis.text.x = element_text(angle = 90)) +
           stat_pvalue_manual(stat.test,
-                             #tip.length = 0.01,
-                             hide.ns = TRUE, 
-                             label = "p.adj.signif",
-                             y.position = "y.position") +
+                                     #tip.length = 0.01,
+                                     hide.ns = TRUE, 
+                                     label = "p.adj.signif",
+                                     y.position = "y.position") +
           scale_y_continuous(limits = c(0, max(stat.test$y.position))) +
           labs(title = cancer_groups[i],
                x = "Tumor descriptor",
                y = "log10TMB",
                color = "Timepoint"))
-  
+
   # Save the plot
   ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
          path = plots_dir, 
@@ -288,6 +293,7 @@ for (i in seq_along(cancer_groups)) {
          device = "pdf", 
         useDingbats = FALSE)
 }
+
 
 # Save summary tables for statistics
 stat.summary.all %>% write_tsv(file.path(results_dir, "stat_summary.tsv"))
