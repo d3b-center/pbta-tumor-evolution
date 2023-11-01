@@ -67,11 +67,6 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
-barplots_dir <-
-  file.path(plots_dir, "barplots")
-if (!dir.exists(barplots_dir)) {
-  dir.create(barplots_dir)
-}
 
 diverging_barplots_dir <-
   file.path(plots_dir, "diverging_barplots")
@@ -79,18 +74,6 @@ if (!dir.exists(diverging_barplots_dir)) {
   dir.create(diverging_barplots_dir)
 }
 
-
-dotplots_dir <-
-  file.path(plots_dir, "dotplots")
-if (!dir.exists(dotplots_dir)) {
-  dir.create(dotplots_dir)
-}
-
-volcano_plots_dir <-
-  file.path(plots_dir, "volcano_plots_p_value")
-if (!dir.exists(volcano_plots_dir)) {
-  dir.create(volcano_plots_dir)
-}
 
 # File path to results directory
 results_dir <-
