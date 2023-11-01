@@ -65,13 +65,14 @@ gsva_anova_tukey <- function(df, predictor_variable, library_type, significance_
     pull(n) -> number_of_tests
 
   print(number_of_tests)
+  
   ############### Perform modeling, including ANOVAs and Tukey across hallmarks
   df %>%
     dplyr::filter(data_type == library_type) %>%
     dplyr::group_by(hallmark_name) %>%
     nest() %>%
     dplyr::mutate(anova_fit = pmap(list(data, predictor_variable_string), perform_anova),
-           tukey_fit = map(anova_fit, TukeyHSD)) -> fitted_results
+           tukey_fit = map(anova_fit, TukeyHSD, ordered = TRUE)) -> fitted_results # Change the order of grouping 
 
   ############## Tidy the ANOVA fits
   fitted_results %>%
