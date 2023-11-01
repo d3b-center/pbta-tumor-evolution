@@ -205,7 +205,7 @@ ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf",
 # Summary statistics for Timepoints and cancer types
 Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
 
-```{r summary-statistics, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+```{r summary-statistics, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
 # Inspect some random rows of the data by groups
 set.seed(2023)
 
@@ -269,7 +269,7 @@ for (i in seq_along(cancer_groups)) {
                   palette = palette,
                   add = c("mean")) + # add = c("mean", "jitter")
           theme_Publication() + 
-          #rotate() +
+          rotate() +
           theme(axis.text.x = element_text(angle = 90)) +
           stat_pvalue_manual(stat.test,
                                      #tip.length = 0.01,
@@ -285,8 +285,8 @@ for (i in seq_along(cancer_groups)) {
   # Save the plot
   ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
          path = plots_dir, 
-         width = 8, 
-         height = 6, 
+         width = 10, 
+         height = 5, 
          device = "pdf", 
         useDingbats = FALSE)
 }
