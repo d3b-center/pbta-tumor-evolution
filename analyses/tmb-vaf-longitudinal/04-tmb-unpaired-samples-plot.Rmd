@@ -75,10 +75,10 @@ df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!is.na(tmb))
 
 # How many samples per Timepoint?
-print(df %>% count(tumor_descriptor) %>% arrange(desc(n)))
+print(df %>% dplyr::count(tumor_descriptor) %>% arrange(desc(n)))
 
 # How many samples per cancer group?
-print(df %>% count(cg_id) %>% arrange(desc(n)))
+print(df %>% dplyr::count(cg_id) %>% arrange(desc(n)))
 
 # How many samples per Timepoint and cancer type?
 # rename(count(df, tumor_descriptor, cg_id), Freq = n)
@@ -107,7 +107,7 @@ df <- df %>%
 
 # Let's count #samples per cancer groups and timepoints 
 timepoint_cgGFAC_n_df <- df %>% 
-  count(cgGFAC, tumor_descriptor) %>% 
+  dplyr::count(cgGFAC, tumor_descriptor) %>% 
   dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
   dplyr::rename(timepoint_cgGFAC_number = n) 
 
@@ -146,7 +146,7 @@ log10_ylim_min <- min(df_plot$log10_tmb)
 log10_ylim_max <- max(df_plot$log10_tmb)
 ```
 
-```{r plot-total, fig.width = 10, fig.height = 5, fig.fullwidth = TRUE}
+```{r plot-total, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
 # Make this reproducible
 set.seed(2023)
 
@@ -166,7 +166,7 @@ print(ggplot(df_plot, aes(tumor_descriptor, tmb, color = Timepoint)) +
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal.pdf",
        path = plots_dir, 
-       width = 10, 
+       width = 5, 
        height = 5, 
        device = "pdf", 
        useDingbats = FALSE)
@@ -175,7 +175,7 @@ ggsave(filename = "TMB-unpaired-longitudinal.pdf",
 
 # All unpaired samples across cancer types
 
-```{r plot-cg-id-sum, fig.width = 25, fig.height = 20, fig.fullwidth = TRUE}
+```{r plot-cg-id-sum, fig.width = 24, fig.height = 24, fig.fullwidth = TRUE}
 # Make this reproducible
 set.seed(2023)
 
@@ -196,8 +196,8 @@ print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) +
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf", 
        path = plots_dir, 
-       width = 25, 
-       height = 20, 
+       width = 24, 
+       height = 24, 
        device = "pdf", 
        useDingbats = FALSE)
 ```
@@ -260,30 +260,71 @@ for (i in seq_along(cancer_groups)) {
       stat.test.all <- rbind(stat.test.all, stat.test)
     }
   
+  df_sub <- df_sub %>% 
+    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc=T))
   
     # Create bxp
-    p <- print(ggboxplot(df_sub,
-                  x = "timepoint_cgGFAC_n",
-                  y = "log10_tmb",
-                  color = "tumor_descriptor",
-                  palette = palette,
-                  add = c("mean")) + # add = c("mean", "jitter")
+    p <- print(df_sub %>%  
+                 ggplot2::ggplot() +
+                 aes(x = timepoint_cgGFAC_n, y = log10_tmb, color = tumor_descriptor) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
           theme_Publication() + 
+          scale_color_manual(values = palette) +
           #rotate() +
           theme(axis.text.x = element_text(angle = 90)) +
           stat_pvalue_manual(stat.test,
                              #tip.length = 0.01,
                              hide.ns = TRUE, 
-                             label = "p.adj.signif",
+                             #label = "Wilcox-test, p = {p.adj}", 
+                             label = "p.adj.signif", 
                              y.position = "y.position") +
           scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
           labs(title = cancer_groups[i],
                x = "Tumor descriptor",
                y = "log10TMB",
                color = "Timepoint"))
+    
 
+    # Save the plot
+    ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
+         path = plots_dir, 
+         width = 8, 
+         height = 6, 
+         device = "pdf", 
+        useDingbats = FALSE)
+  
+    # Create bxp Wilcox-test
+    p <- print(df_sub %>%  
+                 ggplot2::ggplot() +
+                 aes(x = timepoint_cgGFAC_n, y = log10_tmb, color = tumor_descriptor) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+          theme_Publication() + 
+          scale_color_manual(values = palette) +
+          #rotate() +
+          theme(axis.text.x = element_text(angle = 90)) +
+          stat_pvalue_manual(stat.test,
+                             #tip.length = 0.01,
+                             hide.ns = TRUE, 
+                             label = "Wilcox-test, p = {p.adj}", 
+                             #label = "p.adj.signif", 
+                             y.position = "y.position") +
+          scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
+          labs(title = cancer_groups[i],
+               x = "Tumor descriptor",
+               y = "log10TMB",
+               color = "Timepoint"))
+    
+    
   # Save the plot
-  ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test.pdf"), 
+  ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test-Wilcox-test.pdf"), 
          path = plots_dir, 
          width = 8, 
          height = 6, 
