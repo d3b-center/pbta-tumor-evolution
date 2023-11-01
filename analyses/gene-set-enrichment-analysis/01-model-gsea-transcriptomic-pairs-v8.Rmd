@@ -239,22 +239,6 @@ for(i in 1:length(rna_library_list)){
       print(p)
       dev.off()
     
-  
-      ###### volcano plots ###########
-      
-      
-      volcano_name <- paste0(volcano_plots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", cgGFAC_list[x], "-", td_models[t], "-tumor_descriptor_volcano_plot.pdf")
-      print(volcano_name)
-      p <- create_volcano_plot(df = df,
-                               title_value = "tukey_p_value",
-                               rna_library = rna_library_list[i],
-                               td_model_id = td_models[t],
-                               cgGFAC = cgGFAC_list[x])
-      pdf(file = volcano_name, width = 12, height = 10)
-      print(p)
-      dev.off()
-      
-    }
     
     ###### anova ######################################################################
     ###### barplots ###########    
