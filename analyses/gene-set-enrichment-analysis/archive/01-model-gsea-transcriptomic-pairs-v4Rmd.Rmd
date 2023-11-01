@@ -1,0 +1,309 @@
+---
+title: "GSVA Score Modeling"
+author: "Antonia Chroni <chronia@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+### Purpose
+
+The purpose of this analysis is to assess significant differences in GSVA scores for each hallmark pathways. Using ANOVA and subsequent Tukey tests, we ask:
+
++ For each pathway, are GSVA scores significantly different across `tumor_descriptor`? If so, which timepoints are significantly different?
+
+We perform this using both GSVA scores calculated from RNA-seq libraries. Code is also flexible enough to test a different variable besides `tumor_descriptor`, etc.
+
+
+Plots are inspired from here: https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html
+
+### Usage
+
+To run this from the command line, use:
+```
+Rscript -e "rmarkdown::render('02-model-gsea-transcriptomic-pairs.Rmd', clean = TRUE)" 
+```
+_This assumes you are in the top directory of the repository._
+
+# Setup
+
+Load libraries and define certain constants:
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(broom)
+  library(ggpubr)
+  library(ggrepel)
+})
+```
+
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "gene-set-enrichment-analysis") 
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+
+# Input files
+## Metadata file (histologies/clinical data)
+metadata_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+matched_transcriptomic_file <- file.path(files_dir, "transcriptomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
+
+## GSEA scores
+scores_file <- file.path(input_dir, "gsva_scores.tsv")
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots", "paired-transcriptomic")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+barplots_dir <-
+  file.path(plots_dir, "barplots")
+if (!dir.exists(barplots_dir)) {
+  dir.create(barplots_dir)
+}
+
+dotplots_dir <-
+  file.path(plots_dir, "dotplots")
+if (!dir.exists(dotplots_dir)) {
+  dir.create(dotplots_dir)
+}
+
+volcano_plots_dir <-
+  file.path(plots_dir, "volcano_plots")
+if (!dir.exists(volcano_plots_dir)) {
+  dir.create(volcano_plots_dir)
+}
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results", "paired-transcriptomic")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# Significance testing universal threshold
+SIGNIFICANCE_THRESHOLD <- 0.01
+
+# This script contains functions used to modeling GSVA scores
+source(paste0(analysis_dir, "/util/hallmark_models.R"))
+source(paste0(analysis_dir, "/util/function-create-plots.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+## Read in data and process
+
+```{r read-input-files}
+######## Load input files
+pbta <- readr::read_tsv(metadata_file, guess_max = 100000) %>% 
+  filter(experimental_strategy == "RNA-Seq") %>% 
+  filter(!is.na(RNA_library))
+
+# Read in matched_transcriptomic_file and get the list of patients 
+# with matched time points for the transcriptomic assays
+patient_list <- readr::read_tsv(matched_transcriptomic_file, guess_max = 100000, show_col_types = FALSE) %>%
+  subset(select = c("Kids_First_Participant_ID", "descriptors"))
+
+#patient_list <- readr::read_tsv(matched_transcriptomic_file, guess_max = 100000, show_col_types = FALSE) %>%
+#  subset(select = c("Kids_First_Participant_ID", "descriptors"))
+
+# How many patients with paired assays?
+print(length(unique(patient_list$Kids_First_Participant_ID)))
+
+# Add metadata from pbta to patient list
+metadata <- patient_list %>% 
+  left_join(pbta, by = "Kids_First_Participant_ID")
+
+# Read scores file
+scores_file <- readr::read_tsv(scores_file) 
+
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+### Merge histology metadata with each set of gsea scores
+metadata_with_gsva <- metadata %>%
+  inner_join(scores_file, by = "Kids_First_Biospecimen_ID") %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  filter(!RNA_library == "exome_capture")
+
+# How many patients with paired assays?
+print(length(unique(metadata_with_gsva$Kids_First_Participant_ID)))
+
+# How many biospecimens per `RNA_library`?
+print(table(metadata_with_gsva$RNA_library))
+
+######## Find out unique RNA library types
+rna_library_list <- metadata_with_gsva %>% pull(data_type) %>% unique()
+rna_library_list <- sort(rna_library_list, decreasing = FALSE)
+print(rna_library_list)
+
+######## Define output files for each unique rna library
+tumor_descriptor_anova_outpaths <- lapply(rna_library_list, function(x){
+  x<-gsub(" ", "_", x)
+  x<-stringr::str_to_lower(gsub("-", "", x))
+  file.path(results_dir, paste0("gsva_anova_", x, "_tumor_descriptor.tsv"))
+})
+
+tumor_descriptor_tukey_outpaths <- lapply(rna_library_list, function(x){
+  x<-gsub(" ", "_", x)
+  x<-stringr::str_to_lower(gsub("-", "", x))
+  file.path(results_dir, paste0("gsva_tukey_", x, "_tumor_descriptor.tsv"))
+})
+
+```
+
+
+### ANOVA and Tukey analysis of GSVA scores
+
+Here we perform a series of ANOVAs, for polyA and stranded libraries separately, to determine whether mean GSVA scores for a given grouping are significantly different across hallmarks (pathways). The given groupings examined here are `cancer_group` and `tumor_descriptor`. 
+In other words, we perform an ANOVA (and associated posthoc Tukey test) for each hallmark as, `hallmark ~ grouping`. Users can specify the grouping variable.
+
+
+```{r, aov-perform-plot, fig.width = 12, fig.height = 10, fig.fullwidth = TRUE, echo = TRUE}
+for(i in 1:length(rna_library_list)){
+  print(i)
+  
+  rna_library = rna_library_list[i]
+  print(rna_library)
+  # find out the number of `tumor_descriptor` with this RNA library
+  tumor_descriptor_n <- metadata_with_gsva %>%
+    dplyr::filter(data_type == rna_library) %>%
+    dplyr::pull(tumor_descriptor) %>% 
+    unique() %>% length()
+  
+  # anova can only be run on factors with >=2 levels, so to avoid error, we give a if statement
+  if(tumor_descriptor_n>=2){
+    tumor_descriptor_model_results <- gsva_anova_tukey(metadata_with_gsva, tumor_descriptor, rna_library, SIGNIFICANCE_THRESHOLD) 
+  
+    ###########################################################################################
+   
+    # write out results
+    readr::write_tsv(tumor_descriptor_model_results[["anova"]], tumor_descriptor_anova_outpaths[[i]])
+    readr::write_tsv(tumor_descriptor_model_results[["tukey"]], tumor_descriptor_tukey_outpaths[[i]])
+  
+    # print results for viewing
+    print(rna_library)
+    print(head(tumor_descriptor_model_results))
+  
+    ################ plot results ########################################################
+    ###### tukey ######################################################################
+    
+  
+    td_models <- unique(as.character(tumor_descriptor_model_results[["tukey"]]$comparison))
+    td_models <- sort(td_models, decreasing = FALSE)
+    print(td_models)
+  
+    for(t in seq_along(td_models)){
+      print(t)
+
+      # Re-order bars
+      df <- tumor_descriptor_model_results[["tukey"]] %>%
+        filter(comparison == td_models[t]) %>% 
+        mutate(hallmark_name_id = paste0(hallmark_name, 1:50))
+  
+      df$hallmark_name <- factor(df$hallmark_name,
+                                 levels = rev(unique(df$hallmark_name[order(df$tukey_p_value, decreasing = TRUE)]))) # Factor levels in increasing order
+
+      ###### barplots ###########
+      name <- paste0(barplots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", td_models[t], "-tumor_descriptor_barplot.pdf")
+      print(name)
+      p <- create_barplot(df = df,
+                          y_value = df$tukey_p_value,
+                          title_value = "tukey_p_value",
+                          rna_library = rna_library_list[i],
+                          td_model_id = td_models[t])
+      pdf(file = name, width = 12, height = 10)
+      print(p)
+      dev.off()
+      
+      ###### dot plots ###########
+      dotplot_name <- paste0(dotplots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", td_models[t], "-tumor_descriptor_dotplot.pdf")
+      print(dotplot_name)
+      p <- create_dotplot(df = df,
+                          x_value = df$hallmark_name,
+                          y_value = df$tukey_p_value,
+                          title_value = "tukey_p_value",
+                          rna_library = rna_library_list[i],
+                          td_model_id = td_models[t])
+      pdf(file = dotplot_name, width = 12, height = 10)
+      print(p)
+      dev.off()
+      
+      ###### volcano plots ###########
+      # The significantly differentially pathways are the ones found in the upper-left and upper-right corners.
+      # Add a column to the data frame to specify if they are UP- or DOWN- regulated (pathway_score_difference respectively positive or negative)
+
+      # add a new column 
+      df$path_diff <- "NO"
+      # if pathway_score_difference > 0 and tukey_p_value < 0.05, set as "UP" 
+      df$path_diff[df$pathway_score_difference > 0 & df$tukey_p_value < 0.05] <- "top_ranked_data"
+      # if pathway_score_difference < 0 and tukey_p_value < 0.05, set as "DOWN"
+      df$path_diff[df$pathway_score_difference < 0 & df$tukey_p_value < 0.05] <- "bottom_ranked_data"
+      # Create labels
+      df$labels <- with(df, ifelse(tukey_p_value < 0.05, hallmark_name_id, ""))
+      
+      volcano_name <- paste0(volcano_plots_dir, "/", "gsva_tukey_", rna_library_list[i], "-", td_models[t], "-tumor_descriptor_volcano_plot.pdf")
+      print(volcano_name)
+      p <- create_volcano_plot(df = df,
+                               title_value = "tukey_p_value",
+                               rna_library = rna_library_list[i],
+                               td_model_id = td_models[t])
+      pdf(file = volcano_name, width = 12, height = 10)
+      print(p)
+      dev.off()
+      
+      
+      
+    }
+    
+    ###### anova ######################################################################
+    ###### barplots ###########    
+    name <- paste0(barplots_dir, "/", "gsva_anova_", rna_library_list[i], "-tumor_descriptor_barplot.pdf")
+    print(name)
+  
+    # Re-order bars
+    df <- tumor_descriptor_model_results[["anova"]]
+    df$hallmark_name <- factor(df$hallmark_name,
+                               levels = rev(unique(df$hallmark_name[order(df$anova_p_value, decreasing = TRUE)]))) # Factor levels in increasing order
+    p <- create_barplot(df = df,
+                        y_value = df$anova_p_value,
+                        title_value = "anova_p_value", 
+                        rna_library = rna_library_list[i],
+                        td_model_id = NULL)
+    pdf(file = name, width = 12, height = 10)
+    print(p)
+    dev.off()
+  
+    ###### dot plots ###########
+    dotplot_name <- paste0(dotplots_dir, "/", "gsva_anova_", rna_library, "-tumor_descriptor_dotplot.pdf")
+    print(dotplot_name)
+    p <- create_dotplot(df = tumor_descriptor_model_results[["anova"]],
+                        x_value = tumor_descriptor_model_results[["anova"]]$hallmark_name,
+                        y_value = tumor_descriptor_model_results[["anova"]]$anova_p_value,
+                        title_value = "anova_p_value",
+                        rna_library = rna_library_list[i],
+                        td_model_id = NULL)
+    pdf(file = dotplot_name, width = 12, height = 10)
+    print(p)
+    dev.off()
+    }
+}
+```
+
+
+```{r}
+sessionInfo()
+```
+
