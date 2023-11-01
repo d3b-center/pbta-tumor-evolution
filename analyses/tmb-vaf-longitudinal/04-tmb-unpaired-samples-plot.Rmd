@@ -276,7 +276,7 @@ for (i in seq_along(cancer_groups)) {
                                      hide.ns = TRUE, 
                                      label = "p.adj.signif",
                                      y.position = "y.position") +
-          scale_y_continuous(limits = c(0, max(stat.test$y.position))) +
+          scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
           labs(title = cancer_groups[i],
                x = "Tumor descriptor",
                y = "log10TMB",
