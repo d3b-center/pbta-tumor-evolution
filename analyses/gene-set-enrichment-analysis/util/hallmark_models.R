@@ -72,7 +72,12 @@ gsva_anova_tukey <- function(df, predictor_variable, library_type, significance_
     dplyr::group_by(hallmark_name) %>%
     nest() %>%
     dplyr::mutate(anova_fit = pmap(list(data, predictor_variable_string), perform_anova),
-           tukey_fit = map(anova_fit, TukeyHSD, ordered = TRUE)) -> fitted_results # Change the order of grouping 
+           tukey_fit = map(anova_fit, TukeyHSD, ordered = FALSE)) -> fitted_results # Change the order of grouping if TRUE
+  
+  # A logical value indicating if the levels of the factor should be ordered according to increasing average in the sample before taking differences. 
+  # If ordered is true then the calculated differences in the means will all be positive. 
+  # The significant differences will be those for which the lwr end point is positive.
+  # https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TukeyHSD.html
 
   ############## Tidy the ANOVA fits
   fitted_results %>%
