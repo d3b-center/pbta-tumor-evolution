@@ -5,14 +5,14 @@
 #' @param title_value 
 #' @param rna_library 
 #' @param td_model_id
-#' @param cgGFAC
+#' @param cg
 #' 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_barplot <- function(df, y_value, title_value, rna_library, td_model_id, cgGFAC) {
+create_barplot <- function(df, y_value, title_value, rna_library, td_model_id, cg) {
   
   p <- ggplot(df, aes(x = hallmark_name, 
                             y = y_value,
@@ -26,7 +26,7 @@ create_barplot <- function(df, y_value, title_value, rna_library, td_model_id, c
                                                 hjust = 1, 
                                                 vjust = 1)) + 
                # ggplot2::facet_wrap(~comparison, ncol = 3) +
-               labs(title = paste0(cgGFAC, " ", td_model_id, " Barplot for ", rna_library, " using ", title_value)) + 
+               labs(title = paste0(cg, " ", td_model_id, " Barplot for ", rna_library, " using ", title_value)) + 
                labs(x = "", y = "Count") +
                ylim(0, 1)
   
@@ -44,14 +44,14 @@ create_barplot <- function(df, y_value, title_value, rna_library, td_model_id, c
 #' @param y_value 
 #' @param rna_library 
 #' @param td_model_id
-#' @param cgGFAC
+#' @param cg
 #' 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-create_diverging_barplot <- function(df, y_value, rna_library, td_model_id, cgGFAC) {
+create_diverging_barplot <- function(df, y_value, rna_library, td_model_id, cg) {
   
   
   # make corplot reproducible when using the geom_text_repel function
@@ -77,7 +77,7 @@ create_diverging_barplot <- function(df, y_value, rna_library, td_model_id, cgGF
                  hjust = ifelse(y_value < 0, 1.25, -1), # https://r-charts.com/part-whole/diverging-bar-chart-ggplot2/
                  vjust = 0.5),
               size = 5) +
-    labs(title = paste0(cgGFAC, " ", td_model_id, " diverging plot for ", rna_library)) + 
+    labs(title = paste0(cg, " ", td_model_id, " diverging plot for ", rna_library)) + 
     labs(x = "", y = "Pathway score"))
   
   return(p)
@@ -95,7 +95,7 @@ create_diverging_barplot <- function(df, y_value, rna_library, td_model_id, cgGF
 #' @param title_value 
 #' @param rna_library 
 #' @param td_model_id
-#' @param cgGFAC
+#' @param cg
 
 #' 
 #'
@@ -117,13 +117,12 @@ create_dotplot <- function(df, x_value, y_value, title_value, rna_library, td_mo
                                                 hjust = 1, 
                                                 vjust = 1)) + 
                #ggplot2::facet_wrap(~comparison, ncol = 3) +
-               labs(title = paste0(cgGFAC, " ", td_model_id, " Dotplot for ", rna_library, " using ", title_value)) + 
+               labs(title = paste0(cg, " ", td_model_id, " Dotplot for ", rna_library, " using ", title_value)) + 
                labs(x = "", y = "p_value") +
                ylim(0, 1)
   
   return(p)
   
 }
-
 
 
