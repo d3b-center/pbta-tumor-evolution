@@ -103,7 +103,7 @@ create_diverging_barplot <- function(df, y_value, rna_library, td_model_id, cg) 
 #' @export
 #'
 #' @examples
-create_dotplot <- function(df, x_value, y_value, title_value, rna_library, td_model_id, cgGFAC) {
+create_dotplot <- function(df, x_value, y_value, title_value, rna_library, td_model_id, cg) {
   
   p <- ggplot(df, mapping = aes(x = reorder(x_value, y_value), y_value)) +  
                # geom_dotplot(binwidth = 1.5)  +
