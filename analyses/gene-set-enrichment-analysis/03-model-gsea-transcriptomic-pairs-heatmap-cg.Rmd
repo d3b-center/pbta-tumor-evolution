@@ -263,15 +263,22 @@ palette_mapping_df_ordered <- timepoint_mapping_df %>%
   dplyr::count(tumor_descriptor) %>%
   # force "Other" to be zero so we can arrange by `n` and it's at the bottom
   arrange(-n) %>% 
+  
+  # to order df and assign correct number for `tumor_descriptor_order`
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
-  arrange(tumor_descriptor) %>%
+  arrange(tumor_descriptor) %>% 
   # Now add the proper order.
   dplyr::mutate(tumor_descriptor_order = 1:n()) %>%
   # Not needed
   select(-n) %>%
   # Join back up
-  inner_join(timepoint_mapping_df) 
+  inner_join(timepoint_mapping_df) %>% 
+  
+  # to order df and show correct annotation at the Timepoint bar
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  arrange(tumor_descriptor) 
 
 
 # Make sure it is ordered by cancer_group order, which is based on number of samples
