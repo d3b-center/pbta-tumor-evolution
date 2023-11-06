@@ -154,7 +154,7 @@ metadata_with_gsva <- metadata %>%
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
   filter(!cg == "Other") %>% 
-  arrange(tumor_descriptor)
+  write_tsv(file.path(results_dir, "metadata_with_gsva_filtered.tsv")) # save all data
 
 # How many patients with paired assays?
 print(length(unique(metadata_with_gsva$Kids_First_Participant_ID)))
@@ -213,15 +213,6 @@ if (!dir.exists(diverging_barplots_output)) {
   dir.create(diverging_barplots_output)
 }
 
-
-# File path to results directory
-results_output <-
-  file.path(results_dir, cg_list[x])
-if (!dir.exists(results_output)) {
-  dir.create(results_output)
-}
-
-  
   
   data_df <- metadata_with_gsva %>%
     dplyr::filter(cg == cg_list[x])
@@ -254,12 +245,6 @@ for(i in 1:length(rna_library_list)){
     print(rna_library)
     print(head(tumor_descriptor_model_results))
     
-    
-    anova_fname <- paste0(results_output, "/", "gsva_anova_", rna_library_list[i], "_", cg_list[x], "_tumor_descriptor.tsv")
-    readr::write_tsv(tumor_descriptor_model_results[["anova"]], file = anova_fname)
-     
-    tukey_fname <- paste0(results_output, "/", "gsva_tukey_", rna_library_list[i], "_", cg_list[x], "_tumor_descriptor.tsv")
-    readr::write_tsv(tumor_descriptor_model_results[["tukey"]], file = tukey_fname)
 
     ################ plot results ########################################################
     ###### tukey ######################################################################
@@ -346,10 +331,32 @@ for(i in 1:length(rna_library_list)){
     pdf(file = dotplot_name, width = 12, height = 10)
     print(p)
     dev.off()
+    }
+  
   }
-  }
+  
+    
+    # Save results 
+    if(i == 1){
+      anova.all <- tumor_descriptor_model_results[["anova"]]
+      tukey.all <- tumor_descriptor_model_results[["tukey"]]
+      } else {
+        anova.all <- rbind(anova.all, tumor_descriptor_model_results[["anova"]])
+        tukey.all <- rbind(tukey.all, tumor_descriptor_model_results[["tukey"]])
+        }
 }
+  
 }
+
+
+
+
+anova_fname <- paste0(results_dir, "/", "gsva_anova_all_tumor_descriptor.tsv")
+readr::write_tsv(anova.all, file = anova_fname)
+     
+tukey_fname <- paste0(results_dir, "/", "gsva_tukey_all_tumor_descriptor.tsv")
+readr::write_tsv(tukey.all, file = tukey_fname)
+    
 ```
 
 

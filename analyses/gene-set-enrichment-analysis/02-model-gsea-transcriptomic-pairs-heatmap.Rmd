@@ -1,0 +1,426 @@
+---
+title: "GSVA Score Modeling Heatmaps"
+author: "Antonia Chroni <chronia@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+### Purpose
+
+To plot significant hallmark pathways using GSVA scores and ANOVA p-values per `tumor_descriptor` and `cg`.
+
+Plots are inspired from here: https://github.com/AlexsLemonade/OpenPBTA-analysis/blob/master/figures/scripts/fig5-panels-gsva-umap.R
+
+### Usage
+
+To run this from the command line, use:
+```
+Rscript -e "rmarkdown::render('02-model-gsea-transcriptomic-pairs-heatmap.Rmd', clean = TRUE)" 
+```
+_This assumes you are in the top directory of the repository._
+
+# Setup
+
+Load libraries and define certain constants:
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  #if (!require("BiocManager", quietly = TRUE))
+  #  install.packages("BiocManager")
+  #BiocManager::install("ComplexHeatmap")
+  library(ComplexHeatmap)
+})
+```
+
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "gene-set-enrichment-analysis") 
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "gene-set-enrichment-analysis", "results", "paired-transcriptomic")
+
+# Input files
+metadata_with_gsva_filtered_file <- file.path(files_dir, "metadata_with_gsva_filtered.tsv")
+#gsva_tukey_file <- file.path(files_dir, "gsva_tukey_all_tumor_descriptor.tsv")
+gsva_anova_file <- file.path(files_dir, "gsva_anova_all_tumor_descriptor.tsv")
+gsva_scores_file <- file.path(input_dir, "gsva_scores.tsv")
+
+
+# Palette for GSVA scores for Heatmaps
+divergent_palette_file <- file.path(root_dir, "figures", "palettes", "divergent_color_palette.tsv")
+broad_histology_palette_file <- file.path(root_dir, "figures", "palettes", "broad_histology_cancer_group_palette_updated.tsv")
+timepoint_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots", "paired-transcriptomic")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+heatmaps_dir <-
+  file.path(plots_dir, "heatmaps")
+if (!dir.exists(heatmaps_dir)) {
+  dir.create(heatmaps_dir)
+}
+
+gsva_timepoint_pdf <- file.path(heatmaps_dir, "gsva_timepoint_panel.pdf")
+gsva_cg_timepoint_pdf <- file.path(heatmaps_dir, "gsva_cg_timepoint_panel.pdf")
+
+
+# This script contains functions used to modeling GSVA scores
+source(paste0(analysis_dir, "/util/function-create-plots.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+
+## Read color palettes
+
+``` {r read-color-palettes}
+# Re-order based on timepoints
+f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
+cg_f <- c("ATRT", "DMG", "Ependymoma", "HGG", "LGG", "Medulloblastoma")
+
+
+# Read color palette for timepoints
+timepoint_label_mapping <- readr::read_tsv(timepoint_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename(tumor_descriptor = color_names) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  arrange(tumor_descriptor)
+
+
+# Read color palette for cancer groups
+histology_label_mapping <- readr::read_tsv(broad_histology_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(cancer_group %in% c("Atypical Teratoid Rhabdoid Tumor", 
+                             "Diffuse midline glioma", 
+                             "Ependymoma", 
+                             "High-grade glioma", 
+                             "Low-grade glioma", 
+                             "Medulloblastoma")) %>% 
+  mutate(cg = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG", 
+                            grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
+                            grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
+                            grepl("Low-grade glioma", cancer_group) ~ "LGG",
+                            TRUE ~ cancer_group),
+         cg = factor(cg),
+         cg = fct_relevel(cg, cg_f)) %>% 
+  arrange(cg)
+
+# Define and order palette
+broad_histology_palette <- histology_label_mapping$broad_histology_hex
+names(broad_histology_palette) <- histology_label_mapping$cg
+
+# Palette for GSVA scores
+divergent_palette <- read_tsv(file.path(divergent_palette_file))
+
+# The NA color is consistent across palettes
+na_color <- divergent_palette %>% filter(color_names == "na_color")
+
+# The palettes we will use for the heatmap needs NA color removed and specified
+# separately
+divergent_palette  <- divergent_palette %>% filter(color_names != "na_color")
+```
+
+## Read in data and process
+
+```{r prep-palette-data}
+######## Load input files
+metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) 
+
+# Get the broad_histology and cancer_group color mappings for the samples being
+# plotted here
+mapping_df <- metadata_with_gsva_filtered %>%
+  # Drop any rows without a broad_histology value (this is in essence dropping)
+  # Normal sample and we're only working with stranded RNA-seq samples here
+  filter(!is.na(broad_histology),
+         experimental_strategy == "RNA-Seq",
+         RNA_library == "stranded") %>%
+  # Identifiers
+  select(Kids_First_Biospecimen_ID,
+         Kids_First_Participant_ID,
+         sample_id,
+         broad_histology,
+         cancer_group,
+         cg, 
+         tumor_descriptor) 
+
+palette_mapping_df <- mapping_df %>%
+  # Add in hex codes & display grouping
+  left_join(histology_label_mapping,
+            by = c("broad_histology", "cancer_group", "cg")) %>%
+  select(Kids_First_Biospecimen_ID,
+         # Keep both broad_histology for the UMAP legend, and cancer_group for the GSVA legend
+         broad_histology_display,
+         broad_histology_hex,
+         broad_histology_order,
+         cg,
+         plot_group_hex) %>%
+  mutate(cg = forcats::fct_reorder(cg,
+                                   broad_histology_order))
+
+#### Data prep for column heatmap annotation -----------------------------------
+
+# We will construct an annotation bar for display_group - this is used in the
+# GSVA heatmap. In this section, we prep the data frame and color palette
+# required for that.
+
+# Get a distinct version of the color keys
+# This has already in essence been filtered to exclude categories that are
+# irrelevant to the samples being plotted
+# We do this for _both_ cancer group and broad histology colors, 
+# since each is used in a different plot
+
+timepoint_color_df <- timepoint_label_mapping %>%
+  dplyr::select(tumor_descriptor, hex_codes) %>%
+  #dplyr::rename(tumor_descriptor = color_names) %>% 
+  dplyr::distinct() 
+
+# Make color key specific to these samples
+annotation_colors_time <- timepoint_color_df$hex_codes
+names(annotation_colors_time) <- timepoint_color_df$tumor_descriptor
+
+
+# Get the `tumor_descriptor` color mappings for the samples being
+# plotted here
+timepoint_mapping_df <- mapping_df %>%
+  # Add in hex codes & display grouping
+  left_join(timepoint_color_df,
+            by = c("tumor_descriptor")) %>%
+  select(Kids_First_Biospecimen_ID,
+         tumor_descriptor,
+         cg,
+         hex_codes) %>%
+  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                 tumor_descriptor = fct_relevel(tumor_descriptor, f),
+                 cg = factor(cg),
+                 cg = fct_relevel(cg, cg_f)) %>% 
+  arrange(cg, tumor_descriptor)
+
+
+# And now for cancer group:
+cancer_group_color_df <- palette_mapping_df %>%
+  dplyr::select(cg, plot_group_hex) %>%
+  dplyr::distinct() %>%
+  # remove NA and "Other" displays
+  tidyr::drop_na() %>%
+  filter(cg != "Other") %>% 
+  mutate(cg = factor(cg),
+                 cg = fct_relevel(cg, cg_f)) %>% 
+  arrange(cg)
+
+# Make color key specific to these samples
+annotation_colors_cg <- cancer_group_color_df$plot_group_hex
+names(annotation_colors_cg) <- cancer_group_color_df$cg
+
+# Will no longer need these
+#rm(timepoint_color_df)
+#rm(cancer_group_color_df)
+
+```
+
+# GSEA scores 
+
+``` {r prepare-annotation-gsva-scores}
+# What gene sets are we going to include in our heatmap?
+# We'll filter based on whether the ANOVA has a significant p-value
+included_genesets <- readr::read_tsv(gsva_anova_file, guess_max = 100000) %>% 
+  filter(significant_anova) %>%
+  pull(hallmark_name)
+
+gsva_scores_df <- readr::read_tsv(gsva_scores_file, guess_max = 100000)
+gsva_scores_mat <- gsva_scores_df %>%
+  mutate(data_type = case_when(grepl("exome_capture|polya|polya_stranded", data_type) ~ "merged", 
+                                     TRUE ~ data_type)) %>%
+  filter(data_type == "stranded") %>%
+  select(- data_type) %>% 
+  spread(Kids_First_Biospecimen_ID, gsea_score) %>%
+  # Only include the significant gene sets from above
+  filter(hallmark_name %in% included_genesets) %>%
+  # Clean up gene set names for display
+  mutate(hallmark_name = stringr::str_replace_all(
+    stringr::str_remove(hallmark_name, "HALLMARK_"), "_", " ")
+  ) %>%
+  tibble::column_to_rownames("hallmark_name") %>%
+  as.matrix()
+  
+  
+# Let's deal with the color palette for the heatmap we will make - the values
+# for the palette will be based on the scores themselves
+divergent_col_val <- seq(from = min(gsva_scores_mat),
+                         to = max(gsva_scores_mat),
+                         length.out = nrow(divergent_palette))
+gsva_col_fun <- circlize::colorRamp2(divergent_col_val,
+                                     divergent_palette$hex_codes)
+
+
+# Determine timepoint counts so we can have a variable to order rows by
+palette_mapping_df_ordered <- timepoint_mapping_df %>%
+  # Remove NA and "Other" display groups
+  #drop_na(cg) %>%
+  #filter(cg != "Other") %>%
+  # Arrange in reverse order of counts and make that the cancer_group_order
+  dplyr::count(tumor_descriptor) %>%
+  # force "Other" to be zero so we can arrange by `n` and it's at the bottom
+  arrange(-n) %>%
+  # Now add the proper order.
+  dplyr::mutate(tumor_descriptor_order = 1:n()) %>%
+  # Not needed
+  select(-n) %>%
+  # Join back up
+  inner_join(timepoint_mapping_df)
+
+
+# Determine timepoint counts so we can have a variable to order rows by
+cg_palette_mapping_df_ordered <- timepoint_mapping_df %>%
+  # Remove NA and "Other" display groups
+  #drop_na(cg) %>%
+  #filter(cg != "Other") %>%
+  # Arrange in reverse order of counts and make that the cancer_group_order
+  dplyr::count(cg) %>%
+  # force "Other" to be zero so we can arrange by `n` and it's at the bottom
+  arrange(-n) %>%
+  # Now add the proper order.
+  dplyr::mutate(cg_order = 1:n()) %>%
+  # Not needed
+  select(-n) %>%
+  # Join back up
+  inner_join(palette_mapping_df_ordered)
+
+
+# Make sure it is ordered by cancer_group order, which is based on number of samples
+# Note: NA/"Other" groups are already removed above, so do not need to drop here
+gsva_ordered_bsids <- cg_palette_mapping_df_ordered %>%
+  arrange(tumor_descriptor_order) %>%
+  pull(Kids_First_Biospecimen_ID)
+
+# Use the vector of biospecimen IDs to select and order samples for GSVA display
+gsva_scores_mat <- gsva_scores_mat[, gsva_ordered_bsids]
+
+
+# Create a data frame just for setting up the heatmap annotation
+gsva_annotation_df <- cg_palette_mapping_df_ordered %>%
+  select(Kids_First_Biospecimen_ID,
+         cg,
+         cg_order,
+         tumor_descriptor) %>%
+  filter(Kids_First_Biospecimen_ID %in% gsva_ordered_bsids) %>%
+  unique() %>% 
+  column_to_rownames("Kids_First_Biospecimen_ID")
+
+#gsva_annotation_df = gsva_annotation_df[!duplicated(gsva_annotation_df$Kids_First_Biospecimen_ID),]
+#rownames(gsva_annotation_df) = gsva_annotation_df$Kids_First_Biospecimen_ID
+
+```
+
+
+
+# Heatmap by timepoint
+
+```{r, make-heatmap-timepoint, fig.width = 8, fig.height = 5, fig.fullwidth = TRUE, echo = TRUE}
+gsva_annotation_df_timepoint <- gsva_annotation_df[gsva_ordered_bsids, ] %>%
+  select(#-contains("broad_histology"),  # Drop extraneous columns
+         #-tumor_descriptor_order,
+         -cg_order,
+         #-Kids_First_Biospecimen_ID,
+         #-cg, 
+         # Rename for display purposes
+         Cancer_group = cg,
+         Timepoint = tumor_descriptor) 
+
+# Annotation bar intended for the top of the heatmap
+column_heatmap_annotation <- HeatmapAnnotation(
+  df = as.data.frame(gsva_annotation_df_timepoint),
+  name = c("Cancer Group", "Timepoint"),
+  col = list("Cancer_group" = annotation_colors_cg,
+             "Timepoint" = annotation_colors_time),
+  na_col = na_color$hex_codes,
+  show_legend = TRUE,
+  show_annotation_name =TRUE
+)
+
+## Heatmap itself!
+print(gsva_heatmap <- Heatmap(
+  gsva_scores_mat,
+  col = gsva_col_fun,
+  name = "GSVA Scores",
+  na_col = na_color$hex_codes,
+  show_column_names = FALSE,
+  cluster_columns = FALSE,
+  row_names_gp = grid::gpar(fontsize = 5.8),
+  top_annotation = column_heatmap_annotation,
+  heatmap_legend_param = list(direction = "vertical")
+))
+
+pdf(gsva_timepoint_pdf, width = 8, height = 5)
+draw(gsva_heatmap, heatmap_legend_side = "right")
+dev.off()
+
+
+```
+
+# Heatmap by cancer group and timepoint
+
+```{r, make-heatmap-timepoint-cg, fig.width = 8, fig.height = 5, fig.fullwidth = TRUE, echo = TRUE}
+
+# or by cg and timepoint
+gsva_annotation_df_cg <- gsva_annotation_df[gsva_ordered_bsids, ] %>%
+  select(#-contains("broad_histology"),  # Drop extraneous columns
+         #-tumor_descriptor_order,
+         -cg_order,
+         #-Kids_First_Biospecimen_ID,
+         #-cg, 
+         # Rename for display purposes
+         Cancer_group = cg,
+         Timepoint = tumor_descriptor) %>% 
+  mutate(Cancer_group = factor(Cancer_group),
+         Cancer_group = fct_relevel(Cancer_group, cg_f)) %>% 
+  arrange(Cancer_group)
+
+
+# Annotation bar intended for the top of the heatmap
+column_heatmap_annotation <- HeatmapAnnotation(
+  df = as.data.frame(gsva_annotation_df_cg),
+  name = c("Cancer Group", "Timepoint"),
+  col = list("Cancer_group" = annotation_colors_cg,
+             "Timepoint" = annotation_colors_time),
+  na_col = na_color$hex_codes,
+  show_legend = TRUE,
+  show_annotation_name =TRUE
+)
+
+## Heatmap itself!
+print(gsva_heatmap <- Heatmap(
+  gsva_scores_mat,
+  col = gsva_col_fun,
+  name = "GSVA Scores",
+  na_col = na_color$hex_codes,
+  show_column_names = FALSE,
+  cluster_columns = FALSE,
+  row_names_gp = grid::gpar(fontsize = 5.8),
+  top_annotation = column_heatmap_annotation,
+  heatmap_legend_param = list(direction = "vertical")
+))
+
+pdf(gsva_cg_timepoint_pdf, width = 8, height = 5)
+draw(gsva_heatmap, heatmap_legend_side = "right")
+dev.off()
+```
+
+
+
+
+```{r}
+sessionInfo()
+```
+

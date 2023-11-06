@@ -90,9 +90,11 @@ gsva_anova_tukey <- function(df, predictor_variable, library_type, significance_
     dplyr::select(-df, -sumsq, -meansq, -term) %>%
     dplyr::rename(anova_f_statistic = statistic,
            anova_p_value     = p.value) %>%
-    dplyr::mutate(anova_p_value_bonferroni = anova_p_value * number_of_tests,
-           anova_p_value_bonferroni = ifelse(anova_p_value_bonferroni >= 1, 1, anova_p_value_bonferroni),
-           significant_anova = ifelse(anova_p_value_bonferroni <= significance_threshold, TRUE, FALSE)) -> final_anova_results
+    dplyr::mutate(cg = cg_list[x],
+                  library_type = library_type,
+                  anova_p_value_bonferroni = anova_p_value * number_of_tests,
+                  anova_p_value_bonferroni = ifelse(anova_p_value_bonferroni >= 1, 1, anova_p_value_bonferroni),
+                  significant_anova = ifelse(anova_p_value_bonferroni <= significance_threshold, TRUE, FALSE)) -> final_anova_results
 
   ############## Tidy the Tukey tests
   fitted_results %>%
@@ -104,10 +106,12 @@ gsva_anova_tukey <- function(df, predictor_variable, library_type, significance_
     dplyr::rename(pathway_score_difference = estimate,
                   tukey_p_value            = adj.p.value,
                   comparison = contrast) %>%
-    dplyr::mutate(bonferroni_pvalue = tukey_p_value * number_of_tests,
-           bonferroni_pvalue = ifelse(bonferroni_pvalue >= 1, 1, bonferroni_pvalue),
-           significant_tukey = tukey_p_value <= significance_threshold,
-           significant_tukey_bonf = bonferroni_pvalue <= significance_threshold) -> final_tukey_results
+    dplyr::mutate(cg = cg_list[x],
+                  library_type = library_type,
+                  bonferroni_pvalue = tukey_p_value * number_of_tests,
+                  bonferroni_pvalue = ifelse(bonferroni_pvalue >= 1, 1, bonferroni_pvalue),
+                  significant_tukey = tukey_p_value <= significance_threshold,
+                  significant_tukey_bonf = bonferroni_pvalue <= significance_threshold) -> final_tukey_results
 
 
   return(list("anova" = final_anova_results, "tukey" = final_tukey_results))

@@ -1,0 +1,375 @@
+---
+title: "GSVA Score Modeling"
+author: "Antonia Chroni <chronia@chop.edu> for D3B"
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+### Purpose
+
+The purpose of this analysis is to assess significant differences in GSVA scores for each hallmark pathways. Using ANOVA and subsequent Tukey tests, we ask:
+
++ For each pathway, are GSVA scores significantly different across `tumor_descriptor`? If so, which timepoints are significantly different?
+
+We perform this using both GSVA scores calculated from RNA-seq libraries. Code is also flexible enough to test a different variable besides `tumor_descriptor`, etc.
+
+
+Plots are inspired from here: https://yulab-smu.top/biomedical-knowledge-mining-book/enrichplot.html
+
+### Usage
+
+To run this from the command line, use:
+```
+Rscript -e "rmarkdown::render('02-model-gsea-transcriptomic-pairs-heatmap', clean = TRUE)" 
+```
+_This assumes you are in the top directory of the repository._
+
+# Setup
+
+Load libraries and define certain constants:
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  #if (!require("BiocManager", quietly = TRUE))
+  #  install.packages("BiocManager")
+  #BiocManager::install("ComplexHeatmap")
+  library(ComplexHeatmap)
+})
+```
+
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "gene-set-enrichment-analysis") 
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "gene-set-enrichment-analysis", "results", "paired-transcriptomic")
+
+# Input files
+#metadata_with_gsva_filtered_file <- file.path(files_dir, "metadata_with_gsva_filtered.tsv")
+#gsva_tukey_file <- file.path(files_dir, "gsva_tukey_all_tumor_descriptor.tsv")
+gsva_anova_file <- file.path(files_dir, "gsva_anova_all_tumor_descriptor.tsv")
+gsva_scores_file <- file.path(input_dir, "gsva_scores.tsv")
+
+
+# Palette for GSVA scores for Heatmaps
+divergent_palette_file <- file.path(root_dir, "figures", "palettes", "divergent_color_palette.tsv")
+broad_histology_palette_file <- file.path(root_dir, "figures", "palettes", "broad_histology_cancer_group_palette_updated.tsv")
+timepoint_palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+
+# File path to plots directory
+plots_dir <-
+  file.path(analysis_dir, "plots", "paired-transcriptomic")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+
+heatmaps_dir <-
+  file.path(plots_dir, "heatmaps")
+if (!dir.exists(heatmaps_dir)) {
+  dir.create(heatmaps_dir)
+}
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results", "paired-transcriptomic")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+
+# This script contains functions used to modeling GSVA scores
+source(paste0(analysis_dir, "/util/function-create-plots.R"))
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+
+## Read color palettes
+
+``` {r read-color-palettes}
+# Read color palette for timepoints
+timepoint_palette_df <- readr::read_tsv(timepoint_palette_file, guess_max = 100000, show_col_types = FALSE)
+
+# Define and order palette
+palette <- timepoint_palette_df$hex_codes
+names(palette) <- timepoint_palette_df$color_names
+
+
+# Read color palette for cancer groups
+broad_histology_palette_df <- readr::read_tsv(broad_histology_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(cancer_group %in% c())
+
+# Palette for GSVA scores
+divergent_palette <- read_tsv(file.path(divergent_palette_file))
+      
+
+
+```
+
+## Read in data and process
+
+```{r read-input-files}
+######## Load input files
+included_genesets <- readr::read_tsv(gsva_anova_file, guess_max = 100000) %>% 
+  filter(significant_anova) %>%
+  pull(hallmark_name)
+
+gsva_scores_mat <- readr::read_tsv(gsva_scores_file, guess_max = 100000) %>%
+  mutate(data_type = case_when(grepl("exome_capture|polya|polya_stranded", data_type) ~ "merged", 
+                                     TRUE ~ data_type)) %>%  
+         #hallmark_name = paste(hallmark_name, data_type, sep = "_")) 
+  # select(-data_type) %>% 
+  melt() %>% 
+  #pivot_wider(names_from = Kids_First_Biospecimen_ID, values_from = gsea_score) %>%
+  
+  # Only include the significant gene sets from above
+  filter(hallmark_name %in% included_genesets) %>%
+  # Clean up gene set names for display
+  mutate(hallmark_name = stringr::str_replace_all(
+    stringr::str_remove(hallmark_name, "HALLMARK_"), "_", " ")
+  ) %>%
+  tibble::column_to_rownames("hallmark_name") %>%
+  as.matrix()
+
+# Let's deal with the color palette for the heatmap we will make - the values
+# for the palette will be based on the scores themselves
+divergent_col_val <- seq(from = min(gsva_scores_mat),
+                         to = max(gsva_scores_mat),
+                         length.out = nrow(divergent_palette))
+gsva_col_fun <- circlize::colorRamp2(divergent_col_val,
+                                     divergent_palette$hex_codes)
+
+
+# Determine cancer group counts so we can have a variable to order rows by
+# But, we should keep "Other" at the _end_ regardless of counts
+palette_mapping_df_ordered <- palette_mapping_df %>%
+  # Remove NA and "Other" display groups
+  drop_na(cancer_group_display) %>%
+  filter(cancer_group_display != "Other") %>%
+  # Arrange in reverse order of counts and make that the cancer_group_order
+  count(cancer_group_display) %>%
+  # force "Other" to be zero so we can arrange by `n` and it's at the bottom
+  arrange(-n) %>%
+  # Now add the proper order.
+  mutate(cancer_group_order = 1:n()) %>%
+  # Not needed
+  select(-n) %>%
+  # Join back up
+  inner_join(palette_mapping_df)
+
+```
+
+
+
+# Heatmap 
+
+```{r, heatmap, fig.width = 12, fig.height = 10, fig.fullwidth = TRUE, echo = TRUE}
+cg_list <- metadata_with_gsva %>% pull(cg) %>% unique()
+cg_list <- sort(cg_list, decreasing = FALSE)
+print(cg_list)
+
+for(x in 1:length(cg_list)){
+  print(x)
+  
+  # Define directories for output files
+  barplots_output <-
+  file.path(barplots_dir, cg_list[x])
+if (!dir.exists(barplots_output)) {
+  dir.create(barplots_output)
+}
+
+dotplots_output <-
+  file.path(dotplots_dir, cg_list[x])
+if (!dir.exists(dotplots_output)) {
+  dir.create(dotplots_output)
+}
+
+diverging_barplots_output <-
+  file.path(diverging_barplots_dir, cg_list[x])
+if (!dir.exists(diverging_barplots_output)) {
+  dir.create(diverging_barplots_output)
+}
+
+
+# File path to results directory
+results_output <-
+  file.path(results_dir, cg_list[x])
+if (!dir.exists(results_output)) {
+  dir.create(results_output)
+}
+
+  
+  
+  data_df <- metadata_with_gsva %>%
+    dplyr::filter(cg == cg_list[x])
+  
+  ######## Find out unique RNA library types
+  rna_library_list <- data_df %>% pull(data_type) %>% unique()
+  rna_library_list <- sort(rna_library_list, decreasing = FALSE)
+  print(rna_library_list)
+
+for(i in 1:length(rna_library_list)){
+  print(i)
+  
+  rna_library = rna_library_list[i]
+  print(rna_library)
+  
+  # find out the number of `tumor_descriptor` with this RNA library
+  tumor_descriptor_n <- data_df %>%
+    dplyr::filter(data_type == rna_library) %>%
+    dplyr::pull(tumor_descriptor) %>% 
+    unique() %>% length()
+  
+    
+  # anova can only be run on factors with >=2 levels, so to avoid error, we give a if statement
+  if(tumor_descriptor_n>=2){
+    
+    tumor_descriptor_model_results <- gsva_anova_tukey(data_df, tumor_descriptor, rna_library, SIGNIFICANCE_THRESHOLD) 
+
+     #Set seed
+      set.seed(2023)
+    
+      # Re-order bars
+      tumor_descriptor_model_results[["tukey"]] <- tumor_descriptor_model_results[["tukey"]] %>%
+        mutate(across(tukey_p_value, round, 2))
+        #mutate(hallmark_name_id = paste0(hallmark_name, 1:50))
+
+      # The significantly differentially pathways are the ones found in the upper-left and upper-right corners.
+      # Add a column to the data frame to specify if they are UP- or DOWN- regulated (pathway_score_difference respectively positive or negative
+      tumor_descriptor_model_results[["tukey"]]$path_signif <- "NS"
+      p_value <- tumor_descriptor_model_results[["tukey"]]$tukey_p_value
+      signif_p_value <- 0.05
+      # if pathway_score_difference > 0  
+      tumor_descriptor_model_results[["tukey"]]$path_signif[tumor_descriptor_model_results[["tukey"]]$pathway_score_difference > 0 & p_value < signif_p_value] <- "*" #"Up"
+      tumor_descriptor_model_results[["tukey"]]$path_signif[tumor_descriptor_model_results[["tukey"]]$pathway_score_difference > 0 & p_value > signif_p_value] <- "NS"
+
+      # if pathway_score_difference < 0 
+      tumor_descriptor_model_results[["tukey"]]$path_signif[tumor_descriptor_model_results[["tukey"]]$pathway_score_difference < 0 & p_value < signif_p_value] <- "*" #"Down"
+      tumor_descriptor_model_results[["tukey"]]$path_signif[tumor_descriptor_model_results[["tukey"]]$pathway_score_difference < 0 & p_value > signif_p_value] <- "NS"
+      # Create labels
+      tumor_descriptor_model_results[["tukey"]]$path_signif <- with(tumor_descriptor_model_results[["tukey"]], ifelse(!path_signif == "NS", path_signif, ""))
+      tumor_descriptor_model_results[["tukey"]]$path_signif <- with(tumor_descriptor_model_results[["tukey"]], ifelse(!path_signif == "*", path_signif, p_value))
+
+  
+      
+    ###########################################################################################
+    # print results for viewing
+    print(rna_library)
+    print(head(tumor_descriptor_model_results))
+    
+    anova_fname <- paste0(results_output, "/", "gsva_anova_", rna_library_list[i], "_", cg_list[x], "_tumor_descriptor.tsv")
+    readr::write_tsv(tumor_descriptor_model_results[["anova"]], file = anova_fname)
+     
+    tukey_fname <- paste0(results_output, "/", "gsva_tukey_", rna_library_list[i], "_", cg_list[x], "_tumor_descriptor.tsv")
+    readr::write_tsv(tumor_descriptor_model_results[["tukey"]], file = tukey_fname)
+    ################ plot results ########################################################
+    ###### tukey ######################################################################
+   
+    td_models <- unique(as.character(tumor_descriptor_model_results[["tukey"]]$comparison))
+    td_models <- sort(td_models, decreasing = FALSE)
+    print(td_models)
+  
+    for(t in seq_along(td_models)){
+      print(t)
+      
+      #Set seed
+      set.seed(2023)
+    
+      # Re-order bars
+      df <- tumor_descriptor_model_results[["tukey"]] %>%
+        filter(comparison == td_models[t]) %>% 
+        mutate(across(tukey_p_value, round, 2))
+        #mutate(hallmark_name_id = paste0(hallmark_name, 1:50))
+
+      ###### diverging barplots ###########
+      name <- paste0(diverging_barplots_output, "/", "gsva_tukey_", rna_library_list[i], "-", cg_list[x], "-", td_models[t], "-tumor_descriptor_diverging_barplot.pdf")
+      print(name)
+      p <- create_diverging_barplot(df = df,
+                                    y_value = df$pathway_score_difference,
+                                    rna_library = rna_library_list[i],
+                                    td_model_id = td_models[t],
+                                    cg = cg_list[x])
+      pdf(file = name, width = 12, height = 10)
+      print(p)
+      dev.off()
+    
+    
+       ###### heatmaps ###########
+      name <- paste0(heatmaps_dir, "/", "gsva_tukey_", rna_library_list[i], "-", cg_list[x], "-tumor_descriptor_heatmap.pdf")
+      print(name)
+      p <- create_heatmap(df = df,
+                                    y_value = df$pathway_score_difference,
+                                    rna_library = rna_library_list[i],
+                                    td_model_id = td_models[t],
+                                    cg = cg_list[x])
+      pdf(file = name, width = 12, height = 10)
+      print(p)
+      dev.off()
+  
+      
+    
+      
+      
+      ###################################################################
+      # Define df
+       df1 <- tumor_descriptor_model_results[["tukey"]] %>% 
+         select(hallmark_name, comparison, pathway_score_difference) %>% 
+         melt()
+       
+      
+      # Let's deal with the color palette for the heatmap we will make - the values
+      # for the palette will be based on the scores themselves
+      divergent_col_val <- seq(from = min(df1),
+                               to = max(df1),
+                               length.out = nrow(divergent_palette))
+      gsva_col_fun <- circlize::colorRamp2(divergent_col_val,
+                                           divergent_palette$hex_codes)
+      
+       #Initial Heatmap 
+      # https://vivdas.medium.com/create-heatmap-in-r-using-ggplot2-d4c02dccec28
+       p <- ggplot(df1, aes(comparison, hallmark_name)) + 
+         geom_tile(aes(fill = value), colour = "white", na.rm = TRUE) +
+         scale_fill_gradient(low = "blue", high = "red") +
+         theme_Publication() + 
+         theme(axis.text.x = element_text(angle = 85, 
+                                     hjust = 1, 
+                                     vjust = 1)) + 
+  
+         #ggplot2::facet_wrap(~comparison, ncol = 3) +
+         labs(title = paste0(cg, " Heatmap for ", rna_library)) + 
+         labs(x = "Pairs of compared timepoints", y = "Hallmark pathways") 
+       
+ 
+
+
+
+      
+      
+      
+      
+      
+      
+  
+  }
+}
+}
+```
+
+
+
+
+
+```{r}
+sessionInfo()
+```
+
