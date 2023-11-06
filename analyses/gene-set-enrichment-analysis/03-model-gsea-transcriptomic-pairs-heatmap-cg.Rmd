@@ -117,6 +117,10 @@ divergent_palette  <- divergent_palette %>% filter(color_names != "na_color")
 # Heatmap per cancer group
 
 ```{r prep-data-make-heatmap-cg, fig.width = 6, fig.height = 3, fig.fullwidth = TRUE, echo = TRUE}
+# Re-order based on timepoints
+f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
+
+
 ######## Load input files
 metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) 
 
@@ -145,7 +149,10 @@ mapping_df <- metadata_with_gsva_filtered %>%
          broad_histology,
          cancer_group,
          cg, 
-         tumor_descriptor) 
+         tumor_descriptor)  %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  arrange(tumor_descriptor)
 
 # Count kids and bs samples pe cancer group
 print(length(unique(mapping_df$Kids_First_Participant_ID)))
