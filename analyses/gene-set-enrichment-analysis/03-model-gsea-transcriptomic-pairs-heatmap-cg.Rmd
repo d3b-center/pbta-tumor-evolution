@@ -147,6 +147,11 @@ mapping_df <- metadata_with_gsva_filtered %>%
          cg, 
          tumor_descriptor) 
 
+# Count kids and bs samples pe cancer group
+print(length(unique(mapping_df$Kids_First_Participant_ID)))
+td_bs <- mapping_df %>% group_by(Kids_First_Biospecimen_ID) %>% unique() %>% count(tumor_descriptor)
+print(table(td_bs$tumor_descriptor))
+
 palette_mapping_df <- mapping_df %>%
   # Add in hex codes & display grouping
   left_join(histology_label_mapping,
