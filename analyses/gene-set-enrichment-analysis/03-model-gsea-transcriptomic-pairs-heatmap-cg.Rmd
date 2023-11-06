@@ -84,8 +84,15 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 ## Read color palettes
 
 ``` {r read-color-palettes}
+# Re-order based on timepoints
+f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
+
 # Read color palette for timepoints
-timepoint_label_mapping <- readr::read_tsv(timepoint_palette_file, guess_max = 100000, show_col_types = FALSE)
+timepoint_label_mapping <- readr::read_tsv(timepoint_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename(tumor_descriptor = color_names) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  arrange(tumor_descriptor)
 
 # Read color palette for cancer groups
 histology_label_mapping <- readr::read_tsv(broad_histology_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
@@ -117,10 +124,6 @@ divergent_palette  <- divergent_palette %>% filter(color_names != "na_color")
 # Heatmap per cancer group
 
 ```{r prep-data-make-heatmap-cg, fig.width = 6, fig.height = 3, fig.fullwidth = TRUE, echo = TRUE}
-# Re-order based on timepoints
-f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
-
-
 ######## Load input files
 metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) 
 
@@ -184,18 +187,12 @@ palette_mapping_df <- mapping_df %>%
 # since each is used in a different plot
 
 timepoint_color_df <- timepoint_label_mapping %>%
-  dplyr::select(color_names, hex_codes) %>%
-  dplyr::rename(tumor_descriptor = color_names) %>% 
+  dplyr::select(tumor_descriptor, hex_codes) %>%
   dplyr::distinct() 
 
 # Make color key specific to these samples
 annotation_colors_time <- timepoint_color_df$hex_codes
 names(annotation_colors_time) <- timepoint_color_df$tumor_descriptor
-
-# Re-order based on timepoints
-f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
-# Re-order based on cg
-cg_f <- c("ATRT", "DMG", "Ependymoma", "HGG", "LGG", "Medulloblastoma")
 
 # Get the `tumor_descriptor` color mappings for the samples being
 # plotted here
@@ -206,10 +203,7 @@ timepoint_mapping_df <- mapping_df %>%
   select(Kids_First_Biospecimen_ID,
          tumor_descriptor,
          cg,
-         hex_codes) %>%
-  dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
-                 tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
-  arrange(cg, tumor_descriptor)
+         hex_codes)
 
 
 # And now for cancer group:
@@ -268,13 +262,16 @@ palette_mapping_df_ordered <- timepoint_mapping_df %>%
   # Arrange in reverse order of counts and make that the cancer_group_order
   dplyr::count(tumor_descriptor) %>%
   # force "Other" to be zero so we can arrange by `n` and it's at the bottom
-  arrange(-n) %>%
+  arrange(-n) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
+  arrange(tumor_descriptor) %>%
   # Now add the proper order.
   dplyr::mutate(tumor_descriptor_order = 1:n()) %>%
   # Not needed
   select(-n) %>%
   # Join back up
-  inner_join(timepoint_mapping_df)
+  inner_join(timepoint_mapping_df) 
 
 
 # Make sure it is ordered by cancer_group order, which is based on number of samples
