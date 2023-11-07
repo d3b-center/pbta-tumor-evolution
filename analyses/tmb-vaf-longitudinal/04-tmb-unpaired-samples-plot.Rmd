@@ -118,7 +118,11 @@ df_plot <- df %>%
   filter(!timepoint_cgGFAC_number <= 2) %>% # remove if total #samples per timepoint is less than 2
   mutate(cg_id_sum = replace_na(cg_id, "Other"),
          tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints),
+        
+         # Edit name of `cg_id` to fit in the plot title for the panel
+         cg_id_sum = str_wrap(cg_id_sum, 12)) 
+  
 ``` 
 
 
@@ -175,7 +179,7 @@ ggsave(filename = "TMB-unpaired-longitudinal.pdf",
 
 # All unpaired samples across cancer types
 
-```{r plot-cg-id-sum, fig.width = 24, fig.height = 24, fig.fullwidth = TRUE}
+```{r plot-cg-id-sum, fig.width = 15, fig.height = 15, fig.fullwidth = TRUE}
 # Make this reproducible
 set.seed(2023)
 
@@ -196,8 +200,8 @@ print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) +
 # Save the plot
 ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf", 
        path = plots_dir, 
-       width = 24, 
-       height = 24, 
+       width = 15, 
+       height = 15, 
        device = "pdf", 
        useDingbats = FALSE)
 ```
