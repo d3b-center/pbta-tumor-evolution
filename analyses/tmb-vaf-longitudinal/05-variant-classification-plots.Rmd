@@ -170,7 +170,7 @@ names(palette) <- palette_df$color_names
 ```{r plot-timepoint-PR, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- PR_count_df$tumor_descriptor
-title <- paste("Variant types in paired longitudinal samples", sep = " ")
+title <- paste("Variant types in the paired longitudinal cohort", sep = " ")
 
 # Run function
 fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots_PR.pdf")
@@ -186,7 +186,7 @@ dev.off()
 ```{r plot-timepoint-PBTA, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- PBTA_count_df$tumor_descriptor
-title <- paste("Variant types in PBTA cohort", sep = " ")
+title <- paste("Variant types in the PBTA cohort", sep = " ")
 
 # Run function
 fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_barplots_PBTA.pdf")
@@ -208,7 +208,7 @@ PR_panel_df <- PR_count_df %>%
 
 # Define parameters for function
 x_value <- PR_panel_df$tumor_descriptor
-title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
+title <- paste("Variant types across cancer groups in the paired longitudinal cohort", sep = " ")
 rows <- 5
 
 # Run function
@@ -229,7 +229,7 @@ PBTA_panel_df <- PBTA_count_df %>%
 
 # Define parameters for function
 x_value <- PBTA_panel_df$tumor_descriptor
-title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
+title <- paste("Variant types across cancer groups in the PBTA cohort", sep = " ")
 rows <- 10
 
 # Run function
@@ -274,7 +274,7 @@ for (i in seq_along(sample)){
   rows <- 1
   
   # Run function
-  fname <- paste0(PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots.pdf")
+  fname <- paste0(PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PR.pdf")
   print(fname)
   p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   pdf(file = fname, width = width_value, height = 6)
