@@ -1,0 +1,291 @@
+---
+title: "Classification of Variants in the paired longitudinal (PR) and PBTA cohorts"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+# Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal")
+results_dir <- file.path(analysis_dir, "results")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+
+# Input files for the paired longitudinal (PR) cohort
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
+tmb_vaf_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_palette.tsv")
+
+
+# Input files for the PBTA cohort
+maf_file <- file.path(results_dir, "maf.tsv")
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
+
+
+# File path to PR plot directory
+PR_plots_dir <-
+  file.path(analysis_dir, "plots", "Alteration_type_barplots_PR")
+if (!dir.exists(PR_plots_dir)) {
+  dir.create(PR_plots_dir)
+}
+
+# File path to PBTA plot directory
+PBTA_plots_dir <-
+  file.path(analysis_dir, "plots", "Alteration_type_barplots_PBTA")
+if (!dir.exists(PBTA_plots_dir)) {
+  dir.create(PBTA_plots_dir)
+}
+
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+source(paste0(analysis_dir, "/util/function-create-barplot.R"))
+```
+
+# Read in data and process
+
+## PR cohort
+
+```{r load-process-inputs-PR}
+# Vector to order timepoints
+timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+# Vector to order Variant_Classification
+variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del", 
+                            "In_Frame_Ins", "Missense_Mutation", "Nonsense_Mutation", 
+                            "Nonstop_Mutation", "Splice_Site", "Translation_Start_Site")
+
+pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor, molecular_subtype)
+
+# This includes non synonymous mutations as described in the `01-preporcess-data.Rmd`
+tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(!tmb >= 10) %>% 
+  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
+
+genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
+  left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
+  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
+  filter(!is.na(tmb))
+
+no_samples_with_tmb <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
+
+# Attention as some bs specimen might not have TMB.
+# If that happens, we will end up with samples lacking timepoints.
+# Let's identify these samples and remove them for now.
+
+PR_df <- genomic_paired_df %>%
+  select(Kids_First_Participant_ID, tumor_descriptor) %>% 
+  unique() %>%
+  arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarize(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>%
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
+  left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
+  filter(!cg_id == "NA",
+          !tumor_descriptor == "Not Reported") %>% 
+  mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         cg_id = str_replace(cg_id, c("/|-"), " "))
+  
+
+no_samples <- print(length(unique(PR_df$Kids_First_Participant_ID)))
+
+# Let's count number of samples 
+PR_count_df <- PR_df %>% 
+  group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
+         Variant_Classification = factor(Variant_Classification),
+         Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
+  arrange(tumor_descriptor, Variant_Classification)
+
+``` 
+
+## PBTA cohort
+
+```{r load-process-inputs-PBTA}
+tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
+
+tmb_vaf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>%
+  left_join(tmb_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  filter(!tmb >= 10,
+         !is.na(tmb)) 
+
+PBTA_df <- pbta_df %>% 
+  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  filter(!cg_id == "NA",
+          !tumor_descriptor == "Not Reported") %>% 
+  mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         cg_id = str_replace(cg_id, c("/|-"), " "))
+
+no_samples <- print(length(unique(PBTA_df$Kids_First_Participant_ID)))
+
+# Let's count number of samples 
+PBTA_count_df <- PBTA_df %>% 
+  group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
+         Variant_Classification = factor(Variant_Classification),
+         Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
+  arrange(tumor_descriptor, Variant_Classification) 
+
+```
+
+
+
+# Define parameters for plots
+
+```{r define-parameters-for-plots}
+# Read color palette
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(color_names = factor(color_names),
+         color_names = fct_relevel(color_names, variants_order))
+
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$color_names
+```
+
+# Alterations per timepoint
+
+## PR cohort
+
+```{r plot-timepoint-PR, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
+# Define parameters for function
+x_value <- PR_count_df$tumor_descriptor
+title <- paste("Variant types in the paired longitudinal cohort", sep = " ")
+
+# Run function
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots_PR.pdf")
+print(fname)
+p <- create_stacked_barplot_variant(df = PR_count_df, x = x_value, palette = palette, title = title)
+pdf(file = fname, width = 6, height = 6)
+print(p)
+dev.off()
+```
+
+## PBTA cohort
+
+```{r plot-timepoint-PBTA, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
+# Define parameters for function
+x_value <- PBTA_count_df$tumor_descriptor
+title <- paste("Variant types in the PBTA cohort", sep = " ")
+
+# Run function
+fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_barplots_PBTA.pdf")
+print(fname)
+p <- create_stacked_barplot_variant(df = PBTA_count_df, x = x_value, palette = palette, title = title)
+pdf(file = fname, width = 6, height = 6)
+print(p)
+dev.off()
+```
+
+
+# Alterations per timepoint in each cancer type
+
+## PR cohort
+
+```{r plot-cg-id-PR, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
+PR_panel_df <- PR_count_df %>% 
+  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
+
+# Define parameters for function
+x_value <- PR_panel_df$tumor_descriptor
+title <- paste("Variant types across cancer groups in the paired longitudinal cohort", sep = " ")
+rows <- 5
+
+# Run function
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PR.pdf")
+print(fname)
+p <- create_stacked_barplot_variant_cg_id(df = PR_panel_df, x = x_value, palette = palette, title = title, rows = rows)
+pdf(file = fname, width = 12, height = 15)
+print(p)
+dev.off()
+```
+
+## PBTA cohort
+
+
+```{r plot-cg-id-PBTA, fig.width = 15, fig.height = 28, fig.fullwidth = TRUE}
+PBTA_panel_df <- PBTA_count_df %>% 
+  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
+
+# Define parameters for function
+x_value <- PBTA_panel_df$tumor_descriptor
+title <- paste("Variant types across cancer groups in the PBTA cohort", sep = " ")
+rows <- 10
+
+# Run function
+fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PBTA.pdf")
+print(fname)
+p <- create_stacked_barplot_variant_cg_id(df = PBTA_panel_df, x = x_value, palette = palette, title = title, rows = rows)
+pdf(file = fname, width = 15, height = 28)
+print(p)
+dev.off()
+```
+# Alterations per timepoint in each cancer type and kids_id
+
+## PR cohort
+
+```{r plot-cg-id-kids-PR, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+cg_df <- PR_count_df %>%
+  # Fix syntax in cancer groups names 
+  mutate(cg_id = str_replace_all(cg_id, " ", "_"))
+
+sample <- as.character(unique(cg_df$cg_id)) 
+sample <- sort(sample, decreasing = FALSE)
+sample
+
+
+# Loop through variable
+for (i in seq_along(sample)){
+  print(i)
+  df_sub <- cg_df %>%
+    filter(cg_id == sample[i]) 
+
+  if (i %in% c(2, 7, 15, 18)){
+    width_value = 25
+    }else if (i %in% c(10, 16)){
+    width_value = 28
+    }else{
+    width_value = 10
+      }
+
+  # Define parameters for function
+  x_value <- df_sub$tumor_descriptor
+  title <- paste(sample[i], "Variants across samples", sep = ": ")
+  rows <- 1
+  
+  # Run function
+  fname <- paste0(PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PR.pdf")
+  print(fname)
+  p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
+  pdf(file = fname, width = width_value, height = 6)
+  print(p)
+  dev.off()
+  }
+
+```
+
+
+
+```{r echo=TRUE}
+sessionInfo()
+```
