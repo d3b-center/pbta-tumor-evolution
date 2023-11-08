@@ -39,17 +39,17 @@ tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 
 # File path to PR plot directory
-plots_dir <-
+PR_plots_dir <-
   file.path(analysis_dir, "plots", "Alteration_type_barplots_matched_samples")
-if (!dir.exists(plots_dir)) {
-  dir.create(plots_dir)
+if (!dir.exists(PR_plots_dir)) {
+  dir.create(PR_plots_dir)
 }
 
 # File path to PBTA plot directory
-plots_dir <-
+PBTA_plots_dir <-
   file.path(analysis_dir, "plots", "Alteration_type_barplots_PBTA")
-if (!dir.exists(plots_dir)) {
-  dir.create(plots_dir)
+if (!dir.exists(PBTA_plots_dir)) {
+  dir.create(PBTA_plots_dir)
 }
 
 source(paste0(root_dir, "/figures/scripts/theme.R"))
@@ -135,7 +135,7 @@ x_value <- count_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples", sep = " ")
 
 # Run function
-fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant(df = count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
@@ -155,7 +155,7 @@ title <- paste("Variant types in paired longitudinal samples across cancer group
 rows <- 5
 
 # Run function
-fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_cg_id(df = panel_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 12, height = 15)
@@ -196,7 +196,7 @@ for (i in seq_along(sample)){
   rows <- 1
   
   # Run function
-  fname <- paste0(plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots.pdf")
+  fname <- paste0(PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots.pdf")
   print(fname)
   p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   pdf(file = fname, width = width_value, height = 6)
