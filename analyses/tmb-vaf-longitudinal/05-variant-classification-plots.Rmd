@@ -47,11 +47,17 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 
 ```{r load-process-inputs}
 # Vector to order timepoints
-timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+# Vector to order Variant_Classification
+variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del", 
+                            "In_Frame_Ins", "Missense_Mutation", "Nonsense_Mutation", 
+                            "Nonstop_Mutation", "Splice_Site", "Translation_Start_Site")
 
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
 
+# This includes non synonymous mutations as described in the `01-preporcess-data.Rmd`
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
   select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
@@ -78,10 +84,9 @@ df <- genomic_paired_df %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   filter(!cg_id == "NA") %>% 
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
-         cg_id = str_replace(cg_id, c("/|-"), "_"),
+         cg_id = str_replace(cg_id, c("/|-"), "_"))
         # cg_id = str_replace_all(cg_id, " ", "_"),
-         tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
+  
 
 no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 
@@ -89,7 +94,12 @@ no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 count_df <- df %>% 
   group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
-  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
+  mutate(cg_id = str_wrap(cg_id, 12), # Edit name of `cg_id` to fit in the plot title for the panel
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
+         Variant_Classification = factor(Variant_Classification),
+         Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
+  arrange(tumor_descriptor, Variant_Classification)
 
 
 ``` 
@@ -98,7 +108,9 @@ count_df <- df %>%
 
 ```{r define-parameters-for-plots}
 # Read color palette
-palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) 
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(color_names = factor(color_names),
+         color_names = fct_relevel(color_names, variants_order))
 
 # Define and order palette
 palette <- palette_df$hex_codes
@@ -123,7 +135,7 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 15, fig.height = 18, fig.fullwidth = TRUE}
+```{r plot-cg-id, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
@@ -133,7 +145,7 @@ rows <- 5
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
-pdf(file = fname, width = 15, height = 18)
+pdf(file = fname, width = 12, height = 15)
 print(p)
 dev.off()
 ```
