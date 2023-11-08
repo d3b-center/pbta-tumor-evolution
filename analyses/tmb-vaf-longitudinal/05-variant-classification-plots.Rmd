@@ -47,7 +47,7 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 
 ```{r load-process-inputs}
 # Vector to order timepoints
-timepoints <- c("Diagnosis", "Progressive", "Recurrence", "xDeceased", "Second Malignancy", "Unavailable")
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor)
@@ -76,9 +76,7 @@ df <- genomic_paired_df %>%
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   filter(!cg_id == "NA") %>% 
-  mutate(tumor_descriptor = case_when(grepl("Deceased", tumor_descriptor) ~ "xDeceased",
-                               TRUE ~ tumor_descriptor),
-         match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+  mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          cg_id = str_replace(cg_id, c("/|-"), "_"),
         # cg_id = str_replace_all(cg_id, " ", "_"),
          tumor_descriptor = factor(tumor_descriptor),
@@ -90,7 +88,7 @@ no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 count_df <- df %>% 
   group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
-  mutate(cg_id = str_wrap(cg_id, 10)) # Edit name of `cg_id` to fit in the plot title for the panel
+  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
 
 
 ``` 
