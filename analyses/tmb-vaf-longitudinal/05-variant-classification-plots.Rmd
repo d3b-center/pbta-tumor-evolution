@@ -173,7 +173,7 @@ x_value <- PR_count_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples", sep = " ")
 
 # Run function
-fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots_PR.pdf")
 print(fname)
 p <- create_stacked_barplot_variant(df = PR_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
@@ -189,9 +189,9 @@ x_value <- PBTA_count_df$tumor_descriptor
 title <- paste("Variant types in PBTA cohort", sep = " ")
 
 # Run function
-fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
+fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_barplots_PBTA.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(df = count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = PBTA_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -203,18 +203,18 @@ dev.off()
 ## PR cohort
 
 ```{r plot-cg-id-PR, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
-panel_df <- PR_count_df %>% 
+PR_panel_df <- PR_count_df %>% 
   mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
 
 # Define parameters for function
-x_value <- panel_df$tumor_descriptor
+x_value <- PR_panel_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
 rows <- 5
 
 # Run function
-fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PR.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(df = panel_df, x = x_value, palette = palette, title = title, rows = rows)
+p <- create_stacked_barplot_variant_cg_id(df = PR_panel_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 12, height = 15)
 print(p)
 dev.off()
@@ -223,22 +223,24 @@ dev.off()
 ## PBTA cohort
 
 
-```{r plot-cg-id-PBTA, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
+```{r plot-cg-id-PBTA, fig.width = 15, fig.height = 28, fig.fullwidth = TRUE}
+PBTA_panel_df <- PBTA_count_df %>% 
+  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
+
 # Define parameters for function
-x_value <- PBTA_count_df$tumor_descriptor
+x_value <- PBTA_panel_df$tumor_descriptor
 title <- paste("Variant types in PBTA cohort across cancer groups", sep = " ")
 rows <- 10
 
 # Run function
-fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
+fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PBTA.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(df = count_df, x = x_value, palette = palette, title = title, rows = rows)
-pdf(file = fname, width = 12, height = 15)
+p <- create_stacked_barplot_variant_cg_id(df = PBTA_panel_df, x = x_value, palette = palette, title = title, rows = rows)
+pdf(file = fname, width = 15, height = 28)
 print(p)
 dev.off()
 ```
 # Alterations per timepoint in each cancer type and kids_id
-
 
 ## PR cohort
 
