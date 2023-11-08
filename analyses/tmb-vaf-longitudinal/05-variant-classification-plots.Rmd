@@ -79,13 +79,12 @@ df <- genomic_paired_df %>%
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>%
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive"),
-         !tumor_descriptor == "Not Reported") %>%
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
-  filter(!cg_id == "NA") %>% 
+  filter(!cg_id == "NA",
+          !tumor_descriptor == "Not Reported") %>% 
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
-         cg_id = str_replace(cg_id, c("/|-"), "_"))
-        # cg_id = str_replace_all(cg_id, " ", "_"),
+         cg_id = str_replace(cg_id, c("/|-"), " "))
   
 
 no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
@@ -94,13 +93,11 @@ no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 count_df <- df %>% 
   group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
-  mutate(cg_id = str_wrap(cg_id, 12), # Edit name of `cg_id` to fit in the plot title for the panel
-         tumor_descriptor = factor(tumor_descriptor),
+  mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
   arrange(tumor_descriptor, Variant_Classification)
-
 
 ``` 
 
@@ -127,7 +124,7 @@ title <- paste("Variant types in paired longitudinal samples", sep = " ")
 # Run function
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(count_df = count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -136,15 +133,18 @@ dev.off()
 # Alterations per timepoint in each cancer type
 
 ```{r plot-cg-id, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
+panel_df <- count_df %>% 
+  mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
+
 # Define parameters for function
-x_value <- count_df$tumor_descriptor
+x_value <- panel_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
 rows <- 5
 
 # Run function
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
+p <- create_stacked_barplot_variant_cg_id(df = panel_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 12, height = 15)
 print(p)
 dev.off()
@@ -154,7 +154,11 @@ dev.off()
 # Alterations per timepoint in each cancer type and kids_id
 
 ```{r plot-cg-id-kids, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
-sample <- as.character(unique(count_df$cg_id)) 
+cg_df <- count_df %>%
+  # Fix syntax in cancer groups names 
+  mutate(cg_id = str_replace_all(cg_id, " ", "_"))
+
+sample <- as.character(unique(cg_df$cg_id)) 
 sample <- sort(sample, decreasing = FALSE)
 sample
 
@@ -162,11 +166,13 @@ sample
 # Loop through variable
 for (i in seq_along(sample)){
   print(i)
-  df_sub <- count_df %>%
-      filter(cg_id == sample[i])
-  
-  if (i %in% c(2,7,10, 15,16,18)){
+  df_sub <- cg_df %>%
+    filter(cg_id == sample[i]) 
+
+  if (i %in% c(2, 7, 15, 18)){
     width_value = 25
+    }else if (i %in% c(10, 16)){
+    width_value = 28
     }else{
     width_value = 10
       }
@@ -179,7 +185,7 @@ for (i in seq_along(sample)){
   # Run function
   fname <- paste0(plots_dir, "/", sample[i], "-Alteration_type_timepoints_kids_barplots.pdf")
   print(fname)
-  p <- create_stacked_barplot_variant_kids(count_df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
+  p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   pdf(file = fname, width = width_value, height = 6)
   print(p)
   dev.off()
