@@ -183,7 +183,9 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
+## PR cohort
+
+```{r plot-cg-id-PR, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
 panel_df <- PR_count_df %>% 
   mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
 
@@ -204,7 +206,9 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and kids_id
 
-```{r plot-cg-id-kids, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+## PR cohort
+
+```{r plot-cg-id-kids-PR, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
 cg_df <- PR_count_df %>%
   # Fix syntax in cancer groups names 
   mutate(cg_id = str_replace_all(cg_id, " ", "_"))
