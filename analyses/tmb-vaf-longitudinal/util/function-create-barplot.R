@@ -182,7 +182,7 @@ create_stacked_barplot_variant_kids <- function(df, x_value, palette, title, row
                theme(axis.text.x = element_text(angle = 85,
                                                 hjust = 1,
                                                 vjust = 1),
-                     text = element_text(size = 14)) +
+                     text = element_text(size = 12)) +
                scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
                facet_wrap(~Kids_First_Participant_ID, scales = "free_x", nrow = rows) +
                labs(title = title, 
