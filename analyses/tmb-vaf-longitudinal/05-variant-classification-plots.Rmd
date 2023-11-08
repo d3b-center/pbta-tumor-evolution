@@ -165,15 +165,17 @@ names(palette) <- palette_df$color_names
 
 # Alterations per timepoint
 
-```{r plot-timepoint, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
+## PR cohort
+
+```{r plot-timepoint-PR, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
-x_value <- count_df$tumor_descriptor
+x_value <- PR_count_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples", sep = " ")
 
 # Run function
 fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(df = count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = PR_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -182,7 +184,7 @@ dev.off()
 # Alterations per timepoint in each cancer type
 
 ```{r plot-cg-id, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
-panel_df <- count_df %>% 
+panel_df <- PR_count_df %>% 
   mutate(cg_id = str_wrap(cg_id, 12)) # Edit name of `cg_id` to fit in the plot title for the panel
 
 # Define parameters for function
@@ -203,7 +205,7 @@ dev.off()
 # Alterations per timepoint in each cancer type and kids_id
 
 ```{r plot-cg-id-kids, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
-cg_df <- count_df %>%
+cg_df <- PR_count_df %>%
   # Fix syntax in cancer groups names 
   mutate(cg_id = str_replace_all(cg_id, " ", "_"))
 
