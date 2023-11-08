@@ -58,7 +58,9 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 
 # Read in data and process
 
-```{r load-process-inputs}
+## PR cohort
+
+```{r load-process-inputs-PR}
 # Vector to order timepoints
 timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
@@ -86,7 +88,7 @@ no_samples_with_tmb <- print(length(unique(genomic_paired_df$Kids_First_Particip
 # If that happens, we will end up with samples lacking timepoints.
 # Let's identify these samples and remove them for now.
 
-df <- genomic_paired_df %>%
+PR_df <- genomic_paired_df %>%
   select(Kids_First_Participant_ID, tumor_descriptor) %>% 
   unique() %>%
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
@@ -100,10 +102,10 @@ df <- genomic_paired_df %>%
          cg_id = str_replace(cg_id, c("/|-"), " "))
   
 
-no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
+no_samples <- print(length(unique(PR_df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
-count_df <- df %>% 
+PR_count_df <- PR_df %>% 
   group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
@@ -113,6 +115,40 @@ count_df <- df %>%
   arrange(tumor_descriptor, Variant_Classification)
 
 ``` 
+
+## PBTA cohort
+
+```{r load-process-inputs-PBTA}
+tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
+
+tmb_vaf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>%
+  left_join(tmb_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  filter(!tmb >= 10,
+         !is.na(tmb)) 
+
+PBTA_df <- pbta_df %>% 
+  left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>% 
+  filter(!cg_id == "NA",
+          !tumor_descriptor == "Not Reported") %>% 
+  mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         cg_id = str_replace(cg_id, c("/|-"), " "))
+
+no_samples <- print(length(unique(PBTA_df$Kids_First_Participant_ID)))
+
+# Let's count number of samples 
+PBTA_count_df <- PBTA_df %>% 
+  group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
+  dplyr::count(cg_id) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
+         Variant_Classification = factor(Variant_Classification),
+         Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
+  arrange(tumor_descriptor, Variant_Classification) 
+
+```
+
+
 
 # Define parameters for plots
 
