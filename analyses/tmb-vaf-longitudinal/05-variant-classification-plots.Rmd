@@ -73,7 +73,8 @@ df <- genomic_paired_df %>%
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
   summarize(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>%
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
+  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive"),
+         !tumor_descriptor == "Not Reported") %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   filter(!cg_id == "NA") %>% 
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
