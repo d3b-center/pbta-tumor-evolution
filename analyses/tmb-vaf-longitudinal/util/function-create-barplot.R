@@ -74,7 +74,7 @@ create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
 
 #' Create stacked barplots to explore variant types
 #'
-#' @param count_df 
+#' @param df 
 #' @param x_value 
 #' @param palette
 #' @param title 
@@ -87,10 +87,10 @@ create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
 #' 
 #'  
 #' 
-create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
+create_stacked_barplot_variant <- function(df, x_value, palette, title) {
   
   # Plot stacked barplot 
-  p <- print(ggplot(count_df,
+  p <- print(ggplot(df,
                aes(x = x_value,
                    y = n, 
                    fill = Variant_Classification)) +  
@@ -112,7 +112,7 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
 
 #' Create stacked barplots to explore variant types per cancer_group
 #'
-#' @param count_df 
+#' @param df 
 #' @param x_value 
 #' @param palette 
 #' @param title
@@ -127,10 +127,10 @@ create_stacked_barplot_variant <- function(count_df, x_value, palette, title) {
 #' 
 #'  
 #' 
-create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, title, rows) {
+create_stacked_barplot_variant_cg_id <- function(df, x_value, palette, title, rows) {
   
   # Plot stacked barplot 
-  p <- print(ggplot(count_df,
+  p <- print(ggplot(df,
                     aes(x = x_value,
                         y = n, 
                         fill = Variant_Classification)) + 
@@ -154,7 +154,7 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
 
 #' Create stacked barplots to explore variant types per cancer_group and kids
 #'
-#' @param count_df 
+#' @param df 
 #' @param x_value 
 #' @param palette 
 #' @param title
@@ -169,10 +169,10 @@ create_stacked_barplot_variant_cg_id <- function(count_df, x_value, palette, tit
 #' 
 #'  
 #' 
-create_stacked_barplot_variant_kids <- function(count_df, x_value, palette, title, rows) {
+create_stacked_barplot_variant_kids <- function(df, x_value, palette, title, rows) {
   
   # Plot stacked barplot 
-  p <- print(ggplot(count_df,
+  p <- print(ggplot(df,
                     aes(x = x_value,
                         y = n, 
                         fill = Variant_Classification)) + 
