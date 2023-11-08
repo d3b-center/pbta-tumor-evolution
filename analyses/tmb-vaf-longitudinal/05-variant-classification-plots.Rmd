@@ -1,5 +1,5 @@
 ---
-title: "Classification of Variants across paired longitudinal samples in the PBTA Cohort"
+title: "Classification of Variants in the paired longitudinal (PR) and PBTA cohorts"
 author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
@@ -26,15 +26,28 @@ results_dir <- file.path(analysis_dir, "results")
 input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
-# Input files
+# Input files for the paired longitudinal (PR) cohort
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
 tmb_vaf_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
 palette_file <- file.path(root_dir, "figures", "palettes", "oncoprint_color_palette.tsv")
 
-# File path to plot directory
+
+# Input files for the PBTA cohort
+maf_file <- file.path(results_dir, "maf.tsv")
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
+
+
+# File path to PR plot directory
 plots_dir <-
   file.path(analysis_dir, "plots", "Alteration_type_barplots_matched_samples")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+# File path to PBTA plot directory
+plots_dir <-
+  file.path(analysis_dir, "plots", "Alteration_type_barplots_PBTA")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
@@ -183,7 +196,7 @@ for (i in seq_along(sample)){
   rows <- 1
   
   # Run function
-  fname <- paste0(plots_dir, "/", sample[i], "-Alteration_type_timepoints_kids_barplots.pdf")
+  fname <- paste0(plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots.pdf")
   print(fname)
   p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   pdf(file = fname, width = width_value, height = 6)
