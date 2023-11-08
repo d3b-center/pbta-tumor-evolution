@@ -80,7 +80,7 @@ df <- genomic_paired_df %>%
                                TRUE ~ tumor_descriptor),
          match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          cg_id = str_replace(cg_id, c("/|-"), "_"),
-         cg_id = str_replace_all(cg_id, " ", "_"),
+        # cg_id = str_replace_all(cg_id, " ", "_"),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints))
 
@@ -89,7 +89,9 @@ no_samples <- print(length(unique(df$Kids_First_Participant_ID)))
 # Let's count number of samples 
 count_df <- df %>% 
   group_by(tumor_descriptor, cg_id, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
-  dplyr::count(cg_id) 
+  dplyr::count(cg_id) %>% 
+  mutate(cg_id = str_wrap(cg_id, 10)) # Edit name of `cg_id` to fit in the plot title for the panel
+
 
 ``` 
 
@@ -122,7 +124,7 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-```{r plot-cg-id, fig.width = 25, fig.height = 30, fig.fullwidth = TRUE}
+```{r plot-cg-id, fig.width = 15, fig.height = 18, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- count_df$tumor_descriptor
 title <- paste("Variant types in paired longitudinal samples across cancer groups", sep = " ")
@@ -132,7 +134,7 @@ rows <- 5
 fname <- paste0(plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_cg_id(count_df = count_df, x = x_value, palette = palette, title = title, rows = rows)
-pdf(file = fname, width = 25, height = 30)
+pdf(file = fname, width = 15, height = 18)
 print(p)
 dev.off()
 ```
