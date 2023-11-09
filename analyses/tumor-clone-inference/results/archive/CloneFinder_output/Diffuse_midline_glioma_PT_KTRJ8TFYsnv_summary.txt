@@ -1,0 +1,7 @@
+input data file: ./input/DMG/Diffuse_midline_glioma_PT_KTRJ8TFYsnv.txt
+total read count cutoff: 50
+mutant read count cutoff: 2
+clone frequency cutoff: 0.02
+
+tumor genotype that was decomposed was hit in different tumor: failed decomposition
+Run time: 0:00:01.469474
