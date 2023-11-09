@@ -203,10 +203,10 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
   # change names to match input requirements
   dplyr::rename("ref_counts" = "t_ref_count", 
                 "alt_counts" = "t_alt_count",
-                "tumor_content" = "tumor_fraction") %>%
+                "tumour_content" = "tumor_fraction") %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID,
          cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, tumor_content)
+         alt_counts, normal_cn, tumour_content)
  
 
 # I will test one HGG dataset for now
@@ -252,10 +252,12 @@ pyclone_input <- data_list_bind %>%
   # To figure out if the assignment is correct
   dplyr::rename("major_cn" = "cn1", 
                 "minor_cn" = "cn2") %>% 
-  
+
   left_join(PT_Z4BF2NSB_DF) %>% 
+  filter(!is.na(major_cn),
+         !is.na(minor_cn)) %>% 
   select(cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumor_content) %>% 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
   write_tsv(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
 
 ```
