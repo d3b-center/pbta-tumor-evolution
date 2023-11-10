@@ -197,7 +197,7 @@ create_heatmap <- function(df, cg) {
   )
   
   ## Heatmap itself!
-  print(gsva_heatmap <- Heatmap(
+  gsva_heatmap <- print(Heatmap(
     gsva_scores_mat,
     col = gsva_col_fun,
     name = "GSVA Scores",
