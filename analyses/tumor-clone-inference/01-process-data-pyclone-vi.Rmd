@@ -268,8 +268,13 @@ pyclone_input <- data_list_bind %>%
          !is.na(minor_cn)) %>% 
   select(cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
-  write_tsv(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
+  #write_tsv(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
   #write_delim(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
+  write.table(file.path(pyclonevi_input_dir, paste0("PT_Z4BF2NSB-v2.tsv")), 
+                  sep = "\t", 
+                  row.names = FALSE, 
+                  quote = FALSE, 
+                  fileEncoding = "UTF-8")
 ```
 
 
