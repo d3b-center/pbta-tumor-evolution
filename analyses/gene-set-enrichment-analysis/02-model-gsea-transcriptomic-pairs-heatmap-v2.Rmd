@@ -89,21 +89,22 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) 
 
 # Get the broad_histology and cancer_group color mappings for the samples being
-  # plotted here
-  mapping_df <- metadata_with_gsva_filtered %>%
+# plotted here
+mapping_df <- metadata_with_gsva_filtered %>%
     # Drop any rows without a broad_histology value (this is in essence dropping)
     # Normal sample and we're only working with stranded RNA-seq samples here
-    filter(!is.na(broad_histology),
+  filter(!is.na(broad_histology),
            experimental_strategy == "RNA-Seq",
            RNA_library == "stranded") %>%
-    # Identifiers
-    select(Kids_First_Biospecimen_ID,
-           Kids_First_Participant_ID,
-           sample_id,
-           broad_histology,
-           cancer_group,
-           cg, 
-           tumor_descriptor) 
+  # Identifiers
+  select(Kids_First_Biospecimen_ID
+         Kids_First_Participant_ID,
+         sample_id,
+         broad_histology,
+         cancer_group,
+         cg, 
+         molecular_subtype,
+         tumor_descriptor) 
   
 included_genesets_df <- readr::read_tsv(gsva_anova_file, guess_max = 100000) 
 gsva_scores_df <- readr::read_tsv(gsva_scores_file, guess_max = 100000)  
@@ -115,7 +116,6 @@ gsva_scores_df <- readr::read_tsv(gsva_scores_file, guess_max = 100000)
 # Re-order based on timepoints
 #f <- c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased") # Level df by timepoints
 #cg_f <- c("ATRT", "DMG", "Ependymoma", "HGG", "LGG", "Medulloblastoma")
-
 
 # Read color palette for timepoints
 timepoint_label_mapping <- readr::read_tsv(timepoint_palette_file, guess_max = 100000, show_col_types = FALSE) %>% 

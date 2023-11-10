@@ -15,11 +15,15 @@ create_heatmap <- function(df, cg) {
     left_join(histology_label_mapping,
               by = c("broad_histology", "cancer_group", "cg")) %>%
     select(Kids_First_Biospecimen_ID,
+           Kids_First_Participant_ID,
+           
            # Keep both broad_histology for the UMAP legend, and cancer_group for the GSVA legend
            broad_histology_display,
            broad_histology_hex,
            broad_histology_order,
            cg,
+           cancer_group,
+           molecular_subtype,
            plot_group_hex) %>%
    # mutate(cg = forcats::fct_reorder(cg,
    #                                  broad_histology_order))
