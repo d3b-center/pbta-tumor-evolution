@@ -164,7 +164,7 @@ divergent_palette  <- divergent_palette %>% filter(color_names != "na_color")
 p <- create_heatmap(df = mapping_df, 
                     cg = NULL)
 
-pdf(gsva_timepoint_pdf, width = 8, height = 5)
+pdf(gsva_timepoint_pdf, width = 15, height = 12)
 print(p)
 #draw(gsva_heatmap, heatmap_legend_side = "right")
 dev.off()
@@ -191,7 +191,7 @@ for(x in 1:length(cg_list)){
   p <- create_heatmap(df = df_sub, 
                       cg = cg_list[x])
 
-  pdf(file = name, width = 6, height = 3)
+  pdf(file = name, width = 8, height = 5)
   print(p)
   #draw(gsva_heatmap, heatmap_legend_side = "right")
   dev.off()

@@ -60,7 +60,10 @@ create_heatmap <- function(df, cg) {
     select(Kids_First_Biospecimen_ID,
            tumor_descriptor,
            cg,
-           hex_codes) %>%
+           hex_codes,
+           Kids_First_Participant_ID,
+           cancer_group,
+           molecular_subtype) %>%
     #dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
     #               tumor_descriptor = fct_relevel(tumor_descriptor, f),
     #               cg = factor(cg),
@@ -170,7 +173,10 @@ create_heatmap <- function(df, cg) {
     select(Kids_First_Biospecimen_ID,
            cg,
            cg_order,
-           tumor_descriptor) %>%
+           tumor_descriptor,
+           Kids_First_Participant_ID,
+           cancer_group,
+           molecular_subtype) %>%
     filter(Kids_First_Biospecimen_ID %in% gsva_ordered_bsids) %>%
     unique() %>% 
     column_to_rownames("Kids_First_Biospecimen_ID")
