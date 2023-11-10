@@ -198,14 +198,14 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
                 cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
                 cg_id = str_replace(cg_id, "/|-", "_"),
                 cg_id = str_replace_all(cg_id, " ", "_"),
-                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = "_")) %>% 
+                sample_id_bs = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) %>% 
   
   # change names to match input requirements
   dplyr::rename("ref_counts" = "t_ref_count", 
                 "alt_counts" = "t_alt_count",
                 "tumour_content" = "tumor_fraction") %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID,
-         cg_id_kids, mutation_id, sample_id, ref_counts, 
+         cg_id_kids, mutation_id, sample_id_bs, ref_counts, 
          alt_counts, normal_cn, tumour_content)
  
 
@@ -213,8 +213,18 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
 # PT_Z4BF2NSB
 
 PT_Z4BF2NSB_DF <- pyclone_all_samples_df %>% 
-  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB")
-
+  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
+  mutate(sample_id = case_when(grepl("Deceased:BS_2T4EJ6KN", sample_id_bs) ~ "Deceased1",
+                               grepl("Deceased:BS_537YFJ06", sample_id_bs) ~ "Deceased2", 
+                               
+                               grepl("Deceased:BS_C6T8F9K7", sample_id_bs) ~ "Deceased3",
+                               grepl("Deceased:BS_GSXNQNRY", sample_id_bs) ~ "Deceased4",
+                               grepl("Deceased:BS_M29BNE7Z", sample_id_bs) ~ "Deceased5",
+                               grepl("Deceased:BS_MRN9VDQ0", sample_id_bs) ~ "Deceased6",
+                               grepl("Diagnosis:BS_W2QCHQ7E", sample_id_bs) ~ "Diagnosis1",
+                               grepl("Recurrence:BS_EJP43CD9", sample_id_bs) ~ "Recurrence1"))
+                               
+                   
 ```
 
 ## Add major_cn, minor_cn columns from cns files
@@ -259,7 +269,7 @@ pyclone_input <- data_list_bind %>%
   select(cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
   write_tsv(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
-
+  #write_delim(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
 ```
 
 
