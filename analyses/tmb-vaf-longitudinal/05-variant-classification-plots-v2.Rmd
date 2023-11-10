@@ -54,7 +54,7 @@ if (!dir.exists(kids_PR_plots_dir)) {
 
 # File path to kids_molecular_subtype_PR_plots_dir directory
 kids_molecular_subtype_PR_plots_dir <-
-  file.path(PR_plots_dir, "kids_PR_plots")
+  file.path(PR_plots_dir, "kids_molecular_subtype_PR_plots")
 if (!dir.exists(kids_molecular_subtype_PR_plots_dir)) {
   dir.create(kids_molecular_subtype_PR_plots_dir)
 }
@@ -292,8 +292,8 @@ for (i in seq_along(sample)){
   df_sub <- PR_panel_df %>%
     filter(cg_id == sample[i]) 
  
-  if (i %in% c(16)){
-    width_value = 18
+  if (i %in% c(10, 16)){
+    width_value = 25
     }else{
     width_value = 10
     }
@@ -334,7 +334,7 @@ for (i in seq_along(sample)){
     filter(cg_id == sample[i]) 
  
    if (i %in% c(25, 41)){
-    width_value = 18
+    width_value = 25
     }else{
     width_value = 10
     }
@@ -380,7 +380,7 @@ for (i in seq_along(sample)){
   if (i %in% c(2, 7, 15, 18)){
     width_value = 25
     }else if (i %in% c(10, 16)){
-    width_value = 28
+    width_value = 36
     }else{
     width_value = 10
       }
@@ -402,6 +402,7 @@ for (i in seq_along(sample)){
 ```
 
 ## PR cohort without molecular subtype
+
 ```{r plot-cg-id-kids-PR, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
 cg_df <- PR_count_df %>%
   # Fix syntax in cancer groups names 
