@@ -106,7 +106,7 @@ metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file,
            tumor_descriptor) 
   
 included_genesets_df <- readr::read_tsv(gsva_anova_file, guess_max = 100000) 
-gsva_scores_df <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000)  
+gsva_scores_df <- readr::read_tsv(gsva_scores_file, guess_max = 100000)  
 ```
 
 ## Read color palettes
@@ -165,7 +165,8 @@ p <- create_heatmap(df = mapping_df,
                     cg = NULL)
 
 pdf(gsva_timepoint_pdf, width = 8, height = 5)
-draw(gsva_heatmap, heatmap_legend_side = "right")
+print(p)
+#draw(gsva_heatmap, heatmap_legend_side = "right")
 dev.off()
 
 ```
@@ -191,8 +192,8 @@ for(x in 1:length(cg_list)){
                       cg = cg_list[x])
 
   pdf(file = name, width = 6, height = 3)
-  print(gsva_heatmap)
-  draw(gsva_heatmap, heatmap_legend_side = "right")
+  print(p)
+  #draw(gsva_heatmap, heatmap_legend_side = "right")
   dev.off()
   
 }
