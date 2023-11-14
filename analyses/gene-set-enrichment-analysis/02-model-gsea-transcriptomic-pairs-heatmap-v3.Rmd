@@ -29,6 +29,7 @@ Load libraries and define certain constants:
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(flextable)
   #if (!require("BiocManager", quietly = TRUE))
   #  install.packages("BiocManager")
   #BiocManager::install("ComplexHeatmap")
@@ -86,16 +87,34 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ``` {r}
 ######## Load input files
-metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) 
+metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) %>% 
+  filter(!is.na(broad_histology),
+         experimental_strategy == "RNA-Seq")
+
+######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## 
+# Count kids and bs samples pe cancer group
+print(length(unique(metadata_with_gsva_filtered$Kids_First_Participant_ID)))
+#kids_bs <- metadata_with_gsva_filtered %>% group_by(Kids_First_Participant_ID) %>% unique() %>% count(tumor_descriptor)
+#print(table(kids_bs$tumor_descriptor))
+
+# Count #samples/library/timepoint
+metadata_with_gsva_filtered %>%
+  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  count(RNA_library, tumor_descriptor) %>%
+  #arrange(desc(n)) %>% 
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ########
 
 # Get the broad_histology and cancer_group color mappings for the samples being
 # plotted here
 metadata_df <- metadata_with_gsva_filtered %>%
     # Drop any rows without a broad_histology value (this is in essence dropping)
     # Normal sample and we're only working with stranded RNA-seq samples here
-  filter(!is.na(broad_histology),
-           experimental_strategy == "RNA-Seq",
-           RNA_library == "stranded") %>%
+  filter(RNA_library == "stranded") %>%
   # Identifiers
   select(Kids_First_Biospecimen_ID,
          Kids_First_Participant_ID,
@@ -113,12 +132,14 @@ metadata_df <- metadata_with_gsva_filtered %>%
                                   grepl("Medulloblastoma", cancer_group) ~ "Medulloblastoma",
                                   TRUE ~ cancer_group))
 
-# Let's summarize and remove samples with lost paired specimens
-# due to unavailable RNA library for that timepoint
+# print(length(unique(metadata_df$Kids_First_Participant_ID)))
 
 # Vector to order timepoints
 timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
+
+# Let's summarize and remove samples with lost paired specimens
+# due to unavailable RNA library for that timepoint
 mapping_df <- metadata_df %>%
   distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE) %>% 
   group_by(Kids_First_Participant_ID) %>%
