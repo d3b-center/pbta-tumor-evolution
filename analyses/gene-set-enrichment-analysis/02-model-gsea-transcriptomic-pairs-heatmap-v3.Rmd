@@ -100,12 +100,32 @@ print(length(unique(metadata_with_gsva_filtered$Kids_First_Participant_ID)))
 # Count #samples/library/timepoint
 metadata_with_gsva_filtered %>%
   distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
-  unique() %>% 
   count(RNA_library, tumor_descriptor) %>%
   #arrange(desc(n)) %>% 
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
+
+######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ########
+# 8 aliquots were prepared to both stranded and polya
+common_samples <- metadata_with_gsva_filtered %>% 
+  filter(!RNA_library == "poly-A") %>% 
+  select(Kids_First_Participant_ID, RNA_library) %>% 
+  unique() %>% 
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(RNA_library_sum = str_c(RNA_library, collapse = ";")) %>% 
+  filter(!RNA_library_sum %in% c("stranded", "poly-A stranded")) 
+
+
+#####################################################
+# 8 aliquots were prepared to both stranded and polya
+common_aliquots <- metadata_with_gsva_filtered %>% 
+ # filter(!RNA_library == "poly-A") %>% 
+  select(aliquot_id, RNA_library) %>% 
+  #unique() %>% 
+  group_by(aliquot_id) %>%
+  summarise(RNA_library_sum = str_c(RNA_library, collapse = ";")) %>% 
+  filter(!RNA_library_sum %in% c("stranded", "poly-A stranded"))
 
 ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ########
 
