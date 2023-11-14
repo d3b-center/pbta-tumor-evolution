@@ -10,10 +10,13 @@
 #' @examples
 create_heatmap <- function(df, cg) {
   
+  set.seed(2023)
+  
   palette_mapping_df <- df %>%
+    select(- c(broad_histology, cg)) %>% 
     # Add in hex codes & display grouping
     left_join(histology_label_mapping,
-              by = c("broad_histology", "cancer_group", "cg")) %>%
+              by = c("cancer_group")) %>%
     select(Kids_First_Biospecimen_ID,
            Kids_First_Participant_ID,
            
@@ -24,10 +27,12 @@ create_heatmap <- function(df, cg) {
            cg,
            cancer_group,
            molecular_subtype,
-           plot_group_hex) %>%
-   # mutate(cg = forcats::fct_reorder(cg,
-   #                                  broad_histology_order))
-    arrange(cg)
+           plot_group_hex,
+           tumor_descriptor) %>%
+    mutate(tumor_descriptor = factor(tumor_descriptor),
+           tumor_descriptor = forcats::fct_relevel(tumor_descriptor, f)) %>% 
+    arrange(tumor_descriptor)
+ 
   
   #### Data prep for column heatmap annotation -----------------------------------
   
@@ -64,27 +69,39 @@ create_heatmap <- function(df, cg) {
            Kids_First_Participant_ID,
            cancer_group,
            molecular_subtype) %>%
-    #dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
-    #               tumor_descriptor = fct_relevel(tumor_descriptor, f),
-    #               cg = factor(cg),
-     #              cg = fct_relevel(cg, cg_f)) %>% 
-    arrange(cg, tumor_descriptor)
+    dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                   tumor_descriptor = forcats::fct_relevel(tumor_descriptor, f)) %>% 
+    arrange(tumor_descriptor)
   
   
-  # And now for cancer group:
-  cancer_group_color_df <- palette_mapping_df %>%
+  # And now for cg:
+  cg_color_df <- palette_mapping_df %>%
     dplyr::select(cg, plot_group_hex) %>%
     dplyr::distinct() %>%
     # remove NA and "Other" displays
     tidyr::drop_na() %>%
     filter(cg != "Other") %>% 
-    #mutate(cg = factor(cg),
-    #       cg = fct_relevel(cg, cg_f)) %>% 
+    mutate(cg = factor(cg),
+           cg = forcats::fct_relevel(cg, cg_f)) %>% 
     arrange(cg)
   
   # Make color key specific to these samples
-  annotation_colors_cg <- cancer_group_color_df$plot_group_hex
-  names(annotation_colors_cg) <- cancer_group_color_df$cg
+  annotation_colors_cg <- cg_color_df$plot_group_hex
+  names(annotation_colors_cg) <- cg_color_df$cg
+  
+  
+  # And now for cancer group:
+  cancer_group_color_df <- palette_mapping_df %>%
+    dplyr::select(cancer_group, plot_group_hex) %>%
+    dplyr::distinct() %>%
+    # remove NA and "Other" displays
+    tidyr::drop_na() %>% 
+    arrange(cancer_group)
+  
+  # Make color key specific to these samples
+  annotation_colors_cancer_group <- cancer_group_color_df$plot_group_hex
+  names(annotation_colors_cancer_group) <- cancer_group_color_df$cancer_group
+  
   
   # Will no longer need these
   #rm(timepoint_color_df)
@@ -138,7 +155,10 @@ create_heatmap <- function(df, cg) {
     # Not needed
     select(-n) %>%
     # Join back up
-    inner_join(timepoint_mapping_df)
+    inner_join(timepoint_mapping_df) %>%
+    dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                   tumor_descriptor = forcats::fct_relevel(tumor_descriptor, f)) %>% 
+    arrange(tumor_descriptor)
   
   
   # Determine timepoint counts so we can have a variable to order rows by
@@ -155,7 +175,10 @@ create_heatmap <- function(df, cg) {
     # Not needed
     select(-n) %>%
     # Join back up
-    inner_join(palette_mapping_df_ordered)
+    inner_join(palette_mapping_df_ordered) %>%
+    dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                   tumor_descriptor = forcats::fct_relevel(tumor_descriptor, f)) %>% 
+    arrange(tumor_descriptor)
   
   
   # Make sure it is ordered by cancer_group order, which is based on number of samples
@@ -186,20 +209,24 @@ create_heatmap <- function(df, cg) {
   
   
   gsva_annotation_df_timepoint <- gsva_annotation_df[gsva_ordered_bsids, ] %>%
+    dplyr:::mutate(tumor_descriptor = factor(tumor_descriptor),
+                   tumor_descriptor = forcats::fct_relevel(tumor_descriptor, f)) %>% 
+    arrange(tumor_descriptor) %>%
     select(#-contains("broad_histology"),  # Drop extraneous columns
       #-tumor_descriptor_order,
       -cg_order,
       #-Kids_First_Biospecimen_ID,
       #-cg, 
       # Rename for display purposes
-      Cancer_group = cg,
+      #Cancer_group = cg,
       Timepoint = tumor_descriptor) 
   
   # Annotation bar intended for the top of the heatmap
   column_heatmap_annotation <- HeatmapAnnotation(
     df = as.data.frame(gsva_annotation_df_timepoint),
     name = c("Cancer Group", "Timepoint"),
-    col = list("Cancer_group" = annotation_colors_cg,
+    col = list("cg" = annotation_colors_cg,
+               "cancer_group" =  annotation_colors_cancer_group,
                "Timepoint" = annotation_colors_time),
     na_col = na_color$hex_codes,
     show_legend = TRUE,
