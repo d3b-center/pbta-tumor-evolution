@@ -88,17 +88,18 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 
 # Read in data and process
 
-## PL cohort
-
-```{r load-process-inputs-PL}
+```{r }
 # Vector to order timepoints
 timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
 # Vector to order Variant_Classification
 variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del", 
-                            "In_Frame_Ins", "Missense_Mutation", "Nonsense_Mutation", 
-                            "Nonstop_Mutation", "Splice_Site", "Translation_Start_Site")
+                    "In_Frame_Ins", "Missense_Mutation", "Nonsense_Mutation", 
+                    "Nonstop_Mutation", "Splice_Site", "Translation_Start_Site")
+```
+## PL cohort
 
+```{r load-process-inputs-PL}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor, molecular_subtype)
 
@@ -127,7 +128,7 @@ PL_df <- genomic_paired_df %>%
   filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   filter(!cg_id == "NA",
-          !tumor_descriptor == "Not Reported") %>% 
+         !tumor_descriptor == "Not Reported") %>% 
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          cg_id = str_replace(cg_id, c("/|-"), " "))
   
