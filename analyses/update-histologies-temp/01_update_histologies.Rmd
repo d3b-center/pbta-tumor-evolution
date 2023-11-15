@@ -55,7 +55,7 @@ hist_df <- readr::read_tsv(hist_file, guess_max = 100000, show_col_types = FALSE
 
 df <- readr::read_tsv(plot_mapping_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(broad_histology, cancer_group, plot_group) %>% 
-  left_join(hist_df, by = "broad_histology") %>% 
+  left_join(hist_df, by = "broad_histology", relationship = "many-to-many") %>% 
   write_tsv(file.path(results_dir, "v12_updated_2023_11_15.tsv")) 
 ```
 
