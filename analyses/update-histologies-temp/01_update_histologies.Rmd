@@ -9,11 +9,17 @@ output:
 ---
 
 
-# Usage
+# Background
 This is to update histologies file for the `pbta-tumor-evolution` project by: (1) adding `plot_group` column and (2) using `2023-11-13_histologies-base` in which approx. 150 RNA samples of poor quality have been removed. 
 
-This mocule will be rmeoved once v13 is released.
+This module will be removed once v13 is released.
 
+# Usage
+To run the Rscript from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('01_update_histologies.Rmd', clean = TRUE)"
+```
 
 # Set up
 ```{r load-library}
