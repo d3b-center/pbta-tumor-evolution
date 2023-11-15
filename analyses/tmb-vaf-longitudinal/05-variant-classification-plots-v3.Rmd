@@ -101,8 +101,17 @@ variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del",
 
 ```{r load-process-inputs-PL}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor, molecular_subtype)
-
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor, molecular_subtype) %>%  #plot_group
+  mutate(td_abbrev = case_when(grepl("Diagnosis", tumor_descriptor) ~ "Dx",
+                               grepl("Progressive", tumor_descriptor) ~ "Pro",
+                               grepl("Recurrence", tumor_descriptor) ~ "Rec",
+                               grepl("Deceased", tumor_descriptor) ~ "Dec",
+                               grepl("Second Malignancy", tumor_descriptor) ~ "SM",
+                               grepl("Unavailable", tumor_descriptor) ~ "Un",
+                              TRUE ~ tumor_descriptor),
+         molecular_subtype_edited = str_replace(molecular_subtype, "^\\S* ", ""),
+         td_ms_plot_group = paste(td_abbrev, molecular_subtype_edited, sep = ":"))
+  
 # This includes non synonymous mutations as described in the `01-preporcess-data.Rmd`
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
@@ -137,7 +146,7 @@ no_samples <- print(length(unique(PL_df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
 PL_count_df <- PL_df %>% 
-  group_by(tumor_descriptor, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
+  group_by(tumor_descriptor, td_ms_plot_group, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
@@ -387,7 +396,7 @@ for (i in seq_along(sample)){
       }
 
   # Define parameters for function
-  x_value <- df_sub$tumor_descriptor
+  x_value <- df_sub$td_ms_plot_group
   title <- paste(sample[i], "Variants across samples", sep = ": ")
   rows_value <- 1
   
