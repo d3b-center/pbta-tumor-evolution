@@ -162,7 +162,7 @@ for (x in seq_along(cg_names)){
 
 # Bind all df from list and save in one file
 df_list_bind <- bind_rows(df_list) %>% 
-  write_tsv(file.path(results_dir, "df_list_common_genes.tsv"))
+  write_tsv(file.path(results_dir, "genes_list.tsv"))
 ```
 
 ```{r echo=TRUE}
