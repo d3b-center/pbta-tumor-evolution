@@ -1,5 +1,5 @@
 ---
-title: "Classification of Variants in the paired longitudinal (PR) and PBTA cohorts"
+title: "Classification of Variants in the paired longitudinal (PL) and PBTA cohorts"
 author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
@@ -26,7 +26,7 @@ results_dir <- file.path(analysis_dir, "results")
 input_dir <- file.path(analysis_dir, "input")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 
-# Input files for the paired longitudinal (PR) cohort
+# Input files for the paired longitudinal (PL) cohort
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv")
 tmb_vaf_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
@@ -38,33 +38,33 @@ maf_file <- file.path(results_dir, "maf.tsv")
 tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 
-# File path to PR plot directory
-PR_plots_dir <-
+# File path to PL plot directory
+PL_plots_dir <-
   file.path(analysis_dir, "plots", "Alteration_type_barplots_PR")
-if (!dir.exists(PR_plots_dir)) {
-  dir.create(PR_plots_dir)
+if (!dir.exists(PL_plots_dir)) {
+  dir.create(PL_plots_dir)
 }
 
-# File path to kids_PR_plots directory
-kids_PR_plots_dir <-
-  file.path(PR_plots_dir, "kids_PR_plots")
-if (!dir.exists(kids_PR_plots_dir)) {
-  dir.create(kids_PR_plots_dir)
+# File path to kids_PL_plots directory
+kids_PL_plots_dir <-
+  file.path(PL_plots_dir, "kids_PL_plots")
+if (!dir.exists(kids_PL_plots_dir)) {
+  dir.create(kids_PL_plots_dir)
 }
 
-# File path to kids_molecular_subtype_PR_plots_dir directory
-kids_molecular_subtype_PR_plots_dir <-
-  file.path(PR_plots_dir, "kids_molecular_subtype_PR_plots")
-if (!dir.exists(kids_molecular_subtype_PR_plots_dir)) {
-  dir.create(kids_molecular_subtype_PR_plots_dir)
+# File path to kids_molecular_subtype_PL_plots_dir directory
+kids_molecular_subtype_PL_plots_dir <-
+  file.path(PL_plots_dir, "kids_molecular_subtype_PL_plots")
+if (!dir.exists(kids_molecular_subtype_PL_plots_dir)) {
+  dir.create(kids_molecular_subtype_PL_plots_dir)
 }
 
 
-# File path to molecular_subtype_PR_plots directory
-molecular_subtype_PR_plots_dir <-
-  file.path(PR_plots_dir, "molecular_subtype_PR_plots")
-if (!dir.exists(molecular_subtype_PR_plots_dir)) {
-  dir.create(molecular_subtype_PR_plots_dir)
+# File path to molecular_subtype_PL_plots directory
+molecular_subtype_PL_plots_dir <-
+  file.path(PL_plots_dir, "molecular_subtype_PL_plots")
+if (!dir.exists(molecular_subtype_PL_plots_dir)) {
+  dir.create(molecular_subtype_PL_plots_dir)
 }
 
 # File path to PBTA plot directory
@@ -88,9 +88,9 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 
 # Read in data and process
 
-## PR cohort
+## PL cohort
 
-```{r load-process-inputs-PR}
+```{r load-process-inputs-PL}
 # Vector to order timepoints
 timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
@@ -118,7 +118,7 @@ no_samples_with_tmb <- print(length(unique(genomic_paired_df$Kids_First_Particip
 # If that happens, we will end up with samples lacking timepoints.
 # Let's identify these samples and remove them for now.
 
-PR_df <- genomic_paired_df %>%
+PL_df <- genomic_paired_df %>%
   select(Kids_First_Participant_ID, tumor_descriptor) %>% 
   unique() %>%
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
@@ -132,10 +132,10 @@ PR_df <- genomic_paired_df %>%
          cg_id = str_replace(cg_id, c("/|-"), " "))
   
 
-no_samples <- print(length(unique(PR_df$Kids_First_Participant_ID)))
+no_samples <- print(length(unique(PL_df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
-PR_count_df <- PR_df %>% 
+PL_count_df <- PL_df %>% 
   group_by(tumor_descriptor, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
   dplyr::count(cg_id) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
@@ -195,17 +195,17 @@ names(palette) <- palette_df$color_names
 
 # Alterations per timepoint
 
-## PR cohort
+## PL cohort
 
-```{r plot-timepoint-PR, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
+```{r plot-timepoint-PL, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
-x_value <- PR_count_df$tumor_descriptor
+x_value <- PL_count_df$tumor_descriptor
 title <- paste("Variant types in the paired longitudinal cohort", sep = " ")
 
 # Run function
-fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_barplots_PR.pdf")
+fname <- paste0(PL_plots_dir, "/", "Alteration_type_timepoints_barplots_PL.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(df = PR_count_df, x = x_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = PL_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -230,21 +230,21 @@ dev.off()
 
 # Alterations per timepoint in each cancer type
 
-## PR cohort
+## PL cohort
 
-```{r plot-cg-id-PR, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
-PR_panel_df <- PR_count_df %>% 
+```{r plot-cg-id-PL, fig.width = 12, fig.height = 15, fig.fullwidth = TRUE}
+PL_panel_df <- PL_count_df %>% 
   mutate(cg_id = str_wrap(cg_id, 12)) # Edit to fit in the plot title for the panel
 
 # Define parameters for function
-x_value <- PR_panel_df$tumor_descriptor
+x_value <- PL_panel_df$tumor_descriptor
 title <- paste("Variant types across cancer groups in the paired longitudinal cohort", sep = " ")
 rows <- 5
 
 # Run function
-fname <- paste0(PR_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PR.pdf")
+fname <- paste0(PL_plots_dir, "/", "Alteration_type_timepoints_cg_id_barplots_PL.pdf")
 print(fname)
-p <- create_stacked_barplot_variant_cg_id(df = PR_panel_df, x = x_value, palette = palette, title = title, rows = rows)
+p <- create_stacked_barplot_variant_cg_id(df = PL_panel_df, x = x_value, palette = palette, title = title, rows = rows)
 pdf(file = fname, width = 12, height = 15)
 print(p)
 dev.off()
@@ -274,14 +274,14 @@ dev.off()
 
 # Alterations per timepoint in each cancer type and molecular subtype
 
-## PR cohort
+## PL cohort
 
-```{r plot-molecular-subtype-PR, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
-PR_panel_df <- PR_count_df %>% 
+```{r plot-molecular-subtype-PL, fig.width = 12, fig.height = 6, fig.fullwidth = TRUE}
+PL_panel_df <- PL_count_df %>% 
   mutate(cg_id = str_replace_all(cg_id, " ", "_"),
          molecular_subtype = str_wrap(molecular_subtype, 12)) # Edit to fit in the plot title for the panel
 
-sample <- as.character(unique(PR_panel_df$cg_id)) 
+sample <- as.character(unique(PL_panel_df$cg_id)) 
 sample <- sort(sample, decreasing = FALSE)
 sample
 
@@ -289,7 +289,7 @@ sample
 # Loop through variable
 for (i in seq_along(sample)){
   print(i)
-  df_sub <- PR_panel_df %>%
+  df_sub <- PL_panel_df %>%
     filter(cg_id == sample[i]) 
  
   if (i %in% c(10, 16)){
@@ -304,7 +304,7 @@ title <- paste(sample[i], "Variants across molecular subtypes", sep = ": ")
 rows_value <- 1
 
 # Run function
-fname <- paste0(molecular_subtype_PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_molecular_subtype_barplots_PR.pdf")
+fname <- paste0(molecular_subtype_PL_plots_dir, "/", sample[i], "_Alteration_type_timepoints_molecular_subtype_barplots_PL.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_molecular_subtype(df = df_sub, x = x_value, palette = palette, title = title, rows = rows_value)
 pdf(file = fname, width = width_value, height = 6)
@@ -358,10 +358,10 @@ dev.off()
 
 # Alterations per timepoint in each cancer type, molecular, and kids_id
 
-## PR cohort with molecular subtype
+## PL cohort with molecular subtype
 
-```{r plot-cg-id-molecular-subtype-kids-PR, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
-cg_df <- PR_count_df %>%
+```{r plot-cg-id-molecular-subtype-kids-PL, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+cg_df <- PL_count_df %>%
   # Fix syntax in cancer groups names 
   mutate(cg_id = str_replace_all(cg_id, " ", "_")) %>% 
   arrange(tumor_descriptor, desc(molecular_subtype))
@@ -391,7 +391,7 @@ for (i in seq_along(sample)){
   rows_value <- 1
   
   # Run function
-  fname <- paste0(kids_molecular_subtype_PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PR.pdf")
+  fname <- paste0(kids_molecular_subtype_PL_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PL.pdf")
   print(fname)
   p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows_value)
   pdf(file = fname, width = width_value, height = 6)
@@ -401,10 +401,10 @@ for (i in seq_along(sample)){
 
 ```
 
-## PR cohort without molecular subtype
+## PL cohort without molecular subtype
 
-```{r plot-cg-id-kids-PR, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
-cg_df <- PR_count_df %>%
+```{r plot-cg-id-kids-PL, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
+cg_df <- PL_count_df %>%
   # Fix syntax in cancer groups names 
   mutate(cg_id = str_replace_all(cg_id, " ", "_"))
 
@@ -433,7 +433,7 @@ for (i in seq_along(sample)){
   rows <- 1
   
   # Run function
-  fname <- paste0(kids_PR_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PR.pdf")
+  fname <- paste0(kids_PL_plots_dir, "/", sample[i], "_Alteration_type_timepoints_kids_barplots_PL.pdf")
   print(fname)
   p <- create_stacked_barplot_variant_kids(df = df_sub, x = x_value, palette = palette, title = title, rows = rows)
   pdf(file = fname, width = width_value, height = 6)
