@@ -49,11 +49,6 @@ if (!dir.exists(results_dir)) {
 # Read in data and process Data
 ```{r cohort PBTA, echo=TRUE}
 #---------------------------------------------------------------------------------------------------------
-# Notes - to remove this part when run for v13
-# Jo Lynne found the following status for 2/3 in the data warehouse:
-# C4106355-Tumor = Recurrence, C4113612-Tumor = Initial CNS Tumor, 7316UP-3705 = Not Reported
-# manually annotate them here and these will be updated in the v13 - then discard that part of the code
-#---------------------------------------------------------------------------------------------------------
 # The file contains duplicates because some samples might have: 
 # (1) both WGS and WXS, and/or (2) multiple biospecimen samples. 
 # We will address these issues by creating a unique identifier per each sample and assay (match_id_DNA).
@@ -70,9 +65,7 @@ pbta_pre_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FA
          !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence",
-                                      grepl("C4113612-Tumor", sample_id) ~ "Diagnosis",
-                                      grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
                                       grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased",
                                       TRUE ~ tumor_descriptor),
          match_id = paste(tumor_descriptor, sample_id, sep = "_"),
