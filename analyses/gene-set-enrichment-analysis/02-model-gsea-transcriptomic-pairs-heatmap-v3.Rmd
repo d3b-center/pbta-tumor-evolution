@@ -89,7 +89,12 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 ######## Load input files
 metadata_with_gsva_filtered <- readr::read_tsv(metadata_with_gsva_filtered_file, guess_max = 100000) %>% 
   filter(!is.na(broad_histology),
-         experimental_strategy == "RNA-Seq")
+         experimental_strategy == "RNA-Seq") %>% 
+  mutate(bs_td_id = paste(Kids_First_Biospecimen_ID, tumor_descriptor, sep = "_"))
+
+# Vector to order timepoints
+timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
 
 ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## 
 # Count kids and bs samples pe cancer group
@@ -97,35 +102,69 @@ print(length(unique(metadata_with_gsva_filtered$Kids_First_Participant_ID)))
 #kids_bs <- metadata_with_gsva_filtered %>% group_by(Kids_First_Participant_ID) %>% unique() %>% count(tumor_descriptor)
 #print(table(kids_bs$tumor_descriptor))
 
-# Count #samples/library/timepoint
+
+# Count #samples/library/timepoint: bs_td_id
 metadata_with_gsva_filtered %>%
-  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  
+  #https://stackoverflow.com/questions/45198738/difference-between-distinct-vs-unique
+  distinct(bs_td_id, .keep_all = TRUE) %>% 
+  
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(#RNA_library_sum = paste(sort(RNA_library), collapse = ", "),
+            tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>%
+  filter(!tumor_descriptor_sum %in% c(timepoints)) %>% 
+  left_join(metadata_with_gsva_filtered) %>%
+  distinct(bs_td_id, .keep_all = TRUE) %>% 
+  #select(Kids_First_Participant_ID, bs_td_id, tumor_descriptor) %>% 
   count(RNA_library, tumor_descriptor) %>%
-  #arrange(desc(n)) %>% 
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
+
+
+# Count #samples/library/timepoint: Kids_First_Participant_ID
+#samples %>% 
+#  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  #unique() %>% 
+#  count(RNA_library, tumor_descriptor) %>%
+#  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+ # regulartable() %>%
+ # fontsize(size = 12, part = "all")
+
 ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ########
 # 8 aliquots were prepared to both stranded and polya
-common_samples <- metadata_with_gsva_filtered %>% 
+common <- metadata_with_gsva_filtered %>% 
   filter(!RNA_library == "poly-A") %>% 
-  select(Kids_First_Participant_ID, RNA_library) %>% 
+  select(Kids_First_Participant_ID, RNA_library, tumor_descriptor) %>% 
   unique() %>% 
   group_by(Kids_First_Participant_ID) %>%
-  summarise(RNA_library_sum = str_c(RNA_library, collapse = ";")) %>% 
-  filter(!RNA_library_sum %in% c("stranded", "poly-A stranded")) 
+  summarize(RNA_library_sum = paste(sort(RNA_library), collapse = ", "),
+            tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
+  filter(!RNA_library_sum %in% c("stranded", "poly-A stranded", 
+                                 "stranded, stranded",
+                                 "stranded, stranded, stranded",
+                                 "poly-A stranded, poly-A stranded",
+                                 "poly-A stranded, poly-A stranded, poly-A stranded"),
+         !tumor_descriptor_sum %in% c(timepoints)) %>% 
+  left_join(metadata_with_gsva_filtered) %>% 
+  #distinct(bs_td_id, .keep_all = TRUE) %>% 
+  select(Kids_First_Participant_ID, bs_td_id, aliquot_id, RNA_library, RNA_library_sum)
+  
 
+aliquots <- print(length(unique(common$aliquot_id)))
+samples <- print(length(unique(common$Kids_First_Participant_ID)))
+bs_samples <- print(length(unique(common$bs_td_id)))
 
 #####################################################
 # 8 aliquots were prepared to both stranded and polya
-common_aliquots <- metadata_with_gsva_filtered %>% 
+#common_aliquots <- metadata_with_gsva_filtered %>% 
  # filter(!RNA_library == "poly-A") %>% 
-  select(aliquot_id, RNA_library) %>% 
+#  select(aliquot_id, RNA_library) %>% 
   #unique() %>% 
-  group_by(aliquot_id) %>%
-  summarise(RNA_library_sum = str_c(RNA_library, collapse = ";")) %>% 
-  filter(!RNA_library_sum %in% c("stranded", "poly-A stranded"))
+#  group_by(aliquot_id) %>%
+#  summarise(RNA_library_sum = str_c(RNA_library, collapse = ";")) %>% 
+ # filter(!RNA_library_sum %in% c("stranded", "poly-A stranded"))
 
 ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ######## ########
 
@@ -143,7 +182,9 @@ metadata_df <- metadata_with_gsva_filtered %>%
          cancer_group,
          cg, 
          molecular_subtype,
-         tumor_descriptor) %>% 
+         tumor_descriptor,
+         RNA_library,
+         bs_td_id) %>% 
   mutate(cancer_group = case_when(grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
                                   grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
                                   grepl("Ependymoma", cancer_group) ~ "Ependymoma",
@@ -154,20 +195,27 @@ metadata_df <- metadata_with_gsva_filtered %>%
 
 # print(length(unique(metadata_df$Kids_First_Participant_ID)))
 
-# Vector to order timepoints
-timepoints <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
-
-
 # Let's summarize and remove samples with lost paired specimens
 # due to unavailable RNA library for that timepoint
 mapping_df <- metadata_df %>%
-  distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  #distinct(bs_td_id, .keep_all = TRUE) %>% 
   group_by(Kids_First_Participant_ID) %>%
   summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
   filter(!tumor_descriptor_sum %in% c(timepoints, "Diagnosis;Diagnosis")) %>% 
   left_join(metadata_df)
 
-  
+# Count #samples/library/timepoint
+mapping_df %>%
+  unique() %>% 
+  #distinct(bs_td_id, .keep_all = TRUE) %>% #unique() %>%
+  count(RNA_library, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+
+
 included_genesets_df <- readr::read_tsv(gsva_anova_file, guess_max = 100000) 
 gsva_scores_df <- readr::read_tsv(gsva_scores_file, guess_max = 100000)  
 ```
