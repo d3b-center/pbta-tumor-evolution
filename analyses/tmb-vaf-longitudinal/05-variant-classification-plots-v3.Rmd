@@ -40,7 +40,7 @@ tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
 
 # File path to PL plot directory
 PL_plots_dir <-
-  file.path(analysis_dir, "plots", "Alteration_type_barplots_PR")
+  file.path(analysis_dir, "plots", "Alteration_type_barplots_PL")
 if (!dir.exists(PL_plots_dir)) {
   dir.create(PL_plots_dir)
 }
