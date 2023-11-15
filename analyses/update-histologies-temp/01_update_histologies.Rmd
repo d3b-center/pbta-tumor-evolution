@@ -54,15 +54,15 @@ if (!dir.exists(results_dir)) {
 # Read in data and process Data
 ```{r read-process-data, echo=TRUE}
 v12_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>% 
-    select(Kids_First_Participant_ID, cancer_group) #molecular_subtype, integrated_diagnosis, harmonized_diagnosis
+    select(Kids_First_Participant_ID, cancer_group, molecular_subtype, integrated_diagnosis, harmonized_diagnosis) 
 
-
-updated_hist_df <- readr::read_tsv(updated_hist_file, guess_max = 100000, show_col_types = FALSE)
+updated_hist_df <- readr::read_tsv(updated_hist_file, guess_max = 100000, show_col_types = FALSE) %>% 
+   select(- c(molecular_subtype, integrated_diagnosis, harmonized_diagnosis))
 
 df <- readr::read_tsv(plot_mapping_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(broad_histology, plot_group) %>% 
   left_join(hist_df, by = "broad_histology", relationship = "many-to-many") %>% 
-  left_join(v12_df, by = "Kids_First_Participant_ID", relationship = "many-to-many") %>% 
+  left_join(v12_df, by = "Kids_First_Participant_ID") %>% 
   write_tsv(file.path(results_dir, "histologies_2023_11_15.tsv")) 
 ```
 
