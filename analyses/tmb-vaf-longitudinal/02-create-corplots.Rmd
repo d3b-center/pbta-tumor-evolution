@@ -42,7 +42,7 @@ palette_file <- file.path(root_dir, "figures", "palettes", "timepoint_color_pale
 
 # File path to plots directory
 plots_dir <-
-  file.path(analysis_dir, "plots")
+  file.path(analysis_dir, "plots", "corplots")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
