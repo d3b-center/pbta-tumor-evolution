@@ -27,6 +27,7 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions
 # no matter where this is called from.
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+scratch_dir <- file.path(root_dir, "scratch")
 analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal") 
 input_dir <- file.path(analysis_dir, "input")
 
@@ -38,7 +39,7 @@ if (!dir.exists(results_dir)) {
 }
 
 # Input files
-tmb_genomic_file <- file.path(results_dir, "tmb_vaf_genomic.tsv")
+tmb_genomic_file <- file.path(scratch_dir, "tmb_vaf_genomic.tsv")
 palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 
 # File path to plots directory
