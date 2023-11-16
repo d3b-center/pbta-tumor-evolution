@@ -49,7 +49,7 @@ if (!dir.exists(plots_dir)) {
 
 # File path to results directory
 results_dir <-
-  file.path(analysis_dir, "results")
+  file.path(analysis_dir, "results", "corplots")
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
