@@ -51,7 +51,7 @@ if (!dir.exists(plots_dir)) {
 
 # File path to dumbbell plots directory
 dumbbell_plots_dir <-
-  file.path(analysis_dir, "plots", "dumbbell")
+  file.path(plots_dir, "dumbbell")
 if (!dir.exists(dumbbell_plots_dir )) {
   dir.create(dumbbell_plots_dir )
 }
