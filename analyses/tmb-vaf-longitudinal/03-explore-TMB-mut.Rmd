@@ -150,7 +150,7 @@ df_plot_filter <- df %>%
   dplyr::filter(!tumor_descriptor_sum2 %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Diagnosis;Diagnosis","Progressive;Progressive")) %>% 
   left_join(df, by = c("Kids_First_Participant_ID")) %>% 
   drop_na(tmb) %>% 
-  mutate(cg_plot = str_replace(cg_plot, c("/|-"), " "),
+  mutate(cg_plot = str_replace(cg_plot, c("/"), " "),
          tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
   arrange(tumor_descriptor) 
@@ -180,7 +180,7 @@ We will explore TMB per cancer group over time by creating dumbbell plots. We cl
 # print(table(df_plot_filter$cg_plot))
 print(df_plot_filter %>% 
         count(cg_plot, Kids_First_Participant_ID))
-
+       
 # Dumbbell plot per cancer group
 cancer_groups <- unique(as.character(df_plot_filter$cg_plot))
 cancer_groups <- sort(cancer_groups, decreasing = FALSE)
