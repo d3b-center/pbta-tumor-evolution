@@ -70,7 +70,8 @@ maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_co
 maf_autopsy <- maf_autopsy_raw %>% 
   distinct(cancer_group, .keep_all = TRUE) %>% 
   summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>%
-  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
+  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID")) %>% 
+  filter(tumor_descriptor %in% c("Diagnosis", "Progressive", "Recurrence", "Deceased"))
 
 # Read oncoprint_goi_file
 # We will use the following list of genes and then we will create a label to select the ones for the corplots.
