@@ -49,6 +49,14 @@ if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
 
+# File path to dumbbell plots directory
+dumbbell_plots_dir <-
+  file.path(analysis_dir, "plots", "dumbbell")
+if (!dir.exists(dumbbell_plots_dir )) {
+  dir.create(dumbbell_plots_dir )
+}
+
+
 
 source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 source(paste0(analysis_dir, "/util/function-create-dumbbell-plot.R"))
@@ -196,7 +204,7 @@ for (i in seq_along(cancer_groups)) {
     
 
     # Name plots
-    fname <- paste0(plots_dir, "/", cancer_groups[i], "-TMB-dumbbell", ".pdf")
+    fname <- paste0(dumbbell_plots_dir, "/", cancer_groups[i], "-TMB-dumbbell", ".pdf")
     print(fname)
     
     # Run function
