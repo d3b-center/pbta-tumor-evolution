@@ -146,12 +146,13 @@ df_plot_filter <- df %>%
   unique() %>% 
   arrange(Kids_First_Participant_ID, tumor_descriptor) %>%
   group_by(Kids_First_Participant_ID) %>%
-  dplyr::summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = ";")) %>% 
-  filter(!tumor_descriptor_sum %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Progressive;Progressive")) %>% 
-  dplyr::left_join(df, by = c("Kids_First_Participant_ID", "tumor_descriptor_sum")) %>% 
+  dplyr::summarise(tumor_descriptor_sum2 = str_c(tumor_descriptor, collapse = ";")) %>% 
+  dplyr::filter(!tumor_descriptor_sum2 %in% c("Diagnosis", "Progressive", "Recurrence", "Second Malignancy", "Unavailable", "Deceased", "Diagnosis;Diagnosis","Progressive;Progressive")) %>% 
+  left_join(df, by = c("Kids_First_Participant_ID")) %>% 
+  drop_na(tmb) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, f)) %>% 
-  drop_na(tmb) 
+  arrange(tumor_descriptor) 
 
 # length(unique(df_plot_filter$Kids_First_Participant_ID))
 
