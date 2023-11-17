@@ -173,7 +173,7 @@ PL_count_df <- PL_df %>%
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
-  arrange(tumor_descriptor, Variant_Classification) 
+  arrange(tumor_descriptor, Variant_Classification, desc(molecular_subtype)) 
 
 # Number of patients with TMB information and paired timepoints
 no_samples <- print(length(unique(PL_count_df$Kids_First_Participant_ID)))
@@ -219,7 +219,7 @@ PBTA_count_df <- PBTA_df %>%
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
-  arrange(tumor_descriptor, Variant_Classification) 
+  arrange(tumor_descriptor, Variant_Classification, desc(molecular_subtype)) 
 
 ```
 
