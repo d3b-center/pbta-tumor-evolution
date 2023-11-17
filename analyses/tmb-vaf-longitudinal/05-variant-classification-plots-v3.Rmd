@@ -91,6 +91,7 @@ source(paste0(analysis_dir, "/util/function-create-barplot.R"))
 ```{r }
 # Vector to order timepoints
 timepoints_order <- c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+timepoints_order_abbrev <- c("Dx", "Pro", "Rec", "Dec", "SM", "Unavail")
 
 # Vector to order Variant_Classification
 variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del", 
@@ -102,32 +103,36 @@ variants_order <- c("Frame_Shift_Del", "Frame_Shift_Ins", "In_Frame_Del",
 ```{r load-process-inputs-PL}
 pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_multiple, cg_id, cgGFAC, tumor_descriptor, molecular_subtype) %>%  #plot_group
-  mutate(td_abbrev = case_when(grepl("Diagnosis", tumor_descriptor) ~ "Dx",
+  mutate(tumor_descriptor = case_when(grepl("Diagnosis", tumor_descriptor) ~ "Dx",
                                grepl("Progressive", tumor_descriptor) ~ "Pro",
                                grepl("Recurrence", tumor_descriptor) ~ "Rec",
                                grepl("Deceased", tumor_descriptor) ~ "Dec",
                                grepl("Second Malignancy", tumor_descriptor) ~ "SM",
-                               grepl("Unavailable", tumor_descriptor) ~ "Un",
+                               grepl("Unavailable", tumor_descriptor) ~ "Unavail",
                               TRUE ~ tumor_descriptor),
          molecular_subtype_edited = str_replace(molecular_subtype, "^\\S* ", ""),
-         td_ms_plot_group = paste(td_abbrev, molecular_subtype_edited, sep = ":"))
+         
+         # create unique identifier for timepoint and molecular subtype
+         td_ms_plot_group = paste(tumor_descriptor, molecular_subtype_edited, sep = ":"))
   
+
 # This includes non synonymous mutations as described in the `01-preporcess-data.Rmd`
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
   select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
 
+# List with patients with paired longitudinal genomic specimens
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
   left_join(pbta_df, by = c("Kids_First_Participant_ID")) %>% 
   left_join(tmb_vaf_df, by = c("Kids_First_Biospecimen_ID")) %>%
   filter(!is.na(tmb))
 
+# Number of patients with TMB information
 no_samples_with_tmb <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
 
 # Attention as some bs specimen might not have TMB.
 # If that happens, we will end up with samples lacking timepoints.
-# Let's identify these samples and remove them for now.
-
+# Let's identify these samples and remove them.
 PL_df <- genomic_paired_df %>%
   select(Kids_First_Participant_ID, tumor_descriptor) %>% 
   unique() %>%
@@ -141,18 +146,28 @@ PL_df <- genomic_paired_df %>%
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          cg_id = str_replace(cg_id, c("/|-"), " "))
   
+# Let's summarize td_ms_plot_group and use this for visualization purposes
+PL_td_ms_plot_group_n_df <- PL_df %>% 
+  dplyr::count(cg_id, td_ms_plot_group) %>% 
+  dplyr::mutate(td_ms_plot_group_n = glue::glue("{td_ms_plot_group} (N={n})")) %>% 
+  dplyr::rename(td_ms_plot_group_number = n)
 
-no_samples <- print(length(unique(PL_df$Kids_First_Participant_ID)))
 
 # Let's count number of samples 
-PL_count_df <- PL_df %>% 
+PL_count_df <- PL_df %>%
+  left_join(PL_td_ms_plot_group_n_df) %>% 
+  # remove if total #samples per timepoint is less than 2
+  #filter(!td_ms_plot_group_number <= 2) %>% 
   group_by(tumor_descriptor, td_ms_plot_group, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
-  dplyr::count(cg_id) %>% 
+  #dplyr::count(cg_id) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order_abbrev),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
   arrange(tumor_descriptor, Variant_Classification)
+
+# Number of patients with TMB information and paired timepoints
+no_samples <- print(length(unique(PL_count_df$Kids_First_Participant_ID)))
 
 ``` 
 
@@ -174,12 +189,21 @@ PBTA_df <- pbta_df %>%
   mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
          cg_id = str_replace(cg_id, c("/|-"), " "))
 
+# Number of patients with TMB information
 no_samples <- print(length(unique(PBTA_df$Kids_First_Participant_ID)))
+
+
+# Let's summarize td_ms_plot_group and use this for visualization purposes
+PBTA_td_plot_group_n_df <- PBTA_df %>% 
+  dplyr::count(cg_id, tumor_descriptor) %>% 
+  dplyr::mutate(td_plot_group_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
+  dplyr::rename(td_plot_group_number = n)
 
 # Let's count number of samples 
 PBTA_count_df <- PBTA_df %>% 
+  left_join(PBTA_td_plot_group_n_df) %>% 
   group_by(tumor_descriptor, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification) %>% 
-  dplyr::count(cg_id) %>% 
+  #dplyr::count(cg_id) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
@@ -196,7 +220,8 @@ PBTA_count_df <- PBTA_df %>%
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
   mutate(color_names = factor(color_names),
-         color_names = fct_relevel(color_names, variants_order))
+         color_names = fct_relevel(color_names, variants_order)) %>% 
+  arrange(color_names)
 
 # Define and order palette
 palette <- palette_df$hex_codes
@@ -373,8 +398,7 @@ dev.off()
 ```{r plot-cg-id-molecular-subtype-kids-PL, fig.width = 10, fig.height = 6, fig.fullwidth = TRUE}
 cg_df <- PL_count_df %>%
   # Fix syntax in cancer groups names 
-  mutate(cg_id = str_replace_all(cg_id, " ", "_")) %>% 
-  arrange(tumor_descriptor, desc(molecular_subtype))
+  mutate(cg_id = str_replace_all(cg_id, " ", "_")) 
 
 sample <- as.character(unique(cg_df$cg_id)) 
 sample <- sort(sample, decreasing = FALSE)
@@ -385,7 +409,12 @@ sample
 for (i in seq_along(sample)){
   print(i)
   df_sub <- cg_df %>%
-    filter(cg_id == sample[i]) 
+    filter(cg_id == sample[i]) %>%
+     mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order_abbrev),
+         Variant_Classification = factor(Variant_Classification),
+         Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
+    arrange(tumor_descriptor, Variant_Classification)
 
   if (i %in% c(2, 7, 15, 18)){
     width_value = 25
