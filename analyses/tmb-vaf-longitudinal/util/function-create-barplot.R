@@ -76,7 +76,6 @@ create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
 #'
 #' @param df 
 #' @param x_value 
-#' @param y_value 
 #' @param palette
 #' @param title 
 #' 
@@ -88,15 +87,15 @@ create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
 #' 
 #'  
 #' 
-create_stacked_barplot_variant <- function(df, x_value, y_value, palette, title) {
+create_stacked_barplot_variant <- function(df, x_value, palette, title) {
   
   # Plot stacked barplot 
   p <- print(ggplot(df,
                aes(x = x_value,
-                   y = y_value, 
+                   y = n, 
                    fill = Variant_Classification)) +  
           geom_bar(stat = "identity", position = "fill") +
-          scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+          #scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
           theme_Publication() + 
           theme(axis.text.x = element_text(angle = 85,
                                            hjust = 1,
