@@ -114,14 +114,14 @@ pbta_df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE
          molecular_subtype_edited = str_replace(molecular_subtype, "^\\S* ", ""),
          
          # create unique identifier for timepoint and molecular subtype
-         td_ms_plot_group = paste(tumor_descriptor_abbrev, molecular_subtype_edited, sep = ":")) %>% 
-  filter(!is.na(Variant_Classification))
+         td_ms_plot_group = paste(tumor_descriptor_abbrev, molecular_subtype_edited, sep = ":")) 
   
 
 # This includes non synonymous mutations as described in the `01-preporcess-data.Rmd`
 tmb_vaf_df <- readr::read_tsv(tmb_vaf_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(!tmb >= 10) %>% 
-  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF)
+  select(Kids_First_Biospecimen_ID, Variant_Classification, gene_protein, mutation_count,	region_size, tmb, VAF) %>% 
+  filter(!is.na(Variant_Classification))
 
 # List with patients with paired longitudinal genomic specimens
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>%
@@ -154,14 +154,20 @@ PL_td_ms_plot_group_n_df <- PL_df %>%
   dplyr::mutate(td_ms_plot_group_n = glue::glue("{td_ms_plot_group} (N={n})")) %>% 
   dplyr::rename(td_ms_plot_group_number = n)
 
+# Let's summarize tumor_descriptor and use this for visualization purposes
+PL_td_plot_group_n_df <- PL_df %>% 
+  dplyr::count(cg_id, tumor_descriptor) %>% 
+  dplyr::mutate(td_plot_group_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
+  dplyr::rename(td_plot_group_number = n)
 
 # Let's count number of samples 
 PL_count_df <- PL_df %>%
   left_join(PL_td_ms_plot_group_n_df) %>%
+  left_join(PL_td_plot_group_n_df) %>%
   filter(!is.na(Variant_Classification)) %>% 
   # remove if total #samples per timepoint is less than 2
   #filter(!td_ms_plot_group_number <= 2) %>% 
-  group_by(tumor_descriptor, td_ms_plot_group, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification, td_ms_plot_group_n) %>% 
+  group_by(tumor_descriptor, td_ms_plot_group, cg_id, molecular_subtype, Kids_First_Participant_ID, match_id, Variant_Classification, td_ms_plot_group_n, td_plot_group_n) %>% 
   dplyr::count(Kids_First_Participant_ID) %>% 
   mutate(tumor_descriptor = factor(tumor_descriptor),
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
@@ -197,7 +203,7 @@ PBTA_df <- pbta_df %>%
 no_samples <- print(length(unique(PBTA_df$Kids_First_Participant_ID)))
 
 
-# Let's summarize td_ms_plot_group and use this for visualization purposes
+# Let's summarize tumor_descriptor and use this for visualization purposes
 PBTA_td_plot_group_n_df <- PBTA_df %>% 
   dplyr::count(cg_id, tumor_descriptor) %>% 
   dplyr::mutate(td_plot_group_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
@@ -224,10 +230,13 @@ PBTA_count_df <- PBTA_df %>%
 ```{r define-parameters-for-plots}
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  mutate(color_names = factor(color_names),
+  mutate(hex_codes = case_when(grepl("#000000", hex_codes) ~ "orange",
+                               TRUE ~ hex_codes),
+    color_names = factor(color_names),
          color_names = fct_relevel(color_names, variants_order)) %>% 
   arrange(color_names)
 
+         
 # Define and order palette
 palette <- palette_df$hex_codes
 names(palette) <- palette_df$color_names
@@ -240,13 +249,12 @@ names(palette) <- palette_df$color_names
 ```{r plot-timepoint-PL, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- PL_count_df$tumor_descriptor
-y_value <- PL_count_df$n
 title <- paste("Variant types in the paired longitudinal cohort", sep = " ")
 
 # Run function
 fname <- paste0(PL_plots_dir, "/", "Alteration_type_timepoints_barplots_PL.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(df = PL_count_df, x = x_value, y = y_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = PL_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -257,13 +265,12 @@ dev.off()
 ```{r plot-timepoint-PBTA, fig.width = 6, fig.height = 6, fig.fullwidth = TRUE}
 # Define parameters for function
 x_value <- PBTA_count_df$tumor_descriptor
-y_value <- PBTA_count_df$n
 title <- paste("Variant types in the PBTA cohort", sep = " ")
 
 # Run function
 fname <- paste0(PBTA_plots_dir, "/", "Alteration_type_timepoints_barplots_PBTA.pdf")
 print(fname)
-p <- create_stacked_barplot_variant(df = PBTA_count_df, x = x_value, y = y_value, palette = palette, title = title)
+p <- create_stacked_barplot_variant(df = PBTA_count_df, x = x_value, palette = palette, title = title)
 pdf(file = fname, width = 6, height = 6)
 print(p)
 dev.off()
@@ -342,7 +349,7 @@ for (i in seq_along(sample)){
     }
   
 # Define parameters for function
-x_value <- df_sub$tumor_descriptor
+x_value <- df_sub$td_plot_group_n
 title <- paste(sample[i], "Variants across molecular subtypes", sep = ": ")
 rows_value <- 1
 
@@ -475,7 +482,7 @@ for (i in seq_along(sample)){
       }
 
   # Define parameters for function
-  x_value <- df_sub$tumor_descriptor
+  x_value <- df_sub$td_ms_plot_group_n
   title <- paste(sample[i], "Variants across samples", sep = ": ")
   rows <- 1
   
