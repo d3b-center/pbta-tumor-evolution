@@ -19,6 +19,7 @@ This notebook is for preparing input files for pyclone-vi (https://github.com/Ro
 suppressPackageStartupMessages({
   library(tidyverse)
   library(readxl)
+  library(cDriver) # Calculate CCF, https://github.com/hanasusak/cDriver/
 })
 ```
 
@@ -69,7 +70,7 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
          sample_id, aliquot_id, Chromosome, 
          Start_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2,
          t_ref_count, t_alt_count, tmb, 
-         tumor_fraction, tumor_ploidy) %>% 
+         tumor_fraction, tumor_ploidy, VAF, Hugo_Symbol) %>% 
 
   # Remove hypermutants
   filter(!tmb >= 10, 
@@ -84,7 +85,9 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
   # See: https://github.com/Roth-Lab/pyclone-vi
   mutate(normal_cn = case_when(grepl("chrY", Chromosome) ~ "1", 
                                      TRUE ~ "2"))
-  
+# Calculate CCF
+maf_df <- CCF(maf_df)
+ 
 # Read patient list
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(!c(cancer_group, experimental_strategy)) %>% 
@@ -268,12 +271,13 @@ pyclone_input <- data_list_bind %>%
 
 
 # To find the position of duplicate elements in x, use this:
-duplicated(pyclone_input)
+# duplicated(pyclone_input)
 
 # Extract duplicate elements:
 # pyclone_input[duplicated(pyclone_input)]
 
 ```
+
 
 
 ```{r}
