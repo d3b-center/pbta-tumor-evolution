@@ -55,7 +55,7 @@ if (!dir.exists(results_dir)) {
 
 # File path to input directory
 pyclonevi_input_dir <-
-  file.path(analysis_dir, "results", "pyclonevi-input")
+  file.path(analysis_dir, "results", "pyclone-vi-input")
 if (!dir.exists(pyclonevi_input_dir)) {
   dir.create(pyclonevi_input_dir)
 }
