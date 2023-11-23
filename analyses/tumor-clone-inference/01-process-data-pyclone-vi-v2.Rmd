@@ -91,7 +91,14 @@ maf_df <- CCF(maf_df)
 # Read patient list
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(!c(cancer_group, experimental_strategy)) %>% 
-  left_join(maf_df, by = c("Kids_First_Participant_ID")) 
+  left_join(maf_df, by = c("Kids_First_Participant_ID")) %>% # create unique identifiers
+  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
+                cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
+                cg_id_kids = str_replace(cg_id_kids, "/|-", "_"),
+                cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
+                cg_id = str_replace(cg_id, "/|-", "_"),
+                cg_id = str_replace_all(cg_id, " ", "_"),
+                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":"))
 
 
 # Let's count #specimens per sample 
@@ -186,18 +193,10 @@ We will compare later differences in samples with single vs multiple biospecimen
 # Create pyclone df for all samples
 pyclone_all_samples_df <- nautilus_dec_df %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, 
+         cg_id_kids, mutation_id, sample_id,
          tumor_descriptor, Chromosome, Start_Position, 
          Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count,
          normal_cn, tumor_fraction) %>% 
-
-  # create unique identifiers
-  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
-                cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
-                cg_id_kids = str_replace(cg_id_kids, "/|-", "_"),
-                cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
-                cg_id = str_replace(cg_id, "/|-", "_"),
-                cg_id = str_replace_all(cg_id, " ", "_"),
-                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) %>% 
   
   # change names to match input requirements
   dplyr::rename("ref_counts" = "t_ref_count", 
@@ -277,7 +276,6 @@ pyclone_input <- data_list_bind %>%
 # pyclone_input[duplicated(pyclone_input)]
 
 ```
-
 
 
 ```{r}
