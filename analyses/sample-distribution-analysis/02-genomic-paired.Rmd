@@ -8,6 +8,13 @@ output:
     toc_float: TRUE
 ---
 
+# Usage
+To run the Rscript from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('02-genomic-paired.Rmd', clean = TRUE)"
+```
+
 # Set up
 ```{r load-library}
 suppressPackageStartupMessages({
@@ -29,9 +36,6 @@ input_dir <- file.path(analysis_dir, "input")
 # File path to results directory
 results_dir <-
   file.path(analysis_dir, "results")
-if (!dir.exists(results_dir)) {
-  dir.create(results_dir)
-}
 
 # Inputs
 genomic_file <- file.path(results_dir, "genomic_assays_matched_time_points.tsv")
