@@ -272,7 +272,10 @@ for (i in seq_along(cancer_groups)) {
     dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc = TRUE)) 
   
 
-  if (i %in% c(2)){
+  if (i %in% c(1)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=48)", "Progressive (N=10)", "Recurrence (N=3)", "Deceased (N=4)"))
+   
+   }else if (i %in% c(2)){
    df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=124)", "Progressive (N=8)", "Deceased (N=44)"))
     }else if (i %in% c(3)){
    df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=88)", "Progressive (N=13)", "Recurrence (N=10)",
