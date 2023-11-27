@@ -240,8 +240,9 @@ for (i in seq_along(cancer_groups)) {
   
   # Compute some summary statistics (mean and sd) by groups:
   stat.summary <- df_sub %>%
-    group_by(cgGFAC, timepoint_cgGFAC_n) %>%
-    get_summary_stats(log10_tmb, type = "median_iqr") %>%
+    group_by(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>%
+    get_summary_stats(log10_tmb, type = "median_iqr") %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) %>%
     as.data.frame() 
 
   stat.test <- df_sub %>% 
@@ -266,36 +267,35 @@ for (i in seq_along(cancer_groups)) {
       stat.test.all <- rbind(stat.test.all, stat.test)
     }
   
-  df_sub <- df_sub %>% 
-    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc=T))
+  df_sub_plot <- df_sub %>% 
+    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc = T)) 
   
     # Create bxp Wilcox-test
-    p <- print(df_sub %>%  
-                 ggplot2::ggplot() +
-                 aes(x = timepoint_cgGFAC_n, y = log10_tmb, color = tumor_descriptor) + 
+    p <- print(ggplot(df_sub_plot, aes(timepoint_cgGFAC_n, log10_tmb, color = tumor_descriptor)) + 
                  geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
                  ggplot2::geom_boxplot(color = "black",
                               size = 0.25,
                               alpha = 0,
                               coef = 0) + # remove whiskers
-          theme_Publication() + 
-          scale_color_manual(values = palette,
-                             labels = timepoints) +
-          #rotate() +
-          theme(axis.text.x = element_text(angle = 90)) +
-          stat_pvalue_manual(stat.test,
-                             #tip.length = 0.01,
-                             hide.ns = TRUE, 
-                             label = "Wilcox-test, p = {p.adj}", 
-                             #label = "p.adj.signif", 
-                             y.position = "y.position") +
-          scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
-          labs(title = cancer_groups[i],
-               x = "Timepoint",
-               y = "log10TMB",
-               color = "Timepoint"))
-    
-    
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette)),
+                                    labels = timepoints) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 stat_pvalue_manual(stat.test,
+                                    #tip.length = 0.01,
+                                    hide.ns = TRUE, 
+                                    label = "Wilcox-test, p = {p.adj}", 
+                                    #label = "p.adj.signif", 
+                                    y.position = "y.position") +
+                 scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
+                 labs(title = cancer_groups[i],
+                      x = "Timepoint",
+                      y = "log10TMB",
+                      color = "Timepoint"))
+  
+     
   # Save the plot
   ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test-Wilcox-test.pdf"), 
          path = plots_dir, 
