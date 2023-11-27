@@ -142,7 +142,7 @@ palette <- palette_df$hex_codes
 names(palette) <- palette_df$tumor_descriptor
 
 # Define label for plots
-Timepoint <- df_plot$tumor_descriptor
+Timepoint <- factor(x = df_plot$tumor_descriptor, levels = timepoints)
 
 # Define ylim
 ylim <- max(df_plot$tmb)
@@ -159,9 +159,10 @@ print(ggplot(df_plot, aes(tumor_descriptor, tmb, color = Timepoint)) +
         # light guiding line representing 0 exposure
         geom_hline(yintercept = 0, size = 0.15) + 
         scale_color_manual(values = palette, 
-                           breaks = sort(names(palette))) +
+                           breaks = sort(names(palette)),
+                           labels = timepoints) +
         stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
-        labs(x = "Tumor descriptor",
+        labs(x = "Timepoint",
              y = "TMB") +
         theme_Publication() +
         scale_y_continuous(limits = c(0, ylim)) +
@@ -188,10 +189,11 @@ print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) +
         # light guiding line representing 0 exposure
         geom_hline(yintercept = 0, size = 0.15) + 
         scale_color_manual(values = palette, 
-                           breaks = sort(names(palette))) +
+                           breaks = sort(names(palette)),
+                           labels = timepoints) +
         stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
         ggplot2::facet_wrap(~cg_id_sum, nrow = 8) +
-        labs(x = "Tumor descriptor",
+        labs(x = "Timepoint",
              y = "log10TMB") +
         theme_Publication() +
         scale_y_continuous(limits = c(log10_ylim_min, log10_ylim_max)) + #oob = scales::oob_keep
@@ -277,7 +279,8 @@ for (i in seq_along(cancer_groups)) {
                               alpha = 0,
                               coef = 0) + # remove whiskers
           theme_Publication() + 
-          scale_color_manual(values = palette) +
+          scale_color_manual(values = palette,
+                             labels = timepoints) +
           #rotate() +
           theme(axis.text.x = element_text(angle = 90)) +
           stat_pvalue_manual(stat.test,
@@ -288,7 +291,7 @@ for (i in seq_along(cancer_groups)) {
                              y.position = "y.position") +
           scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
           labs(title = cancer_groups[i],
-               x = "Tumor descriptor",
+               x = "Timepoint",
                y = "log10TMB",
                color = "Timepoint"))
     
