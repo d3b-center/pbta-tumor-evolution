@@ -267,8 +267,19 @@ for (i in seq_along(cancer_groups)) {
       stat.test.all <- rbind(stat.test.all, stat.test)
     }
   
+
   df_sub_plot <- df_sub %>% 
-    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc = T)) 
+    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc = TRUE)) 
+  
+
+  if (i %in% c(2)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=124)", "Progressive (N=8)", "Deceased (N=44)"))
+    }else if (i %in% c(3)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=88)", "Progressive (N=13)", "Recurrence (N=10)",
+                                                                                        "Deceased (N=24)", "Second Malignancy (N=5)"))
+    }else{
+    print("use forcats for ordering")
+      }
   
     # Create bxp Wilcox-test
     p <- print(ggplot(df_sub_plot, aes(timepoint_cgGFAC_n, log10_tmb, color = tumor_descriptor)) + 
