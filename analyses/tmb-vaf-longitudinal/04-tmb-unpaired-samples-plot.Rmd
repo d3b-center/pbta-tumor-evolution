@@ -1,0 +1,330 @@
+---
+title: "TMB across all longitudinal samples in the PBTA Cohort"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(rstatix)
+  library(ggpubr)
+})
+```
+
+## Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal")
+input_dir <- file.path(analysis_dir, "input")
+files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+
+# Input files
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+tmb_file <- file.path(input_dir, "snv-mutation-tmb-coding.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
+# File path to plot directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+
+source(paste0(root_dir, "/figures/scripts/theme.R"))
+```
+
+## Read in data and process
+```{r load-process-inputs}
+# Make this reproducible
+set.seed(2023)
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+# Read in tmb file and remove hypermutant samples
+tmb <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!tmb >= 10) %>% 
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies file
+
+# Read in pbta file and create df
+df <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!(experimental_strategy == "RNA-Seq"),
+         !(tumor_descriptor == "Unavailable")) %>% # these are 2 samples
+  left_join(tmb, by = c("Kids_First_Biospecimen_ID", "experimental_strategy")) %>%
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor,
+         broad_histology, match_id_DNA, experimental_strategy, 
+         cg_multiple, cg_id, cgGFAC, cancer_group, short_histology, tmb, mutation_count, DNA) %>%
+  dplyr::mutate(log10_tmb = log10(tmb)) %>% 
+  distinct(match_id_DNA, .keep_all = TRUE) %>% # keep only one bs_sample per genomic assay (WGS/WXS)
+  filter(!is.na(tmb))
+
+# How many samples per Timepoint?
+print(df %>% dplyr::count(tumor_descriptor) %>% arrange(desc(n)))
+
+# How many samples per cancer group?
+print(df %>% dplyr::count(cg_id) %>% arrange(desc(n)))
+
+# How many samples per Timepoint and cancer type?
+# rename(count(df, tumor_descriptor, cg_id), Freq = n)
+
+# How many cases with unpaired longitudinal samples?
+no_samples <- length(unique(df$Kids_First_Participant_ID))
+
+# Summarize timepoints per cancer groups
+# We will summarize cancer groups with single timepoints as "Other" 
+timepoint_sum <- df %>%
+  distinct(match_id_DNA, .keep_all = TRUE) %>%
+  group_by(cg_id) %>%
+  arrange(tumor_descriptor) %>%
+  summarise(tumor_descriptor_sum = str_c(tumor_descriptor, collapse = "-")) 
+
+# Create df to use for plots
+df <- df %>% 
+  left_join(timepoint_sum, by = c("cg_id")) %>%
+  filter(!tumor_descriptor_sum %in% timepoints,
+         !tumor_descriptor_sum %in% c("Diagnosis-Diagnosis", 
+                                      "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
+                                      "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis",
+                                      "Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis-Diagnosis"
+                                      )) # remove cancer groups with single timepoints
+
+
+# Let's count #samples per cancer groups and timepoints 
+timepoint_cgGFAC_n_df <- df %>% 
+  dplyr::count(cgGFAC, tumor_descriptor) %>% 
+  dplyr::mutate(timepoint_cgGFAC_n = glue::glue("{tumor_descriptor} (N={n})")) %>% 
+  dplyr::rename(timepoint_cgGFAC_number = n) 
+
+
+# Create df to use for plots
+df_plot <- df %>% 
+  left_join(timepoint_cgGFAC_n_df, by = c("tumor_descriptor", "cgGFAC")) %>% 
+  filter(!timepoint_cgGFAC_number <= 2) %>% # remove if total #samples per timepoint is less than 2
+  mutate(cg_id_sum = replace_na(cg_id, "Other"),
+         tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints),
+        
+         # Edit name of `cg_id` to fit in the plot title for the panel
+         cg_id_sum = str_wrap(cg_id_sum, 12)) 
+  
+``` 
+
+
+## How many patient samples in the unpaired longitudinal data?
+There are `r no_samples` samples in total.
+
+# All unpaired samples
+We are interested in how TMB changes over the time in all PBTA samples (unpaired samples).
+
+```{r define-parameters-for-plots}
+# Read color palette
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(tumor_descriptor = color_names)
+
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$tumor_descriptor
+
+# Define label for plots
+Timepoint <- factor(x = df_plot$tumor_descriptor, levels = timepoints)
+
+# Define ylim
+ylim <- max(df_plot$tmb)
+log10_ylim_min <- min(df_plot$log10_tmb)
+log10_ylim_max <- max(df_plot$log10_tmb)
+```
+
+```{r plot-total, fig.width = 5, fig.height = 5, fig.fullwidth = TRUE}
+# Make this reproducible
+set.seed(2023)
+
+print(ggplot(df_plot, aes(tumor_descriptor, tmb, color = Timepoint)) + 
+        geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        geom_hline(yintercept = 0, size = 0.15) + 
+        scale_color_manual(values = palette, 
+                           breaks = sort(names(palette)),
+                           labels = timepoints) +
+        stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
+        labs(x = "Timepoint",
+             y = "TMB") +
+        theme_Publication() +
+        scale_y_continuous(limits = c(0, ylim)) +
+        theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal.pdf",
+       path = plots_dir, 
+       width = 5, 
+       height = 5, 
+       device = "pdf", 
+       useDingbats = FALSE)
+```
+
+
+# All unpaired samples across cancer types
+
+```{r plot-cg-id-sum, fig.width = 15, fig.height = 15, fig.fullwidth = TRUE}
+# Make this reproducible
+set.seed(2023)
+
+print(ggplot(df_plot, aes(tumor_descriptor, log10_tmb, color = Timepoint)) + 
+        geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) + 
+        # light guiding line representing 0 exposure
+        geom_hline(yintercept = 0, size = 0.15) + 
+        scale_color_manual(values = palette, 
+                           breaks = sort(names(palette)),
+                           labels = timepoints) +
+        stat_summary(fun.data = mean_se, color = "black", size = 0.3) + 
+        ggplot2::facet_wrap(~cg_id_sum, nrow = 8) +
+        labs(x = "Timepoint",
+             y = "log10TMB") +
+        theme_Publication() +
+        scale_y_continuous(limits = c(log10_ylim_min, log10_ylim_max)) + #oob = scales::oob_keep
+        theme(axis.text.x = element_text(angle = 90)))
+
+# Save the plot
+ggsave(filename = "TMB-unpaired-longitudinal-cg-id-sum.pdf", 
+       path = plots_dir, 
+       width = 15, 
+       height = 15, 
+       device = "pdf", 
+       useDingbats = FALSE)
+```
+
+# Summary statistics for Timepoints and cancer types
+Considering the inequalities in the sampling effort for each timepoint, let's explore whether the sampling size affects the observed patterns, e.g., indication of Progressive and Recurrence having higer TMB compared to Diagnosis for High-grade glioma patients.
+
+```{r summary-statistics, fig.width = 8, fig.height = 6, fig.fullwidth = TRUE}
+# Inspect some random rows of the data by groups
+set.seed(2023)
+
+df_plot %>% 
+  select(cgGFAC, timepoint_cgGFAC_n, log10_tmb) %>% 
+  sample_n_by(cgGFAC, timepoint_cgGFAC_n, log10_tmb, size = 1) 
+
+# Define cancer_groups
+cancer_groups <- unique(as.character(df_plot$cgGFAC))
+cancer_groups <- sort(cancer_groups, decreasing = FALSE)
+print(cancer_groups)
+
+
+for (i in seq_along(cancer_groups)) {
+  print(i)
+  
+  df_sub <- df_plot %>% 
+    filter(cgGFAC == cancer_groups[i]) %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) 
+ 
+  # To add cancer group in the stat.test table
+  df_sub_list <- df_sub %>% 
+    select(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
+    unique() %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) 
+  
+  # Compute some summary statistics (mean and sd) by groups:
+  stat.summary <- df_sub %>%
+    group_by(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>%
+    get_summary_stats(log10_tmb, type = "median_iqr") %>% 
+    arrange(tumor_descriptor, timepoint_cgGFAC_n) %>%
+    as.data.frame() 
+
+  stat.test <- df_sub %>% 
+    rstatix::wilcox_test(log10_tmb ~ timepoint_cgGFAC_n) %>%
+    add_significance() %>%
+    as.data.frame() %>% 
+    mutate(timepoint_cgGFAC_n = group1) %>% 
+    left_join(df_sub_list, by = c("timepoint_cgGFAC_n")) %>% 
+    arrange(cgGFAC, tumor_descriptor, timepoint_cgGFAC_n) %>% 
+    select(-timepoint_cgGFAC_n)
+
+  # Add add_xy_position
+  stat.test <- stat.test %>% 
+    add_y_position(step.increase = 0.5) #step.increase = 0.2
+  
+  # Save results for all 
+  if(i == 1){
+    stat.summary.all <- stat.summary
+    stat.test.all <- stat.test
+    } else {
+      stat.summary.all <- rbind(stat.summary.all, stat.summary)
+      stat.test.all <- rbind(stat.test.all, stat.test)
+    }
+  
+
+  df_sub_plot <- df_sub %>% 
+    dplyr::mutate(timepoint_cgGFAC_n = forcats::fct_reorder(timepoint_cgGFAC_n, timepoint_cgGFAC_number, .desc = TRUE)) 
+  
+
+  if (i %in% c(1)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=48)", "Progressive (N=10)", "Recurrence (N=3)", "Deceased (N=4)"))
+   
+   }else if (i %in% c(2)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=124)", "Progressive (N=8)", "Deceased (N=44)"))
+    }else if (i %in% c(3)){
+   df_sub_plot$timepoint_cgGFAC_n <- factor(df_sub_plot$timepoint_cgGFAC_n, levels = c ("Diagnosis (N=88)", "Progressive (N=13)", "Recurrence (N=10)",
+                                                                                        "Deceased (N=24)", "Second Malignancy (N=5)"))
+    }else{
+    print("use forcats for ordering")
+      }
+  
+    # Create bxp Wilcox-test
+    p <- print(ggplot(df_sub_plot, aes(timepoint_cgGFAC_n, log10_tmb, color = tumor_descriptor)) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette)),
+                                    labels = timepoints) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 stat_pvalue_manual(stat.test,
+                                    #tip.length = 0.01,
+                                    hide.ns = TRUE, 
+                                    label = "Wilcox-test, p = {p.adj}", 
+                                    #label = "p.adj.signif", 
+                                    y.position = "y.position") +
+                 scale_y_continuous(limits = c(log10_ylim_min, max(stat.test$y.position))) +
+                 labs(title = cancer_groups[i],
+                      x = "Timepoint",
+                      y = "log10TMB",
+                      color = "Timepoint"))
+  
+     
+  # Save the plot
+  ggsave(filename = paste0(cancer_groups[i], "-TMB-Bxp-stat-test-Wilcox-test.pdf"), 
+         path = plots_dir, 
+         width = 8, 
+         height = 6, 
+         device = "pdf", 
+        useDingbats = FALSE)
+}
+
+
+# Save summary tables for statistics
+stat.summary.all %>% write_tsv(file.path(results_dir, "stat_summary.tsv"))
+stat.test.all %>% write_tsv(file.path(results_dir, "stat_test.tsv"))
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
