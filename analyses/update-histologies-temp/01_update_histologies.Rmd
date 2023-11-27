@@ -63,13 +63,13 @@ plot_mapping_df <- readr::read_tsv(plot_mapping_file, guess_max = 100000, show_c
   select(broad_histology, cancer_group, plot_group)
 
 df <- plot_mapping_df %>%
-  left_join(v12_df) %>%
+  left_join(v12_df, by = join_by(cancer_group), relationship = "many-to-many") %>%
   mutate(duplicates = if_else(plot_group == cancer_group, # | A == C | B == C
                               TRUE,
                               FALSE)) %>% 
   filter(duplicates == TRUE) %>%
   select(!duplicates) %>%
-  right_join(updated_hist_df) %>%
+  right_join(updated_hist_df, by = join_by(broad_histology, Kids_First_Participant_ID, Kids_First_Biospecimen_ID)) %>%
   write_tsv(file.path(results_dir, "histologies_2023_11_15.tsv")) 
 
 ```
