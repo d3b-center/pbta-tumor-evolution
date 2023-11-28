@@ -152,7 +152,8 @@ PL_df <- genomic_paired_df %>%
 PL_td_ms_plot_group_n_df <- PL_df %>% 
   dplyr::count(cg_id, td_ms_plot_group) %>% 
   dplyr::mutate(td_ms_plot_group_n = glue::glue("{td_ms_plot_group} (N={n})")) %>% 
-  dplyr::rename(td_ms_plot_group_number = n)
+  dplyr::rename(td_ms_plot_group_number = n) 
+
 
 # Let's summarize tumor_descriptor and use this for visualization purposes
 PL_td_plot_group_n_df <- PL_df %>% 
@@ -173,7 +174,7 @@ PL_count_df <- PL_df %>%
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
-  arrange(tumor_descriptor, Variant_Classification, desc(molecular_subtype)) 
+  arrange(cg_id, tumor_descriptor, td_plot_group_n, Variant_Classification, desc(molecular_subtype)) 
 
 # Number of patients with TMB information and paired timepoints
 no_samples <- print(length(unique(PL_count_df$Kids_First_Participant_ID)))
@@ -219,7 +220,7 @@ PBTA_count_df <- PBTA_df %>%
          tumor_descriptor = fct_relevel(tumor_descriptor, timepoints_order),
          Variant_Classification = factor(Variant_Classification),
          Variant_Classification = fct_relevel(Variant_Classification, variants_order)) %>% 
-  arrange(tumor_descriptor, Variant_Classification, desc(molecular_subtype)) 
+  arrange(cg_id, tumor_descriptor, td_plot_group_n, Variant_Classification, desc(molecular_subtype)) 
 
 ```
 
@@ -340,8 +341,9 @@ sample
 for (i in seq_along(sample)){
   print(i)
   df_sub <- PL_panel_df %>%
-    filter(cg_id == sample[i]) 
-  
+    filter(cg_id == sample[i]) %>% 
+    arrange(cg_id, desc(molecular_subtype), tumor_descriptor, td_plot_group_n, Variant_Classification) 
+
   if (i %in% c(10, 16)){
     width_value = 25
     }else{
@@ -349,7 +351,7 @@ for (i in seq_along(sample)){
     }
   
 # Define parameters for function
-x_value <- df_sub$td_plot_group_n
+x_value <- df_sub$tumor_descriptor
 title <- paste(sample[i], "Variants across molecular subtypes", sep = ": ")
 rows_value <- 1
 
@@ -381,7 +383,9 @@ sample
 for (i in seq_along(sample)){
   print(i)
   df_sub <- PBTA_panel_df %>%
-    filter(cg_id == sample[i]) 
+    filter(cg_id == sample[i]) %>% 
+    arrange(cg_id, desc(molecular_subtype), tumor_descriptor, td_plot_group_n, Variant_Classification) 
+
  
    if (i %in% c(25, 41)){
     width_value = 25
@@ -390,7 +394,7 @@ for (i in seq_along(sample)){
     }
   
 # Define parameters for function
-x_value <- df_sub$td_plot_group_n
+x_value <- df_sub$tumor_descriptor
 title <- paste(sample[i], "Variants across molecular subtypes", sep = ": ")
 rows_value <- 1
 
