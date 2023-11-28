@@ -387,22 +387,30 @@ for (i in seq_along(sample)){
     arrange(cg_id, desc(molecular_subtype), tumor_descriptor, td_plot_group_n, Variant_Classification) 
 
  
-   if (i %in% c(25, 41)){
+   if (i %in% c(23, 25, 41)){
     width_value = 25
+    rows_value <- 1
+    height_value = 6
+   }else if (i %in% c(38)){
+    width_value = 25
+    rows_value <- 2
+    height_value = 10
     }else{
     width_value = 10
+    rows_value <- 1
+    height_value = 6
     }
   
 # Define parameters for function
 x_value <- df_sub$tumor_descriptor
 title <- paste(sample[i], "Variants across molecular subtypes", sep = ": ")
-rows_value <- 1
+
 
 # Run function
 fname <- paste0(molecular_subtype_PBTA_plots_dir, "/", sample[i], "_Alteration_type_timepoints_molecular_subtype_barplots_PBTA.pdf")
 print(fname)
 p <- create_stacked_barplot_variant_molecular_subtype(df = df_sub, x = x_value, palette = palette, title = title, rows = rows_value)
-pdf(file = fname, width = width_value, height = 6)
+pdf(file = fname, width = width_value, height = height_value)
 print(p)
 dev.off()
 }
