@@ -60,23 +60,28 @@ PT_Z4BF2NSB_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_co
 cluster_df <- readr::read_tsv(pyclonevi_output_file, guess_max = 100000, show_col_types = FALSE) %>% 
   # change names to match input requirements
   dplyr::rename("cluster" = "cluster_id") %>% 
-  select(sample_id, cluster) %>% 
-  
+  select(sample_id, cluster) #%>% 
   # pyclone-vi starts numbering of clones from `0`
   # this will cause an error for clonevol when trying to subset
   # in the `plot.variant.clusters`
   # as in R cluster[0] = NULL and hence class(cluster[[0]]) is non numeric
   # https://stackoverflow.com/questions/72110405/what-is-in-index-0-of-an-r-list-if-they-usually-start-with-index-1
-  mutate(cluster = case_when(grepl("0", cluster) ~ "1"))  # NEED TO MAKE IT REPRODUCIBLE THIS for a number of clusters!!
+  
+  # NEED TO MAKE IT REPRODUCIBLE THIS for a number of clusters!!
+  #dplyr::mutate(#sample_id = str_replace(sample_id, ":", "_"),
+   #             cluster = as.numeric(cluster), 
+   #             cluster = case_when(grepl("0", cluster) ~ "1")) #,
+                                    #grepl("Deceased_BS_2T4EJ6KN", sample_id) ~ "2")) %>% 
+  #as.data.frame()
 
-cluster_df$cluster <- as.numeric(as.character(cluster_df$cluster))
+
+#cluster_df$cluster <- as.numeric(as.character(cluster_df$cluster))
 #class(cluster_df$cluster[[1]])
 
 clonevol_df <- PT_Z4BF2NSB_df %>% 
   select(Kids_First_Participant_ID, sample_id, t_ref_count, t_alt_count,
          VAF, Hugo_Symbol, CCF) %>% 
   left_join(cluster_df) %>% 
-  
   
   # change names to match input requirements
   dplyr::rename("ref.count" = "t_ref_count", 
@@ -85,9 +90,13 @@ clonevol_df <- PT_Z4BF2NSB_df %>%
                 "ccf" = "CCF",
                 "gene" = "Hugo_Symbol") %>% 
   unique() %>% 
+  #as.numeric(as.character(cluster)) %>% 
   
-  mutate(cluster = case_when(grepl("Deceased:BS_2T4EJ6KN", sample_id) ~ "2"))  # TEST
-
+  # TEST
+  dplyr::mutate(cluster = case_when(grepl("Deceased:BS_2T4EJ6KN", sample_id) ~ "2",
+                                    TRUE ~ "1"),
+                ccf = (ccf*100)) #,
+               #unique_id = paste(sample_id, ref.count, sep = ":"))  
 
 
 # to make a loop for each `Kids_First_Participant_ID`
@@ -96,32 +105,13 @@ clonevol_df <- PT_Z4BF2NSB_df %>%
 
 df <- clonevol_df %>%
   #filter(td_bs_id == sample_id) %>%
-  #mutate(td_bs_id = paste(sample_id, "ref", sep = ":")) %>% 
-  pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf")) %>% 
-  as.data.frame()
-  
+  pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf"), values_fn = list) %>% 
+  mutate_all( ~replace(., lengths(.)==0, NA)) %>%
+  as.data.frame() %>% 
+  replace(is.na(.), 0) %>% 
+  mutate(cluster = as.numeric(cluster))
 
-  
-  
-
-
-
-
-
-# what to do with empty cells?
-df[df == ""] <- NA 
-
-df <- df %>% 
-  replace(is.na(.), 0)
-
-
-
-
- 
-  
-  
-  
-  
+class(df$cluster)
 ```
 
 
