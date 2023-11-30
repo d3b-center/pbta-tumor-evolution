@@ -1,5 +1,5 @@
 library(clonevol)
-x <- df
+x <- clonevol_input_df
 
 # preparation
 # shorten vaf column names as they will be
