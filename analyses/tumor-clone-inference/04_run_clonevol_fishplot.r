@@ -28,7 +28,6 @@ palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_col
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
   filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence"))
-palette_df
 
 # Define and order palette
 clone.colors <- palette_df$hex_codes
@@ -36,7 +35,7 @@ names(clone.colors) <- palette_df$color_names
 #clone.colors <- c('#999793', '#8d4891', '#f8e356', '#fe9536', '#d7352e')
 #clone.colors <- NULL
 
-pdf('box.pdf', width = 3, height = 3, useDingbats = FALSE, title='')
+pdf('box.pdf', width = 8, height = 12, useDingbats = FALSE, title='')
 pp <- plot.variant.clusters(x,
                             cluster.col.name = 'cluster',
                             show.cluster.size = FALSE,
@@ -71,7 +70,7 @@ plot.pairwise(x, col.names = vaf.col.names,
               colors = clone.colors)
 
 # plot mean/median of clusters across samples (cluster flow)
-pdf('flow.pdf', width=3, height=3, useDingbats=FALSE, title='')
+pdf('flow.pdf', width=5, height=5, useDingbats=FALSE, title='')
 plot.cluster.flow(x, vaf.col.names = vaf.col.names,
                   sample.names = sample.groups,
                   colors = clone.colors)

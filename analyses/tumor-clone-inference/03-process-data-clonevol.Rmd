@@ -50,11 +50,21 @@ if (!dir.exists(clonevol_input_dir)) {
 # Load and process data
 
 ```{r load-process-inputs}
+# It is important to order timepoints 
+# so plots and numbers of clusters/clones will appear in the correct order for plots
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+
 PT_Z4BF2NSB_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
          sample_id, t_ref_count, t_alt_count, mutation_id,
-         tumor_fraction, VAF, Hugo_Symbol, CCF) 
+         tumor_fraction, VAF, Hugo_Symbol, CCF) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  arrange(tumor_descriptor)
 
 cluster_df <- readr::read_tsv(pyclonevi_output_file, guess_max = 100000, show_col_types = FALSE) %>% 
   # change names to match input requirements
