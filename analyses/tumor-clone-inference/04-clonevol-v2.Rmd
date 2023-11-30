@@ -135,9 +135,8 @@ print(vaf.col.names)
 
 # prepare sample grouping
 #sample.groups <- c("Deceased:BS_2T4EJ6KN", "Deceased:BS_537YFJ06", "Deceased:BS_C6T8F9K7", "Deceased:BS_GSXNQNRY", "Deceased:BS_M29BNE7Z" , "Deceased:BS_MRN9VDQ0", "Diagnosis:BS_W2QCHQ7E", "Recurrence:BS_EJP43CD9");
-sample.groups <- c("Dec", "Dec", "Dec",
-                   "Dec", "Dec", "Dec",
-                   'Dx', 'R');
+#sample.groups <- c("Dec", 'Dx', 'R');
+sample.groups <- c("P", 'R');
 names(sample.groups) <- vaf.col.names
 
 # setup the order of clusters to display in various plots (later)
@@ -232,7 +231,7 @@ y = infer.clonal.models(variants = x,
     cluster.col.name = 'cluster',
     vaf.col.names = vaf.col.names,
     sample.groups = sample.groups,
-    cancer.initiation.model='monoclonal',
+    cancer.initiation.model='monoclonal', #'monoclonal' by default; 'polyclonal'
     subclonal.test = 'bootstrap',
     subclonal.test.model = 'non-parametric',
     num.boots = 1000,

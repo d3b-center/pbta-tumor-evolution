@@ -145,7 +145,6 @@ df <- clonevol_df %>%
   #tidyr::spread(sample_id, c("ref.count", "var.count", "vaf", "ccf")) %>%
   #mutate_all( ~replace(., lengths(.)==0, NA)) %>%
   as.data.frame() %>% 
-  #replace(is.na(.), 0) %>% 
   #mutate(cluster = as.numeric(cluster)) %>%
   #mutate_if(is.character, as.numeric()) %>% 
   select(-c(Kids_First_Participant_ID, tumor_descriptor)) 
@@ -171,6 +170,9 @@ df <- df %>%
                 # we will use sym info as driver info for now
                 "is.driver" = "sym") %>%
   select(-c(Kids_First_Participant_ID, sample_id, id,  Hugo_Symbol)) %>% 
+  unique %>%
+  filter(!is.na(is.driver)) %>% 
+  replace(is.na(.), "-") %>% 
   write_tsv(file.path(clonevol_input_dir, "clonevol_input3.tsv"))
 
 
