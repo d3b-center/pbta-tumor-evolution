@@ -9,12 +9,12 @@ x[, sample.names] <- x[, vaf.col.names]
 vaf.col.names <- sample.names
 
 # Order names
-vaf.col.names <- sort(vaf.col.names, decreasing = FALSE)
-vaf.col.names <- sort(vaf.col.names)
+#vaf.col.names <- sort(vaf.col.names, decreasing = FALSE)
+#vaf.col.names <- sort(vaf.col.names)
 print(vaf.col.names)
 
 # prepare sample grouping
-sample.groups <- c("Dec", 'Dx', 'R');
+sample.groups <- c('Dx', 'R', "Dec");
 names(sample.groups) <- vaf.col.names
 print(sample.groups)
 
@@ -22,19 +22,26 @@ print(sample.groups)
 x <- x[order(x$cluster),]
 
 
-
+####################################################################################################
 # Define colors
 palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 # Read color palette
 palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence"))
+  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) %>% 
+  
+  # Add color for the founder clone needed for `infer.clonal.models` function, if polyclonal model is used
+  # polyclonal model need another color for clone 0
+  # https://github.com/hdng/clonevol/issues/49
+  add_row(color_names = "NA", hex_codes = "#f8e356")
 
 # Define and order palette
 clone.colors <- palette_df$hex_codes
 names(clone.colors) <- palette_df$color_names
 #clone.colors <- c('#999793', '#8d4891', '#f8e356', '#fe9536', '#d7352e')
 #clone.colors <- NULL
+####################################################################################################
 
+# Visualizations
 pdf('box.pdf', width = 8, height = 12, useDingbats = FALSE, title='')
 pp <- plot.variant.clusters(x,
                             cluster.col.name = 'cluster',
@@ -81,7 +88,7 @@ y = infer.clonal.models(variants = x,
                         cluster.col.name = 'cluster',
                         vaf.col.names = vaf.col.names,
                         sample.groups = sample.groups,
-                        cancer.initiation.model='polyclonal',
+                        cancer.initiation.model='polyclonal', # 'monoclonal' by default
                         subclonal.test = 'bootstrap',
                         subclonal.test.model = 'non-parametric',
                         num.boots = 1000,
