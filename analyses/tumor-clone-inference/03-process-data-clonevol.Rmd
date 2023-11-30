@@ -145,6 +145,7 @@ df <- clonevol_df %>%
   left_join(clonevol_df, relationship = "many-to-many") %>% 
   select(-c(ref.count, var.count, vaf)) %>% 
   mutate(id = paste(tumor_descriptor, gene, "ccf", sep = ".")) %>% 
+  unique() %>% 
   pivot_wider(names_from = "id", values_from = c("ccf"), values_fill = 0) %>% #values_fn = list
   
   
@@ -154,13 +155,13 @@ df <- clonevol_df %>%
   #replace(is.na(.), 0) %>% 
   #mutate(cluster = as.numeric(cluster)) %>%
   #mutate_if(is.character, as.numeric()) %>% 
-  select(-c(Kids_First_Participant_ID, unique_id, sample_id, tumor_descriptor)) 
+  select(-c(Kids_First_Participant_ID, sample_id, tumor_descriptor)) 
 
 
 count_col <- ncol(df)
 
 df <- df %>%mutate_at(c(2:count_col), as.numeric) %>% 
-    write_tsv(file.path(clonevol_input_dir, "clonevol_input2.tsv"))
+    write_tsv(file.path(clonevol_input_dir, "clonevol_input3.tsv"))
 
 
 
