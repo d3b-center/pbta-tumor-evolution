@@ -265,6 +265,8 @@ plot.clonal.models(y,
 #clonevol integration
 #If you have inferred tumor phylogeny via the clonevol package, the resulting models can be easily exported to fishplot using the generateFishplotInputs() function, as follows:
 
+# Useful code for fishplot
+# https://gist.github.com/chrisamiller/f4eae5618ec2985e105d05e3032ae674
 library(fishplot)
 #generate phylogeny with clonevol
 #x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
@@ -272,11 +274,11 @@ library(fishplot)
 f = generateFishplotInputs(results=y) #results=x
 fishes = createFishPlotObjects(f)
 #plot with fishplot
-pdf('fish.pdf', width=8, height=5)
+pdf('fish.pdf', width=8, height=4)
 for (i in 1:length(fishes)){
   fish = layoutClones(fishes[[i]])
-  fish = setCol(fish,f$clonevol.clone.colors)
-  fishPlot(fish,shape="spline", title.btm="Patient", cex.title=0.5,
+  fish = setCol(fish, c("#1e90ff",  "#800080", "#cd2626")) # f$clonevol.clone.colors
+  fishPlot(fish,shape="spline", title.btm="Patient", cex.title=0.4,
            vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.5)
 }
 dev <- dev.off()
