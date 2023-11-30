@@ -136,16 +136,33 @@ goi_df <- readr::read_tsv(goi_list_file, guess_max = 100000, show_col_types = FA
 goi_df$Hugo_Symbol <- ifelse(goi_df$sym == TRUE, goi_df$Hugo_Symbol, "")
   
 # Make input for clonevol
+#clonevol_input_df <- df %>% 
+#  mutate_at(c(3:count_col), as.numeric) %>%
+#  mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
+#  select(-c(Hugo_Symbol)) %>% 
+#  left_join(goi_df) %>% 
+#  dplyr::rename("gene" = "Hugo_Symbol",  # "gene_protein"
+                # we will use sym info as driver info for now
+#                "is.driver" = "sym") %>%
+#  select(-c(Kids_First_Participant_ID, sample_id, id, gene_protein)) %>% 
+#  unique %>%
+#  filter(!is.na(is.driver)) %>% 
+#  replace(is.na(.), "-") %>% 
+#  write_tsv(file.path(clonevol_input_dir, "clonevol_input.tsv"))
+
+
+
+# Make input for clonevol
 clonevol_input_df <- df %>% 
   mutate_at(c(3:count_col), as.numeric) %>%
   mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
   select(-c(Hugo_Symbol)) %>% 
   left_join(goi_df) %>% 
-  dplyr::rename("gene" = "Hugo_Symbol",  # "gene_protein"
+  dplyr::rename("gene" = "gene_protein", 
                 # we will use sym info as driver info for now
                 "is.driver" = "sym") %>%
-  select(-c(Kids_First_Participant_ID, sample_id, id, gene_protein)) %>% 
-  #unique %>%
+  select(-c(Kids_First_Participant_ID, sample_id, id, Hugo_Symbol)) %>% 
+  unique %>%
   filter(!is.na(is.driver)) %>% 
   replace(is.na(.), "-") %>% 
   write_tsv(file.path(clonevol_input_dir, "clonevol_input.tsv"))

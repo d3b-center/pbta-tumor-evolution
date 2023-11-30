@@ -26,7 +26,9 @@ x <- x[order(x$cluster),]
 # Define colors
 palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 # Read color palette
-palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE)
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence"))
+palette_df
 
 # Define and order palette
 clone.colors <- palette_df$hex_codes
