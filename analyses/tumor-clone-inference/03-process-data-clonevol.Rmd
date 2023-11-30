@@ -32,12 +32,13 @@ root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
 results_dir <- file.path(analysis_dir, "results")
 input_dir <- file.path(results_dir, "pyclone-vi-output", "PT_Z4BF2NSB40")
+goi_input_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 
 
 # Input files
 nautilus_dec_file <- file.path(results_dir, "nautilus_dec.tsv") 
 pyclonevi_output_file <- file.path(input_dir, "PT_Z4BF2NSB40.tsv") 
-
+goi_list_file <- file.path(goi_input_dir, "df_list_common_genes.tsv") 
 
 # File path to input directory
 clonevol_input_dir <-
@@ -52,6 +53,8 @@ if (!dir.exists(clonevol_input_dir)) {
 ```{r load-process-inputs}
 PT_Z4BF2NSB_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
+  #dplyr::mutate(sample_id = str_replace(sample_id, ":", ""),
+   #             sample_id = str_replace(sample_id, "_", "")) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
          sample_id, t_ref_count, t_alt_count, mutation_id,
          tumor_fraction, VAF, Hugo_Symbol, CCF) 
@@ -60,7 +63,7 @@ PT_Z4BF2NSB_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_co
 cluster_df <- readr::read_tsv(pyclonevi_output_file, guess_max = 100000, show_col_types = FALSE) %>% 
   # change names to match input requirements
   dplyr::rename("cluster" = "cluster_id") %>% 
-  select(sample_id, cluster) #%>% 
+  select(cluster, sample_id) %>% 
   # pyclone-vi starts numbering of clones from `0`
   # this will cause an error for clonevol when trying to subset
   # in the `plot.variant.clusters`
@@ -72,31 +75,47 @@ cluster_df <- readr::read_tsv(pyclonevi_output_file, guess_max = 100000, show_co
    #             cluster = as.numeric(cluster), 
    #             cluster = case_when(grepl("0", cluster) ~ "1")) #,
                                     #grepl("Deceased_BS_2T4EJ6KN", sample_id) ~ "2")) %>% 
-  #as.data.frame()
+  as.data.frame()
 
 
 #cluster_df$cluster <- as.numeric(as.character(cluster_df$cluster))
 #class(cluster_df$cluster[[1]])
 
-clonevol_df <- PT_Z4BF2NSB_df %>% 
-  select(Kids_First_Participant_ID, sample_id, t_ref_count, t_alt_count,
-         VAF, Hugo_Symbol, CCF) %>% 
-  left_join(cluster_df) %>% 
+goi_df <- readr::read_tsv(goi_list_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(Kids_First_Participant_ID, Timepoint_bs_id, gene_protein, sym) %>% 
+  dplyr::rename("sample_id" = "Timepoint_bs_id") #%>% 
+  #dplyr::mutate(sample_id = str_replace(sample_id, "_", ""),
+   #             sample_id = str_replace(sample_id, "_", ""))
+
   
+clonevol_df <- PT_Z4BF2NSB_df %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, sample_id, Hugo_Symbol, t_ref_count, t_alt_count,
+         VAF, CCF) %>%
+  left_join(cluster_df) %>% 
+  #left_join(goi_df) %>% 
   # change names to match input requirements
   dplyr::rename("ref.count" = "t_ref_count", 
                 "var.count" = "t_alt_count",
                 "vaf" = "VAF",
                 "ccf" = "CCF",
-                "gene" = "Hugo_Symbol") %>% 
+                "gene" = "Hugo_Symbol") %>%  
+                # we will use sym info as driver info for now
+                #"is.driver" = "sym"
+
   unique() %>% 
   #as.numeric(as.character(cluster)) %>% 
-  
+  mutate_at(c(5:9), as.numeric) %>% 
+  #mutate_if(is.character, as.numeric(ref.count, var.count, vaf, ccf, cluster)) %>% 
   # TEST
-  dplyr::mutate(cluster = case_when(grepl("Deceased:BS_2T4EJ6KN", sample_id) ~ "2",
-                                    TRUE ~ "1"),
-                ccf = (ccf*100)) #,
-               #unique_id = paste(sample_id, ref.count, sep = ":"))  
+  dplyr::mutate(#cluster = case_when(grepl("Deceased:BS_2T4EJ6KN", sample_id) ~ "2",
+                                    #TRUE ~ "1"),
+    
+                # `infer.clonal.models` function doesn't accept 0 for clustering
+                cluster = case_when(grepl("0", cluster) ~ "1"),
+                ccf = (ccf*100),
+                vaf = (vaf*100)#,
+                #unique_id = paste(sample_id, ref.count, sep = ":")
+                )  
 
 
 # to make a loop for each `Kids_First_Participant_ID`
@@ -104,14 +123,61 @@ clonevol_df <- PT_Z4BF2NSB_df %>%
 # make long table
 
 df <- clonevol_df %>%
+  # ref.count
+  mutate(id = paste(tumor_descriptor, "ref.count", sep = ".")) %>% #sample_id
   #filter(td_bs_id == sample_id) %>%
-  pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf"), values_fn = list) %>% 
-  mutate_all( ~replace(., lengths(.)==0, NA)) %>%
-  as.data.frame() %>% 
-  replace(is.na(.), 0) %>% 
-  mutate(cluster = as.numeric(cluster))
+  #pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf")) %>% #values_fn = list
+  pivot_wider(names_from = "id", values_from = c("ref.count"), values_fill = 0) %>% #values_fn = list
+  
+  # var.count
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count)) %>% 
+  mutate(id = paste(tumor_descriptor, "var.count", sep = ".")) %>% 
+  pivot_wider(names_from = "id", values_from = c("var.count"), values_fill = 0) %>% #values_fn = list
 
-class(df$cluster)
+  # vaf
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count, var.count)) %>% 
+  mutate(id = paste(tumor_descriptor, "vaf", sep = ".")) %>% 
+  pivot_wider(names_from = "id", values_from = c("vaf"), values_fill = 0) %>% #values_fn = list
+  
+  # ccf
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count, var.count, vaf)) %>% 
+  mutate(id = paste(tumor_descriptor, gene, "ccf", sep = ".")) %>% 
+  pivot_wider(names_from = "id", values_from = c("ccf"), values_fill = 0) %>% #values_fn = list
+  
+  
+  #tidyr::spread(sample_id, c("ref.count", "var.count", "vaf", "ccf")) %>%
+  #mutate_all( ~replace(., lengths(.)==0, NA)) %>%
+  as.data.frame() %>% 
+  #replace(is.na(.), 0) %>% 
+  #mutate(cluster = as.numeric(cluster)) %>%
+  #mutate_if(is.character, as.numeric()) %>% 
+  select(-c(Kids_First_Participant_ID, unique_id, sample_id, tumor_descriptor)) 
+
+
+count_col <- ncol(df)
+
+df <- df %>%mutate_at(c(2:count_col), as.numeric) %>% 
+    write_tsv(file.path(clonevol_input_dir, "clonevol_input2.tsv"))
+
+
+
+
+
+
+
+
+#class(df$cluster)
+#is.data.frame(df)  # df is a data frame
+# [1] TRUE
+#is.list(df)        # and it's also a list
+# [1] TRUE
+
+#x <- as.list(df)  
+#(y <- do.call(cbind, x))
+#as.data.frame(y)
 ```
 
 
