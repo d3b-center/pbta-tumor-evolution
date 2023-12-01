@@ -24,20 +24,20 @@ x <- x[order(x$cluster),]
 
 ####################################################################################################
 # Define colors
-palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+#palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 # Read color palette
-palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) %>% 
+#palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+#  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) %>% 
   
   # Add color for the founder clone needed for `infer.clonal.models` function, if polyclonal model is used
   # polyclonal model need another color for clone 0
   # https://github.com/hdng/clonevol/issues/49
-  add_row(color_names = "NA", hex_codes = "#f8e356")
+#  add_row(color_names = "0", hex_codes = "#f8e356")
 
 # Define and order palette
-clone.colors <- palette_df$hex_codes
-names(clone.colors) <- palette_df$color_names
-#clone.colors <- c('#999793', '#8d4891', '#f8e356', '#fe9536', '#d7352e')
+#clone.colors <- palette_df$hex_codes
+#names(clone.colors) <- palette_df$color_names
+clone.colors <- c('#1e90ff', '#800080', '#cd2626', '#f8e356')
 #clone.colors <- NULL
 ####################################################################################################
 
