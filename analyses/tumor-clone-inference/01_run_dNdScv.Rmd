@@ -20,8 +20,11 @@ For more information, see [dndscv](https://github.com/im3sanger/dndscv).
 
 
 ```{r load-library}
-#library(devtools); install_github("im3sanger/dndscv")
-library("dndscv")
+suppressPackageStartupMessages({
+  library(tidyverse)
+  #library(devtools); install_github("im3sanger/dndscv")
+  library("dndscv")
+})
 ```
 
 # Directories and File Inputs/Outputs
