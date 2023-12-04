@@ -63,6 +63,13 @@ if (!dir.exists(pyclonevi_input_dir)) {
   dir.create(pyclonevi_input_dir)
 }
 
+# File path to input directory
+fastclone_input_dir <-
+  file.path(analysis_dir, "results", "fastclone-input")
+if (!dir.exists(pyclonevi_input_dir)) {
+  dir.create(pyclonevi_input_dir)
+}
+
 
 # File path to plot directory
 pyclone_plots_dir <-
@@ -70,6 +77,7 @@ pyclone_plots_dir <-
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
+
 
 source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
@@ -105,7 +113,7 @@ maf_df <- CCF(maf_df)
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(!c(cancer_group, experimental_strategy)) %>% 
   left_join(maf_df, by = c("Kids_First_Participant_ID")) %>% # create unique identifiers
-  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
+  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
                 cg_id_kids = paste(cg_id, Kids_First_Participant_ID, sep = "_"),
                 cg_id_kids = str_replace(cg_id_kids, "/|-", "_"),
                 cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
@@ -292,15 +300,33 @@ for (i in 1:length(data_dir) ) {
   print(sample_name)
   
 for (x in seq_along(sample_name) ) { 
+  
+  # Save input file for pyclone-vi
   fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
   print(fname)
   
   pyclone_input_subset <- pyclone_input %>%
     filter(Kids_First_Participant_ID == sample_name[x]) %>% 
-    select(-c(Kids_First_Participant_ID)) %>% 
+    #select(-c(Kids_First_Participant_ID)) %>% 
   write_tsv(file.path(fname))
+  
+  
+  # Save input file for FastClone
+  fastclone_fname <- paste0(fastclone_input_dir, "/", sample_name[x], ".tsv")
+  print(fastclone_fname)
+  
+  fastclone_input_subset <- pyclone_input %>%
+    dplyr::rename("var_counts" = "alt_counts") %>% 
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    #select(-c(Kids_First_Participant_ID)) %>% 
+  write_tsv(file.path(fastclone_fname))
+    
+    
+    
 }
 }
+
+
 # To find the position of duplicate elements in x, use this:
 # duplicated(pyclone_input)
 
@@ -361,6 +387,7 @@ for (x in seq_along(sample_name) ) {
                                     breaks = sort(names(palette))) +
                  #rotate() +
                  theme(axis.text.x = element_text(angle = 90)) +
+                 stat_summary(fun.y=mean,shape=1,col='black',geom='point') +
                  labs(title = sample_name[x],
                       x = "sample_id",
                       y = "ref_counts",
@@ -388,6 +415,7 @@ for (x in seq_along(sample_name) ) {
                                     breaks = sort(names(palette))) +
                  #rotate() +
                  theme(axis.text.x = element_text(angle = 90)) +
+                 stat_summary(fun.y=mean,shape=1,col='black',geom='point') +
                  labs(title = sample_name[x],
                       x = "sample_id",
                       y = "alt_counts",
