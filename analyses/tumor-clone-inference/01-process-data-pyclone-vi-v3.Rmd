@@ -1,5 +1,5 @@
 ---
-title: "Inference of subclonal architecture of tumors across multiple timepoints in the paired longitudinal (PR) cohort"
+title: "Inference of subclonal architecture of tumors across multiple timepoints in the paired longitudinal (PL) cohort"
 author: 'Antonia Chroni <chronia@chop.edu> for D3B'
 date: "2023"
 output:
@@ -44,7 +44,8 @@ nautilus_dec_file <- file.path(input_dir, "deceased_samples.xlsx")
 
 # EXAMPLE 
 # But to replace with dir with cns data inferred by CNVkit
-PT_Z4BF2NSB_dir <- file.path(input_dir, "cnvkit_data_example/PT_Z4BF2NSB") 
+# PT_Z4BF2NSB_dir <- file.path(input_dir, "cnvkit_data_example/PT_Z4BF2NSB") 
+cns_dir <- file.path(input_dir, "cnvkit_data") 
 
 # File path to results directory
 results_dir <-
@@ -210,22 +211,31 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
 # I will test one HGG dataset for now
 # PT_Z4BF2NSB
 
-PT_Z4BF2NSB_DF <- pyclone_all_samples_df %>% 
-  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB")
+#PT_Z4BF2NSB_DF <- pyclone_all_samples_df %>% 
+#  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB")
                    
 ```
 
 ## Add major_cn, minor_cn columns from cns files
 
 ```{r process-cns-files}
-data_dir <- dir(path = PT_Z4BF2NSB_dir,  pattern = ".call.cns", full.names = TRUE, recursive = TRUE)
+data_dir <- dir(path = cns_dir,  pattern = ".call.cns", full.names = TRUE, recursive = TRUE)
 
 # Create list 
 data_list <- list()
 
 for (i in 1:length(data_dir) ) { 
-  data_list[[i]] <- read.csv(data_dir[i], header=T, sep="\t") 
-   
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+  for (x in seq_along(sample_name) ) { 
+    
+    data_list[[i]] <- read.csv(data_dir[i], header=T, sep="\t") 
+  
+    
   # Create file_name
   file_name <- gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,12])
   print(file_name)
@@ -237,7 +247,7 @@ for (i in 1:length(data_dir) ) {
   # But adds an extra df into the list - dont know yet why but let's remove, it's not necessary
   #df <- assign(file_name, data_list) 
   #data_list[[file_name]] <- df
-
+  }
 }
 
 # Bind all df from list 
@@ -251,24 +261,35 @@ pyclone_input <- data_list_bind %>%
   dplyr::rename("major_cn" = "cn1", 
                 "minor_cn" = "cn2") %>% 
 
-  left_join(PT_Z4BF2NSB_DF) %>% 
+  left_join(pyclone_all_samples_df) %>% 
   filter(!is.na(major_cn),
          !is.na(minor_cn)) %>%
   dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
-  select(cg_id_kids, mutation_id, sample_id, ref_counts, 
+  select(Kids_First_Participant_ID, cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
-  distinct() %>% 
-  write_tsv(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
-  #write_delim(file.path(pyclonevi_input_dir, "PT_Z4BF2NSB.tsv"))
- # write.table(file.path(pyclonevi_input_dir, paste0("PT_Z4BF2NSB-v2.tsv")), 
-  #                sep = "\t", 
-    #              row.names = FALSE, 
-     #             quote = FALSE, 
-       #           fileEncoding = "UTF-8")
+  distinct() 
 
 
+
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+for (x in seq_along(sample_name) ) { 
+  fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
+  print(fname)
+  
+  pyclone_input_subset_ <- pyclone_input %>%
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    select(-c(Kids_First_Participant_ID)) %>% 
+  write_tsv(file.path(fname))
+}
+}
 # To find the position of duplicate elements in x, use this:
 # duplicated(pyclone_input)
 
