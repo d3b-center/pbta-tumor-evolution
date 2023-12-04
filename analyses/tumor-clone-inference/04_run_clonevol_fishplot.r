@@ -1,5 +1,10 @@
 library(clonevol)
+#clonevol_input_file <- file.path(results_dir, "clonevol-input", "clonevol_input.tsv") 
+
+#x <- readr::read_tsv(clonevol_input_file, guess_max = 100000, show_col_types = FALSE)
+  
 x <- clonevol_input_df
+#head(aml1$variants)
 
 # preparation
 # shorten vaf column names as they will be
@@ -38,6 +43,7 @@ x <- x[order(x$cluster),]
 #clone.colors <- palette_df$hex_codes
 #names(clone.colors) <- palette_df$color_names
 clone.colors <- c('#1e90ff', '#800080', '#cd2626', '#f8e356')
+
 #clone.colors <- NULL
 ####################################################################################################
 
@@ -204,7 +210,7 @@ plot.clonal.models(y,
                    # box plot parameters
                    box.plot = TRUE,
                    fancy.boxplot = TRUE,
-                   fancy.variant.boxplot.highlight = 'is.driver',
+                   #fancy.variant.boxplot.highlight = 'is.driver',
                    fancy.variant.boxplot.highlight.shape = 21,
                    fancy.variant.boxplot.highlight.fill.color = 'red',
                    fancy.variant.boxplot.highlight.color = 'black',
