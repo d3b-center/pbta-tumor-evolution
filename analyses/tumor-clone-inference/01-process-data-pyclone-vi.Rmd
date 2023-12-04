@@ -41,6 +41,8 @@ maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "result
 maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
 nautilus_dec_file <- file.path(input_dir, "deceased_samples.xlsx") 
+palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+
 
 # EXAMPLE 
 # But to replace with dir with cns data inferred by CNVkit
@@ -60,6 +62,16 @@ pyclonevi_input_dir <-
 if (!dir.exists(pyclonevi_input_dir)) {
   dir.create(pyclonevi_input_dir)
 }
+
+
+# File path to plot directory
+pyclone_plots_dir <-
+  file.path(analysis_dir, "plots", "pyclone-vi")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
 # Load and process data
@@ -203,7 +215,7 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
   dplyr::rename("ref_counts" = "t_ref_count", 
                 "alt_counts" = "t_alt_count",
                 "tumour_content" = "tumor_fraction") %>%
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID,
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, 
          cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, tumour_content)
  
@@ -265,12 +277,11 @@ pyclone_input <- data_list_bind %>%
   filter(!is.na(major_cn),
          !is.na(minor_cn)) %>%
   dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
-  select(Kids_First_Participant_ID, cg_id_kids, mutation_id, sample_id, ref_counts, 
+  select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
   distinct() 
-
 
 
 for (i in 1:length(data_dir) ) { 
@@ -284,7 +295,7 @@ for (x in seq_along(sample_name) ) {
   fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
   print(fname)
   
-  pyclone_input_subset_ <- pyclone_input %>%
+  pyclone_input_subset <- pyclone_input %>%
     filter(Kids_First_Participant_ID == sample_name[x]) %>% 
     select(-c(Kids_First_Participant_ID)) %>% 
   write_tsv(file.path(fname))
@@ -295,6 +306,104 @@ for (x in seq_along(sample_name) ) {
 
 # Extract duplicate elements:
 # pyclone_input[duplicated(pyclone_input)]
+
+```
+
+# Plot depth coverage
+
+```{r define-parameters-for-plots}
+# Read color palette
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(tumor_descriptor = color_names)
+
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$tumor_descriptor
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+```
+
+``` {r depth-coverage}
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+for (x in seq_along(sample_name) ) { 
+  
+  pyclone_input_subset <- pyclone_input %>%
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    select(-c(Kids_First_Participant_ID)) #%>% 
+   # mutate(tumor_descriptor = factor(tumor_descriptor),
+    #     tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+    #arrange(tumor_descriptor, sample_id)
+  
+  # Make this reproducible
+  set.seed(2023)
+
+  # Define label for plots
+  Timepoint <- factor(x = pyclone_input_subset$tumor_descriptor, levels = timepoints)
+  
+  #######################
+  # Create bxp ref_counts
+    p <- print(ggplot(pyclone_input_subset, aes(sample_id, ref_counts, color = Timepoint)) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette))) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 labs(title = sample_name[x],
+                      x = "sample_id",
+                      y = "ref_counts",
+                      color = "Timepoint"))
+    
+    # Save the plot
+    ggsave(filename = paste0(sample_name[x], "-ref_counts.pdf"), 
+         path = pyclone_plots_dir, 
+         width = 6, 
+         height = 5, 
+         device = "pdf", 
+        useDingbats = FALSE)
+    
+
+  #######################
+  # Create bxp alt_counts
+    p <- print(ggplot(pyclone_input_subset, aes(sample_id, alt_counts, color = Timepoint)) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette))) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 labs(title = sample_name[x],
+                      x = "sample_id",
+                      y = "alt_counts",
+                      color = "Timepoint"))
+    
+    # Save the plot
+    ggsave(filename = paste0(sample_name[x], "-alt_counts.pdf"), 
+         path = pyclone_plots_dir, 
+         width = 6, 
+         height = 5, 
+         device = "pdf", 
+        useDingbats = FALSE)
+  
+  
+}
+}
 
 ```
 
