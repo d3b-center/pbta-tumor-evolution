@@ -1,0 +1,179 @@
+---
+title: "Prepare input data for clonevol"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Background
+
+[ClonEvol](https://github.com/hdng/clonevol) is a package for clonal ordering and clonal evolution visualization. It uses the clustering of heterozygous variants identified using other tools as input to infer consensus clonal evolution trees and estimate the cancer cell fraction (also called clonal frequency) of the clones in individual samples. ClonEvol can deal with statistical uncertainty and error in sequencing and data analysis that may distort the cellular prevalence estimate of individual variants.
+
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+# Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory
+# Use this as the root directory to ensure proper sourcing of functions 
+# no matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
+results_dir <- file.path(analysis_dir, "results")
+fastclone_input_dir <- file.path(results_dir, "fastclone_output")
+#goi_input_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
+
+
+# Input files
+nautilus_dec_file <- file.path(results_dir, "nautilus_dec.tsv") 
+#pyclonevi_output_file <- file.path(input_dir, "PT_Z4BF2NSB40.tsv") 
+#goi_list_file <- file.path(goi_input_dir, "df_list_common_genes.tsv") 
+signif_genes_file <- file.path(results_dir, "signif_genes.tsv") 
+
+# File path to input directory
+clonevol_input_dir <-
+  file.path(analysis_dir, "results", "clonevol-input")
+if (!dir.exists(clonevol_input_dir)) {
+  dir.create(clonevol_input_dir)
+}
+```
+
+# Load and process data
+
+```{r load-process-inputs}
+# It is important to order timepoints 
+# so plots and numbers of clusters/clones will appear in the correct order for plots
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+
+PT_Z4BF2NSB_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
+         sample_id, t_ref_count, t_alt_count, mutation_id,
+         tumor_fraction, VAF, Hugo_Symbol, CCF) %>% 
+  mutate(tumor_descriptor = factor(tumor_descriptor),
+         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  arrange(tumor_descriptor)
+
+cluster_df <- readr::read_tsv(pyclonevi_output_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  # change names to match input requirements
+  dplyr::rename("cluster" = "cluster_id") %>% 
+  select(cluster, sample_id) %>% 
+  as.data.frame()
+
+clonevol_df <- PT_Z4BF2NSB_df %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, sample_id, Hugo_Symbol, t_ref_count, t_alt_count,
+         VAF, CCF) %>% 
+  left_join(cluster_df) %>% 
+  # change names to match input requirements
+  dplyr::rename("ref.count" = "t_ref_count", 
+                "var.count" = "t_alt_count",
+                "vaf" = "VAF",
+                "ccf" = "CCF") %>% 
+  unique() %>% 
+  mutate_at(c(5:9), as.numeric) %>% 
+
+  # pyclone-vi starts numbering of clones from `0`
+  # this will cause an error for clonevol when trying to subset
+  # in the `plot.variant.clusters`
+  # In addition, `infer.clonal.models` function doesn't accept 0 for clustering
+  dplyr::mutate(cluster = case_when(grepl("Deceased", tumor_descriptor) ~ "3",
+                                    grepl("Recurrence", tumor_descriptor) ~ "2",
+                                    TRUE ~ "1"),
+                # cluster = case_when(grepl("0", cluster) ~ "1"),
+                ccf = (ccf*100),
+                vaf = (vaf*100)#,
+                #unique_id = paste(sample_id, ref.count, sep = ":")
+                )  
+
+
+# to make a loop for each `Kids_First_Participant_ID`
+# for now it's one sample
+# make long table
+
+df <- clonevol_df %>%
+  # ref.count
+  mutate(id = paste(tumor_descriptor, "ref.count", sep = ".")) %>% #sample_id
+
+  # USING pivit_wider for multiple columns was intrudicng a bug so I split it up instead
+  #pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf")) %>% #values_fn = list
+  pivot_wider(names_from = "id", values_from = c("ref.count"), values_fill = 0) %>% #values_fn = list
+  
+  # var.count
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count)) %>% 
+  mutate(id = paste(tumor_descriptor, "var.count", sep = ".")) %>% 
+  pivot_wider(names_from = "id", values_from = c("var.count"), values_fill = 0) %>% #values_fn = list
+
+  # vaf
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count, var.count)) %>% 
+  mutate(id = paste(tumor_descriptor, "vaf", sep = ".")) %>% 
+  pivot_wider(names_from = "id", values_from = c("vaf"), values_fill = 0) %>% #values_fn = list
+  
+  # ccf
+  left_join(clonevol_df, relationship = "many-to-many") %>% 
+  select(-c(ref.count, var.count, vaf)) %>% 
+  mutate(id = paste(tumor_descriptor, "ccf", sep = ".")) %>% 
+  unique() %>% 
+  pivot_wider(names_from = "id", values_from = c("ccf"), values_fill = 0) %>% #values_fn = list
+  
+  as.data.frame() %>% 
+  select(-c(Kids_First_Participant_ID, tumor_descriptor)) 
+  
+# Count number of columns
+count_col <- ncol(df)
+
+signif_genes_df <- readr::read_tsv(signif_genes_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(gene_name) %>% 
+  dplyr::rename("gene" = "gene_name") %>% 
+  dplyr::mutate(is.driver = "TRUE")
+
+# Make input for clonevol
+clonevol_input_df <- df %>% 
+  mutate_at(c(3:count_col), as.numeric) %>%
+  dplyr::rename("gene" = "Hugo_Symbol") %>% 
+  #mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
+  #select(-c(Hugo_Symbol)) %>% 
+  #left_join(goi_df) %>% 
+  left_join(signif_genes_df) %>%
+  dplyr::mutate(is.driver = replace_na(is.driver, "FALSE")) %>% 
+  #dplyr::rename("gene" = "gene_protein", 
+  #              # we will use sym info as driver info for now
+  #             "is.driver" = "sym") %>%
+  select(-c(sample_id)) %>%
+  relocate(c(gene, is.driver), .after = Deceased.ccf) %>% 
+  unique %>%
+  filter(!is.na(is.driver)) %>% 
+  replace(is.na(.), "-")
+  #filter(!is.na(is.driver)) %>% 
+  #drop_na() 
+
+
+# Convert labels to display on the plot only the ones in the goi list
+clonevol_input_df$gene <- ifelse(clonevol_input_df$is.driver == TRUE, clonevol_input_df$gene, "-")
+
+
+clonevol_input_df <- clonevol_input_df %>%
+  #mutate(gene = paste(gene, Diagnosis.ref.count, sep = "_")) %>% 
+  write_tsv(file.path(clonevol_input_dir, "clonevol_input.tsv"))
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
