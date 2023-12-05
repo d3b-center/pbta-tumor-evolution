@@ -74,8 +74,8 @@ if (!dir.exists(pyclonevi_input_dir)) {
 # File path to plot directory
 pyclone_plots_dir <-
   file.path(analysis_dir, "plots", "pyclone-vi")
-if (!dir.exists(plots_dir)) {
-  dir.create(plots_dir)
+if (!dir.exists(pyclone_plots_dir)) {
+  dir.create(pyclone_plots_dir)
 }
 
 
@@ -91,7 +91,8 @@ maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) 
          sample_id, aliquot_id, Chromosome, 
          Start_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2,
          t_ref_count, t_alt_count, tmb, 
-         tumor_fraction, tumor_ploidy, VAF, Hugo_Symbol) %>% 
+         tumor_fraction, tumor_ploidy, VAF, Hugo_Symbol,
+         mutation_count) %>% 
 
   # Remove hypermutants
   filter(!tmb >= 10, 
@@ -217,7 +218,7 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
          cg_id_kids, mutation_id, sample_id,
          tumor_descriptor, Chromosome, Start_Position, 
          Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count,
-         normal_cn, tumor_fraction) %>% 
+         normal_cn, tumor_fraction, mutation_count) %>% 
   
   # change names to match input requirements
   dplyr::rename("ref_counts" = "t_ref_count", 
@@ -225,7 +226,7 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
                 "tumour_content" = "tumor_fraction") %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, 
          cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, tumour_content)
+         alt_counts, normal_cn, tumour_content, mutation_count)
  
 
 # I will test one HGG dataset for now
@@ -286,7 +287,7 @@ pyclone_input <- data_list_bind %>%
          !is.na(minor_cn)) %>%
   dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
   select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumour_content) %>% 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
   distinct() 
@@ -351,7 +352,7 @@ timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Mal
 
 ```
 
-``` {r depth-coverage}
+``` {r depth-coverage, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
@@ -435,6 +436,49 @@ for (x in seq_along(sample_name) ) {
 
 ```
 
+
+# Total number of mutations across timepoints and biospecimen sample per Patient case
+
+```{r create-barplot-sample, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+for (x in seq_along(sample_name) ) { 
+  
+  pyclone_input_subset <- pyclone_input %>%
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    select(-c(Kids_First_Participant_ID))
+  
+  # Define parameters for function
+  ylim = max(pyclone_input_subset$mutation_count)
+  
+  
+   # Rename legend for timepoints
+  Timepoint <- factor(pyclone_input_subset$tumor_descriptor)
+  
+  # Plot stacked barplot 
+  print(ggplot(pyclone_input_subset, aes(x = sample_id, 
+                                              y = mutation_count, 
+                                              fill = Timepoint)) +  
+               geom_col(position = position_stack(reverse = TRUE)) +
+               geom_bar(stat = "identity", width = 0.5) + 
+               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+               theme_Publication() + 
+               theme(axis.text.x = element_text(angle = 85, 
+                                                hjust = 1, 
+                                                vjust = 1)) + 
+               labs(title = paste(sample_name)) + 
+               labs(x = "sample_id", y = "Total Mutations") +
+               ylim(0, ylim)) 
+  
+  
+}
+}
+```
 
 ```{r}
 sessionInfo()
