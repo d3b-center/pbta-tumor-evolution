@@ -10,7 +10,7 @@ output:
 
 # Background
 
-This notebook is for preparing input files for pyclone-vi (https://github.com/Roth-Lab/pyclone-vi). The same files will be used as an input for FastClone (https://github.com/GuanLab/FastClone_GuanLab).
+This notebook is for preparing input files for [pyclone-vi](https://github.com/Roth-Lab/pyclone-vi). The same files with a minor modification will be used as an input for [FastClone](https://github.com/GuanLab/FastClone_GuanLab).
 
 
 # Set up
