@@ -1,8 +1,13 @@
 library(clonevol)
+
+setwd("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/plots/clusters3_driver_genes1")
+getwd()
+
 #clonevol_input_file <- file.path(results_dir, "clonevol-input", "clonevol_input.tsv") 
 
 #x <- readr::read_tsv(clonevol_input_file, guess_max = 100000, show_col_types = FALSE)
   
+#x <- clonevol_input_df_goi
 x <- clonevol_input_df
 #head(aml1$variants)
 
@@ -29,10 +34,10 @@ x <- x[order(x$cluster),]
 
 ####################################################################################################
 # Define colors
-#palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
+palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
 # Read color palette
-#palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
-#  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) %>% 
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) #%>% 
   
   # Add color for the founder clone needed for `infer.clonal.models` function, if polyclonal model is used
   # polyclonal model need another color for clone 0
@@ -40,9 +45,9 @@ x <- x[order(x$cluster),]
 #  add_row(color_names = "0", hex_codes = "#f8e356")
 
 # Define and order palette
-#clone.colors <- palette_df$hex_codes
-#names(clone.colors) <- palette_df$color_names
-clone.colors <- c('#1e90ff', '#800080', '#cd2626', '#f8e356')
+clone.colors <- palette_df$hex_codes
+names(clone.colors) <- palette_df$color_names
+#clone.colors <- c('#1e90ff', '#800080', '#cd2626')
 
 #clone.colors <- NULL
 ####################################################################################################
@@ -89,6 +94,8 @@ plot.cluster.flow(x, vaf.col.names = vaf.col.names,
                   colors = clone.colors)
 dev.off()
 
+clone.colors <- c('grey', '#1e90ff', '#800080', '#cd2626')
+
 # infer consensus clonal evolution trees
 y = infer.clonal.models(variants = x,
                         cluster.col.name = 'cluster',
@@ -111,12 +118,15 @@ y = infer.clonal.models(variants = x,
 # map driver events onto the trees
 y <- transfer.events.to.consensus.trees(y,
                                         x[x$is.driver,],
+                                        #x,
                                         cluster.col.name = 'cluster',
                                         event.col.name = 'gene')
 
 
 # prepare branch-based trees
 y <- convert.consensus.tree.clone.to.branch(y, branch.scale = 'sqrt')
+
+
 
 # plot variant clusters, bell plots, cell populations, and trees
 plot.clonal.models(y,
