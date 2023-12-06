@@ -69,19 +69,6 @@ pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %
   filter(!(experimental_strategy == "RNA-Seq")) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
 
-# Make a vector of coding gene mutations
-#maf_nonsynonymous <- c(
-#  "Missense_Mutation",
-#  "Frame_Shift_Del",
-#  "In_Frame_Ins",
-#  "Frame_Shift_Ins",
-#  "Splice_Site",
-#  "Nonsense_Mutation",
-#  "In_Frame_Del",
-#  "Nonstop_Mutation",
-#  "Translation_Start_Site"
-#)
-
 maf_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) 
 
 # Read maf file
@@ -143,15 +130,16 @@ sel_cv = dndsout$sel_cv %>%
 
 print(head(sel_cv), digits = 3)
 
-signif_genes = sel_cv[sel_cv$qglobal_cv==0, c("gene_name","qglobal_cv")] # `<0.1` by default
+signif_genes = sel_cv[sel_cv$qglobal_cv<0.1, c("gene_name","qglobal_cv")] # `<0.1` by default; ==0
 rownames(signif_genes) = NULL
 
 signif_genes_unique <- signif_genes %>%
+  as.data.frame() %>% 
   #select(gene_name) %>% 
   #unique() %>% 
   write_tsv(file.path(results_dir, "signif_genes.tsv"))
 
-print(signif_genes)
+print(signif_genes_unique)
 ```
 
 Note in the table that the dN/dS ratios of significant cancer genes are typically extremely high, often >10 or even >100. This contains information about the fraction of mutations observed in a gene that are genuine drivers under positive selection. For example, for a highly significant gene, a dN/dS of 10 indicates that there are 10 times more non-synonymous mutations in the gene than neutrally expected, suggesting that at least around 90% of these mutations are genuine drivers (Greenman *et al*, 2006; Martincorena *et al*, 2017).
