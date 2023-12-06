@@ -34,11 +34,12 @@ analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
 input_dir <- file.path(analysis_dir, "input")
 data_dir <- file.path(root_dir, "data")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
-maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
+#maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 
 # Input files
 #pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
-maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
+maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
+#maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
 nautilus_dec_file <- file.path(input_dir, "deceased_samples.xlsx") 
 palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
@@ -86,7 +87,10 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 
 ```{r load-process-inputs}
 # Read maf
-maf_df <- readr::read_tsv(maf_file, guess_max = 100000, show_col_types = FALSE) %>%
+# Keep both synonymous and non-synoymous mutations for the current analysis
+maf_file_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE)
+
+maf_df <- maf_file_df %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
          sample_id, aliquot_id, Chromosome, 
          Start_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2,
