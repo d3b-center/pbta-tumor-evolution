@@ -37,7 +37,7 @@ files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "re
 #maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 
 # Input files
-#pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 #maf_file <- file.path(maf_files_dir, "tmb_vaf_genomic.tsv")
 genomic_paired_file <- file.path(files_dir, "genomic_assays_matched_time_points.tsv") # file from add-sample-distribution module
@@ -86,11 +86,21 @@ source(paste0(root_dir, "/figures/scripts/theme.R"))
 # Load and process data
 
 ```{r load-process-inputs}
+# Read in histologies file and filter for the pbta cohort
+pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
+  filter(!(experimental_strategy == "RNA-Seq")) %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
+
 # Read maf
 # Keep both synonymous and non-synoymous mutations for the current analysis
 maf_file_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE)
 
 maf_df <- maf_file_df %>%
+  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID#,
+         #Variant_Classification %in% maf_nonsynonymous
+         ) %>%
+  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% 
+  left_join(pbta) %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
          sample_id, aliquot_id, Chromosome, 
          Start_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2,
@@ -99,21 +109,28 @@ maf_df <- maf_file_df %>%
          mutation_count) %>% 
 
   # Remove hypermutants
-  filter(!tmb >= 10, 
+  filter(!tmb >= 10 #, 
   
   # There are alterations with high number of read counts.
   # We will exclude those with >1000 for now.
-         !t_alt_count >= 1000,
-         !t_ref_count >= 1000)  %>% 
+        # !t_alt_count >= 1000,
+         #!t_ref_count >= 1000
+  )  %>% 
   
   # Add `normal_cn`: Total copy number of segment in healthy tissue. 
   # For autosome this will be two and male sex chromosomes one.
   # See: https://github.com/Roth-Lab/pyclone-vi
   mutate(normal_cn = case_when(grepl("chrY", Chromosome) ~ "1", 
-                                     TRUE ~ "2"))
+                                     TRUE ~ "2")) %>% 
+  
+  # Calculate CCF
+  CCF()
+
+
 # Calculate CCF
 maf_df <- CCF(maf_df)
  
+
 # Read patient list
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(!c(cancer_group, experimental_strategy)) %>% 
