@@ -70,22 +70,25 @@ pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
 
 # Make a vector of coding gene mutations
-maf_nonsynonymous <- c(
-  "Missense_Mutation",
-  "Frame_Shift_Del",
-  "In_Frame_Ins",
-  "Frame_Shift_Ins",
-  "Splice_Site",
-  "Nonsense_Mutation",
-  "In_Frame_Del",
-  "Nonstop_Mutation",
-  "Translation_Start_Site"
-)
+#maf_nonsynonymous <- c(
+#  "Missense_Mutation",
+#  "Frame_Shift_Del",
+#  "In_Frame_Ins",
+#  "Frame_Shift_Ins",
+#  "Splice_Site",
+#  "Nonsense_Mutation",
+#  "In_Frame_Del",
+#  "Nonstop_Mutation",
+#  "Translation_Start_Site"
+#)
+
+maf_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) 
 
 # Read maf file
-maf <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) %>% 
-  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
-         Variant_Classification %in% maf_nonsynonymous) %>%
+maf <- maf_df %>% 
+  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID#,
+         #Variant_Classification %in% maf_nonsynonymous
+         ) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) 
 
 # How many genes
