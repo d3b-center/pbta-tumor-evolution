@@ -155,11 +155,11 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
                 cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
                 cg_id = str_replace(cg_id, "/|-", "_"),
                 cg_id = str_replace_all(cg_id, " ", "_"),
-                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) %>% 
-  filter(!is.na(VAF),
-         !VAF == 0 #, 
+                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) #%>% 
+  #filter(!is.na(VAF) #,
+         #!VAF == 0 #, 
          #!is.na(tmb)
-         )
+        # )
 
 # Number of samples in the `genomic_paired_df`
 genomic_samples <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
@@ -344,16 +344,8 @@ pyclone_input <- data_list_bind %>%
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
-  distinct() 
-
-
-pyclone_input <- pyclone_input %>% 
-  select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
-  
-  # To ensure there are no duplicated entries in the dataframe
-  distinct() 
-
+  distinct() %>% 
+  filter(!is.na(Kids_First_Participant_ID))
 
 samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
 
