@@ -36,7 +36,7 @@ data_dir <- file.path(root_dir, "data")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 #tmb_input_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "input")
-scratch_dir <- file.path(root_dir, "scratch")
+#scratch_dir <- file.path(root_dir, "scratch")
 
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
@@ -103,6 +103,7 @@ tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 # Keep both synonymous and non-synoymous mutations for the current analysis
 maf_file_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE)
 
+# Process maf
 maf_df <- maf_file_df %>%
   filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID#,
          #Variant_Classification %in% maf_nonsynonymous
@@ -140,8 +141,8 @@ maf_df <- maf_file_df %>%
   # Calculate CCF
   # CCF() %>% 
   # using formula for CCF calculation
-  mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) %>% 
-  write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
+  mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) #%>% 
+  #write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
 # Number of samples in the `maf_df`
 maf_samples <- print(length(unique(maf_df$Kids_First_Participant_ID)))
@@ -348,6 +349,13 @@ pyclone_input <- data_list_bind %>%
   # To ensure there are no duplicated entries in the dataframe
   distinct() %>% 
   filter(!is.na(Kids_First_Participant_ID))
+
+
+
+pyclone_input <- pyclone_input %>% 
+   filter(!is.na(major_cn),
+          !is.na(minor_cn))
+
 
 samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
 
