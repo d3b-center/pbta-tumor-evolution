@@ -360,20 +360,21 @@ samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
-  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  #sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 10)[,9])))
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
 for (x in seq_along(sample_name) ) { 
   
   # Save input file for pyclone-vi
-  fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
-  print(fname)
+  pyclone_fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
+  print(pyclone_fname)
   
   pyclone_input_subset <- pyclone_input %>%
     filter(Kids_First_Participant_ID == sample_name[x]) %>% 
     #select(-c(Kids_First_Participant_ID)) %>% 
-  write_tsv(file.path(fname))
+  write_tsv(file.path(pyclone_fname))
   
   
   # Save input file for FastClone
@@ -385,10 +386,8 @@ for (x in seq_along(sample_name) ) {
     filter(Kids_First_Participant_ID == sample_name[x]) %>% 
     #select(-c(Kids_First_Participant_ID)) %>% 
   write_tsv(file.path(fastclone_fname))
-    
-    
-    
-}
+  
+  }
 }
 
 
