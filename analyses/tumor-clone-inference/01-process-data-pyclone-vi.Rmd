@@ -97,7 +97,7 @@ pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %
          tumor_fraction, tumor_ploidy)
 
 # Read in tmb_all file
-tmb_df <- readr::read_tsv(tmb_all_file, guess_max = 100000, show_col_types = FALSE) %>% 
+tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>% 
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
 
 # Read maf
@@ -142,11 +142,6 @@ maf_df <- maf_file_df %>%
   CCF() %>% 
   write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
-
-
-# Calculate CCF
-maf_df <- CCF(maf_df)
- 
 
 # Read patient list
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
