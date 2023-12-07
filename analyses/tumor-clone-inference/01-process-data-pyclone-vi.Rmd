@@ -19,7 +19,7 @@ This notebook is for preparing input files for [pyclone-vi](https://github.com/R
 suppressPackageStartupMessages({
   library(tidyverse)
   library(readxl)
-  library(cDriver) # Calculate CCF, https://github.com/hanasusak/cDriver/
+  #library(cDriver) # Calculate CCF, https://github.com/hanasusak/cDriver/
 })
 ```
 
@@ -97,8 +97,7 @@ pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %
          tumor_fraction, tumor_ploidy)
 
 # Read in tmb_all file
-tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) # change name of the biospecimen to match the one from the histologies files
+tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Read maf
 # Keep both synonymous and non-synoymous mutations for the current analysis
@@ -139,7 +138,9 @@ maf_df <- maf_file_df %>%
                                      TRUE ~ "2")) %>% 
   
   # Calculate CCF
-  CCF() %>% 
+  # CCF() %>% 
+  # using formula for CCF calculation
+  mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) %>% 
   write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
 # Number of samples in the `maf_df`
@@ -337,6 +338,7 @@ pyclone_input <- data_list_bind %>%
                 "minor_cn" = "cn2") %>% 
 
   left_join(pyclone_all_samples_df) %>% 
+  
   filter(!is.na(major_cn),
          !is.na(minor_cn)) %>%
   dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
