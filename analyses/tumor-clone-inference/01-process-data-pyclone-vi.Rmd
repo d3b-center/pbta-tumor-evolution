@@ -281,6 +281,8 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
 
 samples_pyclone <- print(unique(pyclone_all_samples_df$Kids_First_Participant_ID))
 
+# Remove large files
+rm(nautilus_dec_df)
 
 # I will test one HGG dataset for now
 # PT_Z4BF2NSB
