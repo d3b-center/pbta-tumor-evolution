@@ -142,6 +142,8 @@ maf_df <- maf_file_df %>%
   CCF() %>% 
   write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
+# Number of samples in the `maf_df`
+maf_samples <- print(length(unique(maf_df$Kids_First_Participant_ID)))
 
 # Read patient list
 genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, show_col_types = FALSE) %>% 
@@ -153,8 +155,14 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
                 cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
                 cg_id = str_replace(cg_id, "/|-", "_"),
                 cg_id = str_replace_all(cg_id, " ", "_"),
-                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":"))
+                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) %>% 
+  filter(!is.na(VAF),
+         !VAF == 0 #, 
+         #!is.na(tmb)
+         )
 
+# Number of samples in the `genomic_paired_df`
+genomic_samples <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
 
 # Let's count #specimens per sample 
 # We will remove any samples with less than 2 specimens as phylogenies require at least 3 taxa
@@ -169,7 +177,8 @@ kids_specimens_n_df <- genomic_paired_df %>%
   left_join(genomic_paired_df, by = c("Kids_First_Participant_ID")) %>%
   #left_join(maf_df) %>% 
   filter(!is.na(Chromosome)) 
-  
+
+
 # Let's confirm and add the number of timepoints per sample
 # In case we lost any from filtering hypermutants and high reads/alteration
 timepoints_n_df <- kids_specimens_n_df %>% 
@@ -184,6 +193,10 @@ df <- timepoints_n_df %>%
   left_join(kids_specimens_n_df, by = c("Kids_First_Participant_ID")) %>% 
   write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny.tsv"))
 
+# Number of samples in the `genomic_paired_df` with > 3 biospecimens and >2 timepoints
+samples_with_3bs <- print(length(unique(df$Kids_First_Participant_ID)))
+samples_with_3bs <- print(unique(df$Kids_First_Participant_ID))
+  
 # List with samples eligible for phylogeny
 # I added the information about to use for phylogenetic inferences
 list_df <- df %>% 
@@ -192,6 +205,9 @@ list_df <- df %>%
   mutate(somatic_germline_phylogeny = case_when(grepl("PT_KZ56XHJT|PT_KTRJ8TFY", Kids_First_Participant_ID) ~ "yes",
                                         TRUE ~ "not_yet")) %>% 
   write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list.tsv"))
+
+# Remove files
+rm(genomic_paired_df, kids_specimens_n_df)
 
 ```
 
@@ -226,12 +242,12 @@ dec_n_df <- df %>%
 
 ###-----------------------------------------------------
 # let's look into PT_3KM9W8S8
-PT_3KM9W8S8_df <- nautilus_dec_df %>% 
-  filter(Kids_First_Participant_ID == "PT_3KM9W8S8",
-         Kids_First_Biospecimen_ID == "BS_2NQXY528") %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
-  unique() %>% 
-  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
+#PT_3KM9W8S8_df <- nautilus_dec_df %>% 
+#  filter(Kids_First_Participant_ID == "PT_3KM9W8S8",
+ #        Kids_First_Biospecimen_ID == "BS_2NQXY528") %>% 
+#  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
+#  unique() %>% 
+#  write_tsv(file.path(results_dir, "nautilus_dec_list.tsv"))
   
 #bs_id <- print(unique(PT_3KM9W8S8_df$Kids_First_Biospecimen_ID))
 ```
@@ -260,7 +276,9 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor, 
          cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, tumour_content, mutation_count)
- 
+
+samples_pyclone <- print(unique(pyclone_all_samples_df$Kids_First_Participant_ID))
+
 
 # I will test one HGG dataset for now
 # PT_Z4BF2NSB
@@ -307,6 +325,9 @@ for (i in 1:length(data_dir) ) {
 # Bind all df from list 
 data_list_bind <- dplyr::bind_rows(data_list) 
 
+# Remove files
+rm(data_list)
+
 # Create and save pyclone_input!
 pyclone_input <- data_list_bind %>% 
   
@@ -326,6 +347,21 @@ pyclone_input <- data_list_bind %>%
   distinct() 
 
 
+pyclone_input <- pyclone_input %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
+  
+  # To ensure there are no duplicated entries in the dataframe
+  distinct() 
+
+
+samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
+
+```
+
+# Save input files
+
+```{r save-input-files}
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
