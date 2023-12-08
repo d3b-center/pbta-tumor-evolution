@@ -345,7 +345,7 @@ pyclone_input <- data_list_bind %>%
   
   filter(!is.na(major_cn),
          !is.na(minor_cn)) %>%
-  dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
+  dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn, ref_counts, alt_counts, sep = ":")) %>% 
   select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
   
@@ -354,6 +354,14 @@ pyclone_input <- data_list_bind %>%
   filter(!is.na(Kids_First_Participant_ID))
 
 samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
+
+
+# To find the position of duplicate elements in x, use this:
+# duplicated(pyclone_input)
+
+# Extract duplicate elements:
+# pyclone_input[duplicated(pyclone_input)]
+
 ```
 
 # Save input files
@@ -391,13 +399,6 @@ for (x in seq_along(sample_name) ) {
   
   }
 }
-
-
-# To find the position of duplicate elements in x, use this:
-# duplicated(pyclone_input)
-
-# Extract duplicate elements:
-# pyclone_input[duplicated(pyclone_input)]
 
 ```
 
