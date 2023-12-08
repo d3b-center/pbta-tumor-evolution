@@ -30,13 +30,13 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
 results_dir <- file.path(analysis_dir, "results")
-input_dir <- file.path(results_dir, "fastclone_output")
+input_dir <- file.path(results_dir, "fastclone-output")
 #goi_input_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 
 
 # Input files
 nautilus_dec_file <- file.path(results_dir, "nautilus_dec.tsv") 
-fastclone_output_file <- file.path(input_dir, "PT_KZ56XHJT/scores.csv") 
+#fastclone_output_file <- file.path(data_dir, "PT_KZ56XHJT/scores.csv") 
 #goi_list_file <- file.path(goi_input_dir, "df_list_common_genes.tsv") 
 signif_genes_file <- file.path(results_dir, "signif_genes.tsv") 
 
@@ -58,16 +58,63 @@ if (!dir.exists(clonevol_input_dir)) {
 timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
 patient_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(Kids_First_Participant_ID == "PT_KZ56XHJT") %>% 
+  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
          sample_id, t_ref_count, t_alt_count, mutation_id,
-         tumor_fraction, VAF, Hugo_Symbol, CCF) %>% 
-  mutate(tumor_descriptor = factor(tumor_descriptor),
-         tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
-  arrange(tumor_descriptor)
+         tumor_fraction, VAF, Hugo_Symbol, CCF,
+         Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2) %>% 
+  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
+                tumor_descriptor = factor(tumor_descriptor),
+                tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
+  arrange(tumor_descriptor) %>% 
+  select(-c(Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2))
 
+#############################################
 # Read and process cluster file
-cluster_df <- read_csv(fastclone_output_file) 
+# FastClone
+data_dir <- dir(path = input_dir,  pattern = "scores.csv", full.names = TRUE, recursive = TRUE)
+
+# Create list 
+data_list <- list()
+
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub("scores.csv", "", str_split_fixed(data_dir[i], "/", 12)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+  for (x in seq_along(sample_name) ) { 
+    
+    data_list[[i]] <- read.csv(data_dir[i]) 
+    #data_list[[i]] <- read.csv(data_dir[i], header=T, sep="\t") 
+  }
+}
+#############################################
+
+# Bind all df from list 
+data_list_bind <- dplyr::bind_rows(data_list) 
+
+# Create and save pyclone_input!
+pyclone_input <- data_list_bind %>% 
+  
+  # Rename to match input format
+  # To figure out if the assignment is correct
+  dplyr::rename("major_cn" = "cn1", 
+                "minor_cn" = "cn2") %>% 
+
+  left_join(pyclone_all_samples_df) %>% 
+  filter(!is.na(major_cn),
+         !is.na(minor_cn)) %>%
+  dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
+  
+  # To ensure there are no duplicated entries in the dataframe
+  distinct() 
+
+
+cluster_df <- read.csv(data_dir) 
 
 colnames(cluster_df)[1] <- "mutation_id" 
 names(cluster_df)
