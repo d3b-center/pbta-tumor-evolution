@@ -1,6 +1,6 @@
 library(clonevol)
 
-setwd("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/plots/clusters3_driver_genes1")
+setwd("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/plots/clusters3_driver_genes2")
 #setwd("/Users/chronia/CHOP/GitHub/pbta-tumor-evolution/analyses/tumor-clone-inference/plots/clusters2_goi1")
 
 getwd()
@@ -10,7 +10,7 @@ getwd()
 #x <- readr::read_tsv(clonevol_input_file, guess_max = 100000, show_col_types = FALSE)
   
 #x <- clonevol_input_df_goi
-#x <- clonevol_input_df
+x <- clonevol_input_df 
 #head(aml1$variants)
 
 # preparation
@@ -26,6 +26,7 @@ vaf.col.names <- sample.names
 print(vaf.col.names)
 
 # prepare sample grouping
+#sample.groups <- c('Dx', 'Pro', 'R', "Dec");
 sample.groups <- c('Dx', 'R', "Dec");
 names(sample.groups) <- vaf.col.names
 print(sample.groups)
