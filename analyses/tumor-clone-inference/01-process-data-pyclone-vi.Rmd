@@ -303,8 +303,8 @@ data_list <- list()
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
-  #sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
-  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 10)[,9])))
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  #sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 10)[,9])))
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
@@ -350,8 +350,8 @@ pyclone_input <- data_list_bind %>%
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
-  distinct() #%>% 
-  #filter(!is.na(Kids_First_Participant_ID))
+  distinct() %>% 
+  filter(!is.na(Kids_First_Participant_ID))
 
 samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
 ```
@@ -362,8 +362,8 @@ samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
-  #sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
-  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 10)[,9])))
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  #sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 10)[,9])))
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
