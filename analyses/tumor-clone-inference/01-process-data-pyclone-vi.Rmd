@@ -270,7 +270,7 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
          cg_id_kids, mutation_id, sample_id,
          tumor_descriptor, Chromosome, Start_Position, 
          Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count,
-         normal_cn, tumor_fraction, mutation_count) %>% 
+         normal_cn, tumor_fraction, mutation_count, Hugo_Symbol) %>% 
   
   # change names to match input requirements
   dplyr::rename("ref_counts" = "t_ref_count", 
@@ -346,7 +346,7 @@ pyclone_input <- data_list_bind %>%
   #dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn, ref_counts, alt_counts, sep = ":")) %>% 
   dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":")) %>% 
   select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count, Hugo_Symbol) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
   distinct() %>% 
@@ -355,7 +355,7 @@ pyclone_input <- data_list_bind %>%
 # Save df with all data together
 # We will need this to prepare the input fiel for ClonEvol
 pyclone_input_all <- nautilus_dec_df %>%
-  select(mutation_id, VAF, CCF, gene_protein) %>% 
+  select(mutation_id, VAF, CCF, gene_protein, Hugo_Symbol) %>% 
   right_join(pyclone_input) %>% 
   write_tsv(file.path(results_dir, "pyclone_input_all_data.tsv"))
 
