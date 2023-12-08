@@ -89,7 +89,7 @@ clonevol_df <- PT_Z4BF2NSB_df %>%
   # this will cause an error for clonevol when trying to subset
   # in the `plot.variant.clusters`
   # In addition, `infer.clonal.models` function doesn't accept 0 for clustering
-  dplyr::mutate(cluster = case_when(grepl("Deceased", tumor_descriptor) ~ "3",
+  dplyr::mutate(cluster = case_when(grepl("Deceased", tumor_descriptor) ~ "2",
                                     grepl("Recurrence", tumor_descriptor) ~ "2",
                                     TRUE ~ "1"),
                 # cluster = case_when(grepl("0", cluster) ~ "1"),
