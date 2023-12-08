@@ -209,7 +209,7 @@ list_df <- df %>%
   write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list.tsv"))
 
 # Remove large files
-rm(genomic_paired_df, kids_specimens_n_df)
+rm(genomic_paired_df, kids_specimens_n_df, tmb_df)
 
 ```
 
