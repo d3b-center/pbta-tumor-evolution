@@ -18,6 +18,7 @@ output:
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
+  library(reshape2)
 })
 ```
 
@@ -66,8 +67,7 @@ patient_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_ty
   dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
                 tumor_descriptor = factor(tumor_descriptor),
                 tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
-  arrange(tumor_descriptor) %>% 
-  select(-c(Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2))
+  arrange(tumor_descriptor) 
 
 #############################################
 # Read and process cluster file
@@ -80,7 +80,7 @@ data_list <- list()
 for (i in 1:length(data_dir) ) { 
   
   # Create sample_name
-  sample_name <-  unique(as.character(gsub("scores.csv", "", str_split_fixed(data_dir[i], "/", 12)[,11])))
+  sample_name <-  unique(as.character(gsub("scores.csv", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
@@ -95,53 +95,39 @@ for (i in 1:length(data_dir) ) {
 # Bind all df from list 
 data_list_bind <- dplyr::bind_rows(data_list) 
 
-# Create and save pyclone_input!
-pyclone_input <- data_list_bind %>% 
-  
-  # Rename to match input format
-  # To figure out if the assignment is correct
-  dplyr::rename("major_cn" = "cn1", 
-                "minor_cn" = "cn2") %>% 
+colnames(data_list_bind)[1] <- "mutation_id" 
+names(data_list_bind)
 
-  left_join(pyclone_all_samples_df) %>% 
-  filter(!is.na(major_cn),
-         !is.na(minor_cn)) %>%
-  dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn,sep = ":")) %>% 
-  select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count) %>% 
-  
-  # To ensure there are no duplicated entries in the dataframe
-  distinct() 
-
-
-cluster_df <- read.csv(data_dir) 
-
-colnames(cluster_df)[1] <- "mutation_id" 
-names(cluster_df)
 
 # Count number of columns
-count_col <- ncol(cluster_df)
+count_col <- ncol(data_list_bind)
+count_col
 
-
-pattern = c(":*:")
-
-cluster_df <- cluster_df %>% 
-  mutate(mutation_id = str_replace(mutation_id, "*:", ""))
-
-
-
-
-
+# Duplicate orginalf df
+data_list_bind <- data_list_bind %>% 
   
-  
-  # change names to match input requirements
-  dplyr::rename("cluster" = "cluster_id") %>% 
-  select(cluster, sample_id) %>% 
-  as.data.frame()
+  # Cluster number
+  dplyr::rename("1" = "X0",
+                "2" = "X1",
+                "3" = "X2"
+                ) %>% 
+  mutate_at(c(2:count_col), as.numeric) 
+
+# Melt df
+cluster_df <- data_list_bind  %>%
+  melt() %>% 
+  dplyr::rename("cluster" = "variable",
+                "score" = "value"
+                )
+
+#############################################
+
+
 
 clonevol_df <- patient_df %>% 
-  select(Kids_First_Participant_ID, tumor_descriptor, sample_id, Hugo_Symbol, t_ref_count, t_alt_count,
-         VAF, CCF) %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, sample_id, Hugo_Symbol, t_ref_count, t_alt_count,
+         VAF, CCF, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2) %>% 
+  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":")) %>% 
   left_join(cluster_df) %>% 
   # change names to match input requirements
   dplyr::rename("ref.count" = "t_ref_count", 
@@ -155,9 +141,9 @@ clonevol_df <- patient_df %>%
   # this will cause an error for clonevol when trying to subset
   # in the `plot.variant.clusters`
   # In addition, `infer.clonal.models` function doesn't accept 0 for clustering
-  dplyr::mutate(cluster = case_when(grepl("Deceased", tumor_descriptor) ~ "3",
-                                    grepl("Recurrence", tumor_descriptor) ~ "2",
-                                    TRUE ~ "1"),
+  dplyr::mutate(#cluster = case_when(grepl("Deceased", tumor_descriptor) ~ "3",
+                 #                   grepl("Recurrence", tumor_descriptor) ~ "2",
+                 #                   TRUE ~ "1"),
                 # cluster = case_when(grepl("0", cluster) ~ "1"),
                 ccf = (ccf*100),
                 vaf = (vaf*100)#,
