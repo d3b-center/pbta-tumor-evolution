@@ -36,7 +36,7 @@ input_dir <- file.path(results_dir, "fastclone-output")
 
 
 # Input files
-nautilus_dec_file <- file.path(results_dir, "nautilus_dec.tsv") 
+pyclone_input_all_data_file <- file.path(results_dir, "pyclone_input_all_data.tsv") 
 #fastclone_output_file <- file.path(data_dir, "PT_KZ56XHJT/scores.csv") 
 #goi_list_file <- file.path(goi_input_dir, "df_list_common_genes.tsv") 
 signif_genes_file <- file.path(results_dir, "signif_genes.tsv") 
@@ -58,14 +58,9 @@ if (!dir.exists(clonevol_input_dir)) {
 # Define timepoints
 timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
 
-patient_df <- readr::read_tsv(nautilus_dec_file, guess_max = 100000, show_col_types = FALSE) %>%
-  filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
-         sample_id, t_ref_count, t_alt_count, mutation_id,
-         tumor_fraction, VAF, Hugo_Symbol, CCF,
-         Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2) %>% 
-  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":"),
-                tumor_descriptor = factor(tumor_descriptor),
+pyclone_input_all_data_df <- readr::read_tsv(pyclone_input_all_data_file, guess_max = 100000, show_col_types = FALSE) %>%
+  #filter(Kids_First_Participant_ID == "PT_Z4BF2NSB") %>% 
+  dplyr::mutate(tumor_descriptor = factor(tumor_descriptor),
                 tumor_descriptor = fct_relevel(tumor_descriptor, timepoints)) %>% 
   arrange(tumor_descriptor) 
 
@@ -124,18 +119,22 @@ cluster_df <- data_list_bind  %>%
 
 
 
-clonevol_df <- patient_df %>% 
-  select(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, sample_id, Hugo_Symbol, t_ref_count, t_alt_count,
-         VAF, CCF, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2) %>% 
-  dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":")) %>% 
-  left_join(cluster_df) %>% 
+clonevol_df <- pyclone_input_all_data_df %>%
+  
+  # To order columns by placing numeric columns at the end of the df
+  select(Kids_First_Participant_ID, cg_id_kids, tumor_descriptor, 
+         gene_protein, Hugo_Symbol, mutation_id, sample_id, 
+         ref_counts, alt_counts, normal_cn, 
+         major_cn, minor_cn, tumour_content, 
+         mutation_count, VAF, CCF) %>% 
+  
   # change names to match input requirements
-  dplyr::rename("ref.count" = "t_ref_count", 
-                "var.count" = "t_alt_count",
+  dplyr::rename("ref.count" = "ref_counts", 
+                "var.count" = "alt_counts",
                 "vaf" = "VAF",
                 "ccf" = "CCF") %>% 
   unique() %>% 
-  mutate_at(c(5:9), as.numeric) %>% 
+  mutate_at(c(7:15), as.numeric) %>% 
 
   # pyclone-vi starts numbering of clones from `0`
   # this will cause an error for clonevol when trying to subset
@@ -148,14 +147,41 @@ clonevol_df <- patient_df %>%
                 ccf = (ccf*100),
                 vaf = (vaf*100)#,
                 #unique_id = paste(sample_id, ref.count, sep = ":")
-                )  
+                ) %>% 
+  
+  # Add cluster information
+  left_join(cluster_df) %>% 
+  filter(!is.na(score)) %>% 
+  unique() %>% 
+  dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn, sep = ":"))
 
 
-# to make a loop for each `Kids_First_Participant_ID`
-# for now it's one sample
+print(table(clonevol_df$cg_id_kids))
+
+###---------------------------------------------------------------------------------------
+
+
+signif_genes_df <- readr::read_tsv(signif_genes_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(gene_name) %>% 
+  dplyr::rename("gene" = "gene_name") %>% 
+  dplyr::mutate(is.driver = "TRUE")
+
+
+# to make a loop for each `cg_id_kids`
+cg_id_kids_names <- unique(as.character(clonevol_df$cg_id_kids))
+cg_id_kids_names <- sort(cg_id_kids_names, decreasing = FALSE)
+print(cg_id_kids_names)
+
+# Loop through cg_sum
+for (x in seq_along(cg_id_kids_names)){
+  print(x)
+
+  clonevol_df_sub <- clonevol_df %>%
+    filter(cg_id_kids == cg_id_kids_names[x])
+
 # make long table
 
-df <- clonevol_df %>%
+df <- clonevol_df_sub %>%
   # ref.count
   mutate(id = paste(tumor_descriptor, "ref.count", sep = ".")) %>% #sample_id
 
@@ -188,14 +214,9 @@ df <- clonevol_df %>%
 # Count number of columns
 count_col <- ncol(df)
 
-signif_genes_df <- readr::read_tsv(signif_genes_file, guess_max = 100000, show_col_types = FALSE) %>% 
-  select(gene_name) %>% 
-  dplyr::rename("gene" = "gene_name") %>% 
-  dplyr::mutate(is.driver = "TRUE")
-
 # Make input for clonevol
 clonevol_input_df <- df %>% 
-  mutate_at(c(3:count_col), as.numeric) %>%
+  #mutate_at(c(3:count_col), as.numeric) %>%
   dplyr::rename("gene" = "Hugo_Symbol") %>% 
   #mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
   #select(-c(Hugo_Symbol)) %>% 
@@ -217,10 +238,17 @@ clonevol_input_df <- df %>%
 # Convert labels to display on the plot only the ones in the goi list
 clonevol_input_df$gene <- ifelse(clonevol_input_df$is.driver == TRUE, clonevol_input_df$gene, "-")
 
-
+  fname <- paste0(clonevol_input_dir, "/", cg_id_kids_names[x], "-clonevol_input.tsv")
+  print(fname)
+        
 clonevol_input_df <- clonevol_input_df %>%
   #mutate(gene = paste(gene, Diagnosis.ref.count, sep = "_")) %>% 
-  write_tsv(file.path(clonevol_input_dir, "clonevol_input.tsv"))
+  write_tsv(file.path(fname))
+
+}
+
+
+
 ```
 
 
