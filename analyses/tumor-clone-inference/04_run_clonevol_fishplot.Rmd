@@ -112,10 +112,10 @@ for (i in 1:length(data_dir) ) {
     
 
    # Visualizations
-   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-box.pdf")
-   print(fname)
-   pdf(fname, width = 8, height = 12, useDingbats = FALSE, title='')
-   pp <- print(plot.variant.clusters(data_list[[i]],
+   #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-box.pdf")
+   #print(fname)
+   #pdf(fname, width = 8, height = 12, useDingbats = FALSE, title='')
+   print(plot.variant.clusters(data_list[[i]],
                                cluster.col.name = 'cluster',
                                show.cluster.size = FALSE,
                                cluster.size.text.color = 'blue',
@@ -140,11 +140,11 @@ for (i in 1:length(data_dir) ) {
                                highlight.note.col.name = 'gene',
                                highlight.note.size = 2,
                                order.by.total.vaf = FALSE))
-    dev.off()
+   # dev.off()
     
    ##############################
    # plot clusters pairwise-ly
-   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-variants.pairwise.plot.pdf")
+   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-variants.pairwise.plot.png")
    print(fname)
    print(plot.pairwise(data_list[[i]], col.names = vaf.col.names,
                  out.prefix = fname,
@@ -152,13 +152,13 @@ for (i in 1:length(data_dir) ) {
    
    ##############################
    # plot mean/median of clusters across samples (cluster flow)
-   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-flow.pdf")
-   print(fname)
-   pdf(fname, width=5, height=5, useDingbats=FALSE, title='')
+   #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-flow.pdf")
+   #print(fname)
+   #pdf(fname, width=5, height=5, useDingbats=FALSE, title='')
    print(plot.cluster.flow(data_list[[i]], vaf.col.names = vaf.col.names,
                      sample.names = sample.groups,
                      colors = clone.colors))
-   dev.off()
+  # dev.off()
 
    
    # Re-defien colors so the first one to be for the normal clone needed to root the tree
@@ -213,12 +213,12 @@ for (i in 1:length(data_dir) ) {
                                            event.col.name = 'gene')
 
    # Now plot the tree with this:
-   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-imported-tree.pdf")
-   print(fname)
-   pdf(fname, width=3, height=5, useDingbats=F)
+   #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-imported-tree.pdf")
+   #print(fname)
+   #pdf(fname, width=3, height=5, useDingbats=F)
    print(plot.all.trees.clone.as.branch(y, branch.width = 0.5, 
-                                  node.size = 1, node.label.size = 0.5))
-   dev.off()
+                                        node.size = 1, node.label.size = 0.5))
+   #dev.off()
 
 
    ## How to obtain the best visualizations?
@@ -280,7 +280,7 @@ for (i in 1:length(data_dir) ) {
                    disable.cell.frac = FALSE,
                    # output figure parameters
                    out.dir = output_dir,
-                   out.format = 'pdf',
+                   out.format = 'png',
                    overwrite.output = TRUE,
                    width = 8,
                    height = 4,
@@ -301,16 +301,16 @@ for (i in 1:length(data_dir) ) {
    f = generateFishplotInputs(results=y) #results=x
    fishes = createFishPlotObjects(f)
    # plot with fishplot
-   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
-   print(fname)
-   pdf(fname, width=8, height=4)
+   #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.tiff")
+  # print(fname)
+  #pdf(fname, width=8, height=4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
      print(fishPlot(fish,shape="spline", title.btm="Patient", cex.title=0.4,
               vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.5))
      }
-   dev <- dev.off()
+   #dev <- dev.off()
    }
 }
 
