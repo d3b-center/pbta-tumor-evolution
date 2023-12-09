@@ -109,7 +109,7 @@ maf_nonsynonymous <- c(
 
 # Process maf
 maf_df <- maf_file_df %>%
-  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID#,
+  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous
          ) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% 
