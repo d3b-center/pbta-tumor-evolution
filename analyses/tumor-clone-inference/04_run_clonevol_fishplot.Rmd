@@ -43,7 +43,7 @@ if (!dir.exists(inferences_plots_dir)) {
 
 # Load and process data
 
-```{r load-process-inputs}
+```{r load-process-inputs-run}
 data_dir <- dir(path = input_files_dir,  pattern = "-clonevol_input.tsv", full.names = TRUE, recursive = TRUE)
 
 # Create list 
