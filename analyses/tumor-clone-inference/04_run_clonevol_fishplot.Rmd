@@ -307,8 +307,8 @@ for (i in 1:length(data_dir) ) {
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
-     print(fishPlot(fish,shape="spline", title.btm="Patient", cex.title=0.4,
-              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.5))
+     print(fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
+              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3))
      }
    #dev <- dev.off()
    }
