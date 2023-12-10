@@ -60,9 +60,9 @@ if (!dir.exists(pyclonevi_input_dir)) {
 
 # File path to input directory
 fastclone_input_dir <-
-  file.path(analysis_dir, "results", "fastclone-input-synonymous")
-if (!dir.exists(pyclonevi_input_dir)) {
-  dir.create(pyclonevi_input_dir)
+  file.path(analysis_dir, "results", "fastclone-input-non-synonymous")
+if (!dir.exists(fastclone_input_dir)) {
+  dir.create(fastclone_input_dir)
 }
 
 
@@ -197,7 +197,7 @@ timepoints_n_df <- kids_specimens_n_df %>%
 
 df <- timepoints_n_df %>% 
   left_join(kids_specimens_n_df, by = c("Kids_First_Participant_ID")) %>% 
-  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_non_synonymous.tsv"))
 
 # Number of samples in the `genomic_paired_df` with > 3 biospecimens and >2 timepoints
 samples_with_3bs <- print(length(unique(df$Kids_First_Participant_ID)))
@@ -210,7 +210,7 @@ list_df <- df %>%
   unique() %>% 
   mutate(somatic_germline_phylogeny = case_when(grepl("PT_KZ56XHJT|PT_KTRJ8TFY", Kids_First_Participant_ID) ~ "yes",
                                         TRUE ~ "not_yet")) %>% 
-  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_list_non_synonymous.tsv"))
 
 # Remove large files
 rm(genomic_paired_df, kids_specimens_n_df, tmb_df)
@@ -245,7 +245,7 @@ dec_n_df <- df %>%
  # dplyr::mutate(kids_dec_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
   dplyr::rename(kids_deceased_bs_number = n) %>% 
   filter(!kids_deceased_bs_number <= 1) %>% 
-  write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "kids_dec_multiple_bs_list_non_synonymous.tsv"))
 ```
 
 
@@ -350,7 +350,7 @@ pyclone_input <- data_list_bind %>%
 pyclone_input_all <- nautilus_dec_df %>%
   select(mutation_id, VAF, CCF, gene_protein, Hugo_Symbol) %>% 
   right_join(pyclone_input) %>% 
-  write_tsv(file.path(results_dir, "pyclone_input_all_data_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "pyclone_input_all_data_non_synonymous.tsv"))
 
 
 samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
