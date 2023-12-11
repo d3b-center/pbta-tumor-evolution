@@ -67,6 +67,14 @@ if (!dir.exists(fastclone_input_dir)) {
 
 
 # File path to plot directory
+plots_dir <-
+  file.path(analysis_dir, "plots")
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+}
+
+
+# File path to plot directory
 pyclone_plots_dir <-
   file.path(analysis_dir, "plots", "pyclone-vi-synonymous")
 if (!dir.exists(pyclone_plots_dir)) {
@@ -109,7 +117,7 @@ maf_nonsynonymous <- c(
 
 # Process maf
 maf_df <- maf_file_df %>%
-  filter(Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
+  filter(#Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous
          ) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) %>% 
@@ -121,7 +129,7 @@ maf_df <- maf_file_df %>%
                 # Concatenate gene and protein information
                 gene_protein = paste(Hugo_Symbol, HGVSp_Short, sep = "_")) %>%  
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, tumor_descriptor,
-         sample_id, aliquot_id, Chromosome, 
+         sample_id, aliquot_id, Chromosome, Variant_Classification,
          Start_Position, Reference_Allele, Tumor_Seq_Allele1, Tumor_Seq_Allele2,
          t_ref_count, t_alt_count, 
          tumor_fraction, tumor_ploidy, VAF, gene_protein, Hugo_Symbol,
@@ -148,6 +156,9 @@ maf_df <- maf_file_df %>%
   mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) #%>% 
   #write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
+print(table(maf_df_all_mutations$Variant_Classification))
+
+
 # Number of samples in the `maf_df`
 maf_samples <- print(length(unique(maf_df$Kids_First_Participant_ID)))
 
@@ -166,6 +177,9 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
          #!VAF == 0 #, 
          #!is.na(tmb)
         # )
+
+print(table(maf_df$Variant_Classification))
+
 
 # Number of samples in the `genomic_paired_df`
 genomic_samples <- print(length(unique(genomic_paired_df$Kids_First_Participant_ID)))
@@ -198,7 +212,7 @@ timepoints_n_df <- kids_specimens_n_df %>%
 df <- timepoints_n_df %>% 
   left_join(kids_specimens_n_df, by = c("Kids_First_Participant_ID")) %>% 
   write_tsv(file.path(results_dir, "samples_eligible_for_phylogeny_non_synonymous.tsv"))
-
+  
 # Number of samples in the `genomic_paired_df` with > 3 biospecimens and >2 timepoints
 samples_with_3bs <- print(length(unique(df$Kids_First_Participant_ID)))
 samples_with_3bs <- print(unique(df$Kids_First_Participant_ID))
@@ -544,6 +558,49 @@ for (x in seq_along(sample_name) ) {
   
 }
 }
+```
+
+# To add plot with #bs/kids_id
+
+```{r}
+df_file <- file.path(results_dir, "samples_eligible_for_phylogeny_non_synonymous.tsv")
+df <- readr::read_tsv(df_file, guess_max = 100000, show_col_types = FALSE) 
+
+
+df %>%
+  distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  count(cg_id_kids) %>%
+ # pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+  
+
+# Plot stacked barplot 
+p <- print(ggplot(df, aes(x = cg_id_kids, 
+                          y = Kids_First_Biospecimen_ID, 
+                          fill = tumor_descriptor)) + 
+             geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
+             scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+             geom_bar(stat = "identity", width = 0.9) + 
+             theme_Publication() + 
+             theme(axis.text.x = element_text(angle = 85, 
+                                              hjust = 1, 
+                                              vjust = 1),
+                   text = element_text(size = 14)) +
+             scale_y_discrete(breaks = scales::pretty_breaks(n = 6)) +
+             labs(title = paste("Number of bs per cg_id_kids", sep = " ")) + 
+             labs(x = "", y = "# bs"))
+  
+# Save the plot
+ggsave(filename = "Number_bs_per_cg_id_kids.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 8,
+       device = "pdf", 
+       useDingbats = FALSE) 
+
 ```
 
 ```{r}
