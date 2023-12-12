@@ -156,7 +156,7 @@ maf_df <- maf_file_df %>%
   mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) #%>% 
   #write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
 
-print(table(maf_df_all_mutations$Variant_Classification))
+print(table(maf_df$Variant_Classification))
 
 
 # Number of samples in the `maf_df`
@@ -237,12 +237,12 @@ rm(genomic_paired_df, kids_specimens_n_df, tmb_df)
 nautilus_dec_df <- read_excel(nautilus_dec_file) %>% 
   right_join(df, by = c("sample_id", "aliquot_id", "tumor_descriptor")) %>%
   dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":")) %>% 
-  write_tsv(file.path(results_dir, "nautilus_dec_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "nautilus_dec_non_synonymous.tsv"))
 
 list_df <- nautilus_dec_df %>% 
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, `Note field from Nautilus of initial parent`) %>% 
   unique() %>% 
-  write_tsv(file.path(results_dir, "nautilus_dec_list_synonymous.tsv"))
+  write_tsv(file.path(results_dir, "nautilus_dec_list_non_synonymous.tsv"))
 
 ```
 
@@ -313,27 +313,31 @@ for (i in 1:length(data_dir) ) {
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
-  for (x in seq_along(sample_name) ) { 
+  
+  for (x in seq_along(sample_name) ) {
     
     data_list[[i]] <- read.csv(data_dir[i], header=T, sep="\t") 
   
+    # Create file_name
+    file_name <- gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,12])
+    print(file_name)
+  
+    data_list[[i]] <- data_list[[i]] %>% 
+      mutate(Kids_First_Biospecimen_ID = file_name) 
     
-  # Create file_name
-  file_name <- gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,12])
-  print(file_name)
-  
-  data_list[[i]] <- data_list[[i]] %>% 
-    mutate(Kids_First_Biospecimen_ID = file_name)
-  
-  # The following code assigns name to df
-  # But adds an extra df into the list - dont know yet why but let's remove, it's not necessary
-  #df <- assign(file_name, data_list) 
-  #data_list[[file_name]] <- df
+    # The following code assigns name to df
+    # But adds an extra df into the list - dont know yet why but let's remove, it's not necessary
+    #df <- assign(file_name, data_list) 
+    #data_list[[file_name]] <- df
+    
   }
 }
 
 # Bind all df from list 
-data_list_bind <- dplyr::bind_rows(data_list) 
+data_list_bind <- dplyr::bind_rows(data_list) %>% 
+  as.data.frame()
+
+head(data_list_bind)
 
 # Remove large files
 rm(data_list)
@@ -344,7 +348,8 @@ pyclone_input <- data_list_bind %>%
   # Rename to match input format
   # To figure out if the assignment is correct
   dplyr::rename("major_cn" = "cn1", 
-                "minor_cn" = "cn2") %>% 
+                "minor_cn" = "cn2",
+                "Start_Position" =) %>% 
 
   left_join(pyclone_all_samples_df) %>% 
   
@@ -356,8 +361,7 @@ pyclone_input <- data_list_bind %>%
          alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count, Hugo_Symbol) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
-  distinct() %>% 
-  filter(!is.na(Kids_First_Participant_ID)) 
+  unique() 
 
 # Save df with all data together
 # We will need this to prepare the input fiel for ClonEvol
@@ -566,20 +570,20 @@ for (x in seq_along(sample_name) ) {
 df_file <- file.path(results_dir, "samples_eligible_for_phylogeny_non_synonymous.tsv")
 df <- readr::read_tsv(df_file, guess_max = 100000, show_col_types = FALSE) 
 
-
-df %>%
+count_df <- df %>%
   distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE) %>% 
   unique() %>% 
   count(cg_id_kids) %>%
+  left_join(df)
  # pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
-  regulartable() %>%
-  fontsize(size = 12, part = "all")
+  #regulartable() %>%
+  #fontsize(size = 12, part = "all")
 
   
 
 # Plot stacked barplot 
-p <- print(ggplot(df, aes(x = cg_id_kids, 
-                          y = Kids_First_Biospecimen_ID, 
+p <- print(ggplot(count_df , aes(x = cg_id_kids, 
+                          y = n, 
                           fill = tumor_descriptor)) + 
              geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
              scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
