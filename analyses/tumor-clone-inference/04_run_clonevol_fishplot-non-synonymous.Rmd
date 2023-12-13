@@ -301,8 +301,8 @@ for (i in 1:length(data_dir) ) {
    f = generateFishplotInputs(results=y) #results=x
    fishes = createFishPlotObjects(f)
    # plot with fishplot
-   #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.tiff")
-  # print(fname)
+   fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
+   print(fname)
   pdf(fname, width=8, height=4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
