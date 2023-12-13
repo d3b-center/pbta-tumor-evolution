@@ -104,8 +104,8 @@ data_list_bind <- data_list_bind %>%
   
   # Cluster number
   dplyr::rename("1" = "X0",
-                "2" = "X1",
-                "3" = "X2"
+                "2" = "X1"#,
+                #"3" = "X2"
                 ) %>% 
   mutate_at(c(2:count_col), as.numeric) 
 
@@ -117,8 +117,6 @@ cluster_df <- data_list_bind  %>%
                 )
 
 #############################################
-
-
 
 clonevol_df <- pyclone_input_all_data_df %>%
   
@@ -180,89 +178,87 @@ for (x in seq_along(cg_id_kids_names)){
   clonevol_df_sub <- clonevol_df %>%
     filter(cg_id_kids == cg_id_kids_names[x])
 
-# make long table
+  # make long table
 
-df <- clonevol_df_sub %>%
-  # ref.count
-  mutate(id = paste(tumor_descriptor, "ref.count", sep = ".")) %>% #sample_id
+  df <- clonevol_df_sub %>%
+    # ref.count
+    mutate(id = paste(tumor_descriptor, "ref.count", sep = ".")) %>% #sample_id
 
-  # USING pivit_wider for multiple columns was intrudicng a bug so I split it up instead
-  #pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf")) %>% #values_fn = list
-  pivot_wider(names_from = "id", values_from = c("ref.count"), values_fill = 0) %>% #values_fn = list
+    # USING pivot_wider for multiple columns was introducing a bug so I split it up instead
+    #pivot_wider(names_from = "sample_id", values_from = c("ref.count", "var.count", "vaf", "ccf")) %>% #values_fn = list
+    pivot_wider(names_from = "id", values_from = c("ref.count"), values_fill = 0) %>% #values_fn = list
   
-  # var.count
-  left_join(clonevol_df, relationship = "many-to-many") %>% 
-  select(-c(ref.count)) %>% 
-  mutate(id = paste(tumor_descriptor, "var.count", sep = ".")) %>% 
-  pivot_wider(names_from = "id", values_from = c("var.count"), values_fill = 0) %>% #values_fn = list
+    # var.count
+    left_join(clonevol_df, relationship = "many-to-many") %>% 
+    select(-c(ref.count)) %>% 
+    mutate(id = paste(tumor_descriptor, "var.count", sep = ".")) %>% 
+    pivot_wider(names_from = "id", values_from = c("var.count"), values_fill = 0) %>% #values_fn = list
 
-  # vaf
-  left_join(clonevol_df, relationship = "many-to-many") %>% 
-  select(-c(ref.count, var.count)) %>% 
-  mutate(id = paste(tumor_descriptor, "vaf", sep = ".")) %>% 
-  pivot_wider(names_from = "id", values_from = c("vaf"), values_fill = 0) %>% #values_fn = list
+    # vaf
+    left_join(clonevol_df, relationship = "many-to-many") %>% 
+    select(-c(ref.count, var.count)) %>% 
+    mutate(id = paste(tumor_descriptor, "vaf", sep = ".")) %>% 
+    pivot_wider(names_from = "id", values_from = c("vaf"), values_fill = 0) %>% #values_fn = list
   
-  # ccf
-  left_join(clonevol_df, relationship = "many-to-many") %>% 
-  select(-c(ref.count, var.count, vaf)) %>% 
-  mutate(id = paste(tumor_descriptor, "ccf", sep = ".")) %>% 
-  unique() %>% 
-  pivot_wider(names_from = "id", values_from = c("ccf"), values_fill = 0) %>% #values_fn = list
+    # ccf
+    left_join(clonevol_df, relationship = "many-to-many") %>% 
+    select(-c(ref.count, var.count, vaf)) %>% 
+    mutate(id = paste(tumor_descriptor, "ccf", sep = ".")) %>% 
+    unique() %>% 
+    pivot_wider(names_from = "id", values_from = c("ccf"), values_fill = 0) %>% #values_fn = list
   
-  as.data.frame() %>% 
-  select(-c(Kids_First_Participant_ID, tumor_descriptor)) 
+    as.data.frame() %>% 
+    select(-c(Kids_First_Participant_ID, tumor_descriptor)) 
   
-# Count number of columns
-count_col <- ncol(df)
+  # Count number of columns
+  count_col <- ncol(df)
 
-# Make input for clonevol
-clonevol_input_df <- df %>% 
-  #mutate_at(c(3:count_col), as.numeric) %>%
-  dplyr::rename("gene" = "Hugo_Symbol") %>% 
-  #mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
-  #select(-c(Hugo_Symbol)) %>% 
-  #left_join(goi_df) %>% 
-  left_join(signif_genes_df) %>%
-  dplyr::mutate(is.driver = replace_na(is.driver, "FALSE")) %>% 
-  #dplyr::rename("gene" = "gene_protein", 
-  #              # we will use sym info as driver info for now
-  #             "is.driver" = "sym") %>%
-  select(-c(sample_id)) %>%
-  relocate(c(gene, is.driver), .after = Deceased.ccf) %>% 
-  unique %>%
-  filter(!is.na(is.driver)) %>% 
-  replace(is.na(.), "-")
-  #filter(!is.na(is.driver)) %>% 
-  #drop_na() 
-
-
-# Convert labels to display on the plot only the ones in the goi list
-clonevol_input_df$gene <- ifelse(clonevol_input_df$is.driver == TRUE, clonevol_input_df$gene, "-")
-
-
-
-test = clonevol_input_df %>% 
-  add_column(gene.edited = "no",
-             is.driver.edited = "FALSE") %>% 
-  mutate(l = length(unique(mutation.id.unique)))
+  # Make input for clonevol
+  clonevol_input_df <- df %>% 
+    #mutate_at(c(3:count_col), as.numeric) %>%
+    dplyr::rename("gene" = "Hugo_Symbol") %>% 
+    #mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
+    #select(-c(Hugo_Symbol)) %>% 
+    #left_join(goi_df) %>% 
+    left_join(signif_genes_df) %>%
+    dplyr::mutate(is.driver = replace_na(is.driver, "FALSE")) %>% 
+    #dplyr::rename("gene" = "gene_protein", 
+    #              # we will use sym info as driver info for now
+    #             "is.driver" = "sym") %>%
+    select(-c(sample_id)) %>%
+    relocate(c(gene, is.driver), .after = Deceased.ccf) %>% 
+    unique %>%
+    filter(!is.na(is.driver)) %>% 
+    replace(is.na(.), "-")
+    #filter(!is.na(is.driver)) %>% 
+    #drop_na() 
   
   
- # mutation.id.unique and is.driver
+  # Convert labels to display on the plot only the ones in the goi list
+  clonevol_input_df$gene <- ifelse(clonevol_input_df$is.driver == TRUE, clonevol_input_df$gene, "-")
   
-df %>% 
-
+  
+  test = clonevol_input_df %>% 
+    add_column(gene.edited = "no",
+               is.driver.edited = "FALSE") %>% 
+    mutate(l = length(unique(mutation.id.unique)))
+  
+  
+  # mutation.id.unique and is.driver
+  
+  
+  
+  
+  
+  
   fname <- paste0(clonevol_input_dir, "/", cg_id_kids_names[x], "-clonevol_input.tsv")
+  print(fname)
   
-print(fname)
-        
-clonevol_input_df <- clonevol_input_df %>%
-  #mutate(gene = paste(gene, Diagnosis.ref.count, sep = "_")) %>% 
-  write_tsv(file.path(fname))
-
+  clonevol_input_df <- clonevol_input_df %>%
+    #mutate(gene = paste(gene, Diagnosis.ref.count, sep = "_")) %>% 
+    write_tsv(file.path(fname))
+  
 }
-
-
-
 ```
 
 
