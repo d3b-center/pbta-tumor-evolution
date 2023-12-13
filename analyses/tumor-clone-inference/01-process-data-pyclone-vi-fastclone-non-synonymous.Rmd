@@ -275,7 +275,7 @@ We will compare later differences in samples with single vs multiple biospecimen
 pyclone_all_samples_df <- nautilus_dec_df %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, 
          cg_id_kids, mutation_id, sample_id,
-         tumor_descriptor, Chromosome, Start_Position, 
+         tumor_descriptor, Chromosome, Start_Position, End_Position,
          Reference_Allele, Tumor_Seq_Allele2, t_ref_count, t_alt_count,
          normal_cn, tumor_fraction, mutation_count, Hugo_Symbol) %>% 
   
@@ -349,7 +349,8 @@ pyclone_input <- data_list_bind %>%
   # To figure out if the assignment is correct
   dplyr::rename("major_cn" = "cn1", 
                 "minor_cn" = "cn2",
-                "Start_Position" =) %>% 
+                "Start_Position" = "start",
+                "End_Position" = "end") %>% 
 
   left_join(pyclone_all_samples_df) %>% 
   
