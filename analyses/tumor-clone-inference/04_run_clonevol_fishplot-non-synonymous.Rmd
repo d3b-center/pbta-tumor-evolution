@@ -35,7 +35,7 @@ input_files_dir <- file.path(analysis_dir, "results", "clonevol-input")
 
 # File path to plot directory
 inferences_plots_dir <-
-  file.path(analysis_dir, "plots", "clonevol-fishplot")
+  file.path(analysis_dir, "plots", "clonevol-fishplot-non-synonymous")
 if (!dir.exists(inferences_plots_dir)) {
   dir.create(inferences_plots_dir)
 }
@@ -303,14 +303,14 @@ for (i in 1:length(data_dir) ) {
    # plot with fishplot
    #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.tiff")
   # print(fname)
-  #pdf(fname, width=8, height=4)
+  pdf(fname, width=8, height=4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
      print(fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
               vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3))
      }
-   #dev <- dev.off()
+   dev <- dev.off()
    }
 }
 

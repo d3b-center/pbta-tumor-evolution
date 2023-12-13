@@ -349,17 +349,27 @@ pyclone_input <- data_list_bind %>%
   # To figure out if the assignment is correct
   dplyr::rename("major_cn" = "cn1", 
                 "minor_cn" = "cn2",
-                "Start_Position" = "start",
-                "End_Position" = "end") %>% 
+                #"Start_Position" = "start",
+                #"End_Position" = "end",
+                "Chromosome" = "chromosome"#,
+                #"Hugo_Symbol" = "gene"
+                ) %>% 
+  #select(-c(Kids_First_Biospecimen_ID)) %>% 
 
-  left_join(pyclone_all_samples_df) %>% 
+  right_join(pyclone_all_samples_df) %>% 
   
   filter(!is.na(major_cn),
-         !is.na(minor_cn)) %>%
+         !is.na(minor_cn) #,
+         #!is.na(Kids_First_Participant_ID)
+         ) %>%
   #dplyr::mutate(mutation_id = paste(mutation_id, major_cn, minor_cn, ref_counts, alt_counts, sep = ":")) %>% 
   dplyr::mutate(mutation_id = paste(Kids_First_Participant_ID, tumor_descriptor, Kids_First_Biospecimen_ID, Chromosome, Start_Position, Reference_Allele, Tumor_Seq_Allele2, sep = ":")) %>% 
   select(Kids_First_Participant_ID, tumor_descriptor, cg_id_kids, mutation_id, sample_id, ref_counts, 
-         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count, Hugo_Symbol) %>% 
+         alt_counts, normal_cn, major_cn, minor_cn, tumour_content, mutation_count, Hugo_Symbol, 
+         #gene,
+         #Start_Position, start,
+         #End_Position, end
+         ) %>% 
   
   # To ensure there are no duplicated entries in the dataframe
   unique() 
