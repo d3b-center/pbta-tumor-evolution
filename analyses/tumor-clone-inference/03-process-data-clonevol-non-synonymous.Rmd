@@ -162,8 +162,9 @@ print(table(clonevol_df$cg_id_kids))
 
 signif_genes_df <- readr::read_tsv(signif_genes_file, guess_max = 100000, show_col_types = FALSE) %>% 
   select(gene_name) %>% 
-  dplyr::rename("gene" = "gene_name") %>% 
-  dplyr::mutate(is.driver = "TRUE")
+  dplyr::rename("gene.all" = "gene_name"
+                ) %>% 
+  dplyr::mutate(is.driver.all = "TRUE")
 
 
 # to make a loop for each `cg_id_kids`
@@ -216,45 +217,52 @@ for (x in seq_along(cg_id_kids_names)){
   # Make input for clonevol
   clonevol_input_df <- df %>% 
     #mutate_at(c(3:count_col), as.numeric) %>%
-    dplyr::rename("gene" = "Hugo_Symbol") %>% 
+    dplyr::rename("gene.all" = "Hugo_Symbol") %>% 
     #mutate(id = paste(sample_id, Hugo_Symbol, sep = "_")) %>% 
     #select(-c(Hugo_Symbol)) %>% 
     #left_join(goi_df) %>% 
     left_join(signif_genes_df) %>%
-    dplyr::mutate(is.driver = replace_na(is.driver, "FALSE")) %>% 
-    #dplyr::rename("gene" = "gene_protein", 
+    dplyr::mutate(is.driver.all = replace_na(is.driver.all, "FALSE")) %>% 
+    #dplyr::rename("gene.all" = "gene_protein", 
     #              # we will use sym info as driver info for now
-    #             "is.driver" = "sym") %>%
+    #             "is.driver.all" = "sym") %>%
     select(-c(sample_id)) %>%
-    relocate(c(gene, is.driver), .after = Deceased.ccf) %>% 
+    relocate(c(gene.all, is.driver.all), .after = Deceased.ccf) %>% 
     unique %>%
-    filter(!is.na(is.driver)) %>% 
+    filter(!is.na(is.driver.all)) %>% 
     replace(is.na(.), "-")
-    #filter(!is.na(is.driver)) %>% 
+    #filter(!is.na(is.driver.all)) %>% 
     #drop_na() 
   
   
   # Convert labels to display on the plot only the ones in the goi list
-  clonevol_input_df$gene <- ifelse(clonevol_input_df$is.driver == TRUE, clonevol_input_df$gene, "-")
+  clonevol_input_df$gene.all <- ifelse(clonevol_input_df$is.driver.all == TRUE, clonevol_input_df$gene.all, "-")
+  
+  # Create unique gene labels for visualizations
+  # and so to avoid multiplets per cluster/clone
+  unique_genes_clonevol_input_df =  clonevol_input_df %>% 
+    #mutate(mutation.id.unique = paste(mutation.id.unique, cluster, sep = ".")) %>% 
+    distinct(mutation.id.unique, cluster, .keep_all = TRUE) %>% 
+    dplyr::rename("gene" = "gene.all",
+                  "is.driver" = "is.driver.all"
+                  ) %>% 
+    right_join(clonevol_input_df) %>% 
+    replace(is.na(.), "-") %>% 
+    mutate(is.driver = case_when(grepl("-", is.driver) ~ "FALSE",
+                                 TRUE ~ is.driver)) %>% 
+    distinct(gene, cluster, .keep_all = TRUE) %>% 
+    right_join(clonevol_input_df) %>% 
+    replace(is.na(.), "-") %>% 
+    mutate(is.driver = case_when(grepl("-", is.driver) ~ "FALSE",
+                                 TRUE ~ is.driver))
   
   
-  test = clonevol_input_df %>% 
-    add_column(gene.edited = "no",
-               is.driver.edited = "FALSE") %>% 
-    mutate(l = length(unique(mutation.id.unique)))
-  
-  
-  # mutation.id.unique and is.driver
-  
-  
-  
-  
-  
-  
+  # Name file to save
   fname <- paste0(clonevol_input_dir, "/", cg_id_kids_names[x], "-clonevol_input.tsv")
   print(fname)
   
-  clonevol_input_df <- clonevol_input_df %>%
+  # Save the df
+  unique_genes_clonevol_input_df <- unique_genes_clonevol_input_df %>%
     #mutate(gene = paste(gene, Diagnosis.ref.count, sep = "_")) %>% 
     write_tsv(file.path(fname))
   
