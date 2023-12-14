@@ -39,6 +39,8 @@ inferences_plots_dir <-
 if (!dir.exists(inferences_plots_dir)) {
   dir.create(inferences_plots_dir)
 }
+
+source(paste0(analysis_dir, "/util/function-create-fishplot.R"))
 ```
 
 # Load and process data
@@ -306,11 +308,69 @@ for (i in 1:length(data_dir) ) {
    # x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
    #create a list of fish objects 
    f = generateFishplotInputs(results = y) #results=x
-   fishes = createFishPlotObjects1(f)
+   
+   
+   ###---------------------------
+   # Add driver genes annotations
+   # cluster 1
+   
+   data_sub <- data_list[[i]] %>% 
+     filter(cg_id_kids == sample_name[x])
+   
+   clone_number = unique(data_sub$cluster) 
+   print(clone_number)
+   
+   #loop_index_1 <- 0                        # Create index count
+   
+   # Create list 
+   genes.list <- list(1,2)
+   
+   for (c in seq_along(clone_number)) {
+     #print(c) 
+     #loop_index_1 <- loop_index_1 + 1
+     #print(loop_index_1)
+  
+     genes.list[[c]] <- unique(data_sub$gene)
+     genes.list[[c]] <- sort(genes.list[[c]], decreasing = FALSE)
+     genes.list[[c]] <- as.character(genes.list[[c]][!genes.list[[c]] == "-"]) %>% 
+       paste(sep=",", collapse=",") 
+     
+     
+     clone.annots_names = paste(c(genes.list[[c]]))
+     print(clone.annots_names)
+   }
+   
+   clone.annots_names = array(clone.annots_names, dim = (rows = 2))
+   print(clone.annots_names)
+   
+   fishes = createFishPlotObjects.clone.annots(f,
+                                               clone.annots.values = clone.annots_names)
+  
+   
+     
+  clone.annots_names1 = unique(data_sub$gene)
+   clone.annots_names1 <- sort(clone.annots_names1, decreasing = FALSE)
+   clone.annots_names1 <- clone.annots_names1[!clone.annots_names1 == "-"] %>% 
+     paste(sep=",", collapse=",") 
+  print(clone.annots_names1)
+   
+   # cluster 2
+   clone.annots_names2 = unique(data_sub$gene)
+   clone.annots_names2 <- sort(clone.annots_names2, decreasing = FALSE)
+   clone.annots_names2 <- clone.annots_names2[!clone.annots_names2 == "-"] %>% 
+     paste(sep=",", collapse=",") 
+  print(clone.annots_names2)
+   
+   clone.annots_names = c(clone.annots_names1, clone.annots_names2)
+   
+   ###---------------------------
+
+  
+   
    # plot with fishplot
    fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
    print(fname)
-   pdf(file = fname, width = 8, height = 4)
+   pdf(file = fname, width = 6, height = 4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
@@ -325,23 +385,6 @@ for (i in 1:length(data_dir) ) {
 
 
 
-createFishPlotObjects1 <- function(results){
-  #library(fishplot)
-
-  fishes = list()
-  for(i in 1:results$num.models){
-    print(i)
-    fishes[[i]]=createFishObject(results$cell.fractions[[i]],
-      parents=as.integer(results$parents[[i]]),
-      timepoints=results$timepoints,
-      clone.labels=results$clonevol.clone.names[1:length(results$clonevol.clone.names)],
-      fix.missing.clones=TRUE,
-      clone.annots = results$variants$gene[1:length(results$variants$gene)]
-
-      )
-  }
-  return(fishes)
-}
 
 
 ```
