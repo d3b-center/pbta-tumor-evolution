@@ -42,7 +42,7 @@ palette_file <- file.path(root_dir, "figures", "palettes", "timepoint_color_pale
 
 # File path to plots directory
 plots_dir <-
-  file.path(analysis_dir, "plots")
+  file.path(analysis_dir, "plots", "corplots")
 if (!dir.exists(plots_dir)) {
   dir.create(plots_dir)
 }
@@ -70,7 +70,8 @@ maf_autopsy_raw <- readr::read_tsv(maf_autopsy_file, guess_max = 100000, show_co
 maf_autopsy <- maf_autopsy_raw %>% 
   distinct(cancer_group, .keep_all = TRUE) %>% 
   summarise(cg_sum = str_c(cancer_group, collapse = ",")) %>%
-  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID"))
+  left_join(maf_autopsy_raw, by = c("Kids_First_Participant_ID")) %>% 
+  filter(tumor_descriptor %in% c("Diagnosis", "Progressive", "Recurrence", "Deceased"))
 
 # Read oncoprint_goi_file
 # We will use the following list of genes and then we will create a label to select the ones for the corplots.
@@ -162,7 +163,7 @@ for (x in seq_along(cg_names)){
 
 # Bind all df from list and save in one file
 df_list_bind <- bind_rows(df_list) %>% 
-  write_tsv(file.path(results_dir, "df_list_common_genes.tsv"))
+  write_tsv(file.path(results_dir, "genes_list.tsv"))
 ```
 
 ```{r echo=TRUE}
