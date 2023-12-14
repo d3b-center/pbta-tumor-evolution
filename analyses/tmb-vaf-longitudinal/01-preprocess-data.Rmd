@@ -184,7 +184,7 @@ paired_list <- tmb_genomic %>%
 
 tmb_vaf_df <- paired_list %>%
   left_join(maf, by = "Kids_First_Biospecimen_ID") %>% 
-  write_tsv(file.path(results_dir, "tmb_vaf_genomic.tsv"))
+  write_tsv(file.path(scratch_dir, "tmb_vaf_genomic.tsv"))
 
 tmb_paired_samples_filter <- length(unique(tmb_vaf_df$Kids_First_Participant_ID))
 ```

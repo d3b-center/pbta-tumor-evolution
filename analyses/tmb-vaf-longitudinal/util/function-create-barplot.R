@@ -95,7 +95,7 @@ create_stacked_barplot_variant <- function(df, x_value, palette, title) {
                    y = n, 
                    fill = Variant_Classification)) +  
           geom_bar(stat = "identity", position = "fill") +
-          scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+          #scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
           theme_Publication() + 
           theme(axis.text.x = element_text(angle = 85,
                                            hjust = 1,
