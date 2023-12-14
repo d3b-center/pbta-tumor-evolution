@@ -1,0 +1,103 @@
+---
+title: "Update histolgies file"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "2023"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+
+# Background
+This is to update histologies file for the `pbta-tumor-evolution` project by: (1) adding `plot_group` column and (2) using `2023-11-13_histologies-base` in which approx. 150 RNA samples of poor quality have been removed. 
+
+This module will be removed once v13 is released.
+
+# Usage
+To run the Rscript from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('01_update_histologies.Rmd', clean = TRUE)"
+```
+
+# Set up
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
+```
+
+## Directories and File Inputs/Outputs
+```{r set-dir-and-file-names}
+# Detect the ".git" folder -- this will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions no
+# matter where this is called from
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+data_dir <- file.path(root_dir, "data")
+analysis_dir <- file.path(root_dir, "analyses", "update-histologies-temp")
+input_dir <- file.path(analysis_dir, "input")
+
+# Inputs
+v12_file <- file.path(data_dir, "histologies.tsv")
+updated_hist_file <- file.path(input_dir, "2023-11-13_histologies-base.tsv")
+plot_mapping_file <- file.path(input_dir, "plot-mapping - plot-mapping.tsv")
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+```
+
+# Read in data and process Data
+```{r read-process-data, echo=TRUE}
+v12_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FALSE) %>% 
+    select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cancer_group, molecular_subtype, integrated_diagnosis, harmonized_diagnosis) 
+
+updated_hist_df <- readr::read_tsv(updated_hist_file, guess_max = 100000, show_col_types = FALSE) %>% 
+   select(- c(molecular_subtype, integrated_diagnosis, harmonized_diagnosis))
+
+plot_mapping_df <- readr::read_tsv(plot_mapping_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  select(broad_histology, cancer_group, plot_group)
+
+df <- plot_mapping_df %>%
+  left_join(v12_df, by = join_by(cancer_group), relationship = "many-to-many") %>%
+  dplyr::mutate(duplicates = if_else(plot_group == cancer_group, # | A == C | B == C
+                              TRUE,
+                              FALSE))%>% 
+  filter(duplicates == TRUE) %>%
+  select(!duplicates) %>%
+  right_join(updated_hist_df, by = join_by(broad_histology, Kids_First_Participant_ID, Kids_First_Biospecimen_ID)) %>%
+  mutate(
+         # update 7316-3066
+         broad_histology = case_when(sample_id == "7316-3066" ~ "Tumor of cranial and paraspinal nerves", 
+                                     broad_histology == "Other" ~ "Other tumor",
+                                     cancer_group == "Glial-neuronal tumor" ~ "Neuronal and mixed neuronal-glial tumor",
+                                     cancer_group %in% c("Cavernoma", "Malignant peripheral nerve sheath tumor") ~ "Benign tumor",
+                                     TRUE ~ broad_histology),
+         cancer_group = case_when(sample_id == "7316-3066" ~ "Neurofibroma/Plexiform",
+                                  grepl("xanthogranuloma", pathology_free_text_diagnosis) & broad_histology == "Histiocytic tumor" & pathology_diagnosis == "Other" ~ "Juvenile xanthogranuloma",
+                                  broad_histology == "Choroid plexus tumor" ~ "Choroid plexus tumor",
+                                  cancer_group == "Glial-neuronal tumor" ~ "Glial-neuronal tumor NOS",
+                                  cancer_group == "Low-grade glioma" ~ "Low-grade glioma/astrocytoma",
+                                  cancer_group %in% c("High-grade glioma", "Astrocytoma", "Astroblastoma", "Glioblastoma", "Diffuse hemispheric glioma",
+                                                      "Infant-type hemispheric glioma") ~ "High-grade glioma/astrocytoma",
+                                  broad_histology == "Ependymal tumor" ~ "Ependymoma",
+                                  broad_histology == "Other tumor" ~ "Other tumor",
+                                  broad_histology == "Diffuse astrocytic and oligodendroglial tumor" & (is.na(cancer_group) | cancer_group == "Oligodendroglioma") ~ "High-grade glioma/astrocytoma",
+                                  cancer_group %in% c("Non-germinomatous germ cell tumor", "Diffuse leptomeningeal glioneuronal tumor", "Malignant peripheral nerve sheath tumor") ~ NA_character_,
+                                  broad_histology == "Meningioma" ~ "Meningioma",
+                                  cancer_group == "Perineuroma" ~ "Neurofibroma/Plexiform",
+                                  is.na(cancer_group) & broad_histology == "Tumor of cranial and paraspinal nerves" ~ "Neurofibroma/Plexiform",
+                                  TRUE ~ cancer_group)) %>% 
+  write_tsv(file.path(results_dir, "histologies_2023_11_15.tsv")) 
+
+```
+
+
+```{r}
+sessionInfo()
+```
+  

@@ -2,10 +2,10 @@
 
 ## Usage
 
-To run all the Rscript in this module from the command line sequentially, use:
+To run all of the Rscripts in this module from the command line sequentially, use:
 
 ```
-Rscript -e "rmarkdown::render('01-tumor-descriptor-and-assay-count.Rmd', clean = TRUE)"
+bash run-tmb-vaf-longitudinal.sh
 ```
 
 ## Folder content

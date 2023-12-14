@@ -11,18 +11,17 @@ PT_164RNWTT	Diagnosis, Progressive	RNA-Seq	Ependymoma	Dx-Pro
 PT_164RNWTT	Diagnosis, Progressive	RNA-Seq	Ependymoma	Dx-Pro
 PT_19GCSK2S	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
 PT_1H2REHT2	Progressive, Deceased	RNA-Seq	High-grade glioma, Low-grade glioma	Pro-Dec
-PT_1H2REHT2	Progressive, Deceased	RNA-Seq	High-grade glioma, Low-grade glioma	Pro-Dec
 PT_1ZAWNGWT	Diagnosis, Progressive	RNA-Seq	Ganglioglioma	Dx-Pro
 PT_23NZGSRJ	Diagnosis, Deceased	RNA-Seq	Medulloblastoma	Dx-Dec
 PT_25Z2NX27	Diagnosis, Progressive	RNA-Seq		Dx-Pro
-PT_26V72ZXB	Diagnosis, Progressive	RNA-Seq	Medulloblastoma	Dx-Pro
-PT_26V72ZXB	Diagnosis, Progressive	RNA-Seq	Medulloblastoma	Dx-Pro
 PT_2ECVKTTQ	Recurrence, Second Malignancy	RNA-Seq	Low-grade glioma	Rec-SM
 PT_2FVTD0WR	Diagnosis, Progressive	RNA-Seq	Low-grade glioma	Dx-Pro
 PT_2YT37G8P	Progressive, Recurrence	RNA-Seq	Low-grade glioma	Pro-Rec
 PT_37B5JRP1	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_394ZA6P7	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_3A2Q62RD	Diagnosis, Progressive	RNA-Seq	Ependymoma	Dx-Pro
+PT_3AR6AW9N	Recurrence, Deceased	RNA-Seq	Diffuse midline glioma	Rec-Dec
+PT_3AR6AW9N	Recurrence, Deceased	RNA-Seq	Diffuse midline glioma	Rec-Dec
 PT_3CHB9PK5	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_3GYW6P6P	Diagnosis, Progressive	RNA-Seq	Glial-neuronal tumor, Low-grade glioma	Dx-Pro
 PT_3KM9W8S8	Diagnosis, Deceased	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Dec
@@ -32,7 +31,7 @@ PT_3T3VGWC6	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_3VCS1PPF	Diagnosis, Progressive	RNA-Seq	Ependymoma	Dx-Pro
 PT_3WA7SBQ6	Diagnosis, Recurrence	RNA-Seq	Choroid plexus carcinoma	Dx-Rec
 PT_3WA7SBQ6	Diagnosis, Recurrence	RNA-Seq	Choroid plexus carcinoma	Dx-Rec
-PT_4W0BP7F3	Diagnosis, Deceased	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Dec
+PT_4A2H0KNR	Progressive, Recurrence	RNA-Seq	Infant-type hemispheric glioma	Pro-Rec
 PT_59D00MBQ	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
 PT_59D00MBQ	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
 PT_62G82T6Q	Diagnosis, Progressive	RNA-Seq	Low-grade glioma	Dx-Pro
@@ -41,11 +40,14 @@ PT_67R1AF5R	Diagnosis, Recurrence	RNA-Seq	Ependymoma	Dx-Rec
 PT_67R1AF5R	Diagnosis, Recurrence	RNA-Seq	Ependymoma	Dx-Rec
 PT_6Q0NPVP3	Diagnosis, Recurrence	RNA-Seq	Ganglioglioma	Dx-Rec
 PT_6Q0NPVP3	Diagnosis, Recurrence	RNA-Seq	Ganglioglioma	Dx-Rec
+PT_6RRWZ8CK	Diagnosis, Recurrence	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Rec
+PT_6RRWZ8CK	Diagnosis, Recurrence	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Rec
+PT_6ZENTV3N	Diagnosis, Metastatic	RNA-Seq	Chordoma	NA
+PT_6ZENTV3N	Diagnosis, Metastatic	RNA-Seq	Chordoma	NA
 PT_773ZPTEB	Diagnosis, Progressive	RNA-Seq	Low-grade glioma	Dx-Pro
 PT_7DTGJYA7	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
 PT_7M2PGCBV	Diagnosis, Recurrence	RNA-Seq	Meningioma	Dx-Rec
-PT_82MX6J77	Diagnosis, Recurrence, Second Malignancy	RNA-Seq	Medulloblastoma, Meningioma, Sarcoma	Dx-Rec-SM
-PT_82MX6J77	Diagnosis, Recurrence, Second Malignancy	RNA-Seq	Medulloblastoma, Meningioma, Sarcoma	Dx-Rec-SM
+PT_82MX6J77	Diagnosis, Second Malignancy	RNA-Seq	Medulloblastoma, Meningioma	Dx-SM
 PT_89XRZBSG	Diagnosis, Recurrence	RNA-Seq	High-grade glioma	Dx-Rec
 PT_8GN3TQRM	Progressive, Recurrence, Deceased	RNA-Seq	High-grade glioma	Pro-Rec-Dec
 PT_962TCBVR	Diagnosis, Progressive, Recurrence	RNA-Seq	Low-grade glioma	Dx-Pro-Rec
@@ -63,7 +65,6 @@ PT_BCWGRGDB	Diagnosis, Progressive	RNA-Seq	Meningioma	Dx-Pro
 PT_BCWGRGDB	Diagnosis, Progressive	RNA-Seq	Meningioma	Dx-Pro
 PT_BNARR0N6	Diagnosis, Progressive, Recurrence	RNA-Seq	Ependymoma	Dx-Pro-Rec
 PT_BNARR0N6	Diagnosis, Progressive, Recurrence	RNA-Seq	Ependymoma	Dx-Pro-Rec
-PT_C1RDBCVM	Diagnosis, Progressive	RNA-Seq	Ependymoma	Dx-Pro
 PT_CSZ9QA1N	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_CWXSP19D	Diagnosis, Recurrence	RNA-Seq	Schwannoma	Dx-Rec
 PT_CYBYN18G	Diagnosis, Recurrence	RNA-Seq	Ependymoma	Dx-Rec
@@ -82,13 +83,13 @@ PT_ESHACWF6	Diagnosis, Progressive	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-P
 PT_FN4GEEFR	Diagnosis, Progressive	RNA-Seq	Medulloblastoma	Dx-Pro
 PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
 PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
+PT_G4N67N0D	Diagnosis, Progressive	RNA-Seq	High-grade glioma	Dx-Pro
 PT_GHTSGFCT	Progressive, Deceased	RNA-Seq	High-grade glioma	Pro-Dec
 PT_H3WWDMW9	Diagnosis, Deceased	RNA-Seq	Medulloblastoma	Dx-Dec
-PT_H45M7M2T	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
-PT_H45M7M2T	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_HE8FBFNA	Diagnosis, Progressive	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_HFQNKP5X	Progressive, Recurrence, Deceased	RNA-Seq	Chordoma	Pro-Rec-Dec
 PT_HFQNKP5X	Progressive, Recurrence, Deceased	RNA-Seq	Chordoma	Pro-Rec-Dec
+PT_HJMP6PH2	Diagnosis, Recurrence, Deceased	RNA-Seq	Ewing sarcoma	Dx-Rec-Dec
 PT_HJMP6PH2	Diagnosis, Recurrence, Deceased	RNA-Seq	Ewing sarcoma	Dx-Rec-Dec
 PT_HXV713W6	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_J06X17XH	Diagnosis, Recurrence	RNA-Seq	Rosai-Dorfman disease, Sarcoma	Dx-Rec
@@ -107,16 +108,16 @@ PT_KMHGNCNR	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_KZ56XHJT	Diagnosis, Progressive	RNA-Seq	Diffuse midline glioma	Dx-Pro
 PT_KZ56XHJT	Diagnosis, Progressive	RNA-Seq	Diffuse midline glioma	Dx-Pro
 PT_MDWPRDBT	Progressive, Recurrence, Deceased	RNA-Seq	High-grade glioma	Pro-Rec-Dec
-PT_MGJJBG0T	Recurrence, Deceased	RNA-Seq	Glial-neuronal tumor	Rec-Dec
-PT_MGJJBG0T	Recurrence, Deceased	RNA-Seq	Glial-neuronal tumor	Rec-Dec
+PT_MDWPRDBT	Progressive, Recurrence, Deceased	RNA-Seq	High-grade glioma	Pro-Rec-Dec
 PT_MKDQZ17N	Diagnosis, Deceased	RNA-Seq	Ependymoma	Dx-Dec
-PT_N4563ERM	Diagnosis, Progressive	RNA-Seq	Low-grade glioma	Dx-Pro
 PT_N8W26H19	Diagnosis, Progressive	RNA-Seq	Low-grade glioma	Dx-Pro
 PT_NK8A49X5	Diagnosis, Progressive	RNA-Seq	Diffuse midline glioma	Dx-Pro
 PT_NPETR8RY	Diagnosis, Recurrence	RNA-Seq	Ependymoma	Dx-Rec
 PT_PF04R0BH	Diagnosis, Recurrence	RNA-Seq	Ganglioglioma, Glial-neuronal tumor	Dx-Rec
 PT_PFA762TK	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_PR4YBBH3	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
+PT_QCR80TMD	Diagnosis, Recurrence	RNA-Seq		Dx-Rec
+PT_QH9H491G	Diagnosis, Recurrence	RNA-Seq	Meningioma	Dx-Rec
 PT_QH9H491G	Diagnosis, Recurrence	RNA-Seq	Meningioma	Dx-Rec
 PT_R4T1V1K4	Diagnosis, Deceased	RNA-Seq	Diffuse intrinsic pontine glioma, Diffuse midline glioma	Dx-Dec
 PT_R4T1V1K4	Diagnosis, Deceased	RNA-Seq	Diffuse intrinsic pontine glioma, Diffuse midline glioma	Dx-Dec
@@ -124,9 +125,12 @@ PT_RJ1TJ2KH	Diagnosis, Deceased	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Dec
 PT_S0Q27J13	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_S0Q27J13	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_S2SQJVGK	Progressive, Recurrence	RNA-Seq	Low-grade glioma	Pro-Rec
-PT_S4YNE17X	Diagnosis, Progressive, Deceased	RNA-Seq	Schwannoma	Dx-Pro-Dec
+PT_S4YNE17X	Diagnosis, Progressive	RNA-Seq	Low-grade glioma, Schwannoma	Dx-Pro
+PT_S4YNE17X	Diagnosis, Progressive	RNA-Seq	Low-grade glioma, Schwannoma	Dx-Pro
 PT_S9YT3GSS	Diagnosis, Recurrence	RNA-Seq	Sarcoma	Dx-Rec
 PT_S9YT3GSS	Diagnosis, Recurrence	RNA-Seq	Sarcoma	Dx-Rec
+PT_SD4RJ57T	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
+PT_SD4RJ57T	Diagnosis, Deceased	RNA-Seq	Diffuse midline glioma	Dx-Dec
 PT_SY6W6B0Z	Diagnosis, Deceased	RNA-Seq	Malignant peripheral nerve sheath tumor	Dx-Dec
 PT_SY6W6B0Z	Diagnosis, Deceased	RNA-Seq	Malignant peripheral nerve sheath tumor	Dx-Dec
 PT_T2M1338J	Diagnosis, Second Malignancy	RNA-Seq	Adamantinomatous Craniopharyngioma, Meningioma	Dx-SM
@@ -143,13 +147,16 @@ PT_W3FSA7NH	Diagnosis, Progressive	RNA-Seq	Low-grade glioma, Pilocytic astrocyto
 PT_W6AWJJK7	Diagnosis, Recurrence	RNA-Seq	Ganglioglioma	Dx-Rec
 PT_WP871F5S	Diagnosis, Progressive	RNA-Seq	Hemangioblastoma	Dx-Pro
 PT_WP871F5S	Diagnosis, Progressive	RNA-Seq	Hemangioblastoma	Dx-Pro
+PT_WWRB8KDQ	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
+PT_WWRB8KDQ	Deceased, Second Malignancy	RNA-Seq	High-grade glioma	Dec-SM
 PT_XA98HG1C	Diagnosis, Progressive	RNA-Seq	Medulloblastoma	Dx-Pro
 PT_XCX9W17B	Diagnosis, Progressive	RNA-Seq	Metastatic secondary tumors	Dx-Pro
-PT_XHYBZKCX	Diagnosis, Unavailable	RNA-Seq	Ependymoma	Dx-Unv
 PT_XNMKQ4MR	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_XNMKQ4MR	Diagnosis, Recurrence	RNA-Seq	Low-grade glioma	Dx-Rec
 PT_XTVQB9S4	Diagnosis, Progressive	RNA-Seq	Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_YGN06RPZ	Diagnosis, Progressive	RNA-Seq	Diffuse leptomeningeal glioneuronal tumor, Low-grade glioma	Dx-Pro
+PT_YND59052	Recurrence, Deceased	RNA-Seq	Low-grade glioma	Rec-Dec
+PT_YND59052	Recurrence, Deceased	RNA-Seq	Low-grade glioma	Rec-Dec
 PT_Z4BF2NSB	Diagnosis, Deceased	RNA-Seq	High-grade glioma	Dx-Dec
 PT_Z4GS3ZQQ	Diagnosis, Recurrence	RNA-Seq	Dysembryoplastic neuroepithelial tumor, Ependymoma	Dx-Rec
 PT_ZG4J0EK0	Diagnosis, Recurrence	RNA-Seq	Medulloblastoma	Dx-Rec
