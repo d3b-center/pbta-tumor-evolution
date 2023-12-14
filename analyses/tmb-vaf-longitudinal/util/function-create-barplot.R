@@ -69,3 +69,164 @@ create_barplot_sample <- function(tmb_df, ylim, sid, palette) {
                ylim(0, ylim)) 
   return(p)
 }
+
+
+
+#' Create stacked barplots to explore variant types
+#'
+#' @param df 
+#' @param x_value 
+#' @param palette
+#' @param title 
+#' 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#'  
+#' 
+create_stacked_barplot_variant <- function(df, x_value, palette, title) {
+  
+  # Plot stacked barplot 
+  p <- print(ggplot(df,
+               aes(x = x_value,
+                   y = n, 
+                   fill = Variant_Classification)) +  
+          geom_bar(stat = "identity", position = "fill") +
+          #scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+          theme_Publication() + 
+          theme(axis.text.x = element_text(angle = 85,
+                                           hjust = 1,
+                                           vjust = 1),
+                text = element_text(size = 12)) +
+          scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+          labs(title = title, 
+               x = "Timepoint", 
+               y = "Count"))
+
+  return(p)
+}
+
+
+#' Create stacked barplots to explore variant types per cancer_group
+#'
+#' @param df 
+#' @param x_value 
+#' @param palette 
+#' @param title
+#' @param rows
+
+#' 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#'  
+#' 
+create_stacked_barplot_variant_cg_id <- function(df, x_value, palette, title, rows) {
+  
+  # Plot stacked barplot 
+  p <- print(ggplot(df,
+                    aes(x = x_value,
+                        y = n, 
+                        fill = Variant_Classification)) + 
+               geom_bar(stat = "identity", position = "fill") +
+               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+               theme_Publication() + 
+               theme(axis.text.x = element_text(angle = 85,
+                                                hjust = 1,
+                                                vjust = 1),
+                     text = element_text(size = 12)) +
+               scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+               facet_wrap(~cg_id, scales = "free_x", nrow = rows) +
+               labs(title = title, 
+                    x = "Timepoint", 
+                    y = "Count"))
+
+  return(p)
+}
+
+
+#' Create stacked barplots to explore variant types per molecular_subtype
+#'
+#' @param df 
+#' @param x_value 
+#' @param palette 
+#' @param title
+#' @param rows
+
+#' 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#'  
+#' 
+create_stacked_barplot_variant_molecular_subtype <- function(df, x_value, palette, title, rows) {
+  
+  # Plot stacked barplot 
+  p <- print(ggplot(df,
+                    aes(x = x_value,
+                        y = n, 
+                        fill = Variant_Classification)) + 
+               geom_bar(stat = "identity", position = "fill") +
+               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+               theme_Publication() + 
+               theme(axis.text.x = element_text(angle = 85,
+                                                hjust = 1,
+                                                vjust = 1),
+                     text = element_text(size = 12)) +
+               scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+               facet_wrap(~molecular_subtype, scales = "free_x", nrow = rows) +
+               labs(title = title, 
+                    x = "Timepoint", 
+                    y = "Count"))
+  
+  return(p)
+}
+
+#' Create stacked barplots to explore variant types per cancer_group and kids
+#'
+#' @param df 
+#' @param x_value 
+#' @param palette 
+#' @param title
+#' @param rows
+
+#' 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#'  
+#' 
+create_stacked_barplot_variant_kids <- function(df, x_value, palette, title, rows) {
+  
+  # Plot stacked barplot 
+  p <- print(ggplot(df,
+                    aes(x = x_value,
+                        y = n, 
+                        fill = Variant_Classification)) + 
+               geom_bar(stat = "identity", position = "fill") +
+               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+               theme_Publication() + 
+               theme(axis.text.x = element_text(angle = 85,
+                                                hjust = 1,
+                                                vjust = 1),
+                     text = element_text(size = 12)) +
+               scale_y_continuous(labels = function(x) paste0(100*x/max(x),'%')) +
+               facet_wrap(~Kids_First_Participant_ID, scales = "free_x", nrow = rows) +
+               labs(title = title, 
+                    x = "Timepoint", 
+                    y = "Count"))
+  
+  return(p)
+}
