@@ -44,6 +44,10 @@ if (!dir.exists(inferences_plots_dir)) {
 # Load and process data
 
 ```{r load-process-inputs-run}
+# Make code reproducible
+set.seed(2023)
+
+
 data_dir <- dir(path = input_files_dir,  pattern = "-clonevol_input.tsv", full.names = TRUE, recursive = TRUE)
 
 # Create list 
@@ -246,28 +250,28 @@ for (i in 1:length(data_dir) ) {
                    fancy.variant.boxplot.vaf.suffix = '.VAF',
                    # bell plot parameters
                    clone.shape = 'bell',
-                   bell.event = TRUE,
-                   bell.event.label.color = 'blue',
-                   bell.event.label.angle = 60,
+                   bell.event = FALSE,
+                   bell.event.label.color = 'black',
+                   bell.event.label.angle = 0,
                    clone.time.step.scale = 1,
                    bell.curve.step = 2,
                    # node-based consensus tree parameters
-                   merged.tree.plot = TRUE,
+                   merged.tree.plot = FALSE, # To keep/remove the tree in the panel
                    tree.node.label.split.character = NULL,
                    tree.node.shape = 'circle',
                    tree.node.size = 30,
                    tree.node.text.size = 0.5,
                    merged.tree.node.size.scale = 1.25,
-                   merged.tree.node.text.size.scale = 2.5,
-                   merged.tree.cell.frac.ci = FALSE,
+                   merged.tree.node.text.size.scale = 1.5, #2.5
+                   merged.tree.cell.frac.ci = TRUE, # to show probability
                    # branch-based consensus tree parameters
-                   merged.tree.clone.as.branch = TRUE,
+                   merged.tree.clone.as.branch = TRUE, # To keep/remove the tree in the panel
                    mtcab.event.sep.char = ',',
                    mtcab.branch.text.size = 1,
                    mtcab.branch.width = 0.75,
                    mtcab.node.size = 3,
                    mtcab.node.label.size = 1,
-                   mtcab.node.text.size = 1.5,
+                   mtcab.node.text.size = 1.0, #1.5
                    # cellular population parameters
                    cell.plot = TRUE,
                    num.cells = 100,
@@ -276,17 +280,17 @@ for (i in 1:length(data_dir) ) {
                    clone.grouping = 'horizontal',
                    #meta-parameters
                    scale.monoclonal.cell.frac = TRUE,
-                   show.score = FALSE,
+                   show.score = TRUE,
                    cell.frac.ci = TRUE,
                    disable.cell.frac = FALSE,
                    # output figure parameters
                    out.dir = output_dir,
                    out.format = 'png',
                    overwrite.output = TRUE,
-                   width = 8,
+                   width = 10,
                    height = 4,
                    # vector of width scales for each panel from left to right
-                   panel.widths = c(3,4,2,4,2)))
+                   panel.widths = c(3,6,2,8)))
 
    ############################################################################################################################
    ### Fishplot  ##########################
@@ -304,14 +308,13 @@ for (i in 1:length(data_dir) ) {
    # plot with fishplot
    fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
    print(fname)
+   pdf(file = fname, width=8, height=4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
-     p <- fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
-              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3)
-     }
-   pdf(file = fname, width=8, height=4)
-   print(p)
+     print(fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
+              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3))
+   }
    dev <- dev.off()
   
    }
