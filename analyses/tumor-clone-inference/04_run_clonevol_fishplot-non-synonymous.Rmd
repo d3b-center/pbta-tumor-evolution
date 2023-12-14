@@ -120,8 +120,32 @@ for (i in 1:length(data_dir) ) {
    #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-box.pdf")
    #print(fname)
    #pdf(fname, width = 8, height = 12, useDingbats = FALSE, title='')
-                               highlight.note.size = 2,
-                               order.by.total.vaf = FALSE))
+   print(pp <-plot.variant.clusters(data_list[[i]],
+                                    cluster.col.name = 'cluster',
+                                    show.cluster.size = FALSE,
+                                    cluster.size.text.color = 'blue',
+                                    vaf.col.names = vaf.col.names,
+                                    vaf.limits = 70,
+                                    sample.title.size = 20,
+                                    violin = FALSE,
+                                    box = FALSE,
+                                    jitter = TRUE,
+                                    jitter.shape = 1,
+                                    jitter.color = clone.colors,
+                                    jitter.size = 3,
+                                    jitter.alpha = 1,
+                                    jitter.center.method = 'median',
+                                    jitter.center.size = 1,
+                                    jitter.center.color = 'darkgray',
+                                    jitter.center.display.value = 'none',
+                                    #highlight = 'is.driver',
+                                    highlight.shape = 21,
+                                    highlight.color = 'blue',
+                                    highlight.fill.color = 'green',
+                                    highlight.note.col.name = 'gene',
+                                    highlight.note.size = 2,
+                                    order.by.total.vaf = FALSE))
+  
    # dev.off()
     
    ##############################
