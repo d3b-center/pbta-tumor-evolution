@@ -304,14 +304,16 @@ for (i in 1:length(data_dir) ) {
    # plot with fishplot
    fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
    print(fname)
-  pdf(fname, width=8, height=4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
-     print(fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
-              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3))
+     p <- fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
+              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3)
      }
+   pdf(file = fname, width=8, height=4)
+   print(p)
    dev <- dev.off()
+  
    }
 }
 
