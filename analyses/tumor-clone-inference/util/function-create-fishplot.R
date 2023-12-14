@@ -19,10 +19,10 @@ createFishPlotObjects.clone.annots <- function(results, clone.annots.values){
                                  clone.labels = results$clonevol.clone.names[1:length(results$clonevol.clone.names)],
                                  fix.missing.clones = TRUE,
                                  clone.annots = clone.annots.values,
-                                 clone.annots.angle = 0,
+                                 clone.annots.angle = 60,
                                  clone.annots.col = "black",
                                  clone.annots.pos = 2,
-                                 clone.annots.cex = 0.7,
+                                 clone.annots.cex = 0.3,
                                  clone.annots.offset = 0.2)
     
     }
