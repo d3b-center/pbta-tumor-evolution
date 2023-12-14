@@ -345,23 +345,6 @@ for (i in 1:length(data_dir) ) {
    
    fishes = createFishPlotObjects.clone.annots(f,
                                                clone.annots.values = clone.annots_names)
-  
-   
-     
-  clone.annots_names1 = unique(data_sub$gene)
-   clone.annots_names1 <- sort(clone.annots_names1, decreasing = FALSE)
-   clone.annots_names1 <- clone.annots_names1[!clone.annots_names1 == "-"] %>% 
-     paste(sep=",", collapse=",") 
-  print(clone.annots_names1)
-   
-   # cluster 2
-   clone.annots_names2 = unique(data_sub$gene)
-   clone.annots_names2 <- sort(clone.annots_names2, decreasing = FALSE)
-   clone.annots_names2 <- clone.annots_names2[!clone.annots_names2 == "-"] %>% 
-     paste(sep=",", collapse=",") 
-  print(clone.annots_names2)
-   
-   clone.annots_names = c(clone.annots_names1, clone.annots_names2)
    
    ###---------------------------
 
