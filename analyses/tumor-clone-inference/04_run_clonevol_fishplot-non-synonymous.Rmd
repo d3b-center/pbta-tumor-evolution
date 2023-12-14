@@ -43,7 +43,7 @@ if (!dir.exists(inferences_plots_dir)) {
 
 # Load and process data
 
-```{r load-process-inputs-run}
+```{r load-process-inputs-run, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
 # Make code reproducible
 set.seed(2023)
 
@@ -120,29 +120,6 @@ for (i in 1:length(data_dir) ) {
    #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-box.pdf")
    #print(fname)
    #pdf(fname, width = 8, height = 12, useDingbats = FALSE, title='')
-   print(plot.variant.clusters(data_list[[i]],
-                               cluster.col.name = 'cluster',
-                               show.cluster.size = FALSE,
-                               cluster.size.text.color = 'blue',
-                               vaf.col.names = vaf.col.names,
-                               vaf.limits = 70,
-                               sample.title.size = 20,
-                               violin = FALSE,
-                               box = FALSE,
-                               jitter = TRUE,
-                               jitter.shape = 1,
-                               jitter.color = clone.colors,
-                               jitter.size = 3,
-                               jitter.alpha = 1,
-                               jitter.center.method = 'median',
-                               jitter.center.size = 1,
-                               jitter.center.color = 'darkgray',
-                               jitter.center.display.value = 'none',
-                               #highlight = 'is.driver',
-                               highlight.shape = 21,
-                               highlight.color = 'blue',
-                               highlight.fill.color = 'green',
-                               highlight.note.col.name = 'gene',
                                highlight.note.size = 2,
                                order.by.total.vaf = FALSE))
    # dev.off()
@@ -166,27 +143,28 @@ for (i in 1:length(data_dir) ) {
   # dev.off()
 
    
-   # Re-defien colors so the first one to be for the normal clone needed to root the tree
+   # Re-define colors so the first one to be for the normal clone needed to root the tree
    clone.colors <- c('#cfd1d1', '#abcced', '#d474fc', '#d38231', '#d3bb31', '#377f80')
 
    # infer consensus clonal evolution trees
    y = infer.clonal.models(variants = data_list[[i]],
-                                cluster.col.name = 'cluster',
-                                vaf.col.names = vaf.col.names,
-                                sample.groups = sample.groups,
-                                cancer.initiation.model='polyclonal', # 'monoclonal' by default
-                                subclonal.test = 'bootstrap',
-                                subclonal.test.model = 'non-parametric',
-                                num.boots = 1000,
-                                founding.cluster = 1,
-                                cluster.center = 'mean',
-                                ignore.clusters = NULL,
-                                clone.colors = clone.colors,
-                                min.cluster.vaf = 0.01,
-                                # min probability that CCF(clone) is non-negative
-                                sum.p = 0.05,
-                                # alpha level in confidence interval estimate for CCF(clone)
-                                alpha = 0.05)
+                           cluster.col.name = 'cluster',
+                           vaf.col.names = vaf.col.names,
+                           sample.groups = sample.groups,
+                           cancer.initiation.model='polyclonal', # 'monoclonal' by default
+                           subclonal.test = 'bootstrap',
+                           subclonal.test.model = 'non-parametric',
+                           num.boots = 1000,
+                           founding.cluster = 1,
+                           cluster.center = 'mean',
+                           ignore.clusters = NULL,
+                           clone.colors = clone.colors,
+                           min.cluster.vaf = 0.01,
+                           # min probability that CCF(clone) is non-negative
+                           sum.p = 0.05,
+                           # alpha level in confidence interval estimate for CCF(clone)
+                           alpha = 0.05,
+                           random.seed = 2023)
    
    # map driver events onto the trees
    y <- transfer.events.to.consensus.trees(y,
@@ -233,7 +211,7 @@ for (i in 1:length(data_dir) ) {
    }
 
    print(plot.clonal.models(y,
-                      # box plot parameters
+                            # box plot parameters
                    box.plot = TRUE,
                    fancy.boxplot = TRUE,
                    #fancy.variant.boxplot.highlight = 'is.driver',
@@ -301,24 +279,46 @@ for (i in 1:length(data_dir) ) {
    # Useful code for fishplot
    # https://gist.github.com/chrisamiller/f4eae5618ec2985e105d05e3032ae674
    # generate phylogeny with clonevol
-   #x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
+   # x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
    #create a list of fish objects 
-   f = generateFishplotInputs(results=y) #results=x
-   fishes = createFishPlotObjects(f)
+   f = generateFishplotInputs(results = y) #results=x
+   fishes = createFishPlotObjects1(f)
    # plot with fishplot
    fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
    print(fname)
-   pdf(file = fname, width=8, height=4)
+   pdf(file = fname, width = 8, height = 4)
    for (i in 1:length(fishes)){
      fish = layoutClones(fishes[[i]])
      fish = setCol(fish, f$clonevol.clone.colors) 
-     print(fishPlot(fish,shape="spline", title.btm = sample_name[x], cex.title=0.4,
-              vlines=seq(1, length(sample.groups)), vlab=sample.groups, pad.left=0.3))
+     print(fishPlot(fish, shape = "spline", title.btm = sample_name[x], cex.title = 0.4,
+                    vlines = seq(1, length(sample.groups)), vlab = sample.groups, pad.left = 0.3
+                    ))
    }
    dev <- dev.off()
   
    }
 }
+
+
+
+createFishPlotObjects1 <- function(results){
+  #library(fishplot)
+
+  fishes = list()
+  for(i in 1:results$num.models){
+    print(i)
+    fishes[[i]]=createFishObject(results$cell.fractions[[i]],
+      parents=as.integer(results$parents[[i]]),
+      timepoints=results$timepoints,
+      clone.labels=results$clonevol.clone.names[1:length(results$clonevol.clone.names)],
+      fix.missing.clones=TRUE,
+      clone.annots = results$variants$gene[1:length(results$variants$gene)]
+
+      )
+  }
+  return(fishes)
+}
+
 
 ```
 
