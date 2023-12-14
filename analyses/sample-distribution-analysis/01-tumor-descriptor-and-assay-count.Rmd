@@ -30,12 +30,13 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions no
 # matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-data_dir <- file.path(root_dir, "data")
+#data_dir <- file.path(root_dir, "data")
+data_dir <- file.path(root_dir, "analyses", "update-histologies-temp", "results")
 analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis")
 input_dir <- file.path(analysis_dir, "input")
 
 # Inputs
-v12_file <- file.path(data_dir, "histologies.tsv")
+v12_file <- file.path(data_dir, "histologies_2023_11_15.tsv")
 
 # File path to results directory
 results_dir <-
@@ -47,11 +48,6 @@ if (!dir.exists(results_dir)) {
 
 # Read in data and process Data
 ```{r cohort PBTA, echo=TRUE}
-#---------------------------------------------------------------------------------------------------------
-# Notes - to remove this part when run for v13
-# Jo Lynne found the following status for 2/3 in the data warehouse:
-# C4106355-Tumor = Recurrence, C4113612-Tumor = Initial CNS Tumor, 7316UP-3705 = Not Reported
-# manually annotate them here and these will be updated in the v13 - then discard that part of the code
 #---------------------------------------------------------------------------------------------------------
 # The file contains duplicates because some samples might have: 
 # (1) both WGS and WXS, and/or (2) multiple biospecimen samples. 
@@ -69,9 +65,7 @@ pbta_pre_df <- readr::read_tsv(v12_file, guess_max = 100000, show_col_types = FA
          !is.na(pathology_diagnosis), # to remove matched normal samples
          !composition %in% c("Derived Cell Line", "PDX"),
          !experimental_strategy %in% c("Methylation", "Targeted Sequencing")) %>%
-  mutate(tumor_descriptor = case_when(grepl("C4106355-Tumor", sample_id) ~ "Recurrence",
-                                      grepl("C4113612-Tumor", sample_id) ~ "Diagnosis",
-                                      grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+  mutate(tumor_descriptor = case_when(grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
                                       grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased",
                                       TRUE ~ tumor_descriptor),
          match_id = paste(tumor_descriptor, sample_id, sep = "_"),
