@@ -7,6 +7,4 @@ set -o pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")" 
 
 # Run Rmd script to process data
-Rscript -e "rmarkdown::render('01-preprocess-data.Rmd', clean = TRUE)"
-Rscript -e "rmarkdown::render('02-create-corplots.Rmd', clean = TRUE)"
-Rscript -e "rmarkdown::render('03-explore-TMB-mut.Rmd', clean = TRUE)"
+Rscript -e "rmarkdown::render('04-tmb-unpaired-samples-plot.Rmd', clean = TRUE)"
