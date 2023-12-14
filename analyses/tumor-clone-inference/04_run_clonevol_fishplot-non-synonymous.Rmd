@@ -298,38 +298,21 @@ for (i in 1:length(data_dir) ) {
 
    ############################################################################################################################
    ### Fishplot  ##########################
-   # https://github.com/chrisamiller/fishplot
-   # clonevol integration
-   # If you have inferred tumor phylogeny via the clonevol package, the resulting models can be easily exported to fishplot using the generateFishplotInputs() function, as follows:
-
-   # Useful code for fishplot
-   # https://gist.github.com/chrisamiller/f4eae5618ec2985e105d05e3032ae674
-   # generate phylogeny with clonevol
-   # x = infer.clonal.models(variants=v, vaf.col.names=samples, ...)
    #create a list of fish objects 
    f = generateFishplotInputs(results = y) #results=x
    
-   
-   ###---------------------------
-   # Add driver genes annotations
-   # cluster 1
-   
+   ###-----------------------------------------------------------------------------------
+   # Add driver genes annotations on the fishplot
    data_sub <- data_list[[i]] %>% 
      filter(cg_id_kids == sample_name[x])
    
    clone_number = unique(data_sub$cluster) 
    print(clone_number)
    
-   #loop_index_1 <- 0                        # Create index count
-   
    # Create list 
-   genes.list <- list(1,2)
+   genes.list <- list()
    
    for (c in seq_along(clone_number)) {
-     #print(c) 
-     #loop_index_1 <- loop_index_1 + 1
-     #print(loop_index_1)
-  
      genes.list[[c]] <- unique(data_sub$gene)
      genes.list[[c]] <- sort(genes.list[[c]], decreasing = FALSE)
      genes.list[[c]] <- as.character(genes.list[[c]][!genes.list[[c]] == "-"]) %>% 
@@ -340,15 +323,12 @@ for (i in 1:length(data_dir) ) {
      print(clone.annots_names)
    }
    
-   clone.annots_names = array(clone.annots_names, dim = (rows = 2))
+   clone.annots_names = as.character(array(clone.annots_names, dim = (rows = clone_number)))
    print(clone.annots_names)
    
    fishes = createFishPlotObjects.clone.annots(f,
                                                clone.annots.values = clone.annots_names)
-   
-   ###---------------------------
-
-  
+   ###-----------------------------------------------------------------------------------
    
    # plot with fishplot
    fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-fish.pdf")
@@ -365,11 +345,6 @@ for (i in 1:length(data_dir) ) {
   
    }
 }
-
-
-
-
-
 ```
 
 ```{r}
