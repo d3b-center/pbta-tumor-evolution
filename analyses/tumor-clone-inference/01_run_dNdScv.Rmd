@@ -24,16 +24,6 @@ suppressPackageStartupMessages({
   library(tidyverse)
   #library(devtools); install_github("im3sanger/dndscv")
   library("dndscv")
-  #library("GenomicFeatures")
-  #if (!require("BiocManager", quietly = TRUE))
-  #  install.packages("BiocManager")
-
-  #BiocManager::install("org.Hs.eg.db")
-  #library("org.Hs.eg.db")
-  #if (!"BiocManager" %in% rownames(installed.packages()))
-  #   install.packages("BiocManager")
-  # BiocManager::install("APAlyzer")
-  #library(APAlyzer)
 })
 ```
 
@@ -118,21 +108,6 @@ mutations <- maf %>%
 print(head(mutations))
 
 ```
-
-# Create Reference for gencode-v39
-
-```{r}
-## build Reference ranges for CDS in human coding genes
-# https://rdrr.io/bioc/APAlyzer/man/REFCDS.html
-# extpath = system.file("extdata", "mm9.chr19.refGene.R.DB", package="APAlyzer")
-#txdb = loadDb(extpath, packageName='GenomicFeatures')
-#IDDB = org.Hs.eg.db
-#CDSdbraw = REFCDS(txdb,IDDB)
-#refdb_file = REFCDS(txdb, IDDB)
-extpath <- file.path(input_dir, "oncoprint-goi-lists-OpenPedCan-gencode-v39.csv")
-gencode.v39 <- readr::read_csv(extpath)
-```
-
 # Run dndscv
 
 With the example dataset provided, the function should take about one minute to run. In this example, the function issues a warning as it detects the same mutation in more than one sample, requesting the user to verify that the input table of mutations only contains independent mutation events. In this case, each sample corresponds to a different patient and so the warning can be safely ignored.
