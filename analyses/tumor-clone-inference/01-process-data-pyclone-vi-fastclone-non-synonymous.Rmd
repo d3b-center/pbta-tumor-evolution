@@ -102,6 +102,10 @@ tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE)
 # Keep only synonymous mutations for the current analysis
 maf_file_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE)
 
+# library(maftools)
+#laml = read.maf(maf = maf_file)
+#print(table(laml@data$Variant_Classification))
+
 # Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
   "Missense_Mutation",
