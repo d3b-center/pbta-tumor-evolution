@@ -24,6 +24,16 @@ suppressPackageStartupMessages({
   library(tidyverse)
   #library(devtools); install_github("im3sanger/dndscv")
   library("dndscv")
+  library("GenomicFeatures")
+  #if (!require("BiocManager", quietly = TRUE))
+  #  install.packages("BiocManager")
+
+  #BiocManager::install("org.Hs.eg.db")
+  library("org.Hs.eg.db")
+  #if (!"BiocManager" %in% rownames(installed.packages()))
+  #   install.packages("BiocManager")
+  # BiocManager::install("APAlyzer")
+  library(APAlyzer)
 })
 ```
 
@@ -45,7 +55,7 @@ refdb_dir <- file.path(input_dir, "dndscv_data", "data")
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-refdb_file <- file.path(refdb_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
+#refdb_file <- file.path(refdb_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
 
 # File path to results directory
 results_dir <-
@@ -67,7 +77,7 @@ Users interested in trying dNdScv on a different set of transcripts, a different
 # Read in histologies file and filter for the pbta cohort
 pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>% 
-  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
+  dplyr::select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
 
 maf_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) 
 
@@ -82,12 +92,12 @@ maf <- maf_df %>%
 genes <- length(unique(maf$Hugo_Symbol))
 
 mutations <- maf %>% 
-  select(Kids_First_Biospecimen_ID, Gene, Hugo_Symbol, 
+  dplyr::select(Kids_First_Biospecimen_ID, Gene, Hugo_Symbol, 
          Transcript_ID, Chromosome, Start_Position, 
          End_Position, Strand,
          Reference_Allele, Tumor_Seq_Allele2) %>% 
   left_join(pbta) %>% 
-  select(-c(Kids_First_Biospecimen_ID)) %>% 
+  dplyr::select(-c(Kids_First_Biospecimen_ID)) %>% 
   #mutate(Chromosome = str_replace(Chromosome, "chr", "")) %>% 
   dplyr::rename("sampleID" = "Kids_First_Participant_ID",
                 "gene.id" = "Gene",
@@ -103,10 +113,24 @@ mutations <- maf %>%
                 #"ref" = "Reference_Allele",
                 #"mut" = "Tumor_Seq_Allele2"
                 ) %>% 
-  select(sampleID, chr, pos, ref, mut)
+  dplyr::select(sampleID, chr, pos, ref, mut)
 
 print(head(mutations))
 
+```
+
+# Create Reference for gencode-v39
+
+```{r}
+## build Reference ranges for CDS in human coding genes
+# https://rdrr.io/bioc/APAlyzer/man/REFCDS.html
+# extpath = system.file("extdata", "mm9.chr19.refGene.R.DB", package="APAlyzer")
+#txdb = loadDb(extpath, packageName='GenomicFeatures')
+extpath = file.path(input_dir, "gencode.v39.primary_assembly.annotation.gtf")
+txdb <- read.table(extpath, header = FALSE, sep = '\t')
+IDDB = org.Hs.eg.db
+#CDSdbraw = REFCDS(txdb,IDDB)
+refdb_file = REFCDS(txdb, IDDB)
 ```
 
 # Run dndscv
