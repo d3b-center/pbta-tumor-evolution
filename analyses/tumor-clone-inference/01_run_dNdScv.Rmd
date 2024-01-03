@@ -24,16 +24,16 @@ suppressPackageStartupMessages({
   library(tidyverse)
   #library(devtools); install_github("im3sanger/dndscv")
   library("dndscv")
-  library("GenomicFeatures")
+  #library("GenomicFeatures")
   #if (!require("BiocManager", quietly = TRUE))
   #  install.packages("BiocManager")
 
   #BiocManager::install("org.Hs.eg.db")
-  library("org.Hs.eg.db")
+  #library("org.Hs.eg.db")
   #if (!"BiocManager" %in% rownames(installed.packages()))
   #   install.packages("BiocManager")
   # BiocManager::install("APAlyzer")
-  library(APAlyzer)
+  #library(APAlyzer)
 })
 ```
 
@@ -55,7 +55,7 @@ refdb_dir <- file.path(input_dir, "dndscv_data", "data")
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-#refdb_file <- file.path(refdb_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
+refdb_file <- file.path(refdb_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
 
 # File path to results directory
 results_dir <-
@@ -126,11 +126,11 @@ print(head(mutations))
 # https://rdrr.io/bioc/APAlyzer/man/REFCDS.html
 # extpath = system.file("extdata", "mm9.chr19.refGene.R.DB", package="APAlyzer")
 #txdb = loadDb(extpath, packageName='GenomicFeatures')
-extpath = file.path(input_dir, "gencode.v39.primary_assembly.annotation.gtf")
-txdb <- read.table(extpath, header = FALSE, sep = '\t')
-IDDB = org.Hs.eg.db
+#IDDB = org.Hs.eg.db
 #CDSdbraw = REFCDS(txdb,IDDB)
-refdb_file = REFCDS(txdb, IDDB)
+#refdb_file = REFCDS(txdb, IDDB)
+extpath <- file.path(input_dir, "oncoprint-goi-lists-OpenPedCan-gencode-v39.csv")
+gencode.v39 <- readr::read_csv(extpath)
 ```
 
 # Run dndscv
@@ -164,6 +164,13 @@ signif_genes_unique <- signif_genes %>%
   write_tsv(file.path(results_dir, "signif_genes.tsv"))
 
 print(signif_genes_unique)
+
+
+signif_genes_unique <- signif_genes_unique %>% 
+  mutate(gene_name = case_when(grepl("H3F3A", gene_name) ~ "H3-3A", 
+                                     TRUE ~ gene_name)) %>% 
+  write_tsv(file.path(results_dir, "signif_genes_modified.tsv"))
+
 ```
 
 Note in the table that the dN/dS ratios of significant cancer genes are typically extremely high, often >10 or even >100. This contains information about the fraction of mutations observed in a gene that are genuine drivers under positive selection. For example, for a highly significant gene, a dN/dS of 10 indicates that there are 10 times more non-synonymous mutations in the gene than neutrally expected, suggesting that at least around 90% of these mutations are genuine drivers (Greenman *et al*, 2006; Martincorena *et al*, 2017).
