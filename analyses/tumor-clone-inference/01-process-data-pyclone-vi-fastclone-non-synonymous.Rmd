@@ -345,7 +345,7 @@ for (i in 1:length(data_dir) ) {
   fastclone_fname <- paste0(fastclone_input_dir, "/", sample_name[x], ".tsv")
   print(fastclone_fname)
   
-  fastclone_input_subset <- pyclone_input %>%
+  fastclone_input_subset <- input %>%
     dplyr::rename("var_counts" = "alt_counts") %>% 
     filter(Kids_First_Participant_ID == sample_name[x]) %>% 
     write_tsv(file.path(fastclone_fname))
