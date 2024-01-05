@@ -9,14 +9,13 @@ output:
 ---
 
 
-
 The **dNdScv** R package is a suite of maximum-likelihood dN/dS methods designed to quantify selection in cancer and somatic evolution (Martincorena *et al.*, 2017). The package contains functions to quantify dN/dS ratios for missense, nonsense and essential splice mutations, at the level of individual genes, groups of genes or at whole-genome level. The *dNdScv* method was designed to detect cancer driver genes (*i.e.* genes under positive selection in cancer) on datasets ranging from a few samples to thousands of samples, in whole-exome/genome or targeted sequencing studies.
 
 Unlike traditional implementations of dN/dS, the *dNdScv* package uses trinucleotide context-dependent substitution models to avoid common mutation biases affecting dN/dS (Greenman *et al.*, 2006, Martincorena *et al.*, 2017). The package includes two different dN/dS models. *dNdSloc*, like traditional dN/dS implementations, uses the number of synonymous mutations in a gene to infer the local mutation rate, without exploiting additional information from other genes. *dNdScv* offers a much more powerful alternative, combining local information (synonymous mutations in the gene) and global information (variation of the mutation rate across genes, exploiting epigenomic covariates) to estimate the background mutation rate. *dNdScv* should be preferred in most situations.
 
 For more information, see [dndscv](https://github.com/im3sanger/dndscv).
 
-##Driver discovery (positive selection) in cancer exomes/genomes
+## Driver discovery (positive selection) in cancer exomes/genomes
 
 
 ```{r load-library}
@@ -78,7 +77,7 @@ maf <- maf_df %>%
          ) %>%
   dplyr::rename(Kids_First_Biospecimen_ID = Tumor_Sample_Barcode) 
 
-# How many genes
+# Number of genes in the maf file
 genes <- length(unique(maf$Hugo_Symbol))
 
 mutations <- maf %>% 
@@ -154,7 +153,7 @@ sel_cv = dndsout$sel_cv %>%
 
 print(head(sel_cv), digits = 3)
 
-signif_genes = sel_cv[sel_cv$qglobal_cv<0.1, c("gene_name","qglobal_cv")] # `<0.1` by default; ==0
+signif_genes = sel_cv[sel_cv$qglobal_cv<0.1, c("gene_name","qglobal_cv")] # `<0.1` by default
 rownames(signif_genes) = NULL
 
 signif_genes_unique <- signif_genes %>%

@@ -49,22 +49,18 @@ source(paste0(analysis_dir, "/util/function-create-fishplot.R"))
 # Make code reproducible
 set.seed(2023)
 
-
 data_dir <- dir(path = input_files_dir,  pattern = "-clonevol_input.tsv", full.names = TRUE, recursive = TRUE)
 
 # Create list 
 data_list <- list()
 
-
 for (i in 1:length(data_dir) ) { 
-  
   # Create sample_name
   sample_name <-  unique(as.character(gsub("-clonevol_input.tsv", "", str_split_fixed(data_dir[i], "/", 11)[,11])))
   sample_name <- sort(sample_name, decreasing = FALSE)
   print(sample_name)
   
   for (x in seq_along(sample_name) ) { 
-    
     data_list[[i]] <- readr::read_tsv(data_dir[i], guess_max = 100000, show_col_types = FALSE) %>% 
       select(-c(gene.all, is.driver.all))
     
