@@ -393,7 +393,182 @@ for (i in 1:length(data_dir) ) {
 }
 ```
 
+# Plot depth coverage
+
+```{r define-parameters-for-plots}
+# Read color palette
+palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  mutate(tumor_descriptor = color_names)
+
+# Define and order palette
+palette <- palette_df$hex_codes
+names(palette) <- palette_df$tumor_descriptor
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+```
+
+``` {r depth-coverage, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+  for (x in seq_along(sample_name) ) { 
+  
+  pyclone_input_subset <- pyclone_input %>%
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    select(-c(Kids_First_Participant_ID)) 
+  
+  # Make this reproducible
+  set.seed(2023)
+
+  # Define label for plots
+  Timepoint <- factor(x = pyclone_input_subset$tumor_descriptor, levels = timepoints)
+  
+  #######################
+  ## Create bxp ref_counts
+    p <- print(ggplot(pyclone_input_subset, aes(sample_id, ref_counts, color = Timepoint)) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette))) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 stat_summary(fun.y=mean,shape=1,col='black',geom='point') +
+                 labs(title = sample_name[x],
+                      x = "sample_id",
+                      y = "ref_counts",
+                      color = "Timepoint"))
+    
+    # Save the plot
+    ggsave(filename = paste0(sample_name[x], "-ref_counts.pdf"), 
+         path = pyclone_plots_dir, 
+         width = 6, 
+         height = 5, 
+         device = "pdf", 
+        useDingbats = FALSE)
+    
+  #######################
+  ## Create bxp alt_counts
+    p <- print(ggplot(pyclone_input_subset, aes(sample_id, alt_counts, color = Timepoint)) + 
+                 geom_jitter(width = 0.15, size = 0.7, alpha = 0.6) +
+                 ggplot2::geom_boxplot(color = "black",
+                              size = 0.25,
+                              alpha = 0,
+                              coef = 0) + # remove whiskers
+                 theme_Publication() + 
+                 scale_color_manual(values = palette,
+                                    breaks = sort(names(palette))) +
+                 #rotate() +
+                 theme(axis.text.x = element_text(angle = 90)) +
+                 stat_summary(fun.y=mean,shape=1,col='black',geom='point') +
+                 labs(title = sample_name[x],
+                      x = "sample_id",
+                      y = "alt_counts",
+                      color = "Timepoint"))
+    
+    ## Save the plot
+    ggsave(filename = paste0(sample_name[x], "-alt_counts.pdf"), 
+           path = pyclone_plots_dir, 
+           width = 6, 
+           height = 5, 
+           device = "pdf", 
+           useDingbats = FALSE)
+    }
+}
+```
+
+
+# Total number of mutations across timepoints and biospecimen sample per Patient case
+
+```{r create-barplot-sample, fig.width = 6, fig.height = 5, fig.fullwidth = TRUE}
+for (i in 1:length(data_dir) ) { 
+  
+  # Create sample_name
+  sample_name <-  unique(as.character(gsub(".call.cns", "", str_split_fixed(data_dir[i], "/", 13)[,11])))
+  sample_name <- sort(sample_name, decreasing = FALSE)
+  print(sample_name)
+  
+  for (x in seq_along(sample_name) ) { 
+  pyclone_input_subset <- pyclone_input %>%
+    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
+    select(-c(Kids_First_Participant_ID))
+  
+  # Define parameters for function
+  ylim = max(pyclone_input_subset$mutation_count)
+  
+  # Rename legend for timepoints
+  Timepoint <- factor(pyclone_input_subset$tumor_descriptor)
+  
+  # Plot stacked barplot 
+  print(ggplot(pyclone_input_subset, aes(x = sample_id, 
+                                         y = mutation_count, 
+                                         fill = Timepoint)) +  
+               geom_col(position = position_stack(reverse = TRUE)) +
+               geom_bar(stat = "identity", width = 0.5) + 
+               scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+               theme_Publication() + 
+               theme(axis.text.x = element_text(angle = 85, 
+                                                hjust = 1, 
+                                                vjust = 1)) + 
+               labs(title = paste(sample_name)) + 
+               labs(x = "sample_id", y = "Total Mutations") +
+               ylim(0, ylim)) 
+  }
+}
+```
+
+# To add plot with #bs/kids_id
+
+```{r}
+df_file <- file.path(results_dir, "samples_eligible_for_phylogeny_non_synonymous.tsv")
+df <- readr::read_tsv(df_file, guess_max = 100000, show_col_types = FALSE) 
+
+count_df <- df %>%
+  distinct(Kids_First_Biospecimen_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  count(cg_id_kids) %>%
+  left_join(df)
+ # pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  #regulartable() %>%
+  #fontsize(size = 12, part = "all")
+
+  
+# Plot stacked barplot 
+p <- print(ggplot(count_df , aes(x = cg_id_kids, 
+                          y = n, 
+                          fill = tumor_descriptor)) + 
+             geom_col(position = position_stack(reverse = TRUE), col = "black", size = 0.4) +
+             scale_fill_manual(values = palette, breaks = sort(names(palette))) + 
+             geom_bar(stat = "identity", width = 0.9) + 
+             theme_Publication() + 
+             theme(axis.text.x = element_text(angle = 85, 
+                                              hjust = 1, 
+                                              vjust = 1),
+                   text = element_text(size = 14)) +
+             scale_y_discrete(breaks = scales::pretty_breaks(n = 6)) +
+             labs(title = paste("Number of bs per cg_id_kids", sep = " ")) + 
+             labs(x = "", y = "# bs"))
+  
+# Save the plot
+ggsave(filename = "Number_bs_per_cg_id_kids.pdf", 
+       path = plots_dir, 
+       width = 12, 
+       height = 8,
+       device = "pdf", 
+       useDingbats = FALSE) 
+
+```
+
 ```{r}
 sessionInfo()
 ```
+
 
