@@ -87,33 +87,17 @@ for (i in 1:length(data_dir) ) {
     data_list[[i]] <- data_list[[i]][order(data_list[[i]]$cluster),]
 
    ####################################################################################################
-   # Define colors
-   #palette_file <- file.path(root_dir, "figures", "palettes", "tumor_descriptor_color_palette.tsv")
-   # Read color palette
-   #palette_df <- readr::read_tsv(palette_file, guess_max = 100000, show_col_types = FALSE) %>% 
-   #  filter(color_names %in% c("Deceased", "Diagnosis", "Recurrence")) #%>% 
-  
-   # Add color for the founder clone needed for `infer.clonal.models` function, if polyclonal model is used
-   # polyclonal model need another color for clone 0
-   # https://github.com/hdng/clonevol/issues/49
-   #  add_row(color_names = "0", hex_codes = "#f8e356")
-
-   # Define and order palette
-   #clone.colors <- palette_df$hex_codes
-   #names(clone.colors) <- palette_df$color_names
-   #clone.colors <- c('#1e90ff', '#800080', '#cd2626')
+   # Define colors for five clones
+   # To adjust this depending on the maximum number of clones inferred in all datasets
    clone.colors <- c('#abcced', '#d474fc', '#d38231', '#d3bb31', '#377f80')
-
-   #clone.colors <- NULL
+   #clone.colors <- NULL #clonevol assigns random colors
    
-    
    ####################################################################################################
    sample_name_plots_dir <- file.path(paste0(inferences_plots_dir, "/", sample_name[x]))
    if (!dir.exists(sample_name_plots_dir)) {
      dir.create(sample_name_plots_dir)
    }
     
-
    # Visualizations
    #fname <- paste0(sample_name_plots_dir, "/", sample_name[x], "-box.pdf")
    #print(fname)
@@ -335,10 +319,9 @@ for (i in 1:length(data_dir) ) {
      fish = setCol(fish, f$clonevol.clone.colors) 
      print(fishPlot(fish, shape = "spline", title.btm = sample_name[x], cex.title = 0.4,
                     vlines = seq(1, length(sample.groups)), vlab = sample.groups, pad.left = 0.3
-                    ))
-   }
+     ))
+     }
    dev <- dev.off()
-  
    }
 }
 ```
