@@ -10,7 +10,7 @@ output:
 
 # Background
 
-This notebook is for preparing input files for [pyclone-vi](https://github.com/Roth-Lab/pyclone-vi). The same files with a minor modification will be used as an input for [FastClone](https://github.com/GuanLab/FastClone_GuanLab).
+This notebook is for preparing input files for [FastClone](https://github.com/GuanLab/FastClone_GuanLab).
 
 
 # Set up
@@ -51,12 +51,6 @@ if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
 
-# File path to input directory
-pyclonevi_input_dir <-
-  file.path(analysis_dir, "results", "pyclone-vi-input-non-synonymous")
-if (!dir.exists(pyclonevi_input_dir)) {
-  dir.create(pyclonevi_input_dir)
-}
 
 # File path to input directory
 fastclone_input_dir <-
@@ -65,24 +59,6 @@ if (!dir.exists(fastclone_input_dir)) {
   dir.create(fastclone_input_dir)
 }
 
-
-# File path to plot directory
-plots_dir <-
-  file.path(analysis_dir, "plots")
-if (!dir.exists(plots_dir)) {
-  dir.create(plots_dir)
-}
-
-
-# File path to plot directory
-pyclone_plots_dir <-
-  file.path(analysis_dir, "plots", "pyclone-vi-non-synonymous")
-if (!dir.exists(pyclone_plots_dir)) {
-  dir.create(pyclone_plots_dir)
-}
-
-
-source(paste0(root_dir, "/figures/scripts/theme.R"))
 ```
 
 # Load and process data
@@ -99,9 +75,7 @@ pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %
 tmb_df <- readr::read_tsv(tmb_file, guess_max = 100000, show_col_types = FALSE) 
 
 # Read maf
-# Keep only synonymous mutations for the current analysis
 maf_file_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE)
-
 
 # Make a vector of coding gene mutations
 maf_nonsynonymous <- c(
@@ -116,7 +90,7 @@ maf_nonsynonymous <- c(
   "Translation_Start_Site"
 )
 
-# Process maf
+# Process maf and keep only synonymous mutations for the current analysis
 maf_df <- maf_file_df %>%
   filter(#Tumor_Sample_Barcode %in% pbta$Kids_First_Biospecimen_ID,
          Variant_Classification %in% maf_nonsynonymous
@@ -152,7 +126,6 @@ maf_df <- maf_file_df %>%
                                      TRUE ~ "2")) %>% 
   
   # Calculate CCF
-  # CCF() %>% 
   # using formula for CCF calculation
   mutate(CCF = (2*t_alt_count)/ (t_ref_count + t_alt_count)) #%>% 
   #write_tsv(file.path(scratch_dir, "maf_pbta.tsv"))
@@ -173,11 +146,7 @@ genomic_paired_df <- readr::read_tsv(genomic_paired_file, guess_max = 100000, sh
                 cg_id_kids = str_replace_all(cg_id_kids, " ", "_"),
                 cg_id = str_replace(cg_id, "/|-", "_"),
                 cg_id = str_replace_all(cg_id, " ", "_"),
-                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) #%>% 
-  #filter(!is.na(VAF) #,
-         #!VAF == 0 #, 
-         #!is.na(tmb)
-        # )
+                sample_id = paste(tumor_descriptor, Kids_First_Biospecimen_ID, sep = ":")) 
 
 print(table(maf_df$Variant_Classification))
 
@@ -257,16 +226,16 @@ dec_n_df <- df %>%
 ```
 
 
-# Create pyclone input files 
+# Create input files 
 
 We need to generate the input files according to the method's template. 
 Phylogenetic methods require at least 2 samples per tumor site (multiregional sampling per anatomical site).
 Here, we will consider kids samples with more than 2 timepoints with one or more biospecimens. 
 We will compare later differences in samples with single vs multiple biospecimens.
 
-```{r create-pyclone-all-samples-df}
-# Create pyclone df for all samples
-pyclone_all_samples_df <- nautilus_dec_df %>%
+```{r create-all-samples-df}
+# Create df for all samples
+all_samples_df <- nautilus_dec_df %>%
   select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, cg_id, 
          cg_id_kids, mutation_id, sample_id,
          tumor_descriptor, Chromosome, Start_Position, End_Position,
@@ -278,7 +247,7 @@ pyclone_all_samples_df <- nautilus_dec_df %>%
                 "alt_counts" = "t_alt_count",
                 "tumour_content" = "tumor_fraction") 
 
-samples_pyclone <- print(unique(pyclone_all_samples_df$Kids_First_Participant_ID))
+all_samples_number <- print(unique(all_samples_df$Kids_First_Participant_ID))
 ```
 
 ## Add major_cn, minor_cn columns from cns files
@@ -323,7 +292,7 @@ head(data_list_bind)
 rm(data_list)
 
 # Create and save pyclone_input!
-pyclone_input <- data_list_bind %>% 
+input <- data_list_bind %>% 
   
   # Rename to match input format
   # To figure out if the assignment is correct
@@ -336,7 +305,7 @@ pyclone_input <- data_list_bind %>%
                 ) %>% 
   #select(-c(Kids_First_Biospecimen_ID)) %>% 
 
-  right_join(pyclone_all_samples_df) %>% 
+  right_join(all_samples_df) %>% 
   
   filter(!is.na(major_cn),
          !is.na(minor_cn) #,
@@ -352,13 +321,13 @@ pyclone_input <- data_list_bind %>%
 
 # Save df with all data together
 # We will need this to prepare the input file for ClonEvol
-pyclone_input_all <- nautilus_dec_df %>%
+input_all <- nautilus_dec_df %>%
   select(mutation_id, VAF, CCF, gene_protein, Hugo_Symbol) %>% 
-  right_join(pyclone_input) %>% 
+  right_join(input) %>% 
   write_tsv(file.path(results_dir, "pyclone_input_all_data_non_synonymous.tsv"))
 
 
-samples_pyclone <- print(unique(pyclone_input$Kids_First_Participant_ID))
+samples_number <- print(unique(input$Kids_First_Participant_ID))
 ```
 
 # Save input files
@@ -371,14 +340,6 @@ for (i in 1:length(data_dir) ) {
   print(sample_name)
   
   for (x in seq_along(sample_name) ) { 
-  
-  ## Save input file for pyclone-vi
-  pyclone_fname <- paste0(pyclonevi_input_dir, "/", sample_name[x], ".tsv")
-  print(pyclone_fname)
-  
-  pyclone_input_subset <- pyclone_input %>%
-    filter(Kids_First_Participant_ID == sample_name[x]) %>% 
-    write_tsv(file.path(pyclone_fname))
   
   ## Save input file for FastClone
   fastclone_fname <- paste0(fastclone_input_dir, "/", sample_name[x], ".tsv")
