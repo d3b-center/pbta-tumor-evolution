@@ -21,8 +21,7 @@ For more information, see [dndscv](https://github.com/im3sanger/dndscv).
 ```{r load-library}
 suppressPackageStartupMessages({
   library(tidyverse)
-  #library(devtools); install_github("im3sanger/dndscv")
-  library("dndscv")
+  library(dndscv)
 })
 ```
 
@@ -38,13 +37,12 @@ input_dir <- file.path(analysis_dir, "input")
 data_dir <- file.path(root_dir, "data")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
-refdb_dir <- file.path(input_dir, "dndscv_data", "data")
 
 
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-refdb_file <- file.path(refdb_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
+refdb_file <- file.path(input_dir, "RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda")
 
 # File path to results directory
 results_dir <-
@@ -52,7 +50,6 @@ results_dir <-
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }
-
 ```
 
 
@@ -87,20 +84,15 @@ mutations <- maf %>%
          Reference_Allele, Tumor_Seq_Allele2) %>% 
   left_join(pbta) %>% 
   dplyr::select(-c(Kids_First_Biospecimen_ID)) %>% 
-  #mutate(Chromosome = str_replace(Chromosome, "chr", "")) %>% 
   dplyr::rename("sampleID" = "Kids_First_Participant_ID",
                 "gene.id" = "Gene",
                 "gene.name" = "Hugo_Symbol",
                 "cds.id" = "Transcript_ID",
                 "chr" = "Chromosome",
-                #"chr.coding.start" = "Start_Position",
-                #"chr.coding.end" = "End_Position",
                 "chr" = "Chromosome",
                 "pos" = "Start_Position",
                 "ref" = "Reference_Allele",
                 "mut" = "Tumor_Seq_Allele2"
-                #"ref" = "Reference_Allele",
-                #"mut" = "Tumor_Seq_Allele2"
                 ) %>% 
   dplyr::select(sampleID, chr, pos, ref, mut)
 
@@ -158,18 +150,15 @@ rownames(signif_genes) = NULL
 
 signif_genes_unique <- signif_genes %>%
   as.data.frame() %>% 
-  #select(gene_name) %>% 
-  #unique() %>% 
   write_tsv(file.path(results_dir, "signif_genes.tsv"))
 
 print(signif_genes_unique)
 
-
+# We need to ensure that gene names match across genome references.
 signif_genes_unique <- signif_genes_unique %>% 
   mutate(gene_name = case_when(grepl("H3F3A", gene_name) ~ "H3-3A", 
                                      TRUE ~ gene_name)) %>% 
   write_tsv(file.path(results_dir, "signif_genes_modified.tsv"))
-
 ```
 
 Note in the table that the dN/dS ratios of significant cancer genes are typically extremely high, often >10 or even >100. This contains information about the fraction of mutations observed in a gene that are genuine drivers under positive selection. For example, for a highly significant gene, a dN/dS of 10 indicates that there are 10 times more non-synonymous mutations in the gene than neutrally expected, suggesting that at least around 90% of these mutations are genuine drivers (Greenman *et al*, 2006; Martincorena *et al*, 2017).
@@ -193,7 +182,7 @@ The dndscv function also outputs other results that can be of interest, such as 
 ```{r}
 head(dndsout$annotmuts)
 
-df = dndsout$annotmuts
+df <- dndsout$annotmuts
 ```
 
 dNdScv relies on a negative binomial regression model across genes to refine the estimated background mutation rate for a gene. This assumes that the variation of the mutation rate across genes that remains unexplained by covariates or by the sequence composition of the gene can be modelled as a Gamma distribution. This model typically works well on clean cancer genomic datasets, but not all datasets may be suitable for this model. In particular, very low estimates of $\theta$ (the overdispersion parameter), particularly $\theta<1$, may reflect problems with the suitability of the dNdScv model for the dataset.
@@ -215,5 +204,4 @@ print(signif_genes_localmodel)
 ```{r echo=TRUE}
 sessionInfo()
 ```
-
 

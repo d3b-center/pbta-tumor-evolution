@@ -2914,64 +2914,42 @@ situations.</p>
 <h2>Driver discovery (positive selection) in cancer exomes/genomes</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHtcbiAgbGlicmFyeSh0aWR5dmVyc2UpXG4gICNsaWJyYXJ5KGRldnRvb2xzKTsgaW5zdGFsbF9naXRodWIoXFxpbTNzYW5nZXIvZG5kc2N2XFwpXG4gIGxpYnJhcnkoXFxkbmRzY3ZcXClcbiAgbGlicmFyeShcXEdlbm9taWNGZWF0dXJlc1xcKVxuICAjaWYgKCFyZXF1aXJlKFxcQmlvY01hbmFnZXJcXCwgcXVpZXRseSA9IFRSVUUpKVxuICAjICBpbnN0YWxsLnBhY2thZ2VzKFxcQmlvY01hbmFnZXJcXClcblxuICAjQmlvY01hbmFnZXI6Omluc3RhbGwoXFxvcmcuSHMuZWcuZGJcXClcbiAgbGlicmFyeShcXG9yZy5Icy5lZy5kYlxcKVxufSlcbmBgYFxuYGBgIn0= -->
-<pre class="r"><code>```r
-suppressPackageStartupMessages({
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHtcbiAgbGlicmFyeSh0aWR5dmVyc2UpXG4gIGxpYnJhcnkoZG5kc2N2KVxufSlcbmBgYCJ9 -->
+<pre class="r"><code>suppressPackageStartupMessages({
   library(tidyverse)
-  #library(devtools); install_github(\im3sanger/dndscv\)
-  library(\dndscv\)
-  library(\GenomicFeatures\)
-  #if (!require(\BiocManager\, quietly = TRUE))
-  #  install.packages(\BiocManager\)
-
-  #BiocManager::install(\org.Hs.eg.db\)
-  library(\org.Hs.eg.db\)
+  library(dndscv)
 })</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="directories-and-file-inputsoutputs" class="section level1">
+<h1>Directories and File Inputs/Outputs</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFxcZG5kc291dF9zZWxfY3YudHN2XFwpKVxuXG5wcmludChoZWFkKHNlbF9jdiksIGRpZ2l0cyA9IDMpXG5cbnNpZ25pZl9nZW5lcyA9IHNlbF9jdltzZWxfY3YkcWdsb2JhbF9jdjwwLjEsIGMoXFxnZW5lX25hbWVcXCxcXHFnbG9iYWxfY3ZcXCldICMgYDwwLjFgIGJ5IGRlZmF1bHRcbnJvd25hbWVzKHNpZ25pZl9nZW5lcykgPSBOVUxMXG5cbnNpZ25pZl9nZW5lc191bmlxdWUgPC0gc2lnbmlmX2dlbmVzICU+JVxuICBhcy5kYXRhLmZyYW1lKCkgJT4lIFxuICAjc2VsZWN0KGdlbmVfbmFtZSkgJT4lIFxuICAjdW5pcXVlKCkgJT4lIFxuICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCBcXHNpZ25pZl9nZW5lcy50c3ZcXCkpXG5cbnByaW50KHNpZ25pZl9nZW5lc191bmlxdWUpXG5cblxuc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXNfdW5pcXVlICU+JSBcbiAgbXV0YXRlKGdlbmVfbmFtZSA9IGNhc2Vfd2hlbihncmVwbChcXEgzRjNBXFwsIGdlbmVfbmFtZSkgfiBcXEgzLTNBXFwsIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBnZW5lX25hbWUpKSAlPiUgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFxcc2lnbmlmX2dlbmVzX21vZGlmaWVkLnRzdlxcKSlcblxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+sel_cv = dndsout$sel_cv %&gt;%   
+  write_tsv(file.path(results_dir, \dndsout_sel_cv.tsv\))
 
-&lt;!-- rnb-chunk-end --&gt;
+print(head(sel_cv), digits = 3)
 
+signif_genes = sel_cv[sel_cv$qglobal_cv&lt;0.1, c(\gene_name\,\qglobal_cv\)] # `&lt;0.1` by default
+rownames(signif_genes) = NULL
 
-&lt;!-- rnb-text-begin --&gt;
+signif_genes_unique &lt;- signif_genes %&gt;%
+  as.data.frame() %&gt;% 
+  #select(gene_name) %&gt;% 
+  #unique() %&gt;% 
+  write_tsv(file.path(results_dir, \signif_genes.tsv\))
 
-
-# Directories and File Inputs/Outputs
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEZXRlY3QgdGhlIFxcLmdpdFxcIGZvbGRlciAtLSB0aGlzIHdpbGwgYmUgaW4gdGhlIHByb2plY3Qgcm9vdCBkaXJlY3RvcnlcbiMgVXNlIHRoaXMgYXMgdGhlIHJvb3QgZGlyZWN0b3J5IHRvIGVuc3VyZSBwcm9wZXIgc291cmNpbmcgb2YgZnVuY3Rpb25zIFxuIyBubyBtYXR0ZXIgd2hlcmUgdGhpcyBpcyBjYWxsZWQgZnJvbVxucm9vdF9kaXIgPC0gcnByb2pyb290OjpmaW5kX3Jvb3QocnByb2pyb290OjpoYXNfZGlyKFxcLmdpdFxcKSlcbmFuYWx5c2lzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFxcYW5hbHlzZXNcXCwgXFx0dW1vci1jbG9uZS1pbmZlcmVuY2VcXClcbmlucHV0X2RpciA8LSBmaWxlLnBhdGgoYW5hbHlzaXNfZGlyLCBcXGlucHV0XFwpXG5kYXRhX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFxcZGF0YVxcKVxuZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXFxhbmFseXNlc1xcLCBcXHNhbXBsZS1kaXN0cmlidXRpb24tYW5hbHlzaXNcXCwgXFxyZXN1bHRzXFwpXG5tYWZfZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXFxhbmFseXNlc1xcLCBcXHRtYi12YWYtbG9uZ2l0dWRpbmFsXFwsIFxccmVzdWx0c1xcKVxucmVmZGJfZGlyIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsIFxcZG5kc2N2X2RhdGFcXCwgXFxkYXRhXFwpXG5cblxuIyBJbnB1dCBmaWxlc1xucGJ0YV9maWxlIDwtIGZpbGUucGF0aChmaWxlc19kaXIsIFxccGJ0YS50c3ZcXCkgIyBmaWxlIGZyb20gYWRkLXNhbXBsZS1kaXN0cmlidXRpb24gbW9kdWxlXG5tYWZfZmlsZSA8LSBmaWxlLnBhdGgoZGF0YV9kaXIsIFxcc252LWNvbnNlbnN1cy1wbHVzLWhvdHNwb3RzLm1hZi50c3YuZ3pcXClcbiNyZWZkYl9maWxlIDwtIGZpbGUucGF0aChyZWZkYl9kaXIsIFxcUmVmQ0RTX2h1bWFuX0dSQ2gzOC5wMTJfZE5kU2N2LjAuMS4wLnJkYVxcKVxuXG4jIEZpbGUgcGF0aCB0byByZXN1bHRzIGRpcmVjdG9yeVxucmVzdWx0c19kaXIgPC1cbiAgZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgXFxyZXN1bHRzXFwpXG5pZiAoIWRpci5leGlzdHMocmVzdWx0c19kaXIpKSB7XG4gIGRpci5jcmVhdGUocmVzdWx0c19kaXIpXG59XG5cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-# Detect the \.git\ folder -- this will be in the project root directory
-# Use this as the root directory to ensure proper sourcing of functions 
-# no matter where this is called from
-root_dir &lt;- rprojroot::find_root(rprojroot::has_dir(\.git\))
-analysis_dir &lt;- file.path(root_dir, \analyses\, \tumor-clone-inference\)
-input_dir &lt;- file.path(analysis_dir, \input\)
-data_dir &lt;- file.path(root_dir, \data\)
-files_dir &lt;- file.path(root_dir, \analyses\, \sample-distribution-analysis\, \results\)
-maf_files_dir &lt;- file.path(root_dir, \analyses\, \tmb-vaf-longitudinal\, \results\)
-refdb_dir &lt;- file.path(input_dir, \dndscv_data\, \data\)
+print(signif_genes_unique)
 
 
-# Input files
-pbta_file &lt;- file.path(files_dir, \pbta.tsv\) # file from add-sample-distribution module
-maf_file &lt;- file.path(data_dir, \snv-consensus-plus-hotspots.maf.tsv.gz\)
-#refdb_file &lt;- file.path(refdb_dir, \RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda\)
-
-# File path to results directory
-results_dir &lt;-
-  file.path(analysis_dir, \results\)
-if (!dir.exists(results_dir)) {
-  dir.create(results_dir)
-}
+signif_genes_unique &lt;- signif_genes_unique %&gt;% 
+  mutate(gene_name = case_when(grepl(\H3F3A\, gene_name) ~ \H3-3A\, 
+                                     TRUE ~ gene_name)) %&gt;% 
+  write_tsv(file.path(results_dir, \signif_genes_modified.tsv\))
 </code></pre>
 <pre><code>
 &lt;!-- rnb-source-end --&gt;
@@ -2996,83 +2974,63 @@ Users interested in trying dNdScv on a different set of transcripts, a different
 &lt;!-- rnb-chunk-begin --&gt;
 
 
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBSZWFkIGluIGhpc3RvbG9naWVzIGZpbGUgYW5kIGZpbHRlciBmb3IgdGhlIHBidGEgY29ob3J0XG5wYnRhIDwtIHJlYWRyOjpyZWFkX3RzdihwYnRhX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lXG4gIGZpbHRlcighKGV4cGVyaW1lbnRhbF9zdHJhdGVneSA9PSBcXFJOQS1TZXFcXCkpICU+JSBcbiAgZHBseXI6OnNlbGVjdChLaWRzX0ZpcnN0X1BhcnRpY2lwYW50X0lELCBLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lEKVxuXG5tYWZfZGYgPC0gdnJvb206OnZyb29tKG1hZl9maWxlLCBkZWxpbSA9IFxcXFx0XFwsIGNvbF9uYW1lcyA9IFRSVUUpIFxuYGBgXG5gYGAifQ== --&gt;
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBgclxucHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKVxuYGBgXG5gYGBcbmBgYCJ9 --&gt;
 
 ```r
 ```r
-# Read in histologies file and filter for the pbta cohort
-pbta &lt;- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %&gt;%
-  filter(!(experimental_strategy == \RNA-Seq\)) %&gt;% 
-  dplyr::select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
-
-maf_df &lt;- vroom::vroom(maf_file, delim = \\t\, col_names = TRUE) </code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-# Create Reference for gencode-v39
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyMgYnVpbGQgUmVmZXJlbmNlIHJhbmdlcyBmb3IgQ0RTIGluIGh1bWFuIGNvZGluZyBnZW5lc1xuIyBodHRwczovL3JkcnIuaW8vYmlvYy9BUEFseXplci9tYW4vUkVGQ0RTLmh0bWxcblxuI2xpYnJhcnkocmVwbWlzKVxuI1VSTD1cXGh0dHBzOi8vZ2l0aHViLmNvbS9SSldBTkdiaW9pbmZvL1BBU19yZWZlcmVuY2VfUkRhdGEvYmxvYi9tYXN0ZXIvXFxcbiNmaWxlIDwtIFxcaGczOF9SRUYuUkRhdGFcXFxuI3NvdXJjZV9kYXRhKHBhc3RlMChVUkwsZmlsZSxcXD9yYXc9VHJ1ZVxcKSlcbiN0eGRiID0gXFxkZklQQV9oZzM4XFxcbiNJRERCID0gb3JnLkhzLmVnLmRiXG4jcmVmZGJfZmlsZSA9IFJFRkNEUyh0eGRiLCBJRERCKVxuXG5cbiMgZXh0cGF0aCA9IHN5c3RlbS5maWxlKFxcZXh0ZGF0YVxcLCBcXG1tOS5jaHIxOS5yZWZHZW5lLlIuREJcXCwgcGFja2FnZT1cXEFQQWx5emVyXFwpXG4jdHhkYiA9IGxvYWREYihleHRwYXRoLCBwYWNrYWdlTmFtZT0nR2Vub21pY0ZlYXR1cmVzJylcbiNJRERCID0gb3JnLkhzLmVnLmRiXG4jQ0RTZGJyYXcgPSBSRUZDRFModHhkYixJRERCKVxuI3JlZmRiX2ZpbGUgPSBSRUZDRFModHhkYiwgSUREQilcbiNleHRwYXRoIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsIFxcb25jb3ByaW50LWdvaS1saXN0cy1PcGVuUGVkQ2FuLWdlbmNvZGUtdjM5LmNzdlxcKVxuI2dlbmNvZGUudjM5IDwtIHJlYWRyOjpyZWFkX2NzdihleHRwYXRoKVxuYGBgXG5gYGAifQ== --&gt;
-
 ```r
-```r
-## build Reference ranges for CDS in human coding genes
+print(dndsout$globaldnds)</code></pre>
+<pre><code></code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="create-reference-for-gencode-v39" class="section level1">
+<h1>Create Reference for gencode-v39</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgYnVpbGQgUmVmZXJlbmNlIHJhbmdlcyBmb3IgQ0RTIGluIGh1bWFuIGNvZGluZyBnZW5lc1xuIyBodHRwczovL3JkcnIuaW8vYmlvYy9BUEFseXplci9tYW4vUkVGQ0RTLmh0bWxcblxuI2xpYnJhcnkocmVwbWlzKVxuI1VSTD1cImh0dHBzOi8vZ2l0aHViLmNvbS9SSldBTkdiaW9pbmZvL1BBU19yZWZlcmVuY2VfUkRhdGEvYmxvYi9tYXN0ZXIvXCJcbiNmaWxlIDwtIFwiaGczOF9SRUYuUkRhdGFcIlxuI3NvdXJjZV9kYXRhKHBhc3RlMChVUkwsZmlsZSxcIj9yYXc9VHJ1ZVwiKSlcbiN0eGRiID0gXCJkZklQQV9oZzM4XCJcbiNJRERCID0gb3JnLkhzLmVnLmRiXG4jcmVmZGJfZmlsZSA9IFJFRkNEUyh0eGRiLCBJRERCKVxuXG5cbiMgZXh0cGF0aCA9IHN5c3RlbS5maWxlKFwiZXh0ZGF0YVwiLCBcIm1tOS5jaHIxOS5yZWZHZW5lLlIuREJcIiwgcGFja2FnZT1cIkFQQWx5emVyXCIpXG4jdHhkYiA9IGxvYWREYihleHRwYXRoLCBwYWNrYWdlTmFtZT0nR2Vub21pY0ZlYXR1cmVzJylcbiNJRERCID0gb3JnLkhzLmVnLmRiXG4jQ0RTZGJyYXcgPSBSRUZDRFModHhkYixJRERCKVxuI3JlZmRiX2ZpbGUgPSBSRUZDRFModHhkYiwgSUREQilcbiNleHRwYXRoIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsIFwib25jb3ByaW50LWdvaS1saXN0cy1PcGVuUGVkQ2FuLWdlbmNvZGUtdjM5LmNzdlwiKVxuI2dlbmNvZGUudjM5IDwtIHJlYWRyOjpyZWFkX2NzdihleHRwYXRoKVxuYGBgIn0= -->
+<pre class="r"><code>## build Reference ranges for CDS in human coding genes
 # https://rdrr.io/bioc/APAlyzer/man/REFCDS.html
 
 #library(repmis)
-#URL=\https://github.com/RJWANGbioinfo/PAS_reference_RData/blob/master/\
-#file &lt;- \hg38_REF.RData\
-#source_data(paste0(URL,file,\?raw=True\))
-#txdb = \dfIPA_hg38\
+#URL=&quot;https://github.com/RJWANGbioinfo/PAS_reference_RData/blob/master/&quot;
+#file &lt;- &quot;hg38_REF.RData&quot;
+#source_data(paste0(URL,file,&quot;?raw=True&quot;))
+#txdb = &quot;dfIPA_hg38&quot;
 #IDDB = org.Hs.eg.db
 #refdb_file = REFCDS(txdb, IDDB)
 
 
-# extpath = system.file(\extdata\, \mm9.chr19.refGene.R.DB\, package=\APAlyzer\)
+# extpath = system.file(&quot;extdata&quot;, &quot;mm9.chr19.refGene.R.DB&quot;, package=&quot;APAlyzer&quot;)
 #txdb = loadDb(extpath, packageName=&#39;GenomicFeatures&#39;)
 #IDDB = org.Hs.eg.db
 #CDSdbraw = REFCDS(txdb,IDDB)
 #refdb_file = REFCDS(txdb, IDDB)
-#extpath &lt;- file.path(input_dir, \oncoprint-goi-lists-OpenPedCan-gencode-v39.csv\)
+#extpath &lt;- file.path(input_dir, &quot;oncoprint-goi-lists-OpenPedCan-gencode-v39.csv&quot;)
 #gencode.v39 &lt;- readr::read_csv(extpath)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-# Run dndscv
-
-With the example dataset provided, the function should take about one minute to run. In this example, the function issues a warning as it detects the same mutation in more than one sample, requesting the user to verify that the input table of mutations only contains independent mutation events. In this case, each sample corresponds to a different patient and so the warning can be safely ignored.
-
-We have run dNdScv with default parameters. This includes removing ultra-hypermutator samples and subsampling mutations when encountering too many mutations per gene in the same sample. These were designed to protect against loss of sensitivity from ultra-hypermutators and from clustered artefacts in the input mutation table, but there are occasions when the user will prefer to relax these (see Example 2).
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZG5kc291dCA9IGRuZHNjdihtdXRhdGlvbnMsIHJlZmRiID0gcmVmZGJfZmlsZSwgY3YgPSBOVUxMKVxuYGBgIn0= --&gt;
-
-```r
-dndsout = dndscv(mutations, refdb = refdb_file, cv = NULL)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="run-dndscv" class="section level1">
+<h1>Run dndscv</h1>
+<p>With the example dataset provided, the function should take about one
+minute to run. In this example, the function issues a warning as it
+detects the same mutation in more than one sample, requesting the user
+to verify that the input table of mutations only contains independent
+mutation events. In this case, each sample corresponds to a different
+patient and so the warning can be safely ignored.</p>
+<p>We have run dNdScv with default parameters. This includes removing
+ultra-hypermutator samples and subsampling mutations when encountering
+too many mutations per gene in the same sample. These were designed to
+protect against loss of sensitivity from ultra-hypermutators and from
+clustered artefacts in the input mutation table, but there are occasions
+when the user will prefer to relax these (see Example 2).</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZG5kc291dCA9IGRuZHNjdihtdXRhdGlvbnMsIHJlZmRiID0gcmVmZGJfZmlsZSwgY3YgPSBOVUxMKVxuYGBgIn0= -->
+<pre class="r"><code>dndsout = dndscv(mutations, refdb = refdb_file, cv = NULL)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -3092,7 +3050,7 @@ types are available in the <em>qglobal_cv</em> and <em>qallsubs_cv</em>
 columns for analyses with and without indels, respectively.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFwiZG5kc291dF9zZWxfY3YudHN2XCIpKVxuXG5wcmludChoZWFkKHNlbF9jdiksIGRpZ2l0cyA9IDMpXG5cbnNpZ25pZl9nZW5lcyA9IHNlbF9jdltzZWxfY3YkcWdsb2JhbF9jdjwwLjEsIGMoXCJnZW5lX25hbWVcIixcInFnbG9iYWxfY3ZcIildICMgYDwwLjFgIGJ5IGRlZmF1bHRcbnJvd25hbWVzKHNpZ25pZl9nZW5lcykgPSBOVUxMXG5cbnNpZ25pZl9nZW5lc191bmlxdWUgPC0gc2lnbmlmX2dlbmVzICU+JVxuICBhcy5kYXRhLmZyYW1lKCkgJT4lIFxuICAjc2VsZWN0KGdlbmVfbmFtZSkgJT4lIFxuICAjdW5pcXVlKCkgJT4lIFxuICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCBcInNpZ25pZl9nZW5lcy50c3ZcIikpXG5cbnByaW50KHNpZ25pZl9nZW5lc191bmlxdWUpXG5cblxuc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXNfdW5pcXVlICU+JSBcbiAgbXV0YXRlKGdlbmVfbmFtZSA9IGNhc2Vfd2hlbihncmVwbChcIkgzRjNBXCIsIGdlbmVfbmFtZSkgfiBcIkgzLTNBXCIsIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBnZW5lX25hbWUpKSAlPiUgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFwic2lnbmlmX2dlbmVzX21vZGlmaWVkLnRzdlwiKSlcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFwiZG5kc291dF9zZWxfY3YudHN2XCIpKVxuXG5wcmludChoZWFkKHNlbF9jdiksIGRpZ2l0cyA9IDMpXG5cbnNpZ25pZl9nZW5lcyA9IHNlbF9jdltzZWxfY3YkcWdsb2JhbF9jdjwwLjEsIGMoXCJnZW5lX25hbWVcIixcInFnbG9iYWxfY3ZcIildICMgYDwwLjFgIGJ5IGRlZmF1bHRcbnJvd25hbWVzKHNpZ25pZl9nZW5lcykgPSBOVUxMXG5cbnNpZ25pZl9nZW5lc191bmlxdWUgPC0gc2lnbmlmX2dlbmVzICU+JVxuICBhcy5kYXRhLmZyYW1lKCkgJT4lIFxuICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCBcInNpZ25pZl9nZW5lcy50c3ZcIikpXG5cbnByaW50KHNpZ25pZl9nZW5lc191bmlxdWUpXG5cbiMgV2UgbmVlZCB0byBlbnN1cmUgdGhhdCBnZW5lIG5hbWVzIG1hdGNoIGFjcm9zcyBnZW5vbWUgcmVmZXJlbmNlcy5cbnNpZ25pZl9nZW5lc191bmlxdWUgPC0gc2lnbmlmX2dlbmVzX3VuaXF1ZSAlPiUgXG4gIG11dGF0ZShnZW5lX25hbWUgPSBjYXNlX3doZW4oZ3JlcGwoXCJIM0YzQVwiLCBnZW5lX25hbWUpIH4gXCJIMy0zQVwiLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBUUlVFIH4gZ2VuZV9uYW1lKSkgJT4lIFxuICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCBcInNpZ25pZl9nZW5lc19tb2RpZmllZC50c3ZcIikpXG5gYGAifQ== -->
 <pre class="r"><code>sel_cv = dndsout$sel_cv %&gt;%   
   write_tsv(file.path(results_dir, &quot;dndsout_sel_cv.tsv&quot;))
 
@@ -3103,18 +3061,15 @@ rownames(signif_genes) = NULL
 
 signif_genes_unique &lt;- signif_genes %&gt;%
   as.data.frame() %&gt;% 
-  #select(gene_name) %&gt;% 
-  #unique() %&gt;% 
   write_tsv(file.path(results_dir, &quot;signif_genes.tsv&quot;))
 
 print(signif_genes_unique)
 
-
+# We need to ensure that gene names match across genome references.
 signif_genes_unique &lt;- signif_genes_unique %&gt;% 
   mutate(gene_name = case_when(grepl(&quot;H3F3A&quot;, gene_name) ~ &quot;H3-3A&quot;, 
                                      TRUE ~ gene_name)) %&gt;% 
-  write_tsv(file.path(results_dir, &quot;signif_genes_modified.tsv&quot;))
-</code></pre>
+  write_tsv(file.path(results_dir, &quot;signif_genes_modified.tsv&quot;))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -3142,117 +3097,88 @@ together (<em>wtru</em>), which include nonsense and essential splice
 site mutations.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKVxuYGBgXG5gYGAifQ== -->
-<pre class="r"><code>```r
-print(dndsout$globaldnds)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKVxuYGBgIn0= -->
+<pre class="r"><code>print(dndsout$globaldnds)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Global dN/dS ratios in somatic evolution of cancer, and seemingly of
+healthy somatic tissues, appear to show a near-universal pattern of
+dN/dS~1, with exome-wide dN/dS ratios typically slightly higher than 1
+(Martincorena <em>et al.</em>, 2017). Only occasionally, I have found
+datasets with global dN/dS&lt;1, but upon closer examination, this has
+typically been caused by contamination of the catalogue of somatic
+mutations with germline SNPs. An exception are melanoma tumours, which
+show a bias towards slight underestimation of dN/dS due to the signature
+of ultraviolet-induced mutations extending beyond the trinucleotide
+model (Martincorena <em>et al.</em>, 2017). In my personal experience,
+datasets of somatic mutations with global dN/dS&lt;&lt;1 have always
+reflected a problem of SNP contamination or an inadequate substitution
+model, and so the evaluation of global dN/dS values can help identify
+problems in certain datasets.</p>
+<p>#####Other useful outputs</p>
+<p>The dndscv function also outputs other results that can be of
+interest, such as an annotated table of coding mutations
+(<em>annotmuts</em>), MLEs of mutation rate parameters
+(<em>mle_submodel</em>), lists of samples and mutations excluded from
+the analysis and a table with the observed and expected number of
+mutations per gene (<em>genemuts</em>), among others.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkbmRzb3V0JGFubm90bXV0cylcblxuZGYgPC0gZG5kc291dCRhbm5vdG11dHNcbmBgYCJ9 -->
+<pre class="r"><code>head(dndsout$annotmuts)
 
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-Global dN/dS ratios in somatic evolution of cancer, and seemingly of healthy somatic tissues, appear to show a near-universal pattern of dN/dS~1, with exome-wide dN/dS ratios typically slightly higher than 1 (Martincorena *et al.*, 2017). Only occasionally, I have found datasets with global dN/dS&lt;1, but upon closer examination, this has typically been caused by contamination of the catalogue of somatic mutations with germline SNPs. An exception are melanoma tumours, which show a bias towards slight underestimation of dN/dS due to the signature of ultraviolet-induced mutations extending beyond the trinucleotide model (Martincorena *et al.*, 2017). In my personal experience, datasets of somatic mutations with global dN/dS&lt;&lt;1 have always reflected a problem of SNP contamination or an inadequate substitution model, and so the evaluation of global dN/dS values can help identify problems in certain datasets.
-
-#####Other useful outputs
-
-The dndscv function also outputs other results that can be of interest, such as an annotated table of coding mutations (*annotmuts*), MLEs of mutation rate parameters (*mle_submodel*), lists of samples and mutations excluded from the analysis and a table with the observed and expected number of mutations per gene (*genemuts*), among others.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuaGVhZChkbmRzb3V0JGFubm90bXV0cylcblxuZGYgPSBkbmRzb3V0JGFubm90bXV0c1xuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-head(dndsout$annotmuts)
-
-df = dndsout$annotmuts</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-dNdScv relies on a negative binomial regression model across genes to refine the estimated background mutation rate for a gene. This assumes that the variation of the mutation rate across genes that remains unexplained by covariates or by the sequence composition of the gene can be modelled as a Gamma distribution. This model typically works well on clean cancer genomic datasets, but not all datasets may be suitable for this model. In particular, very low estimates of $\theta$ (the overdispersion parameter), particularly $\theta&lt;1$, may reflect problems with the suitability of the dNdScv model for the dataset.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-print(dndsout$nbreg$theta)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-##### dNdSloc: local neutrality test
-
-An additional set of neutrality tests per gene are performed using a more traditional dN/dS model in which the local mutation rate for a gene is estimated exclusively from the synonymous mutations observed in the gene (*dNdSloc*) (Wong, Martincorena, *et al*., 2014). This test is typically only powered in very large datasets. For example, in the dataset used in this example, comprising of 196 simulated breast cancer exomes, this model only detects *ARID1A* as significantly mutated.
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwgPSBhcy52ZWN0b3IoZG5kc291dCRzZWxfbG9jJGdlbmVfbmFtZVtkbmRzb3V0JHNlbF9sb2MkcWFsbF9sb2M8MC4xXSlcbnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-signif_genes_localmodel = as.vector(dndsout$sel_loc$gene_name[dndsout$sel_loc$qall_loc&lt;0.1])
+df &lt;- dndsout$annotmuts</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>dNdScv relies on a negative binomial regression model across genes to
+refine the estimated background mutation rate for a gene. This assumes
+that the variation of the mutation rate across genes that remains
+unexplained by covariates or by the sequence composition of the gene can
+be modelled as a Gamma distribution. This model typically works well on
+clean cancer genomic datasets, but not all datasets may be suitable for
+this model. In particular, very low estimates of <span class="math inline">\(\theta\)</span> (the overdispersion parameter),
+particularly <span class="math inline">\(\theta&lt;1\)</span>, may
+reflect problems with the suitability of the dNdScv model for the
+dataset.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSlcbmBgYCJ9 -->
+<pre class="r"><code>print(dndsout$nbreg$theta)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="dndsloc-local-neutrality-test" class="section level5">
+<h5>dNdSloc: local neutrality test</h5>
+<p>An additional set of neutrality tests per gene are performed using a
+more traditional dN/dS model in which the local mutation rate for a gene
+is estimated exclusively from the synonymous mutations observed in the
+gene (<em>dNdSloc</em>) (Wong, Martincorena, <em>et al</em>., 2014).
+This test is typically only powered in very large datasets. For example,
+in the dataset used in this example, comprising of 196 simulated breast
+cancer exomes, this model only detects <em>ARID1A</em> as significantly
+mutated.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwgPSBhcy52ZWN0b3IoZG5kc291dCRzZWxfbG9jJGdlbmVfbmFtZVtkbmRzb3V0JHNlbF9sb2MkcWFsbF9sb2M8MC4xXSlcbnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKVxuYGBgIn0= -->
+<pre class="r"><code>signif_genes_localmodel = as.vector(dndsout$sel_loc$gene_name[dndsout$sel_loc$qall_loc&lt;0.1])
 print(signif_genes_localmodel)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-sessionInfo()</code></pre>
-<p>```</p>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgIn0= -->
+<pre class="r"><code>sessionInfo()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiU2VsZWN0aW9uIGFuYWx5c2VzIGFuZCBjYW5jZXIgZHJpdmVyIGRpc2NvdmVyeSB1c2luZyBkTmRTY3YiCmF1dGhvcjogJ0FudG9uaWEgQ2hyb25pIDxjaHJvbmlhQGNob3AuZWR1PiBmb3IgRDNCJwpkYXRlOiAiMjAyMyIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IFRSVUUKICAgIHRvY19mbG9hdDogVFJVRQotLS0KCgpUaGUgKipkTmRTY3YqKiBSIHBhY2thZ2UgaXMgYSBzdWl0ZSBvZiBtYXhpbXVtLWxpa2VsaWhvb2QgZE4vZFMgbWV0aG9kcyBkZXNpZ25lZCB0byBxdWFudGlmeSBzZWxlY3Rpb24gaW4gY2FuY2VyIGFuZCBzb21hdGljIGV2b2x1dGlvbiAoTWFydGluY29yZW5hICpldCBhbC4qLCAyMDE3KS4gVGhlIHBhY2thZ2UgY29udGFpbnMgZnVuY3Rpb25zIHRvIHF1YW50aWZ5IGROL2RTIHJhdGlvcyBmb3IgbWlzc2Vuc2UsIG5vbnNlbnNlIGFuZCBlc3NlbnRpYWwgc3BsaWNlIG11dGF0aW9ucywgYXQgdGhlIGxldmVsIG9mIGluZGl2aWR1YWwgZ2VuZXMsIGdyb3VwcyBvZiBnZW5lcyBvciBhdCB3aG9sZS1nZW5vbWUgbGV2ZWwuIFRoZSAqZE5kU2N2KiBtZXRob2Qgd2FzIGRlc2lnbmVkIHRvIGRldGVjdCBjYW5jZXIgZHJpdmVyIGdlbmVzICgqaS5lLiogZ2VuZXMgdW5kZXIgcG9zaXRpdmUgc2VsZWN0aW9uIGluIGNhbmNlcikgb24gZGF0YXNldHMgcmFuZ2luZyBmcm9tIGEgZmV3IHNhbXBsZXMgdG8gdGhvdXNhbmRzIG9mIHNhbXBsZXMsIGluIHdob2xlLWV4b21lL2dlbm9tZSBvciB0YXJnZXRlZCBzZXF1ZW5jaW5nIHN0dWRpZXMuCgpVbmxpa2UgdHJhZGl0aW9uYWwgaW1wbGVtZW50YXRpb25zIG9mIGROL2RTLCB0aGUgKmROZFNjdiogcGFja2FnZSB1c2VzIHRyaW51Y2xlb3RpZGUgY29udGV4dC1kZXBlbmRlbnQgc3Vic3RpdHV0aW9uIG1vZGVscyB0byBhdm9pZCBjb21tb24gbXV0YXRpb24gYmlhc2VzIGFmZmVjdGluZyBkTi9kUyAoR3JlZW5tYW4gKmV0IGFsLiosIDIwMDYsIE1hcnRpbmNvcmVuYSAqZXQgYWwuKiwgMjAxNykuIFRoZSBwYWNrYWdlIGluY2x1ZGVzIHR3byBkaWZmZXJlbnQgZE4vZFMgbW9kZWxzLiAqZE5kU2xvYyosIGxpa2UgdHJhZGl0aW9uYWwgZE4vZFMgaW1wbGVtZW50YXRpb25zLCB1c2VzIHRoZSBudW1iZXIgb2Ygc3lub255bW91cyBtdXRhdGlvbnMgaW4gYSBnZW5lIHRvIGluZmVyIHRoZSBsb2NhbCBtdXRhdGlvbiByYXRlLCB3aXRob3V0IGV4cGxvaXRpbmcgYWRkaXRpb25hbCBpbmZvcm1hdGlvbiBmcm9tIG90aGVyIGdlbmVzLiAqZE5kU2N2KiBvZmZlcnMgYSBtdWNoIG1vcmUgcG93ZXJmdWwgYWx0ZXJuYXRpdmUsIGNvbWJpbmluZyBsb2NhbCBpbmZvcm1hdGlvbiAoc3lub255bW91cyBtdXRhdGlvbnMgaW4gdGhlIGdlbmUpIGFuZCBnbG9iYWwgaW5mb3JtYXRpb24gKHZhcmlhdGlvbiBvZiB0aGUgbXV0YXRpb24gcmF0ZSBhY3Jvc3MgZ2VuZXMsIGV4cGxvaXRpbmcgZXBpZ2Vub21pYyBjb3ZhcmlhdGVzKSB0byBlc3RpbWF0ZSB0aGUgYmFja2dyb3VuZCBtdXRhdGlvbiByYXRlLiAqZE5kU2N2KiBzaG91bGQgYmUgcHJlZmVycmVkIGluIG1vc3Qgc2l0dWF0aW9ucy4KCkZvciBtb3JlIGluZm9ybWF0aW9uLCBzZWUgW2RuZHNjdl0oaHR0cHM6Ly9naXRodWIuY29tL2ltM3Nhbmdlci9kbmRzY3YpLgoKIyMgRHJpdmVyIGRpc2NvdmVyeSAocG9zaXRpdmUgc2VsZWN0aW9uKSBpbiBjYW5jZXIgZXhvbWVzL2dlbm9tZXMKCgpgYGB7ciBsb2FkLWxpYnJhcnl9CnN1cHByZXNzUGFja2FnZVN0YXJ0dXBNZXNzYWdlcyh7CiAgbGlicmFyeSh0aWR5dmVyc2UpCiAgI2xpYnJhcnkoZGV2dG9vbHMpOyBpbnN0YWxsX2dpdGh1YigiaW0zc2FuZ2VyL2RuZHNjdiIpCiAgbGlicmFyeSgiZG5kc2N2IikKfSkKYGBgCgojIERpcmVjdG9yaWVzIGFuZCBGaWxlIElucHV0cy9PdXRwdXRzCgpgYGB7ciBzZXQtZGlyLWFuZC1maWxlLW5hbWVzfQojIERldGVjdCB0aGUgIi5naXQiIGZvbGRlciAtLSB0aGlzIHdpbGwgYmUgaW4gdGhlIHByb2plY3Qgcm9vdCBkaXJlY3RvcnkKIyBVc2UgdGhpcyBhcyB0aGUgcm9vdCBkaXJlY3RvcnkgdG8gZW5zdXJlIHByb3BlciBzb3VyY2luZyBvZiBmdW5jdGlvbnMgCiMgbm8gbWF0dGVyIHdoZXJlIHRoaXMgaXMgY2FsbGVkIGZyb20Kcm9vdF9kaXIgPC0gcnByb2pyb290OjpmaW5kX3Jvb3QocnByb2pyb290OjpoYXNfZGlyKCIuZ2l0IikpCmFuYWx5c2lzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsICJhbmFseXNlcyIsICJ0dW1vci1jbG9uZS1pbmZlcmVuY2UiKQppbnB1dF9kaXIgPC0gZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgImlucHV0IikKZGF0YV9kaXIgPC0gZmlsZS5wYXRoKHJvb3RfZGlyLCAiZGF0YSIpCmZpbGVzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsICJhbmFseXNlcyIsICJzYW1wbGUtZGlzdHJpYnV0aW9uLWFuYWx5c2lzIiwgInJlc3VsdHMiKQptYWZfZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgImFuYWx5c2VzIiwgInRtYi12YWYtbG9uZ2l0dWRpbmFsIiwgInJlc3VsdHMiKQpyZWZkYl9kaXIgPC0gZmlsZS5wYXRoKGlucHV0X2RpciwgImRuZHNjdl9kYXRhIiwgImRhdGEiKQoKCiMgSW5wdXQgZmlsZXMKcGJ0YV9maWxlIDwtIGZpbGUucGF0aChmaWxlc19kaXIsICJwYnRhLnRzdiIpICMgZmlsZSBmcm9tIGFkZC1zYW1wbGUtZGlzdHJpYnV0aW9uIG1vZHVsZQptYWZfZmlsZSA8LSBmaWxlLnBhdGgoZGF0YV9kaXIsICJzbnYtY29uc2Vuc3VzLXBsdXMtaG90c3BvdHMubWFmLnRzdi5neiIpCnJlZmRiX2ZpbGUgPC0gZmlsZS5wYXRoKHJlZmRiX2RpciwgIlJlZkNEU19odW1hbl9HUkNoMzgucDEyX2ROZFNjdi4wLjEuMC5yZGEiKQoKIyBGaWxlIHBhdGggdG8gcmVzdWx0cyBkaXJlY3RvcnkKcmVzdWx0c19kaXIgPC0KICBmaWxlLnBhdGgoYW5hbHlzaXNfZGlyLCAicmVzdWx0cyIpCmlmICghZGlyLmV4aXN0cyhyZXN1bHRzX2RpcikpIHsKICBkaXIuY3JlYXRlKHJlc3VsdHNfZGlyKQp9CgpgYGAKCgojIFByZXByb2Nlc3MgZGF0YSBhbGlnbmVkIHRvIEdSQ2gzOCBnZW5vbWUgcmVmZXJlbmNlCgpCeSBkZWZhdWx0LCBkTmRTY3YgYXNzdW1lcyB0aGF0IG11dGF0aW9uIGRhdGEgaXMgbWFwcGVkIHRvIHRoZSBHUkNoMzcvaGcxOSBhc3NlbWJseSBvZiB0aGUgaHVtYW4gZ2Vub21lLgpVc2VycyBpbnRlcmVzdGVkIGluIHRyeWluZyBkTmRTY3Ygb24gYSBkaWZmZXJlbnQgc2V0IG9mIHRyYW5zY3JpcHRzLCBhIGRpZmZlcmVudCBhc3NlbWJseSBvciBhIGRpZmZlcmVudCBzcGVjaWVzIGNhbiBmb2xsb3cgdGhpcyBbdHV0b3JpYWxdKGh0dHBzOi8vaHRtbHByZXZpZXcuZ2l0aHViLmlvLz9odHRwOi8vZ2l0aHViLmNvbS9pbTNzYW5nZXIvZG5kc2N2L2Jsb2IvbWFzdGVyL3ZpZ25ldHRlcy9idWlsZHJlZi5odG1sKS4KCgpgYGB7ciBwcmVwcm9jZXNzLWRhdGEsIG1lc3NhZ2U9RkFMU0V9CiMgUmVhZCBpbiBoaXN0b2xvZ2llcyBmaWxlIGFuZCBmaWx0ZXIgZm9yIHRoZSBwYnRhIGNvaG9ydApwYnRhIDwtIHJlYWRyOjpyZWFkX3RzdihwYnRhX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lCiAgZmlsdGVyKCEoZXhwZXJpbWVudGFsX3N0cmF0ZWd5ID09ICJSTkEtU2VxIikpICU+JSAKICBkcGx5cjo6c2VsZWN0KEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQsIEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpCgptYWZfZGYgPC0gdnJvb206OnZyb29tKG1hZl9maWxlLCBkZWxpbSA9ICJcdCIsIGNvbF9uYW1lcyA9IFRSVUUpIAoKIyBSZWFkIG1hZiBmaWxlCm1hZiA8LSBtYWZfZGYgJT4lIAogIGZpbHRlcihUdW1vcl9TYW1wbGVfQmFyY29kZSAlaW4lIHBidGEkS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCMsCiAgICAgICAgICNWYXJpYW50X0NsYXNzaWZpY2F0aW9uICVpbiUgbWFmX25vbnN5bm9ueW1vdXMKICAgICAgICAgKSAlPiUKICBkcGx5cjo6cmVuYW1lKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQgPSBUdW1vcl9TYW1wbGVfQmFyY29kZSkgCgojIE51bWJlciBvZiBnZW5lcyBpbiB0aGUgbWFmIGZpbGUKZ2VuZXMgPC0gbGVuZ3RoKHVuaXF1ZShtYWYkSHVnb19TeW1ib2wpKQoKbXV0YXRpb25zIDwtIG1hZiAlPiUgCiAgZHBseXI6OnNlbGVjdChLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lELCBHZW5lLCBIdWdvX1N5bWJvbCwgCiAgICAgICAgIFRyYW5zY3JpcHRfSUQsIENocm9tb3NvbWUsIFN0YXJ0X1Bvc2l0aW9uLCAKICAgICAgICAgRW5kX1Bvc2l0aW9uLCBTdHJhbmQsCiAgICAgICAgIFJlZmVyZW5jZV9BbGxlbGUsIFR1bW9yX1NlcV9BbGxlbGUyKSAlPiUgCiAgbGVmdF9qb2luKHBidGEpICU+JSAKICBkcGx5cjo6c2VsZWN0KC1jKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpKSAlPiUgCiAgI211dGF0ZShDaHJvbW9zb21lID0gc3RyX3JlcGxhY2UoQ2hyb21vc29tZSwgImNociIsICIiKSkgJT4lIAogIGRwbHlyOjpyZW5hbWUoInNhbXBsZUlEIiA9ICJLaWRzX0ZpcnN0X1BhcnRpY2lwYW50X0lEIiwKICAgICAgICAgICAgICAgICJnZW5lLmlkIiA9ICJHZW5lIiwKICAgICAgICAgICAgICAgICJnZW5lLm5hbWUiID0gIkh1Z29fU3ltYm9sIiwKICAgICAgICAgICAgICAgICJjZHMuaWQiID0gIlRyYW5zY3JpcHRfSUQiLAogICAgICAgICAgICAgICAgImNociIgPSAiQ2hyb21vc29tZSIsCiAgICAgICAgICAgICAgICAjImNoci5jb2Rpbmcuc3RhcnQiID0gIlN0YXJ0X1Bvc2l0aW9uIiwKICAgICAgICAgICAgICAgICMiY2hyLmNvZGluZy5lbmQiID0gIkVuZF9Qb3NpdGlvbiIsCiAgICAgICAgICAgICAgICAiY2hyIiA9ICJDaHJvbW9zb21lIiwKICAgICAgICAgICAgICAgICJwb3MiID0gIlN0YXJ0X1Bvc2l0aW9uIiwKICAgICAgICAgICAgICAgICJyZWYiID0gIlJlZmVyZW5jZV9BbGxlbGUiLAogICAgICAgICAgICAgICAgIm11dCIgPSAiVHVtb3JfU2VxX0FsbGVsZTIiCiAgICAgICAgICAgICAgICAjInJlZiIgPSAiUmVmZXJlbmNlX0FsbGVsZSIsCiAgICAgICAgICAgICAgICAjIm11dCIgPSAiVHVtb3JfU2VxX0FsbGVsZTIiCiAgICAgICAgICAgICAgICApICU+JSAKICBkcGx5cjo6c2VsZWN0KHNhbXBsZUlELCBjaHIsIHBvcywgcmVmLCBtdXQpCgpwcmludChoZWFkKG11dGF0aW9ucykpCgpgYGAKCiMgQ3JlYXRlIFJlZmVyZW5jZSBmb3IgZ2VuY29kZS12MzkKCmBgYHtyfQojIyBidWlsZCBSZWZlcmVuY2UgcmFuZ2VzIGZvciBDRFMgaW4gaHVtYW4gY29kaW5nIGdlbmVzCiMgaHR0cHM6Ly9yZHJyLmlvL2Jpb2MvQVBBbHl6ZXIvbWFuL1JFRkNEUy5odG1sCgojbGlicmFyeShyZXBtaXMpCiNVUkw9Imh0dHBzOi8vZ2l0aHViLmNvbS9SSldBTkdiaW9pbmZvL1BBU19yZWZlcmVuY2VfUkRhdGEvYmxvYi9tYXN0ZXIvIgojZmlsZSA8LSAiaGczOF9SRUYuUkRhdGEiCiNzb3VyY2VfZGF0YShwYXN0ZTAoVVJMLGZpbGUsIj9yYXc9VHJ1ZSIpKQojdHhkYiA9ICJkZklQQV9oZzM4IgojSUREQiA9IG9yZy5Icy5lZy5kYgojcmVmZGJfZmlsZSA9IFJFRkNEUyh0eGRiLCBJRERCKQoKCiMgZXh0cGF0aCA9IHN5c3RlbS5maWxlKCJleHRkYXRhIiwgIm1tOS5jaHIxOS5yZWZHZW5lLlIuREIiLCBwYWNrYWdlPSJBUEFseXplciIpCiN0eGRiID0gbG9hZERiKGV4dHBhdGgsIHBhY2thZ2VOYW1lPSdHZW5vbWljRmVhdHVyZXMnKQojSUREQiA9IG9yZy5Icy5lZy5kYgojQ0RTZGJyYXcgPSBSRUZDRFModHhkYixJRERCKQojcmVmZGJfZmlsZSA9IFJFRkNEUyh0eGRiLCBJRERCKQojZXh0cGF0aCA8LSBmaWxlLnBhdGgoaW5wdXRfZGlyLCAib25jb3ByaW50LWdvaS1saXN0cy1PcGVuUGVkQ2FuLWdlbmNvZGUtdjM5LmNzdiIpCiNnZW5jb2RlLnYzOSA8LSByZWFkcjo6cmVhZF9jc3YoZXh0cGF0aCkKYGBgCgojIFJ1biBkbmRzY3YKCldpdGggdGhlIGV4YW1wbGUgZGF0YXNldCBwcm92aWRlZCwgdGhlIGZ1bmN0aW9uIHNob3VsZCB0YWtlIGFib3V0IG9uZSBtaW51dGUgdG8gcnVuLiBJbiB0aGlzIGV4YW1wbGUsIHRoZSBmdW5jdGlvbiBpc3N1ZXMgYSB3YXJuaW5nIGFzIGl0IGRldGVjdHMgdGhlIHNhbWUgbXV0YXRpb24gaW4gbW9yZSB0aGFuIG9uZSBzYW1wbGUsIHJlcXVlc3RpbmcgdGhlIHVzZXIgdG8gdmVyaWZ5IHRoYXQgdGhlIGlucHV0IHRhYmxlIG9mIG11dGF0aW9ucyBvbmx5IGNvbnRhaW5zIGluZGVwZW5kZW50IG11dGF0aW9uIGV2ZW50cy4gSW4gdGhpcyBjYXNlLCBlYWNoIHNhbXBsZSBjb3JyZXNwb25kcyB0byBhIGRpZmZlcmVudCBwYXRpZW50IGFuZCBzbyB0aGUgd2FybmluZyBjYW4gYmUgc2FmZWx5IGlnbm9yZWQuCgpXZSBoYXZlIHJ1biBkTmRTY3Ygd2l0aCBkZWZhdWx0IHBhcmFtZXRlcnMuIFRoaXMgaW5jbHVkZXMgcmVtb3ZpbmcgdWx0cmEtaHlwZXJtdXRhdG9yIHNhbXBsZXMgYW5kIHN1YnNhbXBsaW5nIG11dGF0aW9ucyB3aGVuIGVuY291bnRlcmluZyB0b28gbWFueSBtdXRhdGlvbnMgcGVyIGdlbmUgaW4gdGhlIHNhbWUgc2FtcGxlLiBUaGVzZSB3ZXJlIGRlc2lnbmVkIHRvIHByb3RlY3QgYWdhaW5zdCBsb3NzIG9mIHNlbnNpdGl2aXR5IGZyb20gdWx0cmEtaHlwZXJtdXRhdG9ycyBhbmQgZnJvbSBjbHVzdGVyZWQgYXJ0ZWZhY3RzIGluIHRoZSBpbnB1dCBtdXRhdGlvbiB0YWJsZSwgYnV0IHRoZXJlIGFyZSBvY2Nhc2lvbnMgd2hlbiB0aGUgdXNlciB3aWxsIHByZWZlciB0byByZWxheCB0aGVzZSAoc2VlIEV4YW1wbGUgMikuCgpgYGB7ciBydW4tZG5kc2N2LCBtZXNzYWdlPUZBTFNFfQpkbmRzb3V0ID0gZG5kc2N2KG11dGF0aW9ucywgcmVmZGIgPSByZWZkYl9maWxlLCBjdiA9IE5VTEwpCmBgYAoKCiMjIyMjZG5kc2N2IG91dHB1dHM6IFRhYmxlIG9mIHNpZ25pZmljYW50IGdlbmVzCgpUaGUgb3V0cHV0IG9mIHRoZSAqZG5kc2N2KiBmdW5jdGlvbiBpcyBhIGxpc3Qgb2Ygb2JqZWN0cy4gRm9yIGFuIGFuYWx5c2lzIG9mIGV4b21lIG9yIGdlbm9tZSBkYXRhLCB0aGUgbW9zdCByZWxldmFudCBvdXRwdXQgd2lsbCBvZnRlbiBiZSB0aGUgcmVzdWx0IG9mIG5ldXRyYWxpdHkgdGVzdHMgYXQgZ2VuZSBsZXZlbC4gKlAtdmFsdWVzKiBmb3Igc3Vic3RpdHV0aW9ucyBhcmUgb2J0YWluZWQgYnkgTGlrZWxpaG9vZC1SYXRpbyBUZXN0cyBhcyBkZXNjcmliZWQgaW4gKE1hcnRpbmNvcmVuYSAqZXQgYWwqLCAyMDE3KSBhbmQgcS12YWx1ZXMgYXJlIG9idGFpbmVkIGJ5IEJlbmphbWluaS1Ib2RnYmVyZydzIG11bHRpcGxlIHRlc3RpbmcgY29ycmVjdGlvbi4gVGhlIHRhYmxlIGFsc28gaW5jbHVkZXMgaW5mb3JtYXRpb24gb24gdGhlIG51bWJlciBvZiBzdWJzdGl0dXRpb25zIG9mIGVhY2ggY2xhc3Mgb2JzZXJ2ZWQgaW4gZWFjaCBnZW5lLCBhcyB3ZWxsIGFzIG1heGltdW0tbGlrZWxpaG9vZCBlc3RpbWF0ZXMgKE1MRXMpIG9mIHRoZSBkTi9kUyByYXRpb3MgZm9yIGVhY2ggZ2VuZSwgZm9yIG1pc3NlbnNlICgqd21pcyopLCBub25zZW5zZSAoKndub24qKSwgZXNzZW50aWFsIHNwbGljZSBzaXRlIG11dGF0aW9ucyAoKndzcGwqKSBhbmQgaW5kZWxzICgqd2luZCopLiBUaGUgZ2xvYmFsIHEtdmFsdWUgaW50ZWdyYXRpbmcgYWxsIG11dGF0aW9uIHR5cGVzIGFyZSBhdmFpbGFibGUgaW4gdGhlICpxZ2xvYmFsX2N2KiBhbmQgKnFhbGxzdWJzX2N2KiBjb2x1bW5zIGZvciBhbmFseXNlcyB3aXRoIGFuZCB3aXRob3V0IGluZGVscywgcmVzcGVjdGl2ZWx5LgoKYGBge3J9CnNlbF9jdiA9IGRuZHNvdXQkc2VsX2N2ICU+JSAgIAogIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsICJkbmRzb3V0X3NlbF9jdi50c3YiKSkKCnByaW50KGhlYWQoc2VsX2N2KSwgZGlnaXRzID0gMykKCnNpZ25pZl9nZW5lcyA9IHNlbF9jdltzZWxfY3YkcWdsb2JhbF9jdjwwLjEsIGMoImdlbmVfbmFtZSIsInFnbG9iYWxfY3YiKV0gIyBgPDAuMWAgYnkgZGVmYXVsdApyb3duYW1lcyhzaWduaWZfZ2VuZXMpID0gTlVMTAoKc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXMgJT4lCiAgYXMuZGF0YS5mcmFtZSgpICU+JSAKICAjc2VsZWN0KGdlbmVfbmFtZSkgJT4lIAogICN1bmlxdWUoKSAlPiUgCiAgd3JpdGVfdHN2KGZpbGUucGF0aChyZXN1bHRzX2RpciwgInNpZ25pZl9nZW5lcy50c3YiKSkKCnByaW50KHNpZ25pZl9nZW5lc191bmlxdWUpCgoKc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXNfdW5pcXVlICU+JSAKICBtdXRhdGUoZ2VuZV9uYW1lID0gY2FzZV93aGVuKGdyZXBsKCJIM0YzQSIsIGdlbmVfbmFtZSkgfiAiSDMtM0EiLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBnZW5lX25hbWUpKSAlPiUgCiAgd3JpdGVfdHN2KGZpbGUucGF0aChyZXN1bHRzX2RpciwgInNpZ25pZl9nZW5lc19tb2RpZmllZC50c3YiKSkKCmBgYAoKTm90ZSBpbiB0aGUgdGFibGUgdGhhdCB0aGUgZE4vZFMgcmF0aW9zIG9mIHNpZ25pZmljYW50IGNhbmNlciBnZW5lcyBhcmUgdHlwaWNhbGx5IGV4dHJlbWVseSBoaWdoLCBvZnRlbiA+MTAgb3IgZXZlbiA+MTAwLiBUaGlzIGNvbnRhaW5zIGluZm9ybWF0aW9uIGFib3V0IHRoZSBmcmFjdGlvbiBvZiBtdXRhdGlvbnMgb2JzZXJ2ZWQgaW4gYSBnZW5lIHRoYXQgYXJlIGdlbnVpbmUgZHJpdmVycyB1bmRlciBwb3NpdGl2ZSBzZWxlY3Rpb24uIEZvciBleGFtcGxlLCBmb3IgYSBoaWdobHkgc2lnbmlmaWNhbnQgZ2VuZSwgYSBkTi9kUyBvZiAxMCBpbmRpY2F0ZXMgdGhhdCB0aGVyZSBhcmUgMTAgdGltZXMgbW9yZSBub24tc3lub255bW91cyBtdXRhdGlvbnMgaW4gdGhlIGdlbmUgdGhhbiBuZXV0cmFsbHkgZXhwZWN0ZWQsIHN1Z2dlc3RpbmcgdGhhdCBhdCBsZWFzdCBhcm91bmQgOTAlIG9mIHRoZXNlIG11dGF0aW9ucyBhcmUgZ2VudWluZSBkcml2ZXJzIChHcmVlbm1hbiAqZXQgYWwqLCAyMDA2OyBNYXJ0aW5jb3JlbmEgKmV0IGFsKiwgMjAxNykuCgpVc2VycyBjYW4gY2FsY3VsYXRlIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIGZvciB0aGUgZE4vZFMgcmF0aW9zIHBlciBnZW5lIHVzaW5nIHRoZSAqZ2VuZWNpKiBmdW5jdGlvbiBpbiB0aGUgcGFja2FnZS4gVG8gdXNlIHRoaXMgZnVuY3Rpb24geW91IG5lZWQgdG8gcnVuICpkbmRzY3YqIHdpdGggdGhlIG9wdGlvbmFsIGFyZ3VtZW50IGBvdXRtYXRzPVRgIGFuZCB0aGVuIHVzZSBgY2kgPSBnZW5lY2koZG5kc291dClgLiBGb3IgbW9yZSBkZXRhaWxzIHNlZSBgPyBnZW5lY2lgLgoKIyMjIyNkbmRzY3Ygb3V0cHV0czogR2xvYmFsIGROL2RTIGVzdGltYXRlcwoKQW5vdGhlciBvdXRwdXQgdGhhdCBjYW4gYmUgb2YgaW50ZXJlc3QgaXMgYSB0YWJsZSB3aXRoIHRoZSBnbG9iYWwgTUxFcyBmb3IgdGhlIGROL2RTIHJhdGlvcyBhY3Jvc3MgYWxsIGdlbmVzLiBkTi9kUyByYXRpb3Mgd2l0aCBhc3NvY2lhdGVkIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIGFyZSBjYWxjdWxhdGVkIGZvciBtaXNzZW5zZSwgbm9uc2Vuc2UgYW5kIGVzc2VudGlhbCBzcGxpY2Ugc2l0ZSBzdWJzdGl0dXRpb25zIHNlcGFyYXRlbHksIGFzIHdlbGwgYXMgZm9yIGFsbCBub24tc3lub255bW91cyBzdWJzdGl0dXRpb25zICgqd2FsbCopIGFuZCBmb3IgYWxsIHRydW5jYXRpbmcgc3Vic3RpdHV0aW9ucyB0b2dldGhlciAoKnd0cnUqKSwgd2hpY2ggaW5jbHVkZSBub25zZW5zZSBhbmQgZXNzZW50aWFsIHNwbGljZSBzaXRlIG11dGF0aW9ucy4KCmBgYHtyfQpwcmludChkbmRzb3V0JGdsb2JhbGRuZHMpCmBgYAoKR2xvYmFsIGROL2RTIHJhdGlvcyBpbiBzb21hdGljIGV2b2x1dGlvbiBvZiBjYW5jZXIsIGFuZCBzZWVtaW5nbHkgb2YgaGVhbHRoeSBzb21hdGljIHRpc3N1ZXMsIGFwcGVhciB0byBzaG93IGEgbmVhci11bml2ZXJzYWwgcGF0dGVybiBvZiBkTi9kU34xLCB3aXRoIGV4b21lLXdpZGUgZE4vZFMgcmF0aW9zIHR5cGljYWxseSBzbGlnaHRseSBoaWdoZXIgdGhhbiAxIChNYXJ0aW5jb3JlbmEgKmV0IGFsLiosIDIwMTcpLiBPbmx5IG9jY2FzaW9uYWxseSwgSSBoYXZlIGZvdW5kIGRhdGFzZXRzIHdpdGggZ2xvYmFsIGROL2RTPDEsIGJ1dCB1cG9uIGNsb3NlciBleGFtaW5hdGlvbiwgdGhpcyBoYXMgdHlwaWNhbGx5IGJlZW4gY2F1c2VkIGJ5IGNvbnRhbWluYXRpb24gb2YgdGhlIGNhdGFsb2d1ZSBvZiBzb21hdGljIG11dGF0aW9ucyB3aXRoIGdlcm1saW5lIFNOUHMuIEFuIGV4Y2VwdGlvbiBhcmUgbWVsYW5vbWEgdHVtb3Vycywgd2hpY2ggc2hvdyBhIGJpYXMgdG93YXJkcyBzbGlnaHQgdW5kZXJlc3RpbWF0aW9uIG9mIGROL2RTIGR1ZSB0byB0aGUgc2lnbmF0dXJlIG9mIHVsdHJhdmlvbGV0LWluZHVjZWQgbXV0YXRpb25zIGV4dGVuZGluZyBiZXlvbmQgdGhlIHRyaW51Y2xlb3RpZGUgbW9kZWwgKE1hcnRpbmNvcmVuYSAqZXQgYWwuKiwgMjAxNykuIEluIG15IHBlcnNvbmFsIGV4cGVyaWVuY2UsIGRhdGFzZXRzIG9mIHNvbWF0aWMgbXV0YXRpb25zIHdpdGggZ2xvYmFsIGROL2RTPDwxIGhhdmUgYWx3YXlzIHJlZmxlY3RlZCBhIHByb2JsZW0gb2YgU05QIGNvbnRhbWluYXRpb24gb3IgYW4gaW5hZGVxdWF0ZSBzdWJzdGl0dXRpb24gbW9kZWwsIGFuZCBzbyB0aGUgZXZhbHVhdGlvbiBvZiBnbG9iYWwgZE4vZFMgdmFsdWVzIGNhbiBoZWxwIGlkZW50aWZ5IHByb2JsZW1zIGluIGNlcnRhaW4gZGF0YXNldHMuCgojIyMjI090aGVyIHVzZWZ1bCBvdXRwdXRzCgpUaGUgZG5kc2N2IGZ1bmN0aW9uIGFsc28gb3V0cHV0cyBvdGhlciByZXN1bHRzIHRoYXQgY2FuIGJlIG9mIGludGVyZXN0LCBzdWNoIGFzIGFuIGFubm90YXRlZCB0YWJsZSBvZiBjb2RpbmcgbXV0YXRpb25zICgqYW5ub3RtdXRzKiksIE1MRXMgb2YgbXV0YXRpb24gcmF0ZSBwYXJhbWV0ZXJzICgqbWxlX3N1Ym1vZGVsKiksIGxpc3RzIG9mIHNhbXBsZXMgYW5kIG11dGF0aW9ucyBleGNsdWRlZCBmcm9tIHRoZSBhbmFseXNpcyBhbmQgYSB0YWJsZSB3aXRoIHRoZSBvYnNlcnZlZCBhbmQgZXhwZWN0ZWQgbnVtYmVyIG9mIG11dGF0aW9ucyBwZXIgZ2VuZSAoKmdlbmVtdXRzKiksIGFtb25nIG90aGVycy4KCmBgYHtyfQpoZWFkKGRuZHNvdXQkYW5ub3RtdXRzKQoKZGYgPSBkbmRzb3V0JGFubm90bXV0cwpgYGAKCmROZFNjdiByZWxpZXMgb24gYSBuZWdhdGl2ZSBiaW5vbWlhbCByZWdyZXNzaW9uIG1vZGVsIGFjcm9zcyBnZW5lcyB0byByZWZpbmUgdGhlIGVzdGltYXRlZCBiYWNrZ3JvdW5kIG11dGF0aW9uIHJhdGUgZm9yIGEgZ2VuZS4gVGhpcyBhc3N1bWVzIHRoYXQgdGhlIHZhcmlhdGlvbiBvZiB0aGUgbXV0YXRpb24gcmF0ZSBhY3Jvc3MgZ2VuZXMgdGhhdCByZW1haW5zIHVuZXhwbGFpbmVkIGJ5IGNvdmFyaWF0ZXMgb3IgYnkgdGhlIHNlcXVlbmNlIGNvbXBvc2l0aW9uIG9mIHRoZSBnZW5lIGNhbiBiZSBtb2RlbGxlZCBhcyBhIEdhbW1hIGRpc3RyaWJ1dGlvbi4gVGhpcyBtb2RlbCB0eXBpY2FsbHkgd29ya3Mgd2VsbCBvbiBjbGVhbiBjYW5jZXIgZ2Vub21pYyBkYXRhc2V0cywgYnV0IG5vdCBhbGwgZGF0YXNldHMgbWF5IGJlIHN1aXRhYmxlIGZvciB0aGlzIG1vZGVsLiBJbiBwYXJ0aWN1bGFyLCB2ZXJ5IGxvdyBlc3RpbWF0ZXMgb2YgJFx0aGV0YSQgKHRoZSBvdmVyZGlzcGVyc2lvbiBwYXJhbWV0ZXIpLCBwYXJ0aWN1bGFybHkgJFx0aGV0YTwxJCwgbWF5IHJlZmxlY3QgcHJvYmxlbXMgd2l0aCB0aGUgc3VpdGFiaWxpdHkgb2YgdGhlIGROZFNjdiBtb2RlbCBmb3IgdGhlIGRhdGFzZXQuCgpgYGB7cn0KcHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSkKYGBgCgojIyMjIyBkTmRTbG9jOiBsb2NhbCBuZXV0cmFsaXR5IHRlc3QKCkFuIGFkZGl0aW9uYWwgc2V0IG9mIG5ldXRyYWxpdHkgdGVzdHMgcGVyIGdlbmUgYXJlIHBlcmZvcm1lZCB1c2luZyBhIG1vcmUgdHJhZGl0aW9uYWwgZE4vZFMgbW9kZWwgaW4gd2hpY2ggdGhlIGxvY2FsIG11dGF0aW9uIHJhdGUgZm9yIGEgZ2VuZSBpcyBlc3RpbWF0ZWQgZXhjbHVzaXZlbHkgZnJvbSB0aGUgc3lub255bW91cyBtdXRhdGlvbnMgb2JzZXJ2ZWQgaW4gdGhlIGdlbmUgKCpkTmRTbG9jKikgKFdvbmcsIE1hcnRpbmNvcmVuYSwgKmV0IGFsKi4sIDIwMTQpLiBUaGlzIHRlc3QgaXMgdHlwaWNhbGx5IG9ubHkgcG93ZXJlZCBpbiB2ZXJ5IGxhcmdlIGRhdGFzZXRzLiBGb3IgZXhhbXBsZSwgaW4gdGhlIGRhdGFzZXQgdXNlZCBpbiB0aGlzIGV4YW1wbGUsIGNvbXByaXNpbmcgb2YgMTk2IHNpbXVsYXRlZCBicmVhc3QgY2FuY2VyIGV4b21lcywgdGhpcyBtb2RlbCBvbmx5IGRldGVjdHMgKkFSSUQxQSogYXMgc2lnbmlmaWNhbnRseSBtdXRhdGVkLgoKYGBge3J9CnNpZ25pZl9nZW5lc19sb2NhbG1vZGVsID0gYXMudmVjdG9yKGRuZHNvdXQkc2VsX2xvYyRnZW5lX25hbWVbZG5kc291dCRzZWxfbG9jJHFhbGxfbG9jPDAuMV0pCnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKQpgYGAKCgpgYGB7ciBlY2hvPVRSVUV9CnNlc3Npb25JbmZvKCkKYGBgCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU2VsZWN0aW9uIGFuYWx5c2VzIGFuZCBjYW5jZXIgZHJpdmVyIGRpc2NvdmVyeSB1c2luZyBkTmRTY3YiCmF1dGhvcjogJ0FudG9uaWEgQ2hyb25pIDxjaHJvbmlhQGNob3AuZWR1PiBmb3IgRDNCJwpkYXRlOiAiMjAyMyIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IFRSVUUKICAgIHRvY19mbG9hdDogVFJVRQotLS0KCgpUaGUgKipkTmRTY3YqKiBSIHBhY2thZ2UgaXMgYSBzdWl0ZSBvZiBtYXhpbXVtLWxpa2VsaWhvb2QgZE4vZFMgbWV0aG9kcyBkZXNpZ25lZCB0byBxdWFudGlmeSBzZWxlY3Rpb24gaW4gY2FuY2VyIGFuZCBzb21hdGljIGV2b2x1dGlvbiAoTWFydGluY29yZW5hICpldCBhbC4qLCAyMDE3KS4gVGhlIHBhY2thZ2UgY29udGFpbnMgZnVuY3Rpb25zIHRvIHF1YW50aWZ5IGROL2RTIHJhdGlvcyBmb3IgbWlzc2Vuc2UsIG5vbnNlbnNlIGFuZCBlc3NlbnRpYWwgc3BsaWNlIG11dGF0aW9ucywgYXQgdGhlIGxldmVsIG9mIGluZGl2aWR1YWwgZ2VuZXMsIGdyb3VwcyBvZiBnZW5lcyBvciBhdCB3aG9sZS1nZW5vbWUgbGV2ZWwuIFRoZSAqZE5kU2N2KiBtZXRob2Qgd2FzIGRlc2lnbmVkIHRvIGRldGVjdCBjYW5jZXIgZHJpdmVyIGdlbmVzICgqaS5lLiogZ2VuZXMgdW5kZXIgcG9zaXRpdmUgc2VsZWN0aW9uIGluIGNhbmNlcikgb24gZGF0YXNldHMgcmFuZ2luZyBmcm9tIGEgZmV3IHNhbXBsZXMgdG8gdGhvdXNhbmRzIG9mIHNhbXBsZXMsIGluIHdob2xlLWV4b21lL2dlbm9tZSBvciB0YXJnZXRlZCBzZXF1ZW5jaW5nIHN0dWRpZXMuCgpVbmxpa2UgdHJhZGl0aW9uYWwgaW1wbGVtZW50YXRpb25zIG9mIGROL2RTLCB0aGUgKmROZFNjdiogcGFja2FnZSB1c2VzIHRyaW51Y2xlb3RpZGUgY29udGV4dC1kZXBlbmRlbnQgc3Vic3RpdHV0aW9uIG1vZGVscyB0byBhdm9pZCBjb21tb24gbXV0YXRpb24gYmlhc2VzIGFmZmVjdGluZyBkTi9kUyAoR3JlZW5tYW4gKmV0IGFsLiosIDIwMDYsIE1hcnRpbmNvcmVuYSAqZXQgYWwuKiwgMjAxNykuIFRoZSBwYWNrYWdlIGluY2x1ZGVzIHR3byBkaWZmZXJlbnQgZE4vZFMgbW9kZWxzLiAqZE5kU2xvYyosIGxpa2UgdHJhZGl0aW9uYWwgZE4vZFMgaW1wbGVtZW50YXRpb25zLCB1c2VzIHRoZSBudW1iZXIgb2Ygc3lub255bW91cyBtdXRhdGlvbnMgaW4gYSBnZW5lIHRvIGluZmVyIHRoZSBsb2NhbCBtdXRhdGlvbiByYXRlLCB3aXRob3V0IGV4cGxvaXRpbmcgYWRkaXRpb25hbCBpbmZvcm1hdGlvbiBmcm9tIG90aGVyIGdlbmVzLiAqZE5kU2N2KiBvZmZlcnMgYSBtdWNoIG1vcmUgcG93ZXJmdWwgYWx0ZXJuYXRpdmUsIGNvbWJpbmluZyBsb2NhbCBpbmZvcm1hdGlvbiAoc3lub255bW91cyBtdXRhdGlvbnMgaW4gdGhlIGdlbmUpIGFuZCBnbG9iYWwgaW5mb3JtYXRpb24gKHZhcmlhdGlvbiBvZiB0aGUgbXV0YXRpb24gcmF0ZSBhY3Jvc3MgZ2VuZXMsIGV4cGxvaXRpbmcgZXBpZ2Vub21pYyBjb3ZhcmlhdGVzKSB0byBlc3RpbWF0ZSB0aGUgYmFja2dyb3VuZCBtdXRhdGlvbiByYXRlLiAqZE5kU2N2KiBzaG91bGQgYmUgcHJlZmVycmVkIGluIG1vc3Qgc2l0dWF0aW9ucy4KCkZvciBtb3JlIGluZm9ybWF0aW9uLCBzZWUgW2RuZHNjdl0oaHR0cHM6Ly9naXRodWIuY29tL2ltM3Nhbmdlci9kbmRzY3YpLgoKIyMgRHJpdmVyIGRpc2NvdmVyeSAocG9zaXRpdmUgc2VsZWN0aW9uKSBpbiBjYW5jZXIgZXhvbWVzL2dlbm9tZXMKCgpgYGB7ciBsb2FkLWxpYnJhcnl9CnN1cHByZXNzUGFja2FnZVN0YXJ0dXBNZXNzYWdlcyh7CiAgbGlicmFyeSh0aWR5dmVyc2UpCiAgbGlicmFyeShkbmRzY3YpCn0pCmBgYAoKIyBEaXJlY3RvcmllcyBhbmQgRmlsZSBJbnB1dHMvT3V0cHV0cwoKYGBge3Igc2V0LWRpci1hbmQtZmlsZS1uYW1lc30KIyBEZXRlY3QgdGhlICIuZ2l0IiBmb2xkZXIgLS0gdGhpcyB3aWxsIGJlIGluIHRoZSBwcm9qZWN0IHJvb3QgZGlyZWN0b3J5CiMgVXNlIHRoaXMgYXMgdGhlIHJvb3QgZGlyZWN0b3J5IHRvIGVuc3VyZSBwcm9wZXIgc291cmNpbmcgb2YgZnVuY3Rpb25zIAojIG5vIG1hdHRlciB3aGVyZSB0aGlzIGlzIGNhbGxlZCBmcm9tCnJvb3RfZGlyIDwtIHJwcm9qcm9vdDo6ZmluZF9yb290KHJwcm9qcm9vdDo6aGFzX2RpcigiLmdpdCIpKQphbmFseXNpc19kaXIgPC0gZmlsZS5wYXRoKHJvb3RfZGlyLCAiYW5hbHlzZXMiLCAidHVtb3ItY2xvbmUtaW5mZXJlbmNlIikKaW5wdXRfZGlyIDwtIGZpbGUucGF0aChhbmFseXNpc19kaXIsICJpbnB1dCIpCmRhdGFfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgImRhdGEiKQpmaWxlc19kaXIgPC0gZmlsZS5wYXRoKHJvb3RfZGlyLCAiYW5hbHlzZXMiLCAic2FtcGxlLWRpc3RyaWJ1dGlvbi1hbmFseXNpcyIsICJyZXN1bHRzIikKbWFmX2ZpbGVzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsICJhbmFseXNlcyIsICJ0bWItdmFmLWxvbmdpdHVkaW5hbCIsICJyZXN1bHRzIikKCgojIElucHV0IGZpbGVzCnBidGFfZmlsZSA8LSBmaWxlLnBhdGgoZmlsZXNfZGlyLCAicGJ0YS50c3YiKSAjIGZpbGUgZnJvbSBhZGQtc2FtcGxlLWRpc3RyaWJ1dGlvbiBtb2R1bGUKbWFmX2ZpbGUgPC0gZmlsZS5wYXRoKGRhdGFfZGlyLCAic252LWNvbnNlbnN1cy1wbHVzLWhvdHNwb3RzLm1hZi50c3YuZ3oiKQpyZWZkYl9maWxlIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsICJSZWZDRFNfaHVtYW5fR1JDaDM4LnAxMl9kTmRTY3YuMC4xLjAucmRhIikKCiMgRmlsZSBwYXRoIHRvIHJlc3VsdHMgZGlyZWN0b3J5CnJlc3VsdHNfZGlyIDwtCiAgZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgInJlc3VsdHMiKQppZiAoIWRpci5leGlzdHMocmVzdWx0c19kaXIpKSB7CiAgZGlyLmNyZWF0ZShyZXN1bHRzX2RpcikKfQpgYGAKCgojIFByZXByb2Nlc3MgZGF0YSBhbGlnbmVkIHRvIEdSQ2gzOCBnZW5vbWUgcmVmZXJlbmNlCgpCeSBkZWZhdWx0LCBkTmRTY3YgYXNzdW1lcyB0aGF0IG11dGF0aW9uIGRhdGEgaXMgbWFwcGVkIHRvIHRoZSBHUkNoMzcvaGcxOSBhc3NlbWJseSBvZiB0aGUgaHVtYW4gZ2Vub21lLgpVc2VycyBpbnRlcmVzdGVkIGluIHRyeWluZyBkTmRTY3Ygb24gYSBkaWZmZXJlbnQgc2V0IG9mIHRyYW5zY3JpcHRzLCBhIGRpZmZlcmVudCBhc3NlbWJseSBvciBhIGRpZmZlcmVudCBzcGVjaWVzIGNhbiBmb2xsb3cgdGhpcyBbdHV0b3JpYWxdKGh0dHBzOi8vaHRtbHByZXZpZXcuZ2l0aHViLmlvLz9odHRwOi8vZ2l0aHViLmNvbS9pbTNzYW5nZXIvZG5kc2N2L2Jsb2IvbWFzdGVyL3ZpZ25ldHRlcy9idWlsZHJlZi5odG1sKS4KCgpgYGB7ciBwcmVwcm9jZXNzLWRhdGEsIG1lc3NhZ2U9RkFMU0V9CiMgUmVhZCBpbiBoaXN0b2xvZ2llcyBmaWxlIGFuZCBmaWx0ZXIgZm9yIHRoZSBwYnRhIGNvaG9ydApwYnRhIDwtIHJlYWRyOjpyZWFkX3RzdihwYnRhX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lCiAgZmlsdGVyKCEoZXhwZXJpbWVudGFsX3N0cmF0ZWd5ID09ICJSTkEtU2VxIikpICU+JSAKICBkcGx5cjo6c2VsZWN0KEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQsIEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpCgptYWZfZGYgPC0gdnJvb206OnZyb29tKG1hZl9maWxlLCBkZWxpbSA9ICJcdCIsIGNvbF9uYW1lcyA9IFRSVUUpIAoKIyBSZWFkIG1hZiBmaWxlCm1hZiA8LSBtYWZfZGYgJT4lIAogIGZpbHRlcihUdW1vcl9TYW1wbGVfQmFyY29kZSAlaW4lIHBidGEkS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCMsCiAgICAgICAgICNWYXJpYW50X0NsYXNzaWZpY2F0aW9uICVpbiUgbWFmX25vbnN5bm9ueW1vdXMKICAgICAgICAgKSAlPiUKICBkcGx5cjo6cmVuYW1lKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQgPSBUdW1vcl9TYW1wbGVfQmFyY29kZSkgCgojIE51bWJlciBvZiBnZW5lcyBpbiB0aGUgbWFmIGZpbGUKZ2VuZXMgPC0gbGVuZ3RoKHVuaXF1ZShtYWYkSHVnb19TeW1ib2wpKQoKbXV0YXRpb25zIDwtIG1hZiAlPiUgCiAgZHBseXI6OnNlbGVjdChLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lELCBHZW5lLCBIdWdvX1N5bWJvbCwgCiAgICAgICAgIFRyYW5zY3JpcHRfSUQsIENocm9tb3NvbWUsIFN0YXJ0X1Bvc2l0aW9uLCAKICAgICAgICAgRW5kX1Bvc2l0aW9uLCBTdHJhbmQsCiAgICAgICAgIFJlZmVyZW5jZV9BbGxlbGUsIFR1bW9yX1NlcV9BbGxlbGUyKSAlPiUgCiAgbGVmdF9qb2luKHBidGEpICU+JSAKICBkcGx5cjo6c2VsZWN0KC1jKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpKSAlPiUgCiAgZHBseXI6OnJlbmFtZSgic2FtcGxlSUQiID0gIktpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQiLAogICAgICAgICAgICAgICAgImdlbmUuaWQiID0gIkdlbmUiLAogICAgICAgICAgICAgICAgImdlbmUubmFtZSIgPSAiSHVnb19TeW1ib2wiLAogICAgICAgICAgICAgICAgImNkcy5pZCIgPSAiVHJhbnNjcmlwdF9JRCIsCiAgICAgICAgICAgICAgICAiY2hyIiA9ICJDaHJvbW9zb21lIiwKICAgICAgICAgICAgICAgICJjaHIiID0gIkNocm9tb3NvbWUiLAogICAgICAgICAgICAgICAgInBvcyIgPSAiU3RhcnRfUG9zaXRpb24iLAogICAgICAgICAgICAgICAgInJlZiIgPSAiUmVmZXJlbmNlX0FsbGVsZSIsCiAgICAgICAgICAgICAgICAibXV0IiA9ICJUdW1vcl9TZXFfQWxsZWxlMiIKICAgICAgICAgICAgICAgICkgJT4lIAogIGRwbHlyOjpzZWxlY3Qoc2FtcGxlSUQsIGNociwgcG9zLCByZWYsIG11dCkKCnByaW50KGhlYWQobXV0YXRpb25zKSkKCmBgYAoKIyBDcmVhdGUgUmVmZXJlbmNlIGZvciBnZW5jb2RlLXYzOQoKYGBge3J9CiMjIGJ1aWxkIFJlZmVyZW5jZSByYW5nZXMgZm9yIENEUyBpbiBodW1hbiBjb2RpbmcgZ2VuZXMKIyBodHRwczovL3JkcnIuaW8vYmlvYy9BUEFseXplci9tYW4vUkVGQ0RTLmh0bWwKCiNsaWJyYXJ5KHJlcG1pcykKI1VSTD0iaHR0cHM6Ly9naXRodWIuY29tL1JKV0FOR2Jpb2luZm8vUEFTX3JlZmVyZW5jZV9SRGF0YS9ibG9iL21hc3Rlci8iCiNmaWxlIDwtICJoZzM4X1JFRi5SRGF0YSIKI3NvdXJjZV9kYXRhKHBhc3RlMChVUkwsZmlsZSwiP3Jhdz1UcnVlIikpCiN0eGRiID0gImRmSVBBX2hnMzgiCiNJRERCID0gb3JnLkhzLmVnLmRiCiNyZWZkYl9maWxlID0gUkVGQ0RTKHR4ZGIsIElEREIpCgoKIyBleHRwYXRoID0gc3lzdGVtLmZpbGUoImV4dGRhdGEiLCAibW05LmNocjE5LnJlZkdlbmUuUi5EQiIsIHBhY2thZ2U9IkFQQWx5emVyIikKI3R4ZGIgPSBsb2FkRGIoZXh0cGF0aCwgcGFja2FnZU5hbWU9J0dlbm9taWNGZWF0dXJlcycpCiNJRERCID0gb3JnLkhzLmVnLmRiCiNDRFNkYnJhdyA9IFJFRkNEUyh0eGRiLElEREIpCiNyZWZkYl9maWxlID0gUkVGQ0RTKHR4ZGIsIElEREIpCiNleHRwYXRoIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsICJvbmNvcHJpbnQtZ29pLWxpc3RzLU9wZW5QZWRDYW4tZ2VuY29kZS12MzkuY3N2IikKI2dlbmNvZGUudjM5IDwtIHJlYWRyOjpyZWFkX2NzdihleHRwYXRoKQpgYGAKCiMgUnVuIGRuZHNjdgoKV2l0aCB0aGUgZXhhbXBsZSBkYXRhc2V0IHByb3ZpZGVkLCB0aGUgZnVuY3Rpb24gc2hvdWxkIHRha2UgYWJvdXQgb25lIG1pbnV0ZSB0byBydW4uIEluIHRoaXMgZXhhbXBsZSwgdGhlIGZ1bmN0aW9uIGlzc3VlcyBhIHdhcm5pbmcgYXMgaXQgZGV0ZWN0cyB0aGUgc2FtZSBtdXRhdGlvbiBpbiBtb3JlIHRoYW4gb25lIHNhbXBsZSwgcmVxdWVzdGluZyB0aGUgdXNlciB0byB2ZXJpZnkgdGhhdCB0aGUgaW5wdXQgdGFibGUgb2YgbXV0YXRpb25zIG9ubHkgY29udGFpbnMgaW5kZXBlbmRlbnQgbXV0YXRpb24gZXZlbnRzLiBJbiB0aGlzIGNhc2UsIGVhY2ggc2FtcGxlIGNvcnJlc3BvbmRzIHRvIGEgZGlmZmVyZW50IHBhdGllbnQgYW5kIHNvIHRoZSB3YXJuaW5nIGNhbiBiZSBzYWZlbHkgaWdub3JlZC4KCldlIGhhdmUgcnVuIGROZFNjdiB3aXRoIGRlZmF1bHQgcGFyYW1ldGVycy4gVGhpcyBpbmNsdWRlcyByZW1vdmluZyB1bHRyYS1oeXBlcm11dGF0b3Igc2FtcGxlcyBhbmQgc3Vic2FtcGxpbmcgbXV0YXRpb25zIHdoZW4gZW5jb3VudGVyaW5nIHRvbyBtYW55IG11dGF0aW9ucyBwZXIgZ2VuZSBpbiB0aGUgc2FtZSBzYW1wbGUuIFRoZXNlIHdlcmUgZGVzaWduZWQgdG8gcHJvdGVjdCBhZ2FpbnN0IGxvc3Mgb2Ygc2Vuc2l0aXZpdHkgZnJvbSB1bHRyYS1oeXBlcm11dGF0b3JzIGFuZCBmcm9tIGNsdXN0ZXJlZCBhcnRlZmFjdHMgaW4gdGhlIGlucHV0IG11dGF0aW9uIHRhYmxlLCBidXQgdGhlcmUgYXJlIG9jY2FzaW9ucyB3aGVuIHRoZSB1c2VyIHdpbGwgcHJlZmVyIHRvIHJlbGF4IHRoZXNlIChzZWUgRXhhbXBsZSAyKS4KCmBgYHtyIHJ1bi1kbmRzY3YsIG1lc3NhZ2U9RkFMU0V9CmRuZHNvdXQgPSBkbmRzY3YobXV0YXRpb25zLCByZWZkYiA9IHJlZmRiX2ZpbGUsIGN2ID0gTlVMTCkKYGBgCgoKIyMjIyNkbmRzY3Ygb3V0cHV0czogVGFibGUgb2Ygc2lnbmlmaWNhbnQgZ2VuZXMKClRoZSBvdXRwdXQgb2YgdGhlICpkbmRzY3YqIGZ1bmN0aW9uIGlzIGEgbGlzdCBvZiBvYmplY3RzLiBGb3IgYW4gYW5hbHlzaXMgb2YgZXhvbWUgb3IgZ2Vub21lIGRhdGEsIHRoZSBtb3N0IHJlbGV2YW50IG91dHB1dCB3aWxsIG9mdGVuIGJlIHRoZSByZXN1bHQgb2YgbmV1dHJhbGl0eSB0ZXN0cyBhdCBnZW5lIGxldmVsLiAqUC12YWx1ZXMqIGZvciBzdWJzdGl0dXRpb25zIGFyZSBvYnRhaW5lZCBieSBMaWtlbGlob29kLVJhdGlvIFRlc3RzIGFzIGRlc2NyaWJlZCBpbiAoTWFydGluY29yZW5hICpldCBhbCosIDIwMTcpIGFuZCBxLXZhbHVlcyBhcmUgb2J0YWluZWQgYnkgQmVuamFtaW5pLUhvZGdiZXJnJ3MgbXVsdGlwbGUgdGVzdGluZyBjb3JyZWN0aW9uLiBUaGUgdGFibGUgYWxzbyBpbmNsdWRlcyBpbmZvcm1hdGlvbiBvbiB0aGUgbnVtYmVyIG9mIHN1YnN0aXR1dGlvbnMgb2YgZWFjaCBjbGFzcyBvYnNlcnZlZCBpbiBlYWNoIGdlbmUsIGFzIHdlbGwgYXMgbWF4aW11bS1saWtlbGlob29kIGVzdGltYXRlcyAoTUxFcykgb2YgdGhlIGROL2RTIHJhdGlvcyBmb3IgZWFjaCBnZW5lLCBmb3IgbWlzc2Vuc2UgKCp3bWlzKiksIG5vbnNlbnNlICgqd25vbiopLCBlc3NlbnRpYWwgc3BsaWNlIHNpdGUgbXV0YXRpb25zICgqd3NwbCopIGFuZCBpbmRlbHMgKCp3aW5kKikuIFRoZSBnbG9iYWwgcS12YWx1ZSBpbnRlZ3JhdGluZyBhbGwgbXV0YXRpb24gdHlwZXMgYXJlIGF2YWlsYWJsZSBpbiB0aGUgKnFnbG9iYWxfY3YqIGFuZCAqcWFsbHN1YnNfY3YqIGNvbHVtbnMgZm9yIGFuYWx5c2VzIHdpdGggYW5kIHdpdGhvdXQgaW5kZWxzLCByZXNwZWN0aXZlbHkuCgpgYGB7cn0Kc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgCiAgd3JpdGVfdHN2KGZpbGUucGF0aChyZXN1bHRzX2RpciwgImRuZHNvdXRfc2VsX2N2LnRzdiIpKQoKcHJpbnQoaGVhZChzZWxfY3YpLCBkaWdpdHMgPSAzKQoKc2lnbmlmX2dlbmVzID0gc2VsX2N2W3NlbF9jdiRxZ2xvYmFsX2N2PDAuMSwgYygiZ2VuZV9uYW1lIiwicWdsb2JhbF9jdiIpXSAjIGA8MC4xYCBieSBkZWZhdWx0CnJvd25hbWVzKHNpZ25pZl9nZW5lcykgPSBOVUxMCgpzaWduaWZfZ2VuZXNfdW5pcXVlIDwtIHNpZ25pZl9nZW5lcyAlPiUKICBhcy5kYXRhLmZyYW1lKCkgJT4lIAogIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsICJzaWduaWZfZ2VuZXMudHN2IikpCgpwcmludChzaWduaWZfZ2VuZXNfdW5pcXVlKQoKIyBXZSBuZWVkIHRvIGVuc3VyZSB0aGF0IGdlbmUgbmFtZXMgbWF0Y2ggYWNyb3NzIGdlbm9tZSByZWZlcmVuY2VzLgpzaWduaWZfZ2VuZXNfdW5pcXVlIDwtIHNpZ25pZl9nZW5lc191bmlxdWUgJT4lIAogIG11dGF0ZShnZW5lX25hbWUgPSBjYXNlX3doZW4oZ3JlcGwoIkgzRjNBIiwgZ2VuZV9uYW1lKSB+ICJIMy0zQSIsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVFJVRSB+IGdlbmVfbmFtZSkpICU+JSAKICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCAic2lnbmlmX2dlbmVzX21vZGlmaWVkLnRzdiIpKQpgYGAKCk5vdGUgaW4gdGhlIHRhYmxlIHRoYXQgdGhlIGROL2RTIHJhdGlvcyBvZiBzaWduaWZpY2FudCBjYW5jZXIgZ2VuZXMgYXJlIHR5cGljYWxseSBleHRyZW1lbHkgaGlnaCwgb2Z0ZW4gPjEwIG9yIGV2ZW4gPjEwMC4gVGhpcyBjb250YWlucyBpbmZvcm1hdGlvbiBhYm91dCB0aGUgZnJhY3Rpb24gb2YgbXV0YXRpb25zIG9ic2VydmVkIGluIGEgZ2VuZSB0aGF0IGFyZSBnZW51aW5lIGRyaXZlcnMgdW5kZXIgcG9zaXRpdmUgc2VsZWN0aW9uLiBGb3IgZXhhbXBsZSwgZm9yIGEgaGlnaGx5IHNpZ25pZmljYW50IGdlbmUsIGEgZE4vZFMgb2YgMTAgaW5kaWNhdGVzIHRoYXQgdGhlcmUgYXJlIDEwIHRpbWVzIG1vcmUgbm9uLXN5bm9ueW1vdXMgbXV0YXRpb25zIGluIHRoZSBnZW5lIHRoYW4gbmV1dHJhbGx5IGV4cGVjdGVkLCBzdWdnZXN0aW5nIHRoYXQgYXQgbGVhc3QgYXJvdW5kIDkwJSBvZiB0aGVzZSBtdXRhdGlvbnMgYXJlIGdlbnVpbmUgZHJpdmVycyAoR3JlZW5tYW4gKmV0IGFsKiwgMjAwNjsgTWFydGluY29yZW5hICpldCBhbCosIDIwMTcpLgoKVXNlcnMgY2FuIGNhbGN1bGF0ZSBjb25maWRlbmNlIGludGVydmFscyBmb3IgdGhlIGROL2RTIHJhdGlvcyBwZXIgZ2VuZSB1c2luZyB0aGUgKmdlbmVjaSogZnVuY3Rpb24gaW4gdGhlIHBhY2thZ2UuIFRvIHVzZSB0aGlzIGZ1bmN0aW9uIHlvdSBuZWVkIHRvIHJ1biAqZG5kc2N2KiB3aXRoIHRoZSBvcHRpb25hbCBhcmd1bWVudCBgb3V0bWF0cz1UYCBhbmQgdGhlbiB1c2UgYGNpID0gZ2VuZWNpKGRuZHNvdXQpYC4gRm9yIG1vcmUgZGV0YWlscyBzZWUgYD8gZ2VuZWNpYC4KCiMjIyMjZG5kc2N2IG91dHB1dHM6IEdsb2JhbCBkTi9kUyBlc3RpbWF0ZXMKCkFub3RoZXIgb3V0cHV0IHRoYXQgY2FuIGJlIG9mIGludGVyZXN0IGlzIGEgdGFibGUgd2l0aCB0aGUgZ2xvYmFsIE1MRXMgZm9yIHRoZSBkTi9kUyByYXRpb3MgYWNyb3NzIGFsbCBnZW5lcy4gZE4vZFMgcmF0aW9zIHdpdGggYXNzb2NpYXRlZCBjb25maWRlbmNlIGludGVydmFscyBhcmUgY2FsY3VsYXRlZCBmb3IgbWlzc2Vuc2UsIG5vbnNlbnNlIGFuZCBlc3NlbnRpYWwgc3BsaWNlIHNpdGUgc3Vic3RpdHV0aW9ucyBzZXBhcmF0ZWx5LCBhcyB3ZWxsIGFzIGZvciBhbGwgbm9uLXN5bm9ueW1vdXMgc3Vic3RpdHV0aW9ucyAoKndhbGwqKSBhbmQgZm9yIGFsbCB0cnVuY2F0aW5nIHN1YnN0aXR1dGlvbnMgdG9nZXRoZXIgKCp3dHJ1KiksIHdoaWNoIGluY2x1ZGUgbm9uc2Vuc2UgYW5kIGVzc2VudGlhbCBzcGxpY2Ugc2l0ZSBtdXRhdGlvbnMuCgpgYGB7cn0KcHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKQpgYGAKCkdsb2JhbCBkTi9kUyByYXRpb3MgaW4gc29tYXRpYyBldm9sdXRpb24gb2YgY2FuY2VyLCBhbmQgc2VlbWluZ2x5IG9mIGhlYWx0aHkgc29tYXRpYyB0aXNzdWVzLCBhcHBlYXIgdG8gc2hvdyBhIG5lYXItdW5pdmVyc2FsIHBhdHRlcm4gb2YgZE4vZFN+MSwgd2l0aCBleG9tZS13aWRlIGROL2RTIHJhdGlvcyB0eXBpY2FsbHkgc2xpZ2h0bHkgaGlnaGVyIHRoYW4gMSAoTWFydGluY29yZW5hICpldCBhbC4qLCAyMDE3KS4gT25seSBvY2Nhc2lvbmFsbHksIEkgaGF2ZSBmb3VuZCBkYXRhc2V0cyB3aXRoIGdsb2JhbCBkTi9kUzwxLCBidXQgdXBvbiBjbG9zZXIgZXhhbWluYXRpb24sIHRoaXMgaGFzIHR5cGljYWxseSBiZWVuIGNhdXNlZCBieSBjb250YW1pbmF0aW9uIG9mIHRoZSBjYXRhbG9ndWUgb2Ygc29tYXRpYyBtdXRhdGlvbnMgd2l0aCBnZXJtbGluZSBTTlBzLiBBbiBleGNlcHRpb24gYXJlIG1lbGFub21hIHR1bW91cnMsIHdoaWNoIHNob3cgYSBiaWFzIHRvd2FyZHMgc2xpZ2h0IHVuZGVyZXN0aW1hdGlvbiBvZiBkTi9kUyBkdWUgdG8gdGhlIHNpZ25hdHVyZSBvZiB1bHRyYXZpb2xldC1pbmR1Y2VkIG11dGF0aW9ucyBleHRlbmRpbmcgYmV5b25kIHRoZSB0cmludWNsZW90aWRlIG1vZGVsIChNYXJ0aW5jb3JlbmEgKmV0IGFsLiosIDIwMTcpLiBJbiBteSBwZXJzb25hbCBleHBlcmllbmNlLCBkYXRhc2V0cyBvZiBzb21hdGljIG11dGF0aW9ucyB3aXRoIGdsb2JhbCBkTi9kUzw8MSBoYXZlIGFsd2F5cyByZWZsZWN0ZWQgYSBwcm9ibGVtIG9mIFNOUCBjb250YW1pbmF0aW9uIG9yIGFuIGluYWRlcXVhdGUgc3Vic3RpdHV0aW9uIG1vZGVsLCBhbmQgc28gdGhlIGV2YWx1YXRpb24gb2YgZ2xvYmFsIGROL2RTIHZhbHVlcyBjYW4gaGVscCBpZGVudGlmeSBwcm9ibGVtcyBpbiBjZXJ0YWluIGRhdGFzZXRzLgoKIyMjIyNPdGhlciB1c2VmdWwgb3V0cHV0cwoKVGhlIGRuZHNjdiBmdW5jdGlvbiBhbHNvIG91dHB1dHMgb3RoZXIgcmVzdWx0cyB0aGF0IGNhbiBiZSBvZiBpbnRlcmVzdCwgc3VjaCBhcyBhbiBhbm5vdGF0ZWQgdGFibGUgb2YgY29kaW5nIG11dGF0aW9ucyAoKmFubm90bXV0cyopLCBNTEVzIG9mIG11dGF0aW9uIHJhdGUgcGFyYW1ldGVycyAoKm1sZV9zdWJtb2RlbCopLCBsaXN0cyBvZiBzYW1wbGVzIGFuZCBtdXRhdGlvbnMgZXhjbHVkZWQgZnJvbSB0aGUgYW5hbHlzaXMgYW5kIGEgdGFibGUgd2l0aCB0aGUgb2JzZXJ2ZWQgYW5kIGV4cGVjdGVkIG51bWJlciBvZiBtdXRhdGlvbnMgcGVyIGdlbmUgKCpnZW5lbXV0cyopLCBhbW9uZyBvdGhlcnMuCgpgYGB7cn0KaGVhZChkbmRzb3V0JGFubm90bXV0cykKCmRmIDwtIGRuZHNvdXQkYW5ub3RtdXRzCmBgYAoKZE5kU2N2IHJlbGllcyBvbiBhIG5lZ2F0aXZlIGJpbm9taWFsIHJlZ3Jlc3Npb24gbW9kZWwgYWNyb3NzIGdlbmVzIHRvIHJlZmluZSB0aGUgZXN0aW1hdGVkIGJhY2tncm91bmQgbXV0YXRpb24gcmF0ZSBmb3IgYSBnZW5lLiBUaGlzIGFzc3VtZXMgdGhhdCB0aGUgdmFyaWF0aW9uIG9mIHRoZSBtdXRhdGlvbiByYXRlIGFjcm9zcyBnZW5lcyB0aGF0IHJlbWFpbnMgdW5leHBsYWluZWQgYnkgY292YXJpYXRlcyBvciBieSB0aGUgc2VxdWVuY2UgY29tcG9zaXRpb24gb2YgdGhlIGdlbmUgY2FuIGJlIG1vZGVsbGVkIGFzIGEgR2FtbWEgZGlzdHJpYnV0aW9uLiBUaGlzIG1vZGVsIHR5cGljYWxseSB3b3JrcyB3ZWxsIG9uIGNsZWFuIGNhbmNlciBnZW5vbWljIGRhdGFzZXRzLCBidXQgbm90IGFsbCBkYXRhc2V0cyBtYXkgYmUgc3VpdGFibGUgZm9yIHRoaXMgbW9kZWwuIEluIHBhcnRpY3VsYXIsIHZlcnkgbG93IGVzdGltYXRlcyBvZiAkXHRoZXRhJCAodGhlIG92ZXJkaXNwZXJzaW9uIHBhcmFtZXRlciksIHBhcnRpY3VsYXJseSAkXHRoZXRhPDEkLCBtYXkgcmVmbGVjdCBwcm9ibGVtcyB3aXRoIHRoZSBzdWl0YWJpbGl0eSBvZiB0aGUgZE5kU2N2IG1vZGVsIGZvciB0aGUgZGF0YXNldC4KCmBgYHtyfQpwcmludChkbmRzb3V0JG5icmVnJHRoZXRhKQpgYGAKCiMjIyMjIGROZFNsb2M6IGxvY2FsIG5ldXRyYWxpdHkgdGVzdAoKQW4gYWRkaXRpb25hbCBzZXQgb2YgbmV1dHJhbGl0eSB0ZXN0cyBwZXIgZ2VuZSBhcmUgcGVyZm9ybWVkIHVzaW5nIGEgbW9yZSB0cmFkaXRpb25hbCBkTi9kUyBtb2RlbCBpbiB3aGljaCB0aGUgbG9jYWwgbXV0YXRpb24gcmF0ZSBmb3IgYSBnZW5lIGlzIGVzdGltYXRlZCBleGNsdXNpdmVseSBmcm9tIHRoZSBzeW5vbnltb3VzIG11dGF0aW9ucyBvYnNlcnZlZCBpbiB0aGUgZ2VuZSAoKmROZFNsb2MqKSAoV29uZywgTWFydGluY29yZW5hLCAqZXQgYWwqLiwgMjAxNCkuIFRoaXMgdGVzdCBpcyB0eXBpY2FsbHkgb25seSBwb3dlcmVkIGluIHZlcnkgbGFyZ2UgZGF0YXNldHMuIEZvciBleGFtcGxlLCBpbiB0aGUgZGF0YXNldCB1c2VkIGluIHRoaXMgZXhhbXBsZSwgY29tcHJpc2luZyBvZiAxOTYgc2ltdWxhdGVkIGJyZWFzdCBjYW5jZXIgZXhvbWVzLCB0aGlzIG1vZGVsIG9ubHkgZGV0ZWN0cyAqQVJJRDFBKiBhcyBzaWduaWZpY2FudGx5IG11dGF0ZWQuCgpgYGB7cn0Kc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwgPSBhcy52ZWN0b3IoZG5kc291dCRzZWxfbG9jJGdlbmVfbmFtZVtkbmRzb3V0JHNlbF9sb2MkcWFsbF9sb2M8MC4xXSkKcHJpbnQoc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwpCmBgYAoKCmBgYHtyIGVjaG89VFJVRX0Kc2Vzc2lvbkluZm8oKQpgYGAKCg==</div>
 
 
 </div>
