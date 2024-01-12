@@ -53,6 +53,10 @@ RUN ./install_github.r 'omnideconv/immunedeconv' --ref '0c5c61978029c069eb1ab748
 # package for performing basic statistical tests
 RUN ./install_github.r 'kassambara/rstatix' --ref '360cda40bd22e80bce19ed63fbadfc4a9e52ce23'
 
+# package required for dndscv
+RUN ./install_github.r 'im3sanger/dndscv' 
+
+
 # install R packages from CRAN
 RUN install2.r \
 	BiocManager \
@@ -67,6 +71,7 @@ RUN install2.r \
 	pheatmap \
   purrr \
 	RColorBrewer \
+  reshape2 \
   R.utils \
   rlist \
   tidytext \
