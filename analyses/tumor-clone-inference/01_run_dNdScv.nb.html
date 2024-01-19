@@ -2914,245 +2914,337 @@ situations.</p>
 <h2>Driver discovery (positive selection) in cancer exomes/genomes</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHtcbiAgbGlicmFyeSh0aWR5dmVyc2UpXG4gIGxpYnJhcnkoZG5kc2N2KVxufSlcbmBgYCJ9 -->
-<pre class="r"><code>suppressPackageStartupMessages({
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHtcbiAgbGlicmFyeSh0aWR5dmVyc2UpXG4gIGxpYnJhcnkoZG5kc2N2KVxufSlcbmBgYFxuYGBgIn0= -->
+<pre class="r"><code>```r
+suppressPackageStartupMessages({
   library(tidyverse)
   library(dndscv)
 })</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcmVwbGFjaW5nIHByZXZpb3VzIGltcG9ydCDigJhCaW9zdHJpbmdzOjp0cmFuc2xhdGXigJkgYnkg4oCYc2VxaW5yOjp0cmFuc2xhdGXigJkgd2hlbiBsb2FkaW5nIOKAmGRuZHNjduKAmVxuIn0= -->
-<pre><code>Warning: replacing previous import ‘Biostrings::translate’ by ‘seqinr::translate’ when loading ‘dndscv’</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="directories-and-file-inputsoutputs" class="section level1">
-<h1>Directories and File Inputs/Outputs</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEZXRlY3QgdGhlIFwiLmdpdFwiIGZvbGRlciAtLSB0aGlzIHdpbGwgYmUgaW4gdGhlIHByb2plY3Qgcm9vdCBkaXJlY3RvcnlcbiMgVXNlIHRoaXMgYXMgdGhlIHJvb3QgZGlyZWN0b3J5IHRvIGVuc3VyZSBwcm9wZXIgc291cmNpbmcgb2YgZnVuY3Rpb25zIFxuIyBubyBtYXR0ZXIgd2hlcmUgdGhpcyBpcyBjYWxsZWQgZnJvbVxucm9vdF9kaXIgPC0gcnByb2pyb290OjpmaW5kX3Jvb3QocnByb2pyb290OjpoYXNfZGlyKFwiLmdpdFwiKSlcbmFuYWx5c2lzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFwiYW5hbHlzZXNcIiwgXCJ0dW1vci1jbG9uZS1pbmZlcmVuY2VcIilcbmlucHV0X2RpciA8LSBmaWxlLnBhdGgoYW5hbHlzaXNfZGlyLCBcImlucHV0XCIpXG5kYXRhX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFwiZGF0YVwiKVxuZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXCJhbmFseXNlc1wiLCBcInNhbXBsZS1kaXN0cmlidXRpb24tYW5hbHlzaXNcIiwgXCJyZXN1bHRzXCIpXG5tYWZfZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXCJhbmFseXNlc1wiLCBcInRtYi12YWYtbG9uZ2l0dWRpbmFsXCIsIFwicmVzdWx0c1wiKVxuXG5cbiMgSW5wdXQgZmlsZXNcbnBidGFfZmlsZSA8LSBmaWxlLnBhdGgoZmlsZXNfZGlyLCBcInBidGEudHN2XCIpICMgZmlsZSBmcm9tIGFkZC1zYW1wbGUtZGlzdHJpYnV0aW9uIG1vZHVsZVxubWFmX2ZpbGUgPC0gZmlsZS5wYXRoKGRhdGFfZGlyLCBcInNudi1jb25zZW5zdXMtcGx1cy1ob3RzcG90cy5tYWYudHN2Lmd6XCIpXG5yZWZkYl9maWxlIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsIFwiUmVmQ0RTX2h1bWFuX0dSQ2gzOF9HZW5jb2RlVjM5X2xpZnRvdmVyLnJkYVwiKVxuXG4jIEZpbGUgcGF0aCB0byByZXN1bHRzIGRpcmVjdG9yeVxucmVzdWx0c19kaXIgPC1cbiAgZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgXCJyZXN1bHRzXCIpXG5pZiAoIWRpci5leGlzdHMocmVzdWx0c19kaXIpKSB7XG4gIGRpci5jcmVhdGUocmVzdWx0c19kaXIpXG59XG5gYGAifQ== -->
-<pre class="r"><code># Detect the &quot;.git&quot; folder -- this will be in the project root directory
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogcmVwbGFjaW5nIHByZXZpb3VzIGltcG9ydCDigJhCaW9zdHJpbmdzOjp0cmFuc2xhdGXigJkgYnkg4oCYc2VxaW5yOjp0cmFuc2xhdGXigJkgd2hlbiBsb2FkaW5nIOKAmGRuZHNjduKAmVxuIn0= --&gt;
+</code></pre>
+<p>Warning: replacing previous import ‘Biostrings::translate’ by
+‘seqinr::translate’ when loading ‘dndscv’</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+# Directories and File Inputs/Outputs
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEZXRlY3QgdGhlIFxcLmdpdFxcIGZvbGRlciAtLSB0aGlzIHdpbGwgYmUgaW4gdGhlIHByb2plY3Qgcm9vdCBkaXJlY3RvcnlcbiMgVXNlIHRoaXMgYXMgdGhlIHJvb3QgZGlyZWN0b3J5IHRvIGVuc3VyZSBwcm9wZXIgc291cmNpbmcgb2YgZnVuY3Rpb25zIFxuIyBubyBtYXR0ZXIgd2hlcmUgdGhpcyBpcyBjYWxsZWQgZnJvbVxucm9vdF9kaXIgPC0gcnByb2pyb290OjpmaW5kX3Jvb3QocnByb2pyb290OjpoYXNfZGlyKFxcLmdpdFxcKSlcbmFuYWx5c2lzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFxcYW5hbHlzZXNcXCwgXFx0dW1vci1jbG9uZS1pbmZlcmVuY2VcXClcbmlucHV0X2RpciA8LSBmaWxlLnBhdGgoYW5hbHlzaXNfZGlyLCBcXGlucHV0XFwpXG5kYXRhX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsIFxcZGF0YVxcKVxuZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXFxhbmFseXNlc1xcLCBcXHNhbXBsZS1kaXN0cmlidXRpb24tYW5hbHlzaXNcXCwgXFxyZXN1bHRzXFwpXG5tYWZfZmlsZXNfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgXFxhbmFseXNlc1xcLCBcXHRtYi12YWYtbG9uZ2l0dWRpbmFsXFwsIFxccmVzdWx0c1xcKVxuXG5cbiMgSW5wdXQgZmlsZXNcbnBidGFfZmlsZSA8LSBmaWxlLnBhdGgoZmlsZXNfZGlyLCBcXHBidGEudHN2XFwpICMgZmlsZSBmcm9tIGFkZC1zYW1wbGUtZGlzdHJpYnV0aW9uIG1vZHVsZVxubWFmX2ZpbGUgPC0gZmlsZS5wYXRoKGRhdGFfZGlyLCBcXHNudi1jb25zZW5zdXMtcGx1cy1ob3RzcG90cy5tYWYudHN2Lmd6XFwpXG5yZWZkYl9maWxlIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsIFxcUmVmQ0RTX2h1bWFuX0dSQ2gzOF9HZW5jb2RlVjM5X2xpZnRvdmVyLnJkYVxcKVxuXG4jIEZpbGUgcGF0aCB0byByZXN1bHRzIGRpcmVjdG9yeVxucmVzdWx0c19kaXIgPC1cbiAgZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgXFxyZXN1bHRzXFwpXG5pZiAoIWRpci5leGlzdHMocmVzdWx0c19kaXIpKSB7XG4gIGRpci5jcmVhdGUocmVzdWx0c19kaXIpXG59XG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Detect the \.git\ folder -- this will be in the project root directory
 # Use this as the root directory to ensure proper sourcing of functions 
 # no matter where this is called from
-root_dir &lt;- rprojroot::find_root(rprojroot::has_dir(&quot;.git&quot;))
-analysis_dir &lt;- file.path(root_dir, &quot;analyses&quot;, &quot;tumor-clone-inference&quot;)
-input_dir &lt;- file.path(analysis_dir, &quot;input&quot;)
-data_dir &lt;- file.path(root_dir, &quot;data&quot;)
-files_dir &lt;- file.path(root_dir, &quot;analyses&quot;, &quot;sample-distribution-analysis&quot;, &quot;results&quot;)
-maf_files_dir &lt;- file.path(root_dir, &quot;analyses&quot;, &quot;tmb-vaf-longitudinal&quot;, &quot;results&quot;)
+root_dir &lt;- rprojroot::find_root(rprojroot::has_dir(\.git\))
+analysis_dir &lt;- file.path(root_dir, \analyses\, \tumor-clone-inference\)
+input_dir &lt;- file.path(analysis_dir, \input\)
+data_dir &lt;- file.path(root_dir, \data\)
+files_dir &lt;- file.path(root_dir, \analyses\, \sample-distribution-analysis\, \results\)
+maf_files_dir &lt;- file.path(root_dir, \analyses\, \tmb-vaf-longitudinal\, \results\)
 
 
 # Input files
-pbta_file &lt;- file.path(files_dir, &quot;pbta.tsv&quot;) # file from add-sample-distribution module
-maf_file &lt;- file.path(data_dir, &quot;snv-consensus-plus-hotspots.maf.tsv.gz&quot;)
-refdb_file &lt;- file.path(input_dir, &quot;RefCDS_human_GRCh38_GencodeV39_liftover.rda&quot;)
+pbta_file &lt;- file.path(files_dir, \pbta.tsv\) # file from add-sample-distribution module
+maf_file &lt;- file.path(data_dir, \snv-consensus-plus-hotspots.maf.tsv.gz\)
+refdb_file &lt;- file.path(input_dir, \RefCDS_human_GRCh38_GencodeV39_liftover.rda\)
 
 # File path to results directory
 results_dir &lt;-
-  file.path(analysis_dir, &quot;results&quot;)
+  file.path(analysis_dir, \results\)
 if (!dir.exists(results_dir)) {
   dir.create(results_dir)
 }</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="preprocess-data-aligned-to-grch38-genome-reference" class="section level1">
-<h1>Preprocess data aligned to GRCh38 genome reference</h1>
-<p>By default, dNdScv assumes that mutation data is mapped to the
-GRCh37/hg19 assembly of the human genome. Users interested in trying
-dNdScv on a different set of transcripts, a different assembly or a
-different species can follow this <a href="https://htmlpreview.github.io/?http://github.com/im3sanger/dndscv/blob/master/vignettes/buildref.html">tutorial</a>.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXV0YXRpb25zIDwtIG1hZiAlPiUgXG4gIGRwbHlyOjpzZWxlY3QoS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCwgR2VuZSwgSHVnb19TeW1ib2wsIFxuICAgICAgICAgVHJhbnNjcmlwdF9JRCwgQ2hyb21vc29tZSwgU3RhcnRfUG9zaXRpb24sIFxuICAgICAgICAgRW5kX1Bvc2l0aW9uLCBTdHJhbmQsXG4gICAgICAgICBSZWZlcmVuY2VfQWxsZWxlLCBUdW1vcl9TZXFfQWxsZWxlMikgJT4lIFxuICBsZWZ0X2pvaW4ocGJ0YSkgJT4lIFxuICBkcGx5cjo6c2VsZWN0KC1jKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpKSAlPiUgXG4gIGRwbHlyOjpyZW5hbWUoXCJzYW1wbGVJRFwiID0gXCJLaWRzX0ZpcnN0X1BhcnRpY2lwYW50X0lEXCIsXG4gICAgICAgICAgICAgICAgXCJnZW5lLmlkXCIgPSBcIkdlbmVcIixcbiAgICAgICAgICAgICAgICBcImdlbmUubmFtZVwiID0gXCJIdWdvX1N5bWJvbFwiLFxuICAgICAgICAgICAgICAgIFwiY2RzLmlkXCIgPSBcIlRyYW5zY3JpcHRfSURcIixcbiAgICAgICAgICAgICAgICBcImNoclwiID0gXCJDaHJvbW9zb21lXCIsXG4gICAgICAgICAgICAgICAgXCJjaHJcIiA9IFwiQ2hyb21vc29tZVwiLFxuICAgICAgICAgICAgICAgIFwicG9zXCIgPSBcIlN0YXJ0X1Bvc2l0aW9uXCIsXG4gICAgICAgICAgICAgICAgXCJyZWZcIiA9IFwiUmVmZXJlbmNlX0FsbGVsZVwiLFxuICAgICAgICAgICAgICAgIFwibXV0XCIgPSBcIlR1bW9yX1NlcV9BbGxlbGUyXCJcbiAgICAgICAgICAgICAgICApICU+JSBcbiAgbXV0YXRlKGNnX3Bsb3QgPSBzdHJfcmVwbGFjZShjaHIsIGMoXCJjaHJcIiksIFwiXCIpKSAlPiUgXG4gIGRwbHlyOjpzZWxlY3Qoc2FtcGxlSUQsIGNociwgcG9zLCByZWYsIG11dClcblxuYGBgIn0= -->
-<pre class="r"><code>mutations &lt;- maf %&gt;% 
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+# Preprocess data aligned to GRCh38 genome reference
+
+By default, dNdScv assumes that mutation data is mapped to the GRCh37/hg19 assembly of the human genome.
+Users interested in trying dNdScv on a different set of transcripts, a different assembly or a different species can follow this [tutorial](https://htmlpreview.github.io/?http://github.com/im3sanger/dndscv/blob/master/vignettes/buildref.html).
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubXV0YXRpb25zIDwtIG1hZiAlPiUgXG4gIGRwbHlyOjpzZWxlY3QoS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCwgR2VuZSwgSHVnb19TeW1ib2wsIFxuICAgICAgICAgVHJhbnNjcmlwdF9JRCwgQ2hyb21vc29tZSwgU3RhcnRfUG9zaXRpb24sIFxuICAgICAgICAgRW5kX1Bvc2l0aW9uLCBTdHJhbmQsXG4gICAgICAgICBSZWZlcmVuY2VfQWxsZWxlLCBUdW1vcl9TZXFfQWxsZWxlMikgJT4lIFxuICBsZWZ0X2pvaW4ocGJ0YSkgJT4lIFxuICBkcGx5cjo6c2VsZWN0KC1jKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpKSAlPiUgXG4gIGRwbHlyOjpyZW5hbWUoXFxzYW1wbGVJRFxcID0gXFxLaWRzX0ZpcnN0X1BhcnRpY2lwYW50X0lEXFwsXG4gICAgICAgICAgICAgICAgXFxnZW5lLmlkXFwgPSBcXEdlbmVcXCxcbiAgICAgICAgICAgICAgICBcXGdlbmUubmFtZVxcID0gXFxIdWdvX1N5bWJvbFxcLFxuICAgICAgICAgICAgICAgIFxcY2RzLmlkXFwgPSBcXFRyYW5zY3JpcHRfSURcXCxcbiAgICAgICAgICAgICAgICBcXGNoclxcID0gXFxDaHJvbW9zb21lXFwsXG4gICAgICAgICAgICAgICAgXFxjaHJcXCA9IFxcQ2hyb21vc29tZVxcLFxuICAgICAgICAgICAgICAgIFxccG9zXFwgPSBcXFN0YXJ0X1Bvc2l0aW9uXFwsXG4gICAgICAgICAgICAgICAgXFxyZWZcXCA9IFxcUmVmZXJlbmNlX0FsbGVsZVxcLFxuICAgICAgICAgICAgICAgIFxcbXV0XFwgPSBcXFR1bW9yX1NlcV9BbGxlbGUyXFxcbiAgICAgICAgICAgICAgICApICU+JSBcbiAgbXV0YXRlKGNnX3Bsb3QgPSBzdHJfcmVwbGFjZShjaHIsIGMoXFxjaHJcXCksIFxcXFwpKSAlPiUgXG4gIGRwbHlyOjpzZWxlY3Qoc2FtcGxlSUQsIGNociwgcG9zLCByZWYsIG11dClcblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+mutations &lt;- maf %&gt;% 
   dplyr::select(Kids_First_Biospecimen_ID, Gene, Hugo_Symbol, 
          Transcript_ID, Chromosome, Start_Position, 
          End_Position, Strand,
          Reference_Allele, Tumor_Seq_Allele2) %&gt;% 
   left_join(pbta) %&gt;% 
   dplyr::select(-c(Kids_First_Biospecimen_ID)) %&gt;% 
-  dplyr::rename(&quot;sampleID&quot; = &quot;Kids_First_Participant_ID&quot;,
-                &quot;gene.id&quot; = &quot;Gene&quot;,
-                &quot;gene.name&quot; = &quot;Hugo_Symbol&quot;,
-                &quot;cds.id&quot; = &quot;Transcript_ID&quot;,
-                &quot;chr&quot; = &quot;Chromosome&quot;,
-                &quot;chr&quot; = &quot;Chromosome&quot;,
-                &quot;pos&quot; = &quot;Start_Position&quot;,
-                &quot;ref&quot; = &quot;Reference_Allele&quot;,
-                &quot;mut&quot; = &quot;Tumor_Seq_Allele2&quot;
+  dplyr::rename(\sampleID\ = \Kids_First_Participant_ID\,
+                \gene.id\ = \Gene\,
+                \gene.name\ = \Hugo_Symbol\,
+                \cds.id\ = \Transcript_ID\,
+                \chr\ = \Chromosome\,
+                \chr\ = \Chromosome\,
+                \pos\ = \Start_Position\,
+                \ref\ = \Reference_Allele\,
+                \mut\ = \Tumor_Seq_Allele2\
                 ) %&gt;% 
-  mutate(cg_plot = str_replace(chr, c(&quot;chr&quot;), &quot;&quot;)) %&gt;% 
+  mutate(cg_plot = str_replace(chr, c(\chr\), \\)) %&gt;% 
   dplyr::select(sampleID, chr, pos, ref, mut)
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogRGV0ZWN0ZWQgYW4gdW5leHBlY3RlZCBtYW55LXRvLW1hbnkgcmVsYXRpb25zaGlwIGJldHdlZW4gYHhgIGFuZCBgeWAuXG4ifQ== -->
-<pre><code>Warning: Detected an unexpected many-to-many relationship between `x` and `y`.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wcmludChoZWFkKG11dGF0aW9ucykpXG5gYGAifQ== -->
-<pre class="r"><code>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogRGV0ZWN0ZWQgYW4gdW5leHBlY3RlZCBtYW55LXRvLW1hbnkgcmVsYXRpb25zaGlwIGJldHdlZW4gYHhgIGFuZCBgeWAuXG4ifQ== --&gt;
+</code></pre>
+<p>Warning: Detected an unexpected many-to-many relationship between
+<code>x</code> and <code>y</code>.</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wcmludChoZWFkKG11dGF0aW9ucykpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+
 print(head(mutations))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI2IMOXIDUiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBN1ZSelVyRFFCQ2UvTlpHV29WZVBZajNCTlNMNE1YU1lsRVFWQ0swSU1nYXQ3V1Fac051cEI2OWUvRUJ2UG9DdnBKdjRhRnhOOGxJc2oyS0M4dDg4ODNPenpkN1BSd2ZlbU1QQUN5d0xRTXNSMEp3YnNKVC93akFOcVZqZ0ExdFpaL2xvNTZLeXJzdHIxc0ZOaS9EdThuNTVPQnFQTHo0YjZyWjJZNGUrZjZmTUVCWDFUdjU2dTRxNGYyOTFudGhqM2MrQ3p0NGZYdFJkblRybG5iNkFlV3B6MkVNRVBRcllJYWp0VmlOMGRMOXRTZS9US2hYbHFENUwwNUNGbFJVSloySzNCQmtrY2IwYkZqNWxsU0xNR1VDSWFkVGhJdW5UQ3ZjNW13WllQR09FcVZXa09mNXR6NUJGQk9CRXlEcFBaQ01CRk11ODZXMzBsSmFMTTNtTEpGSlpxL1lSRFBaNEJxeGxYS2FjaFpSSVh4VldEVW93dVdwNDA2RjNScDJ5dlptcm0zZXBjbHNubERVRVpON0d1T0VVcmNnTTR4MTVUS0tYUVFwbnljWmlwU3NDREtXRVV6ekloWWpVOGlHMVE5TDlPOEhaQU1BQUE9PSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["sampleID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["chr"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pos"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["ref"],"name":[4],"type":["chr"],"align":["left"]},{"label":["mut"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"PT_YJY2QXDM","2":"chr1","3":"39025","4":"C","5":"-"},{"1":"PT_YJY2QXDM","2":"chr1","3":"590798","4":"A","5":"G"},{"1":"PT_YJY2QXDM","2":"chr1","3":"1776818","4":"TG","5":"-"},{"1":"PT_YJY2QXDM","2":"chr1","3":"2561825","4":"C","5":"T"},{"1":"PT_YJY2QXDM","2":"chr1","3":"3061773","4":"G","5":"A"},{"1":"PT_YJY2QXDM","2":"chr1","3":"3067210","4":"C","5":"A"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="run-dndscv" class="section level1">
-<h1>Run dndscv</h1>
-<p>With the example dataset provided, the function should take about one
-minute to run. In this example, the function issues a warning as it
-detects the same mutation in more than one sample, requesting the user
-to verify that the input table of mutations only contains independent
-mutation events. In this case, each sample corresponds to a different
-patient and so the warning can be safely ignored.</p>
-<p>We have run dNdScv with default parameters. This includes removing
-ultra-hypermutator samples and subsampling mutations when encountering
-too many mutations per gene in the same sample. These were designed to
-protect against loss of sensitivity from ultra-hypermutators and from
-clustered artefacts in the input mutation table, but there are occasions
-when the user will prefer to relax these (see Example 2).</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZG5kc291dCA9IGRuZHNjdihtdXRhdGlvbnMsIHJlZmRiID0gcmVmZGJfZmlsZSwgY3YgPSBOVUxMKVxuYGBgIn0= -->
-<pre class="r"><code>dndsout = dndscv(mutations, refdb = refdb_file, cv = NULL)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>#####dndscv outputs: Table of significant genes</p>
-<p>The output of the <em>dndscv</em> function is a list of objects. For
-an analysis of exome or genome data, the most relevant output will often
-be the result of neutrality tests at gene level. <em>P-values</em> for
-substitutions are obtained by Likelihood-Ratio Tests as described in
-(Martincorena <em>et al</em>, 2017) and q-values are obtained by
-Benjamini-Hodgberg’s multiple testing correction. The table also
-includes information on the number of substitutions of each class
-observed in each gene, as well as maximum-likelihood estimates (MLEs) of
-the dN/dS ratios for each gene, for missense (<em>wmis</em>), nonsense
-(<em>wnon</em>), essential splice site mutations (<em>wspl</em>) and
-indels (<em>wind</em>). The global q-value integrating all mutation
-types are available in the <em>qglobal_cv</em> and <em>qallsubs_cv</em>
-columns for analyses with and without indels, respectively.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFwiZG5kc291dF9zZWxfY3YudHN2XCIpKVxuYGBgIn0= -->
-<pre class="r"><code>sel_cv = dndsout$sel_cv %&gt;%   
-  write_tsv(file.path(results_dir, &quot;dndsout_sel_cv.tsv&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IG9iamVjdCAnZG5kc291dCcgbm90IGZvdW5kXG4ifQ== -->
-<pre><code>Error: object &#39;dndsout&#39; not found</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Note in the table that the dN/dS ratios of significant cancer genes
-are typically extremely high, often &gt;10 or even &gt;100. This
-contains information about the fraction of mutations observed in a gene
-that are genuine drivers under positive selection. For example, for a
-highly significant gene, a dN/dS of 10 indicates that there are 10 times
-more non-synonymous mutations in the gene than neutrally expected,
-suggesting that at least around 90% of these mutations are genuine
-drivers (Greenman <em>et al</em>, 2006; Martincorena <em>et al</em>,
-2017).</p>
-<p>Users can calculate confidence intervals for the dN/dS ratios per
-gene using the <em>geneci</em> function in the package. To use this
-function you need to run <em>dndscv</em> with the optional argument
-<code>outmats=T</code> and then use <code>ci = geneci(dndsout)</code>.
-For more details see <code>? geneci</code>.</p>
-<p>#####dndscv outputs: Global dN/dS estimates</p>
-<p>Another output that can be of interest is a table with the global
-MLEs for the dN/dS ratios across all genes. dN/dS ratios with associated
-confidence intervals are calculated for missense, nonsense and essential
-splice site substitutions separately, as well as for all non-synonymous
-substitutions (<em>wall</em>) and for all truncating substitutions
-together (<em>wtru</em>), which include nonsense and essential splice
-site mutations.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKVxuYGBgIn0= -->
-<pre class="r"><code>print(dndsout$globaldnds)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Global dN/dS ratios in somatic evolution of cancer, and seemingly of
-healthy somatic tissues, appear to show a near-universal pattern of
-dN/dS~1, with exome-wide dN/dS ratios typically slightly higher than 1
-(Martincorena <em>et al.</em>, 2017). Only occasionally, I have found
-datasets with global dN/dS&lt;1, but upon closer examination, this has
-typically been caused by contamination of the catalogue of somatic
-mutations with germline SNPs. An exception are melanoma tumours, which
-show a bias towards slight underestimation of dN/dS due to the signature
-of ultraviolet-induced mutations extending beyond the trinucleotide
-model (Martincorena <em>et al.</em>, 2017). In my personal experience,
-datasets of somatic mutations with global dN/dS&lt;&lt;1 have always
-reflected a problem of SNP contamination or an inadequate substitution
-model, and so the evaluation of global dN/dS values can help identify
-problems in certain datasets.</p>
-<p>#####Other useful outputs</p>
-<p>The dndscv function also outputs other results that can be of
-interest, such as an annotated table of coding mutations
-(<em>annotmuts</em>), MLEs of mutation rate parameters
-(<em>mle_submodel</em>), lists of samples and mutations excluded from
-the analysis and a table with the observed and expected number of
-mutations per gene (<em>genemuts</em>), among others.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkbmRzb3V0JGFubm90bXV0cylcblxuZGYgPC0gZG5kc291dCRhbm5vdG11dHNcbmBgYCJ9 -->
-<pre class="r"><code>head(dndsout$annotmuts)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6IjYgw5cgNSJ9fSwicmRmIjoiSDRzSUFBQUFBQUFBQTdWUnpVckRRQkNlL05aR1dvVmVQWWozQk5TTDRNWFNZbEVRVkNLMElNZ2F0N1dRWnNOdXBCNjllL0VCdlBvQ3ZwSnY0YUZ4TjhsSXNqMktDOHQ4ODgzT3p6ZDdQUndmZW1NUEFDeXdMUU1zUjBKd2JzSlQvd2pBTnFWamdBMXRaWi9sbzU2S3lyc3RyMXNGTmkvRHU4bjU1T0JxUEx6NGI2cloyWTRlK2Y2Zk1FQlgxVHY1NnU0cTRmMjkxbnRoajNjK0N6dDRmWHRSZG5UcmxuYjZBZVdwejJFTUVQUXJZSWFqdFZpTjBkTDl0U2UvVEtoWGxxRDVMMDVDRmxSVUpaMkszQkJra2NiMGJGajVsbFNMTUdVQ0lhZFRoSXVuVEN2YzVtd1pZUEdPRXFWV2tPZjV0ejVCRkJPQkV5RHBQWkNNQkZNdTg2VzMwbEphTE0zbUxKRkpacS9ZUkRQWjRCcXhsWEthY2haUklYeFZXRFVvd3VXcDQwNkYzUnAyeXZabXJtM2VwY2xzbmxEVUVaTjdHdU9FVXJjZ000eDE1VEtLWFFRcG55Y1ppcFNzQ0RLV0VVenpJaFlqVThpRzFROUw5TzhIWkFNQUFBPT0ifQ== --&gt;
+
+&lt;div data-pagedtable=&quot;false&quot;&gt;
+  &lt;script data-pagedtable-source type=&quot;application/json&quot;&gt;
+{&quot;columns&quot;:[{&quot;label&quot;:[&quot;sampleID&quot;],&quot;name&quot;:[1],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;chr&quot;],&quot;name&quot;:[2],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;pos&quot;],&quot;name&quot;:[3],&quot;type&quot;:[&quot;dbl&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;ref&quot;],&quot;name&quot;:[4],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;mut&quot;],&quot;name&quot;:[5],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]}],&quot;data&quot;:[{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;39025&quot;,&quot;4&quot;:&quot;C&quot;,&quot;5&quot;:&quot;-&quot;},{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;590798&quot;,&quot;4&quot;:&quot;A&quot;,&quot;5&quot;:&quot;G&quot;},{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;1776818&quot;,&quot;4&quot;:&quot;TG&quot;,&quot;5&quot;:&quot;-&quot;},{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;2561825&quot;,&quot;4&quot;:&quot;C&quot;,&quot;5&quot;:&quot;T&quot;},{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;3061773&quot;,&quot;4&quot;:&quot;G&quot;,&quot;5&quot;:&quot;A&quot;},{&quot;1&quot;:&quot;PT_YJY2QXDM&quot;,&quot;2&quot;:&quot;chr1&quot;,&quot;3&quot;:&quot;3067210&quot;,&quot;4&quot;:&quot;C&quot;,&quot;5&quot;:&quot;A&quot;}],&quot;options&quot;:{&quot;columns&quot;:{&quot;min&quot;:{},&quot;max&quot;:[10],&quot;total&quot;:[5]},&quot;rows&quot;:{&quot;min&quot;:[10],&quot;max&quot;:[10],&quot;total&quot;:[6]},&quot;pages&quot;:{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;!-- rnb-frame-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+# Run dndscv
+
+With the example dataset provided, the function should take about one minute to run. In this example, the function issues a warning as it detects the same mutation in more than one sample, requesting the user to verify that the input table of mutations only contains independent mutation events. In this case, each sample corresponds to a different patient and so the warning can be safely ignored.
+
+We have run dNdScv with default parameters. This includes removing ultra-hypermutator samples and subsampling mutations when encountering too many mutations per gene in the same sample. These were designed to protect against loss of sensitivity from ultra-hypermutators and from clustered artefacts in the input mutation table, but there are occasions when the user will prefer to relax these (see Example 2).
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZG5kc291dCA9IGRuZHNjdihtdXRhdGlvbnMsIHJlZmRiID0gcmVmZGJfZmlsZSwgY3YgPSBOVUxMKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+dndsout = dndscv(mutations, refdb = refdb_file, cv = NULL)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+#####dndscv outputs: Table of significant genes
+
+The output of the *dndscv* function is a list of objects. For an analysis of exome or genome data, the most relevant output will often be the result of neutrality tests at gene level. *P-values* for substitutions are obtained by Likelihood-Ratio Tests as described in (Martincorena *et al*, 2017) and q-values are obtained by Benjamini-Hodgberg&#39;s multiple testing correction. The table also includes information on the number of substitutions of each class observed in each gene, as well as maximum-likelihood estimates (MLEs) of the dN/dS ratios for each gene, for missense (*wmis*), nonsense (*wnon*), essential splice site mutations (*wspl*) and indels (*wind*). The global q-value integrating all mutation types are available in the *qglobal_cv* and *qallsubs_cv* columns for analyses with and without indels, respectively.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2VsX2N2ID0gZG5kc291dCRzZWxfY3YgJT4lICAgXG4gIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsIFxcZG5kc291dF9zZWxfY3YudHN2XFwpKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+sel_cv = dndsout$sel_cv %&gt;%   
+  write_tsv(file.path(results_dir, \dndsout_sel_cv.tsv\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IG9iamVjdCAnZG5kc291dCcgbm90IGZvdW5kXG4ifQ== --&gt;
+</code></pre>
+<p>Error: object ‘dndsout’ not found</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Note in the table that the dN/dS ratios of significant cancer genes are typically extremely high, often &gt;10 or even &gt;100. This contains information about the fraction of mutations observed in a gene that are genuine drivers under positive selection. For example, for a highly significant gene, a dN/dS of 10 indicates that there are 10 times more non-synonymous mutations in the gene than neutrally expected, suggesting that at least around 90% of these mutations are genuine drivers (Greenman *et al*, 2006; Martincorena *et al*, 2017).
+
+Users can calculate confidence intervals for the dN/dS ratios per gene using the *geneci* function in the package. To use this function you need to run *dndscv* with the optional argument `outmats=T` and then use `ci = geneci(dndsout)`. For more details see `? geneci`.
+
+#####dndscv outputs: Global dN/dS estimates
+
+Another output that can be of interest is a table with the global MLEs for the dN/dS ratios across all genes. dN/dS ratios with associated confidence intervals are calculated for missense, nonsense and essential splice site substitutions separately, as well as for all non-synonymous substitutions (*wall*) and for all truncating substitutions together (*wtru*), which include nonsense and essential splice site mutations.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZG5kc291dCRnbG9iYWxkbmRzKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+print(dndsout$globaldnds)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Global dN/dS ratios in somatic evolution of cancer, and seemingly of healthy somatic tissues, appear to show a near-universal pattern of dN/dS~1, with exome-wide dN/dS ratios typically slightly higher than 1 (Martincorena *et al.*, 2017). Only occasionally, I have found datasets with global dN/dS&lt;1, but upon closer examination, this has typically been caused by contamination of the catalogue of somatic mutations with germline SNPs. An exception are melanoma tumours, which show a bias towards slight underestimation of dN/dS due to the signature of ultraviolet-induced mutations extending beyond the trinucleotide model (Martincorena *et al.*, 2017). In my personal experience, datasets of somatic mutations with global dN/dS&lt;&lt;1 have always reflected a problem of SNP contamination or an inadequate substitution model, and so the evaluation of global dN/dS values can help identify problems in certain datasets.
+
+#####Other useful outputs
+
+The dndscv function also outputs other results that can be of interest, such as an annotated table of coding mutations (*annotmuts*), MLEs of mutation rate parameters (*mle_submodel*), lists of samples and mutations excluded from the analysis and a table with the observed and expected number of mutations per gene (*genemuts*), among others.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuaGVhZChkbmRzb3V0JGFubm90bXV0cylcblxuZGYgPC0gZG5kc291dCRhbm5vdG11dHNcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+head(dndsout$annotmuts)
 
 df &lt;- dndsout$annotmuts</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>dNdScv relies on a negative binomial regression model across genes to
-refine the estimated background mutation rate for a gene. This assumes
-that the variation of the mutation rate across genes that remains
-unexplained by covariates or by the sequence composition of the gene can
-be modelled as a Gamma distribution. This model typically works well on
-clean cancer genomic datasets, but not all datasets may be suitable for
-this model. In particular, very low estimates of <span class="math inline">\(\theta\)</span> (the overdispersion parameter),
-particularly <span class="math inline">\(\theta&lt;1\)</span>, may
-reflect problems with the suitability of the dNdScv model for the
-dataset.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSlcbmBgYCJ9 -->
-<pre class="r"><code>print(dndsout$nbreg$theta)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="dndsloc-local-neutrality-test" class="section level5">
-<h5>dNdSloc: local neutrality test</h5>
-<p>An additional set of neutrality tests per gene are performed using a
-more traditional dN/dS model in which the local mutation rate for a gene
-is estimated exclusively from the synonymous mutations observed in the
-gene (<em>dNdSloc</em>) (Wong, Martincorena, <em>et al</em>., 2014).
-This test is typically only powered in very large datasets. For example,
-in the dataset used in this example, comprising of 196 simulated breast
-cancer exomes, this model only detects <em>ARID1A</em> as significantly
-mutated.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwgPSBhcy52ZWN0b3IoZG5kc291dCRzZWxfbG9jJGdlbmVfbmFtZVtkbmRzb3V0JHNlbF9sb2MkcWFsbF9sb2M8MC4xXSlcbnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKVxuYGBgIn0= -->
-<pre class="r"><code>signif_genes_localmodel = as.vector(dndsout$sel_loc$gene_name[dndsout$sel_loc$qall_loc&lt;0.1])
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+dNdScv relies on a negative binomial regression model across genes to refine the estimated background mutation rate for a gene. This assumes that the variation of the mutation rate across genes that remains unexplained by covariates or by the sequence composition of the gene can be modelled as a Gamma distribution. This model typically works well on clean cancer genomic datasets, but not all datasets may be suitable for this model. In particular, very low estimates of $\theta$ (the overdispersion parameter), particularly $\theta&lt;1$, may reflect problems with the suitability of the dNdScv model for the dataset.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+print(dndsout$nbreg$theta)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+##### dNdSloc: local neutrality test
+
+An additional set of neutrality tests per gene are performed using a more traditional dN/dS model in which the local mutation rate for a gene is estimated exclusively from the synonymous mutations observed in the gene (*dNdSloc*) (Wong, Martincorena, *et al*., 2014). This test is typically only powered in very large datasets. For example, in the dataset used in this example, comprising of 196 simulated breast cancer exomes, this model only detects *ARID1A* as significantly mutated.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2lnbmlmX2dlbmVzX2xvY2FsbW9kZWwgPSBhcy52ZWN0b3IoZG5kc291dCRzZWxfbG9jJGdlbmVfbmFtZVtkbmRzb3V0JHNlbF9sb2MkcWFsbF9sb2M8MC4xXSlcbnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+signif_genes_localmodel = as.vector(dndsout$sel_loc$gene_name[dndsout$sel_loc$qall_loc&lt;0.1])
 print(signif_genes_localmodel)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+sessionInfo()</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgIn0= -->
-<pre class="r"><code>sessionInfo()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-</div>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiU2VsZWN0aW9uIGFuYWx5c2VzIGFuZCBjYW5jZXIgZHJpdmVyIGRpc2NvdmVyeSB1c2luZyBkTmRTY3YiCmF1dGhvcjogJ0FudG9uaWEgQ2hyb25pIDxjaHJvbmlhQGNob3AuZWR1PiBmb3IgRDNCJwpkYXRlOiAiMjAyMyIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IFRSVUUKICAgIHRvY19mbG9hdDogVFJVRQotLS0KCgpUaGUgKipkTmRTY3YqKiBSIHBhY2thZ2UgaXMgYSBzdWl0ZSBvZiBtYXhpbXVtLWxpa2VsaWhvb2QgZE4vZFMgbWV0aG9kcyBkZXNpZ25lZCB0byBxdWFudGlmeSBzZWxlY3Rpb24gaW4gY2FuY2VyIGFuZCBzb21hdGljIGV2b2x1dGlvbiAoTWFydGluY29yZW5hICpldCBhbC4qLCAyMDE3KS4gVGhlIHBhY2thZ2UgY29udGFpbnMgZnVuY3Rpb25zIHRvIHF1YW50aWZ5IGROL2RTIHJhdGlvcyBmb3IgbWlzc2Vuc2UsIG5vbnNlbnNlIGFuZCBlc3NlbnRpYWwgc3BsaWNlIG11dGF0aW9ucywgYXQgdGhlIGxldmVsIG9mIGluZGl2aWR1YWwgZ2VuZXMsIGdyb3VwcyBvZiBnZW5lcyBvciBhdCB3aG9sZS1nZW5vbWUgbGV2ZWwuIFRoZSAqZE5kU2N2KiBtZXRob2Qgd2FzIGRlc2lnbmVkIHRvIGRldGVjdCBjYW5jZXIgZHJpdmVyIGdlbmVzICgqaS5lLiogZ2VuZXMgdW5kZXIgcG9zaXRpdmUgc2VsZWN0aW9uIGluIGNhbmNlcikgb24gZGF0YXNldHMgcmFuZ2luZyBmcm9tIGEgZmV3IHNhbXBsZXMgdG8gdGhvdXNhbmRzIG9mIHNhbXBsZXMsIGluIHdob2xlLWV4b21lL2dlbm9tZSBvciB0YXJnZXRlZCBzZXF1ZW5jaW5nIHN0dWRpZXMuCgpVbmxpa2UgdHJhZGl0aW9uYWwgaW1wbGVtZW50YXRpb25zIG9mIGROL2RTLCB0aGUgKmROZFNjdiogcGFja2FnZSB1c2VzIHRyaW51Y2xlb3RpZGUgY29udGV4dC1kZXBlbmRlbnQgc3Vic3RpdHV0aW9uIG1vZGVscyB0byBhdm9pZCBjb21tb24gbXV0YXRpb24gYmlhc2VzIGFmZmVjdGluZyBkTi9kUyAoR3JlZW5tYW4gKmV0IGFsLiosIDIwMDYsIE1hcnRpbmNvcmVuYSAqZXQgYWwuKiwgMjAxNykuIFRoZSBwYWNrYWdlIGluY2x1ZGVzIHR3byBkaWZmZXJlbnQgZE4vZFMgbW9kZWxzLiAqZE5kU2xvYyosIGxpa2UgdHJhZGl0aW9uYWwgZE4vZFMgaW1wbGVtZW50YXRpb25zLCB1c2VzIHRoZSBudW1iZXIgb2Ygc3lub255bW91cyBtdXRhdGlvbnMgaW4gYSBnZW5lIHRvIGluZmVyIHRoZSBsb2NhbCBtdXRhdGlvbiByYXRlLCB3aXRob3V0IGV4cGxvaXRpbmcgYWRkaXRpb25hbCBpbmZvcm1hdGlvbiBmcm9tIG90aGVyIGdlbmVzLiAqZE5kU2N2KiBvZmZlcnMgYSBtdWNoIG1vcmUgcG93ZXJmdWwgYWx0ZXJuYXRpdmUsIGNvbWJpbmluZyBsb2NhbCBpbmZvcm1hdGlvbiAoc3lub255bW91cyBtdXRhdGlvbnMgaW4gdGhlIGdlbmUpIGFuZCBnbG9iYWwgaW5mb3JtYXRpb24gKHZhcmlhdGlvbiBvZiB0aGUgbXV0YXRpb24gcmF0ZSBhY3Jvc3MgZ2VuZXMsIGV4cGxvaXRpbmcgZXBpZ2Vub21pYyBjb3ZhcmlhdGVzKSB0byBlc3RpbWF0ZSB0aGUgYmFja2dyb3VuZCBtdXRhdGlvbiByYXRlLiAqZE5kU2N2KiBzaG91bGQgYmUgcHJlZmVycmVkIGluIG1vc3Qgc2l0dWF0aW9ucy4KCkZvciBtb3JlIGluZm9ybWF0aW9uLCBzZWUgW2RuZHNjdl0oaHR0cHM6Ly9naXRodWIuY29tL2ltM3Nhbmdlci9kbmRzY3YpLgoKIyMgRHJpdmVyIGRpc2NvdmVyeSAocG9zaXRpdmUgc2VsZWN0aW9uKSBpbiBjYW5jZXIgZXhvbWVzL2dlbm9tZXMKCgpgYGB7ciBsb2FkLWxpYnJhcnl9CnN1cHByZXNzUGFja2FnZVN0YXJ0dXBNZXNzYWdlcyh7CiAgbGlicmFyeSh0aWR5dmVyc2UpCiAgbGlicmFyeShkbmRzY3YpCn0pCmBgYAoKIyBEaXJlY3RvcmllcyBhbmQgRmlsZSBJbnB1dHMvT3V0cHV0cwoKYGBge3Igc2V0LWRpci1hbmQtZmlsZS1uYW1lc30KIyBEZXRlY3QgdGhlICIuZ2l0IiBmb2xkZXIgLS0gdGhpcyB3aWxsIGJlIGluIHRoZSBwcm9qZWN0IHJvb3QgZGlyZWN0b3J5CiMgVXNlIHRoaXMgYXMgdGhlIHJvb3QgZGlyZWN0b3J5IHRvIGVuc3VyZSBwcm9wZXIgc291cmNpbmcgb2YgZnVuY3Rpb25zIAojIG5vIG1hdHRlciB3aGVyZSB0aGlzIGlzIGNhbGxlZCBmcm9tCnJvb3RfZGlyIDwtIHJwcm9qcm9vdDo6ZmluZF9yb290KHJwcm9qcm9vdDo6aGFzX2RpcigiLmdpdCIpKQphbmFseXNpc19kaXIgPC0gZmlsZS5wYXRoKHJvb3RfZGlyLCAiYW5hbHlzZXMiLCAidHVtb3ItY2xvbmUtaW5mZXJlbmNlIikKaW5wdXRfZGlyIDwtIGZpbGUucGF0aChhbmFseXNpc19kaXIsICJpbnB1dCIpCmRhdGFfZGlyIDwtIGZpbGUucGF0aChyb290X2RpciwgImRhdGEiKQpmaWxlc19kaXIgPC0gZmlsZS5wYXRoKHJvb3RfZGlyLCAiYW5hbHlzZXMiLCAic2FtcGxlLWRpc3RyaWJ1dGlvbi1hbmFseXNpcyIsICJyZXN1bHRzIikKbWFmX2ZpbGVzX2RpciA8LSBmaWxlLnBhdGgocm9vdF9kaXIsICJhbmFseXNlcyIsICJ0bWItdmFmLWxvbmdpdHVkaW5hbCIsICJyZXN1bHRzIikKCgojIElucHV0IGZpbGVzCnBidGFfZmlsZSA8LSBmaWxlLnBhdGgoZmlsZXNfZGlyLCAicGJ0YS50c3YiKSAjIGZpbGUgZnJvbSBhZGQtc2FtcGxlLWRpc3RyaWJ1dGlvbiBtb2R1bGUKbWFmX2ZpbGUgPC0gZmlsZS5wYXRoKGRhdGFfZGlyLCAic252LWNvbnNlbnN1cy1wbHVzLWhvdHNwb3RzLm1hZi50c3YuZ3oiKQpyZWZkYl9maWxlIDwtIGZpbGUucGF0aChpbnB1dF9kaXIsICJSZWZDRFNfaHVtYW5fR1JDaDM4X0dlbmNvZGVWMzlfbGlmdG92ZXIucmRhIikKCiMgRmlsZSBwYXRoIHRvIHJlc3VsdHMgZGlyZWN0b3J5CnJlc3VsdHNfZGlyIDwtCiAgZmlsZS5wYXRoKGFuYWx5c2lzX2RpciwgInJlc3VsdHMiKQppZiAoIWRpci5leGlzdHMocmVzdWx0c19kaXIpKSB7CiAgZGlyLmNyZWF0ZShyZXN1bHRzX2RpcikKfQpgYGAKCgojIFByZXByb2Nlc3MgZGF0YSBhbGlnbmVkIHRvIEdSQ2gzOCBnZW5vbWUgcmVmZXJlbmNlCgpCeSBkZWZhdWx0LCBkTmRTY3YgYXNzdW1lcyB0aGF0IG11dGF0aW9uIGRhdGEgaXMgbWFwcGVkIHRvIHRoZSBHUkNoMzcvaGcxOSBhc3NlbWJseSBvZiB0aGUgaHVtYW4gZ2Vub21lLgpVc2VycyBpbnRlcmVzdGVkIGluIHRyeWluZyBkTmRTY3Ygb24gYSBkaWZmZXJlbnQgc2V0IG9mIHRyYW5zY3JpcHRzLCBhIGRpZmZlcmVudCBhc3NlbWJseSBvciBhIGRpZmZlcmVudCBzcGVjaWVzIGNhbiBmb2xsb3cgdGhpcyBbdHV0b3JpYWxdKGh0dHBzOi8vaHRtbHByZXZpZXcuZ2l0aHViLmlvLz9odHRwOi8vZ2l0aHViLmNvbS9pbTNzYW5nZXIvZG5kc2N2L2Jsb2IvbWFzdGVyL3ZpZ25ldHRlcy9idWlsZHJlZi5odG1sKS4KCgpgYGB7ciBwcmVwcm9jZXNzLWRhdGEsIG1lc3NhZ2U9RkFMU0V9CiMgUmVhZCBpbiBoaXN0b2xvZ2llcyBmaWxlIGFuZCBmaWx0ZXIgZm9yIHRoZSBwYnRhIGNvaG9ydApwYnRhIDwtIHJlYWRyOjpyZWFkX3RzdihwYnRhX2ZpbGUsIGd1ZXNzX21heCA9IDEwMDAwMCwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lCiAgZmlsdGVyKCEoZXhwZXJpbWVudGFsX3N0cmF0ZWd5ID09ICJSTkEtU2VxIikpICU+JSAKICBkcGx5cjo6c2VsZWN0KEtpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQsIEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpCgptYWZfZGYgPC0gdnJvb206OnZyb29tKG1hZl9maWxlLCBkZWxpbSA9ICJcdCIsIGNvbF9uYW1lcyA9IFRSVUUpIAoKIyBSZWFkIG1hZiBmaWxlCm1hZiA8LSBtYWZfZGYgJT4lIAogIGZpbHRlcihUdW1vcl9TYW1wbGVfQmFyY29kZSAlaW4lIHBidGEkS2lkc19GaXJzdF9CaW9zcGVjaW1lbl9JRCMsCiAgICAgICAgICNWYXJpYW50X0NsYXNzaWZpY2F0aW9uICVpbiUgbWFmX25vbnN5bm9ueW1vdXMKICAgICAgICAgKSAlPiUKICBkcGx5cjo6cmVuYW1lKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQgPSBUdW1vcl9TYW1wbGVfQmFyY29kZSkgCgojIE51bWJlciBvZiBnZW5lcyBpbiB0aGUgbWFmIGZpbGUKZ2VuZXMgPC0gbGVuZ3RoKHVuaXF1ZShtYWYkSHVnb19TeW1ib2wpKQoKbXV0YXRpb25zIDwtIG1hZiAlPiUgCiAgZHBseXI6OnNlbGVjdChLaWRzX0ZpcnN0X0Jpb3NwZWNpbWVuX0lELCBHZW5lLCBIdWdvX1N5bWJvbCwgCiAgICAgICAgIFRyYW5zY3JpcHRfSUQsIENocm9tb3NvbWUsIFN0YXJ0X1Bvc2l0aW9uLCAKICAgICAgICAgRW5kX1Bvc2l0aW9uLCBTdHJhbmQsCiAgICAgICAgIFJlZmVyZW5jZV9BbGxlbGUsIFR1bW9yX1NlcV9BbGxlbGUyKSAlPiUgCiAgbGVmdF9qb2luKHBidGEpICU+JSAKICBkcGx5cjo6c2VsZWN0KC1jKEtpZHNfRmlyc3RfQmlvc3BlY2ltZW5fSUQpKSAlPiUgCiAgZHBseXI6OnJlbmFtZSgic2FtcGxlSUQiID0gIktpZHNfRmlyc3RfUGFydGljaXBhbnRfSUQiLAogICAgICAgICAgICAgICAgImdlbmUuaWQiID0gIkdlbmUiLAogICAgICAgICAgICAgICAgImdlbmUubmFtZSIgPSAiSHVnb19TeW1ib2wiLAogICAgICAgICAgICAgICAgImNkcy5pZCIgPSAiVHJhbnNjcmlwdF9JRCIsCiAgICAgICAgICAgICAgICAiY2hyIiA9ICJDaHJvbW9zb21lIiwKICAgICAgICAgICAgICAgICJjaHIiID0gIkNocm9tb3NvbWUiLAogICAgICAgICAgICAgICAgInBvcyIgPSAiU3RhcnRfUG9zaXRpb24iLAogICAgICAgICAgICAgICAgInJlZiIgPSAiUmVmZXJlbmNlX0FsbGVsZSIsCiAgICAgICAgICAgICAgICAibXV0IiA9ICJUdW1vcl9TZXFfQWxsZWxlMiIKICAgICAgICAgICAgICAgICkgJT4lIAogIG11dGF0ZShjaHIgPSBzdHJfcmVwbGFjZShjaHIsIGMoImNociIpLCAiIikpICU+JSAKICBkcGx5cjo6c2VsZWN0KHNhbXBsZUlELCBjaHIsIHBvcywgcmVmLCBtdXQpCgpwcmludChoZWFkKG11dGF0aW9ucykpCgpgYGAKCgojIFJ1biBkbmRzY3YKCldpdGggdGhlIGV4YW1wbGUgZGF0YXNldCBwcm92aWRlZCwgdGhlIGZ1bmN0aW9uIHNob3VsZCB0YWtlIGFib3V0IG9uZSBtaW51dGUgdG8gcnVuLiBJbiB0aGlzIGV4YW1wbGUsIHRoZSBmdW5jdGlvbiBpc3N1ZXMgYSB3YXJuaW5nIGFzIGl0IGRldGVjdHMgdGhlIHNhbWUgbXV0YXRpb24gaW4gbW9yZSB0aGFuIG9uZSBzYW1wbGUsIHJlcXVlc3RpbmcgdGhlIHVzZXIgdG8gdmVyaWZ5IHRoYXQgdGhlIGlucHV0IHRhYmxlIG9mIG11dGF0aW9ucyBvbmx5IGNvbnRhaW5zIGluZGVwZW5kZW50IG11dGF0aW9uIGV2ZW50cy4gSW4gdGhpcyBjYXNlLCBlYWNoIHNhbXBsZSBjb3JyZXNwb25kcyB0byBhIGRpZmZlcmVudCBwYXRpZW50IGFuZCBzbyB0aGUgd2FybmluZyBjYW4gYmUgc2FmZWx5IGlnbm9yZWQuCgpXZSBoYXZlIHJ1biBkTmRTY3Ygd2l0aCBkZWZhdWx0IHBhcmFtZXRlcnMuIFRoaXMgaW5jbHVkZXMgcmVtb3ZpbmcgdWx0cmEtaHlwZXJtdXRhdG9yIHNhbXBsZXMgYW5kIHN1YnNhbXBsaW5nIG11dGF0aW9ucyB3aGVuIGVuY291bnRlcmluZyB0b28gbWFueSBtdXRhdGlvbnMgcGVyIGdlbmUgaW4gdGhlIHNhbWUgc2FtcGxlLiBUaGVzZSB3ZXJlIGRlc2lnbmVkIHRvIHByb3RlY3QgYWdhaW5zdCBsb3NzIG9mIHNlbnNpdGl2aXR5IGZyb20gdWx0cmEtaHlwZXJtdXRhdG9ycyBhbmQgZnJvbSBjbHVzdGVyZWQgYXJ0ZWZhY3RzIGluIHRoZSBpbnB1dCBtdXRhdGlvbiB0YWJsZSwgYnV0IHRoZXJlIGFyZSBvY2Nhc2lvbnMgd2hlbiB0aGUgdXNlciB3aWxsIHByZWZlciB0byByZWxheCB0aGVzZSAoc2VlIEV4YW1wbGUgMikuCgpgYGB7ciBydW4tZG5kc2N2LCBtZXNzYWdlPUZBTFNFfQpkbmRzb3V0ID0gZG5kc2N2KG11dGF0aW9ucywgcmVmZGIgPSByZWZkYl9maWxlLCBjdiA9IE5VTEwpCmBgYAoKCiMjIyMjZG5kc2N2IG91dHB1dHM6IFRhYmxlIG9mIHNpZ25pZmljYW50IGdlbmVzCgpUaGUgb3V0cHV0IG9mIHRoZSAqZG5kc2N2KiBmdW5jdGlvbiBpcyBhIGxpc3Qgb2Ygb2JqZWN0cy4gRm9yIGFuIGFuYWx5c2lzIG9mIGV4b21lIG9yIGdlbm9tZSBkYXRhLCB0aGUgbW9zdCByZWxldmFudCBvdXRwdXQgd2lsbCBvZnRlbiBiZSB0aGUgcmVzdWx0IG9mIG5ldXRyYWxpdHkgdGVzdHMgYXQgZ2VuZSBsZXZlbC4gKlAtdmFsdWVzKiBmb3Igc3Vic3RpdHV0aW9ucyBhcmUgb2J0YWluZWQgYnkgTGlrZWxpaG9vZC1SYXRpbyBUZXN0cyBhcyBkZXNjcmliZWQgaW4gKE1hcnRpbmNvcmVuYSAqZXQgYWwqLCAyMDE3KSBhbmQgcS12YWx1ZXMgYXJlIG9idGFpbmVkIGJ5IEJlbmphbWluaS1Ib2RnYmVyZydzIG11bHRpcGxlIHRlc3RpbmcgY29ycmVjdGlvbi4gVGhlIHRhYmxlIGFsc28gaW5jbHVkZXMgaW5mb3JtYXRpb24gb24gdGhlIG51bWJlciBvZiBzdWJzdGl0dXRpb25zIG9mIGVhY2ggY2xhc3Mgb2JzZXJ2ZWQgaW4gZWFjaCBnZW5lLCBhcyB3ZWxsIGFzIG1heGltdW0tbGlrZWxpaG9vZCBlc3RpbWF0ZXMgKE1MRXMpIG9mIHRoZSBkTi9kUyByYXRpb3MgZm9yIGVhY2ggZ2VuZSwgZm9yIG1pc3NlbnNlICgqd21pcyopLCBub25zZW5zZSAoKndub24qKSwgZXNzZW50aWFsIHNwbGljZSBzaXRlIG11dGF0aW9ucyAoKndzcGwqKSBhbmQgaW5kZWxzICgqd2luZCopLiBUaGUgZ2xvYmFsIHEtdmFsdWUgaW50ZWdyYXRpbmcgYWxsIG11dGF0aW9uIHR5cGVzIGFyZSBhdmFpbGFibGUgaW4gdGhlICpxZ2xvYmFsX2N2KiBhbmQgKnFhbGxzdWJzX2N2KiBjb2x1bW5zIGZvciBhbmFseXNlcyB3aXRoIGFuZCB3aXRob3V0IGluZGVscywgcmVzcGVjdGl2ZWx5LgoKYGBge3J9CnNlbF9jdiA9IGRuZHNvdXQkc2VsX2N2ICU+JSAgIAogIHdyaXRlX3RzdihmaWxlLnBhdGgocmVzdWx0c19kaXIsICJkbmRzb3V0X3NlbF9jdi50c3YiKSkKCnByaW50KGhlYWQoc2VsX2N2KSwgZGlnaXRzID0gMykKCnNpZ25pZl9nZW5lcyA9IHNlbF9jdltzZWxfY3YkcWdsb2JhbF9jdjwwLjEsIGMoImdlbmVfbmFtZSIsInFnbG9iYWxfY3YiKV0gIyBgPDAuMWAgYnkgZGVmYXVsdApyb3duYW1lcyhzaWduaWZfZ2VuZXMpID0gTlVMTAoKc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXMgJT4lCiAgYXMuZGF0YS5mcmFtZSgpICU+JSAKICB3cml0ZV90c3YoZmlsZS5wYXRoKHJlc3VsdHNfZGlyLCAic2lnbmlmX2dlbmVzLnRzdiIpKQoKcHJpbnQoc2lnbmlmX2dlbmVzX3VuaXF1ZSkKCiMgV2UgbmVlZCB0byBlbnN1cmUgdGhhdCBnZW5lIG5hbWVzIG1hdGNoIGFjcm9zcyBnZW5vbWUgcmVmZXJlbmNlcy4Kc2lnbmlmX2dlbmVzX3VuaXF1ZSA8LSBzaWduaWZfZ2VuZXNfdW5pcXVlICU+JSAKICBtdXRhdGUoZ2VuZV9uYW1lID0gY2FzZV93aGVuKGdyZXBsKCJIM0YzQSIsIGdlbmVfbmFtZSkgfiAiSDMtM0EiLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBnZW5lX25hbWUpKSAlPiUgCiAgd3JpdGVfdHN2KGZpbGUucGF0aChyZXN1bHRzX2RpciwgInNpZ25pZl9nZW5lc19tb2RpZmllZC50c3YiKSkKYGBgCgpOb3RlIGluIHRoZSB0YWJsZSB0aGF0IHRoZSBkTi9kUyByYXRpb3Mgb2Ygc2lnbmlmaWNhbnQgY2FuY2VyIGdlbmVzIGFyZSB0eXBpY2FsbHkgZXh0cmVtZWx5IGhpZ2gsIG9mdGVuID4xMCBvciBldmVuID4xMDAuIFRoaXMgY29udGFpbnMgaW5mb3JtYXRpb24gYWJvdXQgdGhlIGZyYWN0aW9uIG9mIG11dGF0aW9ucyBvYnNlcnZlZCBpbiBhIGdlbmUgdGhhdCBhcmUgZ2VudWluZSBkcml2ZXJzIHVuZGVyIHBvc2l0aXZlIHNlbGVjdGlvbi4gRm9yIGV4YW1wbGUsIGZvciBhIGhpZ2hseSBzaWduaWZpY2FudCBnZW5lLCBhIGROL2RTIG9mIDEwIGluZGljYXRlcyB0aGF0IHRoZXJlIGFyZSAxMCB0aW1lcyBtb3JlIG5vbi1zeW5vbnltb3VzIG11dGF0aW9ucyBpbiB0aGUgZ2VuZSB0aGFuIG5ldXRyYWxseSBleHBlY3RlZCwgc3VnZ2VzdGluZyB0aGF0IGF0IGxlYXN0IGFyb3VuZCA5MCUgb2YgdGhlc2UgbXV0YXRpb25zIGFyZSBnZW51aW5lIGRyaXZlcnMgKEdyZWVubWFuICpldCBhbCosIDIwMDY7IE1hcnRpbmNvcmVuYSAqZXQgYWwqLCAyMDE3KS4KClVzZXJzIGNhbiBjYWxjdWxhdGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgZm9yIHRoZSBkTi9kUyByYXRpb3MgcGVyIGdlbmUgdXNpbmcgdGhlICpnZW5lY2kqIGZ1bmN0aW9uIGluIHRoZSBwYWNrYWdlLiBUbyB1c2UgdGhpcyBmdW5jdGlvbiB5b3UgbmVlZCB0byBydW4gKmRuZHNjdiogd2l0aCB0aGUgb3B0aW9uYWwgYXJndW1lbnQgYG91dG1hdHM9VGAgYW5kIHRoZW4gdXNlIGBjaSA9IGdlbmVjaShkbmRzb3V0KWAuIEZvciBtb3JlIGRldGFpbHMgc2VlIGA/IGdlbmVjaWAuCgojIyMjI2RuZHNjdiBvdXRwdXRzOiBHbG9iYWwgZE4vZFMgZXN0aW1hdGVzCgpBbm90aGVyIG91dHB1dCB0aGF0IGNhbiBiZSBvZiBpbnRlcmVzdCBpcyBhIHRhYmxlIHdpdGggdGhlIGdsb2JhbCBNTEVzIGZvciB0aGUgZE4vZFMgcmF0aW9zIGFjcm9zcyBhbGwgZ2VuZXMuIGROL2RTIHJhdGlvcyB3aXRoIGFzc29jaWF0ZWQgY29uZmlkZW5jZSBpbnRlcnZhbHMgYXJlIGNhbGN1bGF0ZWQgZm9yIG1pc3NlbnNlLCBub25zZW5zZSBhbmQgZXNzZW50aWFsIHNwbGljZSBzaXRlIHN1YnN0aXR1dGlvbnMgc2VwYXJhdGVseSwgYXMgd2VsbCBhcyBmb3IgYWxsIG5vbi1zeW5vbnltb3VzIHN1YnN0aXR1dGlvbnMgKCp3YWxsKikgYW5kIGZvciBhbGwgdHJ1bmNhdGluZyBzdWJzdGl0dXRpb25zIHRvZ2V0aGVyICgqd3RydSopLCB3aGljaCBpbmNsdWRlIG5vbnNlbnNlIGFuZCBlc3NlbnRpYWwgc3BsaWNlIHNpdGUgbXV0YXRpb25zLgoKYGBge3J9CnByaW50KGRuZHNvdXQkZ2xvYmFsZG5kcykKYGBgCgpHbG9iYWwgZE4vZFMgcmF0aW9zIGluIHNvbWF0aWMgZXZvbHV0aW9uIG9mIGNhbmNlciwgYW5kIHNlZW1pbmdseSBvZiBoZWFsdGh5IHNvbWF0aWMgdGlzc3VlcywgYXBwZWFyIHRvIHNob3cgYSBuZWFyLXVuaXZlcnNhbCBwYXR0ZXJuIG9mIGROL2RTfjEsIHdpdGggZXhvbWUtd2lkZSBkTi9kUyByYXRpb3MgdHlwaWNhbGx5IHNsaWdodGx5IGhpZ2hlciB0aGFuIDEgKE1hcnRpbmNvcmVuYSAqZXQgYWwuKiwgMjAxNykuIE9ubHkgb2NjYXNpb25hbGx5LCBJIGhhdmUgZm91bmQgZGF0YXNldHMgd2l0aCBnbG9iYWwgZE4vZFM8MSwgYnV0IHVwb24gY2xvc2VyIGV4YW1pbmF0aW9uLCB0aGlzIGhhcyB0eXBpY2FsbHkgYmVlbiBjYXVzZWQgYnkgY29udGFtaW5hdGlvbiBvZiB0aGUgY2F0YWxvZ3VlIG9mIHNvbWF0aWMgbXV0YXRpb25zIHdpdGggZ2VybWxpbmUgU05Qcy4gQW4gZXhjZXB0aW9uIGFyZSBtZWxhbm9tYSB0dW1vdXJzLCB3aGljaCBzaG93IGEgYmlhcyB0b3dhcmRzIHNsaWdodCB1bmRlcmVzdGltYXRpb24gb2YgZE4vZFMgZHVlIHRvIHRoZSBzaWduYXR1cmUgb2YgdWx0cmF2aW9sZXQtaW5kdWNlZCBtdXRhdGlvbnMgZXh0ZW5kaW5nIGJleW9uZCB0aGUgdHJpbnVjbGVvdGlkZSBtb2RlbCAoTWFydGluY29yZW5hICpldCBhbC4qLCAyMDE3KS4gSW4gbXkgcGVyc29uYWwgZXhwZXJpZW5jZSwgZGF0YXNldHMgb2Ygc29tYXRpYyBtdXRhdGlvbnMgd2l0aCBnbG9iYWwgZE4vZFM8PDEgaGF2ZSBhbHdheXMgcmVmbGVjdGVkIGEgcHJvYmxlbSBvZiBTTlAgY29udGFtaW5hdGlvbiBvciBhbiBpbmFkZXF1YXRlIHN1YnN0aXR1dGlvbiBtb2RlbCwgYW5kIHNvIHRoZSBldmFsdWF0aW9uIG9mIGdsb2JhbCBkTi9kUyB2YWx1ZXMgY2FuIGhlbHAgaWRlbnRpZnkgcHJvYmxlbXMgaW4gY2VydGFpbiBkYXRhc2V0cy4KCiMjIyMjT3RoZXIgdXNlZnVsIG91dHB1dHMKClRoZSBkbmRzY3YgZnVuY3Rpb24gYWxzbyBvdXRwdXRzIG90aGVyIHJlc3VsdHMgdGhhdCBjYW4gYmUgb2YgaW50ZXJlc3QsIHN1Y2ggYXMgYW4gYW5ub3RhdGVkIHRhYmxlIG9mIGNvZGluZyBtdXRhdGlvbnMgKCphbm5vdG11dHMqKSwgTUxFcyBvZiBtdXRhdGlvbiByYXRlIHBhcmFtZXRlcnMgKCptbGVfc3VibW9kZWwqKSwgbGlzdHMgb2Ygc2FtcGxlcyBhbmQgbXV0YXRpb25zIGV4Y2x1ZGVkIGZyb20gdGhlIGFuYWx5c2lzIGFuZCBhIHRhYmxlIHdpdGggdGhlIG9ic2VydmVkIGFuZCBleHBlY3RlZCBudW1iZXIgb2YgbXV0YXRpb25zIHBlciBnZW5lICgqZ2VuZW11dHMqKSwgYW1vbmcgb3RoZXJzLgoKYGBge3J9CmhlYWQoZG5kc291dCRhbm5vdG11dHMpCgpkZiA8LSBkbmRzb3V0JGFubm90bXV0cwpgYGAKCmROZFNjdiByZWxpZXMgb24gYSBuZWdhdGl2ZSBiaW5vbWlhbCByZWdyZXNzaW9uIG1vZGVsIGFjcm9zcyBnZW5lcyB0byByZWZpbmUgdGhlIGVzdGltYXRlZCBiYWNrZ3JvdW5kIG11dGF0aW9uIHJhdGUgZm9yIGEgZ2VuZS4gVGhpcyBhc3N1bWVzIHRoYXQgdGhlIHZhcmlhdGlvbiBvZiB0aGUgbXV0YXRpb24gcmF0ZSBhY3Jvc3MgZ2VuZXMgdGhhdCByZW1haW5zIHVuZXhwbGFpbmVkIGJ5IGNvdmFyaWF0ZXMgb3IgYnkgdGhlIHNlcXVlbmNlIGNvbXBvc2l0aW9uIG9mIHRoZSBnZW5lIGNhbiBiZSBtb2RlbGxlZCBhcyBhIEdhbW1hIGRpc3RyaWJ1dGlvbi4gVGhpcyBtb2RlbCB0eXBpY2FsbHkgd29ya3Mgd2VsbCBvbiBjbGVhbiBjYW5jZXIgZ2Vub21pYyBkYXRhc2V0cywgYnV0IG5vdCBhbGwgZGF0YXNldHMgbWF5IGJlIHN1aXRhYmxlIGZvciB0aGlzIG1vZGVsLiBJbiBwYXJ0aWN1bGFyLCB2ZXJ5IGxvdyBlc3RpbWF0ZXMgb2YgJFx0aGV0YSQgKHRoZSBvdmVyZGlzcGVyc2lvbiBwYXJhbWV0ZXIpLCBwYXJ0aWN1bGFybHkgJFx0aGV0YTwxJCwgbWF5IHJlZmxlY3QgcHJvYmxlbXMgd2l0aCB0aGUgc3VpdGFiaWxpdHkgb2YgdGhlIGROZFNjdiBtb2RlbCBmb3IgdGhlIGRhdGFzZXQuCgpgYGB7cn0KcHJpbnQoZG5kc291dCRuYnJlZyR0aGV0YSkKYGBgCgojIyMjIyBkTmRTbG9jOiBsb2NhbCBuZXV0cmFsaXR5IHRlc3QKCkFuIGFkZGl0aW9uYWwgc2V0IG9mIG5ldXRyYWxpdHkgdGVzdHMgcGVyIGdlbmUgYXJlIHBlcmZvcm1lZCB1c2luZyBhIG1vcmUgdHJhZGl0aW9uYWwgZE4vZFMgbW9kZWwgaW4gd2hpY2ggdGhlIGxvY2FsIG11dGF0aW9uIHJhdGUgZm9yIGEgZ2VuZSBpcyBlc3RpbWF0ZWQgZXhjbHVzaXZlbHkgZnJvbSB0aGUgc3lub255bW91cyBtdXRhdGlvbnMgb2JzZXJ2ZWQgaW4gdGhlIGdlbmUgKCpkTmRTbG9jKikgKFdvbmcsIE1hcnRpbmNvcmVuYSwgKmV0IGFsKi4sIDIwMTQpLiBUaGlzIHRlc3QgaXMgdHlwaWNhbGx5IG9ubHkgcG93ZXJlZCBpbiB2ZXJ5IGxhcmdlIGRhdGFzZXRzLiBGb3IgZXhhbXBsZSwgaW4gdGhlIGRhdGFzZXQgdXNlZCBpbiB0aGlzIGV4YW1wbGUsIGNvbXByaXNpbmcgb2YgMTk2IHNpbXVsYXRlZCBicmVhc3QgY2FuY2VyIGV4b21lcywgdGhpcyBtb2RlbCBvbmx5IGRldGVjdHMgKkFSSUQxQSogYXMgc2lnbmlmaWNhbnRseSBtdXRhdGVkLgoKYGBge3J9CnNpZ25pZl9nZW5lc19sb2NhbG1vZGVsID0gYXMudmVjdG9yKGRuZHNvdXQkc2VsX2xvYyRnZW5lX25hbWVbZG5kc291dCRzZWxfbG9jJHFhbGxfbG9jPDAuMV0pCnByaW50KHNpZ25pZl9nZW5lc19sb2NhbG1vZGVsKQpgYGAKCgpgYGB7ciBlY2hvPVRSVUV9CnNlc3Npb25JbmZvKCkKYGBgCgo=</div>
