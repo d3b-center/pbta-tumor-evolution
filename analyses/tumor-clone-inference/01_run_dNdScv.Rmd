@@ -42,7 +42,7 @@ maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "result
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-refdb_file <- file.path(input_dir, "RefCDS_human_GRCh38_GencodeV39_liftover.rda")
+refdb_file <- file.path(input_dir, "example_output_refcds.rda")
 
 # File path to results directory
 results_dir <-
@@ -63,7 +63,8 @@ Users interested in trying dNdScv on a different set of transcripts, a different
 # Read in histologies file and filter for the pbta cohort
 pbta <- readr::read_tsv(pbta_file, guess_max = 100000, show_col_types = FALSE) %>%
   filter(!(experimental_strategy == "RNA-Seq")) %>% 
-  dplyr::select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID)
+  dplyr::select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID) %>% 
+  unique()
 
 maf_df <- vroom::vroom(maf_file, delim = "\t", col_names = TRUE) 
 
@@ -94,7 +95,7 @@ mutations <- maf %>%
                 "ref" = "Reference_Allele",
                 "mut" = "Tumor_Seq_Allele2"
                 ) %>% 
-  mutate(chr = str_replace(chr, c("chr"), "")) %>% 
+  #mutate(chr = str_replace(chr, c("chr"), "")) %>% 
   dplyr::select(sampleID, chr, pos, ref, mut)
 
 print(head(mutations))
