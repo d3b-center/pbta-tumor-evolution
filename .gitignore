@@ -52,3 +52,6 @@ rsconnect/
 .DS_Store
 */.DS_Store
 
+analyses/dndscv_ref/input/hg38.fa
+analyses/dndscv_ref/input/hg38.fa.fai
+analyses/dndscv_ref/input/hg38.fa.gz
