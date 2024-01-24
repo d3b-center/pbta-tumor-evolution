@@ -4,9 +4,10 @@ library(dndscv)
 ## set directories
 
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-scratch_dir <- file.path(root_dir, "scratch")
 analysis_dir <- file.path(root_dir, "analyses", "dndscv-analysis")
 input_dir <- file.path(analysis_dir, "input")
+genome_dir <- file.path(input_dir, "genome-files")
+
 output_dir <- file.path(analysis_dir, "output")
 if(!dir.exists(output_dir)){
   dir.create(output_dir)
@@ -51,7 +52,10 @@ gene_lift <- gene_tsv %>%
   
 ## build reference file for dndscv
 buildref(cdsfile = file.path(input_dir, "gene_coding_liftover.tsv"), 
-         genomefile = file.path(scratch_dir, "hg38.fa"), 
+         genomefile = file.path(genome_dir, "hg38.fa"), 
          outfile = file.path(output_dir, "RefCDS_human_GRCh38_GencodeV39_liftover.rda"),
          excludechrs="MT")
+
+# Remove dir with large files
+dir_delete("genome_dir")
 
