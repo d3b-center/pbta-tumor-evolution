@@ -57,5 +57,6 @@ buildref(cdsfile = file.path(input_dir, "gene_coding_liftover.tsv"),
          excludechrs="MT")
 
 # Remove dir with large files
-dir_delete("genome_dir")
+unlink(genome_dir, recursive = TRUE)
+
 
