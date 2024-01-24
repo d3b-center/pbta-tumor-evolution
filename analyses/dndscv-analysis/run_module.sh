@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 ## download hg38 fasta file if the file does not exist
-if [ -e "input/hg38.fa" ]; then
+if [ -e "input/hg38.fa"]; then
   echo "HG38 fasta file is already there"
 else
   wget -P ./input https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
