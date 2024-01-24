@@ -32,8 +32,8 @@ suppressPackageStartupMessages({
 # Use this as the root directory to ensure proper sourcing of functions 
 # no matter where this is called from
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
-analysis_dir <- file.path(root_dir, "analyses", "tumor-clone-inference")
-input_dir <- file.path(analysis_dir, "input")
+analysis_dir <- file.path(root_dir, "analyses", "dndscv-analysis")
+input_dir <- file.path(analysis_dir, "output")
 data_dir <- file.path(root_dir, "data")
 files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
 maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
@@ -42,7 +42,7 @@ maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "result
 # Input files
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
-refdb_file <- file.path(input_dir, "example_output_refcds.rda")
+refdb_file <- file.path(input_dir, "RefCDS_human_GRCh38_GencodeV39_liftover.rda")
 
 # File path to results directory
 results_dir <-
