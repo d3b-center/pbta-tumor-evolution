@@ -22,8 +22,8 @@ gene_tsv <- gene_tsv %>%
 lift_gene_df <- read_tsv(file.path(input_dir, "hgnc_complete_set.txt"))
 lift_gene_df <- lift_gene_df %>% 
   separate_rows(prev_symbol, sep = "\\|") %>% 
-  filter(!is.na(prev_symbol)) %>% 
-  select(symbol, prev_symbol, ensembl_gene_id)
+  dplyr::filter(!is.na(prev_symbol)) %>% 
+  dplyr::select(symbol, prev_symbol, ensembl_gene_id)
 
 gene_lift <- gene_tsv %>% 
   filter(!is.na(`Gene name`)) %>%
