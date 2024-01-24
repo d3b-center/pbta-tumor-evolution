@@ -27,7 +27,8 @@ lift_gene_df <- lift_gene_df %>%
 
 gene_lift <- gene_tsv %>% 
   filter(!is.na(`Gene name`)) %>%
-  left_join(lift_gene_df %>% select(symbol, prev_symbol), by = c("Gene name" = "prev_symbol")) %>% 
+  left_join(lift_gene_df %>% select(symbol, prev_symbol, ensembl_gene_id), 
+            by = c("Gene name" = "prev_symbol")) %>% 
   dplyr::mutate(`Gene name` = case_when(`Gene name` != symbol ~ symbol, TRUE ~ `Gene name`), 
          `Chromosome/scaffold name` = paste0("chr", `Chromosome/scaffold name`), 
          `Gene stable ID` = case_when(`Gene stable ID` != ensembl_gene_id ~ ensembl_gene_id, TRUE ~ `Gene stable ID`)) %>%
