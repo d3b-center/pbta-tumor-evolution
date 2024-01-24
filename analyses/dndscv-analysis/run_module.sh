@@ -13,3 +13,4 @@ fi
   
 ## run the script to build reference RData
 Rscript --vanilla 01_dndscv_ref.R
+Rscript -e "rmarkdown::render('02_run_dNdScv.Rmd', clean = TRUE)"
