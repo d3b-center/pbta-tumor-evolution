@@ -6,6 +6,8 @@ library(dndscv)
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 analysis_dir <- file.path(root_dir, "analyses", "dndscv-analysis")
 input_dir <- file.path(analysis_dir, "input")
+genome_dir <- file.path(input_dir, "genome-files")
+
 output_dir <- file.path(analysis_dir, "output")
 if(!dir.exists(output_dir)){
   dir.create(output_dir)
@@ -22,13 +24,14 @@ gene_tsv <- gene_tsv %>%
 lift_gene_df <- read_tsv(file.path(input_dir, "hgnc_complete_set.txt"))
 lift_gene_df <- lift_gene_df %>% 
   separate_rows(prev_symbol, sep = "\\|") %>% 
-  filter(!is.na(prev_symbol)) %>% 
-  select(symbol, prev_symbol, ensembl_gene_id)
+  dplyr::filter(!is.na(prev_symbol)) %>% 
+  dplyr::select(symbol, prev_symbol, ensembl_gene_id)
 
 gene_lift <- gene_tsv %>% 
   filter(!is.na(`Gene name`)) %>%
-  left_join(lift_gene_df %>% select(symbol, prev_symbol), by = c("Gene name" = "prev_symbol")) %>% 
-  mutate(`Gene name` = case_when(`Gene name` != symbol ~ symbol, TRUE ~ `Gene name`), 
+  left_join(lift_gene_df %>% select(symbol, prev_symbol, ensembl_gene_id), 
+            by = c("Gene name" = "prev_symbol")) %>% 
+  dplyr::mutate(`Gene name` = case_when(`Gene name` != symbol ~ symbol, TRUE ~ `Gene name`), 
          `Chromosome/scaffold name` = paste0("chr", `Chromosome/scaffold name`), 
          `Gene stable ID` = case_when(`Gene stable ID` != ensembl_gene_id ~ ensembl_gene_id, TRUE ~ `Gene stable ID`)) %>%
   select(-symbol) %>%
@@ -49,7 +52,11 @@ gene_lift <- gene_tsv %>%
   
 ## build reference file for dndscv
 buildref(cdsfile = file.path(input_dir, "gene_coding_liftover.tsv"), 
-         genomefile = file.path(input_dir, "hg38.fa"), 
+         genomefile = file.path(genome_dir, "hg38.fa"), 
          outfile = file.path(output_dir, "RefCDS_human_GRCh38_GencodeV39_liftover.rda"),
          excludechrs="MT")
+
+# Remove dir with large files
+unlink(genome_dir, recursive = TRUE)
+
 
