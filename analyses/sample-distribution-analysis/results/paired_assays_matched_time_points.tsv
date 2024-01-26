@@ -1,14 +1,15 @@
 Kids_First_Participant_ID	descriptors	experimental_strategy	cancer_group	timepoints_models
-PT_00G007DM	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	CNS Embryonal tumor, Embryonal tumor with multilayer rosettes	Dx-Rec
+PT_00G007DM	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Embryonal tumor with multilayer rosettes, Embryonal tumor with multilayer rosettes	Dx-Rec
 PT_02J5CWN5	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
 PT_04V47WFC	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
+PT_0MHKP408	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
 PT_0WQFCZ6S	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Rec
+PT_164RNWTT	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
 PT_19GCSK2S	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
-PT_1H2REHT2	Progressive, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, Low-grade glioma	Pro-Dec
-PT_1ZAWNGWT	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Ganglioglioma	Dx-Pro
+PT_1ZAWNGWT	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Ganglioglioma	Dx-Pro
 PT_23NZGSRJ	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Dec
 PT_25Z2NX27	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS		Dx-Pro
-PT_2ECVKTTQ	Recurrence, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Rec-SM
+PT_2ECVKTTQ	Recurrence, Second Malignancy	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Rec-SM
 PT_2FVTD0WR	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
 PT_2YT37G8P	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Pro-Rec
 PT_37B5JRP1	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
@@ -16,57 +17,84 @@ PT_394ZA6P7	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High
 PT_3A2Q62RD	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
 PT_3AR6AW9N	Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WXS	Diffuse midline glioma, Diffuse midline glioma	Rec-Dec
 PT_3CHB9PK5	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
-PT_3GYW6P6P	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Glial-neuronal tumor, Low-grade glioma	Dx-Pro
-PT_3KM9W8S8	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Dec
-PT_3R0P995B	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
+PT_3GYW6P6P	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Glial-neuronal tumor NOS, Low-grade glioma	Dx-Pro
+PT_3KM9W8S8	Diagnosis, Deceased	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Dec
+PT_3PVE9CBR	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Rec
+PT_3R0P995B	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
 PT_3T3VGWC6	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
-PT_3VCS1PPF	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
+PT_3VCS1PPF	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
+PT_59D00MBQ	Diagnosis, Deceased	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
 PT_62G82T6Q	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
+PT_67R1AF5R	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
 PT_773ZPTEB	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
 PT_7M2PGCBV	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Meningioma, Meningioma	Dx-Rec
-PT_82MX6J77	Diagnosis, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Meningioma	Dx-SM
-PT_89XRZBSG	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Rec
-PT_8GN3TQRM	Progressive, Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma, High-grade glioma	Pro-Rec-Dec
-PT_962TCBVR	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma, Low-grade glioma	Dx-Pro-Rec
-PT_98QMQZY7	Diagnosis, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	CNS Embryonal tumor, Fibromyxoid lesion	Dx-SM
+PT_89XRZBSG	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Rec
+PT_8GN3TQRM	Progressive, Recurrence, Deceased	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma, High-grade glioma	Pro-Rec-Dec
+PT_962TCBVR	Diagnosis, Progressive, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma, Low-grade glioma	Dx-Pro-Rec
+PT_98QMQZY7	Diagnosis, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Fibromyxoid lesion, Pineoblastoma	Dx-SM
 PT_99S5BPE3	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
 PT_9PJR0ZK7	Recurrence, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Malignant peripheral nerve sheath tumor, Neurofibroma/Plexiform	Rec-SM
 PT_AQWDQW27	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Meningioma, Meningioma	Dx-Pro
+PT_B2KF59PQ	Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse hemispheric glioma, Diffuse hemispheric glioma	Rec-Dec
 PT_B5DQ8FF0	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
+PT_BCWGRGDB	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Meningioma, Meningioma	Dx-Pro
+PT_BNARR0N6	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Dx-Pro-Rec
+PT_CBAYDRF9	Unknown	RNA-Seq;WGS		NA
+PT_CSZ9QA1N	Diagnosis, Deceased	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
 PT_CWXSP19D	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Schwannoma, Schwannoma	Dx-Rec
-PT_DFQAH7RS	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Dysembryoplastic neuroepithelial tumor, Ganglioglioma	Pro-Rec
+PT_CYBYN18G	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
+PT_DFQAH7RS	Progressive, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Dysembryoplastic neuroepithelial tumor, Ganglioglioma	Pro-Rec
 PT_DNAJYFZT	Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Rec-Dec
-PT_ESHACWF6	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Pro
+PT_E3Y5BBSF	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Adamantinomatous Craniopharyngioma, Adamantinomatous Craniopharyngioma	Dx-Rec
+PT_E8XM8JFZ	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Ganglioglioma	Dx-Pro
+PT_EQ5C5TEA	Diagnosis, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma	Dx-SM
+PT_ESHACWF6	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_FN4GEEFR	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
+PT_FWWRWTV2	Deceased, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	NA
+PT_GHTSGFCT	Diagnosis, Deceased	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
 PT_HE8FBFNA	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_HFQNKP5X	Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Chordoma, Chordoma	Rec-Dec
-PT_HJMP6PH2	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ewing sarcoma, Ewing sarcoma	Dx-Rec
+PT_HJMP6PH2	Diagnosis, Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ewing sarcoma, Ewing sarcoma, Ewing sarcoma	Dx-Rec-Dec
 PT_HXV713W6	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
 PT_J06X17XH	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Rosai-Dorfman disease, Sarcoma	Dx-Rec
-PT_JNEV57VK	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Pro
-PT_JP1FDKN9	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
-PT_JSFBMK5V	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Pro
-PT_KMHGNCNR	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
-PT_MDWPRDBT	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Pro-Rec
-PT_N8W26H19	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
-PT_NPETR8RY	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
-PT_PF04R0BH	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Glial-neuronal tumor	Dx-Rec
-PT_PFA762TK	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
+PT_JEW5HG4W	Recurrence, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Meningioma, Meningioma	Rec-SM
+PT_JNEV57VK	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Pro
+PT_JP1FDKN9	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
+PT_JSFBMK5V	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Pro
+PT_JV9G8MFD	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Rec
+PT_JXGMAHHN	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
+PT_KMHGNCNR	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
+PT_MDWPRDBT	Progressive, Recurrence, Deceased	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	High-grade glioma, High-grade glioma, High-grade glioma	Pro-Rec-Dec
+PT_N8W26H19	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
+PT_NPETR8RY	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Rec
+PT_PF04R0BH	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Glial-neuronal tumor NOS	Dx-Rec
+PT_PFA762TK	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
 PT_PR4YBBH3	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
+PT_R4T1V1K4	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
 PT_RJ1TJ2KH	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Dec
-PT_S2SQJVGK	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Pro-Rec
+PT_S0Q27J13	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
+PT_S2SQJVGK	Progressive, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Pro-Rec
+PT_S9YT3GSS	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Sarcoma, Sarcoma	Dx-Rec
 PT_SD4RJ57T	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WXS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
+PT_SY6W6B0Z	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Malignant peripheral nerve sheath tumor, Malignant peripheral nerve sheath tumor	Dx-Dec
 PT_T2M1338J	Diagnosis, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WGS	Adamantinomatous Craniopharyngioma, Meningioma	Dx-SM
 PT_T4VN7ZRB	Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Pro-Rec
-PT_TKWTTRQ7	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
+PT_TKWTTRQ7	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
 PT_TP6GS00H	Diagnosis, Progressive, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma, Ependymoma	Dx-Pro-Rec
 PT_TRZ1N1HQ	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
-PT_W6AWJJK7	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Ganglioglioma, Ganglioglioma	Dx-Rec
+PT_VCD0W8HG	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse midline glioma, Diffuse midline glioma	Dx-Dec
+PT_VJZN69T9	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
+PT_W3FSA7NH	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
+PT_W6AWJJK7	Diagnosis, Recurrence	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Ganglioglioma, Ganglioglioma	Dx-Rec
 PT_WWRB8KDQ	Deceased, Second Malignancy	RNA-Seq;WGS, RNA-Seq;WXS	High-grade glioma, High-grade glioma	NA
-PT_XA98HG1C	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
-PT_XTVQB9S4	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Pro
+PT_XA98HG1C	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, Phospho-Proteomics;RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Pro
+PT_XHYBZKCX	Diagnosis, Unknown	RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Other tumor	NA
+PT_XNMKQ4MR	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Rec
+PT_XTVQB9S4	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Atypical Teratoid Rhabdoid Tumor, Atypical Teratoid Rhabdoid Tumor	Dx-Pro
 PT_YGN06RPZ	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Diffuse leptomeningeal glioneuronal tumor, Low-grade glioma	Dx-Pro
 PT_YND59052	Recurrence, Deceased	RNA-Seq;WGS, RNA-Seq;WXS	Low-grade glioma, Low-grade glioma	Rec-Dec
-PT_Z4BF2NSB	Diagnosis, Deceased	RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
+PT_Z4BF2NSB	Diagnosis, Deceased	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	High-grade glioma, High-grade glioma	Dx-Dec
 PT_Z4GS3ZQQ	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Dysembryoplastic neuroepithelial tumor, Ependymoma	Dx-Rec
+PT_ZG4J0EK0	Diagnosis, Recurrence	RNA-Seq;WGS, RNA-Seq;WGS	Medulloblastoma, Medulloblastoma	Dx-Rec
 PT_ZMKMKCFQ	Diagnosis, Progressive	RNA-Seq;WGS, RNA-Seq;WGS	Low-grade glioma, Low-grade glioma	Dx-Pro
+PT_ZZRBX5JT	Diagnosis, Progressive	Phospho-Proteomics;RNA-Seq;WGS, RNA-Seq;WGS	Ependymoma, Ependymoma	Dx-Pro
