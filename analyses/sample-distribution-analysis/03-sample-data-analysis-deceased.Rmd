@@ -1,0 +1,444 @@
+---
+title: "Single cell sample data analysis for patients with Deceased timepoint"
+author: 'Antonia Chroni <chronia@chop.edu> for D3B'
+date: "`r Sys.Date()`"
+output:
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+# Usage
+To run the Rscript from the command line sequentially, use:
+
+```
+Rscript -e "rmarkdown::render('03-sample-data-analysis-deceased.Rmd', clean = TRUE)"
+```
+
+
+# Set up
+
+```{r load-library}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(flextable)
+})
+```
+
+## Directories and File Inputs/Outputs
+
+```{r set-dir-and-file-names}
+# Detect the ".git" folder. This will be in the project root directory.
+# Use this as the root directory to ensure proper sourcing of functions
+# no matter where this is called from.
+root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
+analysis_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis") 
+input_dir <- file.path(analysis_dir, "input")
+
+# Input files
+hist_file <- file.path(input_dir, "histologies.tsv")
+alsf_sc_list_file <- file.path(input_dir, "sc_list.tsv")
+hope_list_file <- file.path(input_dir, "merge.tsv")
+
+# Metadata file from alsf database
+alsf_metadata_file <- file.path(input_dir, "single_cell_metadata_alsf.tsv")
+hope_alsf_metadata_file <- file.path(input_dir, "sample_metadata_hope_alsf.tsv")
+
+# File path to results directory
+results_dir <-
+  file.path(analysis_dir, "results")
+if (!dir.exists(results_dir)) {
+  dir.create(results_dir)
+}
+```
+
+## Read in data and process
+
+```{r read-process-files}
+hist_df <- readr::read_tsv(hist_file, guess_max = 100000, show_col_types = FALSE) %>%
+  mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG", 
+                            grepl("Diffuse midline glioma|Diffuse intrinsic pontine glioma", cancer_group) ~ "DIPG/DMG",
+                            grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
+                            grepl("Low-grade glioma", cancer_group) ~ "LGG",
+                            TRUE ~ "Other")) 
+
+hope_df <- readr::read_tsv(hope_list_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  add_column(cohort_hope = "yes",
+             alsf_database = "yes") %>% 
+  select(sample_id, cohort_hope, alsf_database) 
+
+alsf_sc_df <- readr::read_tsv(alsf_sc_list_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  add_column(cohort_hope = "no",
+             alsf_database = "yes") 
+
+merge_df <- bind_rows(hope_df, alsf_sc_df) %>% 
+  left_join(hist_df, by = c("sample_id")) %>%
+  filter(!sample_type == "Normal") %>%
+  mutate(match_id = paste(tumor_descriptor, Kids_First_Participant_ID, sep = "_"),
+         tumor_descriptor = case_when(grepl("Primary Tumor|Initial CNS Tumor", tumor_descriptor) ~ "Diagnosis",
+                                      grepl("Progressive Disease Post-Mortem", tumor_descriptor) ~ "Deceased",
+                                      TRUE ~ tumor_descriptor),
+         
+         # biopsy was repeated for `7316-4844` tumor sample
+         # i.e., there are 2 `match_id` for that tumor sample
+         # let's create specific `match_id` so it won't filter out after distinct()
+          match_id = case_when(grepl("7316-4844", sample_id) ~ paste(match_id, extent_of_tumor_resection, sep = "_"),
+                              TRUE ~ match_id)) 
+
+add_age_df <- merge_df %>% 
+  mutate_at(c("cancer_group", "molecular_subtype"), ~replace_na(.,"NA")) %>% 
+  distinct(match_id, .keep_all = TRUE) %>% 
+  group_by(Kids_First_Participant_ID) %>%
+  summarise(median_age = round(median(as.numeric(age_at_diagnosis_days)/365.25, na.rm = T), 2)) %>% 
+  mutate(median_age_category = case_when(median_age >= min(median_age) & median_age <= 9 ~ "early childhood",
+                                         median_age >= 10 & median_age <= 19 ~ "adolescent",
+                                         median_age >=20 & median_age <= max(median_age) ~ "adult")) %>% # early childhood (0–9 years); adolescent (10–19 years); adult (20–68 years)
+  left_join(merge_df, by = join_by(Kids_First_Participant_ID))
+
+
+# Identify cases with multiple diagnoses if any
+df <- add_age_df %>%
+  group_by(Kids_First_Participant_ID) %>% 
+  mutate(cg_distinct = n_distinct(cancer_group) > 1) %>%  # to identify samples with different diagnosis across timepoints 
+  distinct(cancer_group, .keep_all = TRUE) %>% 
+  arrange(tumor_descriptor) %>%
+  summarise(cg_multiple = str_c(cancer_group, collapse = ",")) %>%
+  mutate_at(c("cg_multiple"), ~replace_na(.,"NA")) %>% 
+  left_join(add_age_df, by = "Kids_First_Participant_ID") %>%
+  tidyr::separate(cg_multiple, c("cg_id", "drop"), sep = ',', remove = FALSE) %>% # to generate cg_id that shows cancer group for the first diagnosis for this sample
+  select(!drop, Kids_First_Biospecimen_ID)
+```
+
+## Technology and scpca_sample_id from alsf database
+
+```{r read-process-files-alsf}
+other_alsf_metadata <- readr::read_tsv(alsf_metadata_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename("sample_id" = "submitter_id") %>% 
+  select(sample_id, scpca_sample_id, 
+         diagnosis, seq_unit, technology,
+         scpca_project_id, submitter)
+
+hope_alsf_metadata <- readr::read_tsv(hope_alsf_metadata_file, guess_max = 100000, show_col_types = FALSE) %>% 
+  dplyr::rename("sample_id" = "submitter_id") %>% 
+  add_column(seq_unit = "nucleus",
+             technology = "10Xv3.1") %>% 
+  select(sample_id, scpca_sample_id, 
+         diagnosis, seq_unit, technology,
+         scpca_project_id, submitter)
+
+merge_alsf_metadata <- bind_rows(other_alsf_metadata, hope_alsf_metadata) 
+
+merge_df <- df %>% 
+  left_join(merge_alsf_metadata, by = c("sample_id")) %>% 
+  add_column(notes_about_library = "") %>% 
+  mutate(notes_about_library = case_when(grepl("7316-2594", sample_id) ~ "Excluded_bad_quality", # bad quality
+                                      TRUE ~ notes_about_library)) %>%
+  
+  # Remove multiple `sample_id` as these contain multiple entries
+  distinct(sample_id, .keep_all = TRUE) %>% 
+  # Remove `experimental_strategy` as it doesn't contain information about single-cell right now
+  # and the information in there is not representative of the truth in the database after removing multiple sample_ids
+  select(-experimental_strategy) %>% 
+  write_tsv(file.path(results_dir, "single-cell-samples-deceased.tsv"))
+
+experimental_strategy_df <- df %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, experimental_strategy)
+
+# Remove any samples not available in the alsf database
+paired_assays_df <- merge_df %>%
+  filter(!is.na(scpca_sample_id)) %>% 
+  add_column(experimental_strategy = "sc-RNA-Seq") %>% 
+  full_join(df) %>% 
+  filter(experimental_strategy %in% c("WGS", "WXS", "sc-RNA-Seq"))
+```
+
+# Patients with paired genomic and sc-RNA-Seq assays with all timepoints
+
+```{r}
+paired_assays_all <- paired_assays_df %>%
+  #unique() %>%
+  arrange(Kids_First_Participant_ID, experimental_strategy) %>%
+  group_by(Kids_First_Participant_ID, match_id, tumor_descriptor, cg_multiple, cg_id, median_age_category) %>% 
+  summarise(experimental_strategy = str_c(experimental_strategy, collapse = ";")) %>% 
+  mutate(experimental_strategy_sum = case_when(grepl("sc-RNA-Seq", experimental_strategy) & grepl("WGS|WXS", experimental_strategy) ~ "Both",
+                                               grepl("WXS|WGS", experimental_strategy) ~ "DNA",
+                                               grepl("sc-RNA-Seq", experimental_strategy) ~ "sc-RNA"))
+
+# Define timepoints
+timepoints = c("Diagnosis", "Progressive", "Recurrence", "Deceased", "Second Malignancy", "Unavailable")
+
+paired_assays <- paired_assays_all %>%
+  filter(experimental_strategy_sum == "Both") %>%
+  group_by(Kids_First_Participant_ID) %>%
+  summarize(descriptors = paste(sort(tumor_descriptor), collapse = ", "),
+            experimental_strategy = paste(sort(experimental_strategy), collapse = ", ")) %>% 
+  filter(!descriptors %in% c(timepoints))
+
+kids_pbta_samples_paired <- print(length(unique(paired_assays$Kids_First_Participant_ID)))
+
+###-------------------------------------------------------------------------------------------
+# Phylogenetic data
+# Let's count #specimens per sample 
+# We will remove any samples with less than 2 specimens as phylogenies require at least 3 taxa
+paired_assays_all_list <- paired_assays %>% 
+  select(Kids_First_Participant_ID)
+
+phylogenetic_data <- paired_assays_all_list %>% 
+  left_join(paired_assays_df)
+
+print(length(unique(phylogenetic_data$Kids_First_Participant_ID)))
+
+kids_specimens_n_df <- phylogenetic_data %>% 
+  select(Kids_First_Participant_ID, Kids_First_Biospecimen_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  dplyr::count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_specimens_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_specimens_number = n) %>% 
+  filter(!kids_specimens_number <= 2) %>%
+
+  left_join(phylogenetic_data, by = c("Kids_First_Participant_ID")) 
+
+
+# Let's confirm and add the number of timepoints per sample
+# In case we lost any from filtering, e.g., hypermutants and high reads/alteration
+timepoints_n_df <- kids_specimens_n_df %>% 
+  select(Kids_First_Participant_ID, tumor_descriptor) %>% 
+  unique() %>% 
+  dplyr::count(Kids_First_Participant_ID) %>% 
+  dplyr::mutate(kids_timepoints_n = glue::glue("{Kids_First_Participant_ID}  (N={n})")) %>%
+  dplyr::rename(kids_timepoints_number = n) %>% 
+  filter(!kids_timepoints_number <= 1)
+
+phylogenetic_data_df <- timepoints_n_df %>% 
+  left_join(kids_specimens_n_df, by = c("Kids_First_Participant_ID")) 
+  
+# Number of samples in the `genomic_paired_df` with > 3 biospecimens and >2 timepoints
+samples_with_3bs <- print(length(unique(phylogenetic_data_df$Kids_First_Participant_ID)))
+samples_with_3bs <- print(unique(phylogenetic_data_df$Kids_First_Participant_ID))
+```
+
+```{r}
+paired_assays_samples <- print(length(unique(phylogenetic_data_df$Kids_First_Participant_ID)))
+
+df_list <- phylogenetic_data_df %>% 
+  select(cohort_hope, molecular_subtype, cg_id, cg_multiple, Kids_First_Participant_ID, tumor_descriptor, sample_id)
+
+filter_df_list <- paired_assays_df %>% 
+    select(Kids_First_Participant_ID, technology, seq_unit)
+
+paired_assays_df_all <- df_list %>% 
+  right_join(paired_assays) %>% 
+  filter(!is.na(experimental_strategy),
+         !is.na(cg_id)) %>% 
+  unique()
+
+paired_assays_df_all %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+paired_assays_df_all %>%
+  #unique() %>% 
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  select(cohort_hope, cg_id, cg_multiple, molecular_subtype, 
+         Kids_First_Participant_ID, Diagnosis, Progressive, 
+         Recurrence, Deceased) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+
+
+## Type of sequencing technology and unit for sc-RNA-Seq
+
+We should investigate if there are samples from two different sequencing technologies and unit.
+
+```{r technology-unit-sc}
+paired_assays_df <- paired_assays_df_all %>% 
+  right_join(filter_df_list) %>% 
+  filter(!is.na(seq_unit),
+         !is.na(technology),
+         !is.na(experimental_strategy),
+         !is.na(cg_id)) %>% 
+  unique()
+
+# Was nucleus or whole cell used for the sequencing?
+seq_unit_samples <- unique(paired_assays_df$seq_unit)
+
+# What type of technology was used?
+technology_samples <- unique(paired_assays_df$technology)
+
+# Create df with only samples from 10Xv3.1 technolohy
+df_10Xv3.1 <- paired_assays_df %>%
+  filter(technology == "10Xv3.1") %>% 
+  unique() 
+
+sc_samples <- print(length(unique(df_10Xv3.1$Kids_First_Participant_ID)))
+sc_samples_id <- print(length(unique(df_10Xv3.1$sample_id)))
+
+# Create df with only samples from 10Xv2_5prime technology	
+df_10Xv2_5prime <- paired_assays_df %>%
+  filter(technology == "10Xv2_5prime") %>% 
+  unique() 
+
+sc_samples <- print(length(unique(df_10Xv2_5prime$Kids_First_Participant_ID)))
+sc_samples_id <- print(length(unique(df_10Xv2_5prime$sample_id)))
+
+# List with patient samples in each cohort
+sc_samples_10Xv3.1 <- unique(as.character(df_10Xv3.1$match_id))
+#sc_samples_10Xv3.1 <- sort(sc_samples_10Xv3.1, decreasing = FALSE)
+#print(sc_samples_10Xv3.1)
+
+sc_samples_10Xv2_5prime <- unique(as.character(df_10Xv2_5prime$match_id))
+#sc_samples_10Xv2_5prime <- sort(sc_samples_10Xv2_5prime, decreasing = FALSE)
+#print(sc_samples_10Xv2_5prime)
+
+
+# Are there any samples for which we have all technologies?
+# check if two vectors are identical
+#identical(sc_samples_10Xv3.1, sc_samples_10Xv2_5prime)
+
+# display items that are in both vectors
+samples_intersect <- intersect(sc_samples_10Xv3.1, sc_samples_10Xv2_5prime)
+
+#display items that exist in first vector, but not in second vector
+#setdiff(sc_samples_10Xv3.1, sc_samples_10Xv2_5prime)
+
+#display items that exist in second vector, but not in first vector
+#setdiff(sc_samples_10Xv2_5prime, sc_samples_10Xv3.1)
+```
+
+Single cell sequencing was done by using `r seq_unit_samples` and there are `r technology_samples` sequencing technologies in the database. Cohorts are formed and processed accordingly. 
+
+In addition, there are samples with both technologies: `r samples_intersect`.
+
+## Cohort df_10Xv3.1
+### Number of patient cases per cancer group
+
+```{r cancer-group-df_10Xv3.1, echo=TRUE}
+df_10Xv3.1 %>%
+  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  count(cg_id, cg_multiple) %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+### Number of patient cases per cancer group and per timepoint
+
+```{r cancer-group-timepoint-df_10Xv3.1, echo=TRUE}
+df_10Xv3.1 %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+### List with samples per cancer group and kids_id
+
+```{r cg-multiple-kids-list-df_10Xv3.1, echo=TRUE}
+df_10Xv3.1 %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  select(cohort_hope, cg_id, molecular_subtype, 
+         Kids_First_Participant_ID, Diagnosis, Progressive, 
+         Recurrence, Deceased) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+
+## Cohort df_10Xv2_5prime
+### Number of patient cases per cancer group
+
+```{r cancer-group-df_10Xv2_5prime, echo=TRUE}
+df_10Xv2_5prime %>%
+  distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
+  unique() %>% 
+  count(cg_id, cg_multiple) %>%
+  arrange(desc(n)) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+### Number of patient cases per cancer group and per timepoint
+
+```{r cancer-group-timepoint-df_10Xv2_5prime, echo=TRUE}
+df_10Xv2_5prime %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+### List with samples per cancer group and kids_id
+
+```{r cg-multiple-kids-list-df_10Xv2_5prime, echo=TRUE}
+df_10Xv2_5prime %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+
+# Patients with paired longitudinal samples with deceased timepoint
+
+```{r}
+dec_paired_assays <- paired_assays %>% 
+  mutate(deceased_paired = case_when(grepl("Deceased", descriptors) ~ "deceased_paired", 
+                                     TRUE ~ descriptors)) %>% 
+  filter(deceased_paired == "deceased_paired")
+
+dec_paired_assays_samples <- print(length(unique(dec_paired_assays$Kids_First_Participant_ID)))
+
+df_list <- df %>% 
+  select(cohort_hope, molecular_subtype, cg_id, cg_multiple, Kids_First_Participant_ID, tumor_descriptor, sample_id)
+
+dec_paired_assays_df <- df_list %>% 
+  right_join(dec_paired_assays) %>% 
+  unique()
+
+dec_paired_assays_df %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+
+dec_paired_assays_df %>%
+  #unique() %>% 
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
+  select(cohort_hope, cg_id, molecular_subtype, 
+         Kids_First_Participant_ID, Diagnosis, Progressive, 
+         Recurrence, Deceased) %>% 
+  regulartable() %>%
+  fontsize(size = 12, part = "all")
+```
+
+## Type of sequencing technology and unit for sc-RNA-Seq
+
+We should investigate if there are samples from two different sequencing technologies and unit.
+
+```{r technology-unit-sc-deceased}
+dec_paired_assays_df_sc <- dec_paired_assays_df %>% 
+  right_join(filter_df_list) %>% 
+  filter(!is.na(seq_unit),
+         !is.na(technology),
+         !is.na(experimental_strategy),
+         !is.na(cg_id)) %>% 
+  unique()
+
+# Was nucleus or whole cell used for the sequencing?
+seq_unit_samples <- print(unique(dec_paired_assays_df_sc$seq_unit))
+
+# What type of technology was used?
+technology_samples <- print(unique(dec_paired_assays_df_sc$technology))
+```
+
+```{r echo=TRUE}
+sessionInfo()
+```
+
