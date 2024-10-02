@@ -1,5 +1,5 @@
 # Tumor evolution across multiple time points in OpenPBTA patients
-
+This repository is no longer maintained.
 
 ## To reproduce the code in this repository:
 This repository contains a docker image and code used to conduct analyses for the manuscript noted above.
@@ -67,4 +67,4 @@ Jo Lynne Rokita ([@jharenza](https://github.com/jharenza)) and Antonia Chroni ([
 
 ## Contact
 
-For questions, please submit an issue or send an email to Jo Lynne Rokita: rokita@chop.edu
+For questions, please submit an issue in https://github.com/rokitalab/tumor-evolution.
